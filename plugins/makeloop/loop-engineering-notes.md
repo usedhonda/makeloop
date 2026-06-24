@@ -33,6 +33,14 @@ across sessions and so contributors know *why* each block is shaped the way it i
   signal and reconciles it with the git/files (reality); leads the in-flight-work goal with it.
 - **Output in the user's language** — the generated prompt + summaries render in the
   conversation's language, not English by default; only machine-significant literals stay as-is.
+- **Goal-fit guidance** — bias candidates toward loop-appropriate work (CI triage, dep bumps,
+  lint-fix, flaky repro, suite-green); steer off loop-hostile goals (architecture, auth/
+  payments, prod deploy, vague) → recommend a single guided prompt instead.
+- **Independent completion check** (`/goal` pattern) — a separate model confirms the goal is
+  met (not just the gate) when "done" can't be fully reduced to the gate.
+- **Security tax** for unattended loops — security checks in the gate (secret scan / dep audit
+  / SAST), human approval before irreversible actions, log hygiene, skill/connector source
+  audit, periodic permission re-audit.
 
 ## Deferred (fleet / multi-loop orchestration — out of scope for the single-loop generator)
 

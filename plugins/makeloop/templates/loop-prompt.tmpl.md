@@ -97,6 +97,9 @@ that found nothing archives itself quietly. Escalation-to-human is a success pat
   external / out-of-repo / subagent-spawn gated. Trust boundary = this repo only.
 - Intent deny-list (judge real impact): no force-push / mass-delete / secret-exfil /
   disable-logging / push-to-main / prod-deploy without explicit human sign-off.
+- Security tax (unattended = unreviewed attack surface): security checks IN the gate
+  (secret scan / dependency audit / SAST); human approval before anything irreversible;
+  sanitize logs (no credentials); audit skill/connector sources; re-audit permissions on a cadence.
 
 ## [many discrete criteria] JSON done-ledger — replaces the markdown success checklist
 DONE LEDGER: .loop/done.json = [{ "criterion": "...", "status": "pass|fail",

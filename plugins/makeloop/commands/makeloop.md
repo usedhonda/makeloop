@@ -162,8 +162,16 @@ Read the **"no automated check"** finding *through maturity* — it means opposi
 From the profile (and `$ARGUMENTS` if given), derive **2-3 concrete goal candidates**. For
 the **"finish the in-flight work"** scope, lead with the *session-derived* goal — what the
 conversation shows you've been doing — confirmed against the git diff; that's usually the
-sharpest candidate. Then ask the user with `AskUserQuestion`. Ask **scope** first — it
-changes everything:
+sharpest candidate.
+
+**Bias candidates toward loop-appropriate work** — repetitive and machine-checkable: CI /
+test-failure triage, dependency bumps, lint-and-fix passes, flaky-test reproduction, getting
+a suite green, issue-to-PR on well-tested code. **Steer away from loop-hostile goals** where
+"done" is a judgment call — architecture rewrites, auth/payments, production deploys, vague
+product work. If the user's goal is one of those, say so plainly and recommend a single
+guided prompt with a human in the chair instead of a loop.
+
+Then ask the user with `AskUserQuestion`. Ask **scope** first — it changes everything:
 
 - **A) Finish the in-flight work** — wrap up what's being worked on now / the dirty tree.
 - **B) Reach the nearest milestone** — the next coherent checkpoint.
@@ -223,6 +231,12 @@ override the profile defaults in Step 5.
   `--completion-promise '<TAG>'`).
 
 *Skip this question* if Step 0 already named the runtime (and interval, if given).
+
+**Independent completion check** (the `/goal` pattern): "the gate passes" is objective and
+self-grading is fine for it. But "the *goal* is met" should not be decided by the maker when
+it can't be fully reduced to the gate — have a separate checker (a sub-agent, ideally a
+different model, seeing the spec + diff but not the maker's reasoning) confirm completion
+before the loop prints its completion token.
 
 Completion token: `FINAL` for built-in `/loop`; `<promise>DONE</promise>` for ralph-loop.
 
@@ -373,6 +387,12 @@ quietly. Treat "escalate to human with full context" as a success path, not a fa
 - Intent deny-list (judge real impact, not surface text): never force-push, mass-delete,
   exfiltrate secrets, disable logging, install keys/cronjobs, push to main, or deploy to
   prod without explicit human sign-off. Anything the loop chose on its own is unauthorized.
+- Security tax (unattended = an unreviewed attack surface): put security checks IN the gate
+  (secret scan, dependency audit, SAST) so insecure code can't auto-merge; require a human
+  approval gate before anything irreversible (merge to main, deploy, dependency changes).
+- Hygiene: don't log credentials (sanitize loop logs); audit any skill/connector source
+  before the loop uses it (prompt-injection vector); re-audit the loop's permissions on a
+  cadence rather than letting scope creep accumulate.
 ```
 
 **JSON done-ledger** — replace the markdown success checklist when criteria are many/discrete:
