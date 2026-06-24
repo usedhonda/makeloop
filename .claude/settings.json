@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "deny": [
+      "Edit(plugins/makeloop/SELF-IMPROVEMENT.md)",
+      "Write(plugins/makeloop/SELF-IMPROVEMENT.md)",
+      "Edit(plugins/makeloop/eval/**)",
+      "Write(plugins/makeloop/eval/**)",
+      "Edit(.claude/settings.json)",
+      "Write(.claude/settings.json)",
+      "Edit(.githooks/**)",
+      "Write(.githooks/**)"
+    ]
+  }
+}

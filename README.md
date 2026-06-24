@@ -57,6 +57,8 @@ plugins/makeloop/
   .claude-plugin/plugin.json       # plugin manifest
   commands/makeloop.md             # the /makeloop command (self-contained)
   templates/loop-prompt.tmpl.md    # the generated loop-prompt template (canonical)
+  eval/scenarios.md                # golden eval — objective quality gate for makeloop itself
+  SELF-IMPROVEMENT.md              # governance contract for makeloop's self-strengthening loop
   loop-engineering-notes.md        # technique catalog + deferred fleet-mode roadmap
   README.md                        # plugin docs
 ```

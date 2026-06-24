@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# makeloop anchor guard (red-team C3/M2). Out-of-band enforcement of the self-improvement
+# trust anchor: the model cannot edit these via a forged prose promise; this hook refuses.
+# A human override is deliberate friction: `git commit --no-verify`.
+set -u
+
+root="$(git rev-parse --show-toplevel)"
+staged="$(git diff --cached --name-only)"
+
+# 1) Block any staged change to the trust-anchor paths.
+anchor_re='^(plugins/makeloop/SELF-IMPROVEMENT\.md|plugins/makeloop/eval/|\.claude/settings\.json|\.githooks/)'
+blocked="$(printf '%s\n' "$staged" | grep -E "$anchor_re" || true)"
+if [ -n "$blocked" ]; then
+  echo "BLOCKED: commit touches makeloop trust-anchor files (human-only, out-of-loop):"
+  printf '  %s\n' "$blocked"
+  echo "If you are a human intentionally changing the anchor, re-run: git commit --no-verify"
+  exit 1
+fi
+
+# 2) Guarded safety phrases must still be present (prune/auto-edit may not delete them).
+cmd="$root/plugins/makeloop/commands/makeloop.md"
+con="$root/plugins/makeloop/SELF-IMPROVEMENT.md"
+phrases=(
+  "No self-grading"
+  "never delete, skip,"
+  "Intent deny-list"
+  "Security tax"
+  "monotonicity invariant"
+  "Tier 3"
+  "READ-ONLY"
+  "gate will be gamed"
+  "the wrong tool"
+  "STRENGTHEN a gate"
+)
+missing=0
+for p in "${phrases[@]}"; do
+  if ! grep -qF "$p" "$cmd" "$con" 2>/dev/null; then
+    echo "BLOCKED: guarded safety phrase missing: \"$p\""
+    missing=1
+  fi
+done
+[ "$missing" -eq 0 ] || { echo "A guarded safety phrase was removed. Restore it (human-only)."; exit 1; }
+
+exit 0

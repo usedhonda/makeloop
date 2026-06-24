@@ -1,6 +1,6 @@
 {
   "name": "makeloop",
-  "version": "0.10.1",
+  "version": "0.11.0",
   "description": "Analyze the current project in depth, judge the loop kind (closed drive-to-done vs open watch/react), and generate a /loop prompt sized to the project — verify gate or trigger condition, state/cursor, stop condition or run mode, plus (when warranted) two-stage gates, harness-failure detection, and a labeled stop taxonomy.",
   "author": {
     "name": "usedhonda"

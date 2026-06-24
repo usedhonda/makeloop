@@ -80,6 +80,21 @@ Round 2 (confirmation, decay 11→5, harvest loop closed at near-saturation) —
 Held in catalog: pre-code ambiguity gate (restates existing goal/criteria confirmation),
 weighted-drift→auto-retrospective [thin], oracle-gap adaptive test hardening [thin/eval-rig].
 
+## Self-improvement system (auto-strengthening, ready but not yet running)
+
+makeloop can strengthen itself by harvesting community knowledge and wiring what earns its
+weight. The machinery (built; the open loop is staged but not launched):
+- **Golden eval** (`eval/scenarios.md`) — the objective quality gate ("still good", beyond the
+  lint's "not broken"): regenerate loops for fixed scenarios, check the output's properties.
+- **Governance contract** (`SELF-IMPROVEMENT.md`, the fixed trust anchor) — autonomy tiers
+  (0 data / 1 additive-auto / 2 behavior-human-GO / 3 contract-human-only), the **monotonicity
+  invariant** (auto-edits may only add/strengthen, never weaken a gate), the **fit-critic
+  rubric** (earns-weight, default-reject), the **prune mandate** (strengthen+prune homeostasis),
+  and what stays read-only/out-of-loop.
+- **Self-improve open loop** (`.loop/self-improve.md`, local) — harvest → dedup → fit-critic →
+  propose diff → eval-gate → Tier1 auto-apply / Tier2 escalate / Tier3 never → prune every 3
+  cycles. Run-indefinitely. The contract + eval are read-only anchors it cannot edit.
+
 ## Deferred (fleet / multi-loop orchestration — out of scope for the single-loop generator)
 
 makeloop today generates **one** loop. The biggest unexplored area is fleet-level: multiple
