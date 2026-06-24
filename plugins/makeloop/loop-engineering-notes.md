@@ -53,6 +53,24 @@ across sessions and so contributors know *why* each block is shaped the way it i
   for open watchers. Deliberately NOT added: a trigger sub-taxonomy (heartbeat/cron/hook) and
   a second full skeleton — one skeleton, kind-conditional middle; shared blocks stay DRY.
 
+## Adopted — Round 1 community harvest (2026-06-24)
+
+Surfaced by the sources-harvest loop and wired in after review:
+- **Iteration economics / wide-not-deep** — size the cap from diminishing returns (gain ≈50%
+  round 1, ≈25% round 2; ~5-6 cap); past the ceiling, re-touching validated code regresses;
+  when quality plateaus add more verifier *types*, not more iterations.
+- **Re-verify the diff, not the world** — iter 1 checks all; later iters re-check only the
+  changed surface.
+- **Dual-verifier AND-gate** — pair an LLM-judge with a deterministic assertion; done only if
+  both pass; route the failing check into the retry.
+- **Failure-class retry** — rate-limit→backoff; validation→rewrite-from-feedback; 5xx→retry
+  then move on; tool-unavailable→pause+notify.
+- **UI drive-and-capture** — for UI/web, verify by exercising the feature + capturing a
+  screenshot/GIF as proof-of-use (and PR evidence).
+Held in the local catalog (not wired — too niche/fleet for the generic generator): formal-spec
+(TLA+) as driver, self-instrumentation feedback, opportunity-object ranker, behavioral
+circuit breaker [D], toxic-flow simulation [D].
+
 ## Deferred (fleet / multi-loop orchestration — out of scope for the single-loop generator)
 
 makeloop today generates **one** loop. The biggest unexplored area is fleet-level: multiple

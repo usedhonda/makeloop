@@ -233,6 +233,9 @@ case state your assumptions and proceed).
   - When example tests are the only oracle, prefer a **property / metamorphic check** where
     possible (an invariant true for all inputs, or a relation like "reordering inputs must
     not change the result") — a self-written example test shares the code's blind spots.
+  - For **UI / web** work, add a "drive-and-capture" check: actually exercise the feature and
+    capture an artifact (screenshot / GIF) as proof-of-use — synthetic interaction catches
+    wiring/state bugs that unit tests miss, and the artifact doubles as evidence on the PR.
   - **Greenfield / early (no gate yet, but the goal is to build it):** don't refuse — make
     the loop *bootstrap its own gate*. Iteration 0 scaffolds the project (repo, package
     manager, the stack's test runner) and encodes the acceptance criteria as FAILING tests
@@ -242,10 +245,16 @@ case state your assumptions and proceed).
   manual check, and ask whether to proceed anyway. If the gate must be an **LLM-as-judge**, harden it: use a
   *different model family* than the maker (self-enhancement bias makes a same-model judge
   wave through its own slop), a coarse pass/fail rubric (not a fine 1-10 scale), and escalate
-  low-confidence verdicts to a human instead of guessing.
+  low-confidence verdicts to a human instead of guessing. Better still, pair the judge with a
+  **deterministic assertion** (value-in-range / file-exists / schema-valid) as an AND-gate —
+  mark done only if BOTH pass, and feed the failing check's message into the retry.
 - **STOP taxonomy**: at minimum success + a hard iteration cap **N** (default **8**). Add
   labeled stop reasons per the profile (see the mapping in Step 5). Confirm N and the
   **budget** (iteration cap / wall-clock / no-progress streak).
+  - Size N from *diminishing returns*: most reachable gain lands in rounds 1-2 (≈50% then
+    ≈25%), so ~5-6 is often right; past the ceiling the loop re-touches validated code and
+    regresses (oscillation). When quality plateaus, add MORE distinct verifier *types*
+    (tests + lint + self-review + property) — "wide, not deep" — not more iterations of one.
 
 **If kind=open, this whole section changes** (everything above is the closed path):
 - Replace the VERIFY gate with a **TRIGGER CONDITION** — an objective predicate over the
@@ -375,6 +384,12 @@ RULES:
   or weaken a check to make the gate go green.
 - Report compactly: a PASS is one line; a FAIL gives {expected / actual / what to fix}.
   Don't re-print an unchanged prior failure — it just poisons the context.
+- Re-verify the diff, not the world: iteration 1 checks everything; later iterations re-check
+  only the just-changed surface, not the whole output (cheaper, and stops re-litigating
+  already-validated content).
+- Retry by failure class: rate-limit -> back off; validation fail -> rewrite from the
+  feedback (no blind retry); transient 5xx -> retry once or twice then move on; tool
+  unavailable -> pause and surface it (don't burn retries).
 - Do not ask questions mid-loop. Make a sensible assumption, note it in state, continue.
 ```
 
