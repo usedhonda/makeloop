@@ -49,6 +49,13 @@ a project with a self-driving test harness and regression baselines deserves a r
 (two-stage gate, harness-failure detection, a labeled stop taxonomy) than a project with a
 single `npm test`. Read first, then generate to fit.
 
+That includes the project's **maturity**. Don't assume — judge it from the files. A
+greenfield/empty repo needs a loop that *first builds its own verification* (scaffold +
+acceptance tests) before it can drive anything; a mature repo reuses the gate it already
+has; an in-between repo (code but no gate) may need to establish one along the way. The same
+`/makeloop` adapts across all of these — read where the project sits on that spectrum and
+generate accordingly.
+
 Work through the steps below in order.
 
 ---
@@ -123,13 +130,21 @@ reading one primary source each (don't take the summary on faith).
 - Crash/flake surfaces.
 
 Then **summarize the profile** for the user and state explicitly:
+- **Maturity** (judge from the files, not a flag): where does it sit on the spectrum —
+  *greenfield* (empty / only bootstrap files / no manifest / little-to-no git history) →
+  *scaffolded but no gate* (code exists, but no tests/lint/build) → *mature* (a real gate
+  already exists)?
 - Is there a real automated gate? Single- or multi-stage?
 - Is there a self-driving harness that can fail silently?
 - Any existing loop infra to extend?
 - Any hard invariants / off-limits boundaries?
 
-If section B turns up **no automated check at all**, say so plainly — that's the strongest
-signal a loop may be the wrong tool (a single good prompt likely wins).
+Read the **"no automated check"** finding *through maturity* — it means opposite things:
+- **Mature repo, still no gate** → a loop is likely the wrong tool; say so plainly (a single
+  good prompt usually wins).
+- **Greenfield / early** → "no gate" is expected, nothing's built yet. Do NOT call the loop a
+  bad fit. The loop's *first job is to create its gate* (scaffold + a first failing acceptance
+  test); see Step 3's bootstrap guidance and the Bootstrap block in Step 5.
 
 ## Step 2 — Goal: propose candidates, confirm scope (AskUserQuestion)
 
@@ -143,6 +158,11 @@ ask the user with `AskUserQuestion`. Ask **scope** first — it changes everythi
 Fold your candidates into the options; if `$ARGUMENTS` carried a hint, make it the top
 candidate. Then **draft strict SUCCESS CRITERIA** (3-5 bullets, each objectively
 checkable — pull invariants from profile D where relevant) and confirm them with the user.
+
+**Greenfield / early projects**: there's nothing in the code to infer a goal from, so treat
+the goal as a *spec* and gather it from the user — what to build, the stack/language, and the
+acceptance criteria that will *become the gate*. Read a `SPEC.md` / README intent if one
+exists. Here the SUCCESS CRITERIA are the user's acceptance criteria, not something derived.
 
 *Skip the scope question* if Step 0 already resolved scope/goal unambiguously; still show the
 drafted SUCCESS CRITERIA for a quick confirm (unless interaction level is minimal, in which
@@ -162,8 +182,13 @@ case state your assumptions and proceed).
   - When example tests are the only oracle, prefer a **property / metamorphic check** where
     possible (an invariant true for all inputs, or a relation like "reordering inputs must
     not change the result") — a self-written example test shares the code's blind spots.
-- If **no automated check exists**, warn clearly, help define an objective manual check, and
-  ask whether to proceed anyway. If the gate must be an **LLM-as-judge**, harden it: use a
+  - **Greenfield / early (no gate yet, but the goal is to build it):** don't refuse — make
+    the loop *bootstrap its own gate*. Iteration 0 scaffolds the project (repo, package
+    manager, the stack's test runner) and encodes the acceptance criteria as FAILING tests
+    (confirm red); from then on that test command is the gate and the loop drives red → green.
+    Add the **Bootstrap block** in Step 5.
+- If **no automated check exists in a mature project**, warn clearly, help define an objective
+  manual check, and ask whether to proceed anyway. If the gate must be an **LLM-as-judge**, harden it: use a
   *different model family* than the maker (self-enhancement bias makes a same-model judge
   wave through its own slop), a coarse pass/fail rubric (not a fine 1-10 scale), and escalate
   low-confidence verdicts to a human instead of guessing.
@@ -206,6 +231,7 @@ project with one `npm test`. Replace every `<...>` placeholder.
 | Repeats weekly / will run again (profile = recurring) | **Cross-run learnings** file so the loop gets smarter each run |
 | Unattended / scheduled / overnight run | **Escalation handoff** + **Scheduled-loop safety** (idempotency, external scheduler, tiered auto-approve, intent deny-list, token/cost cap) |
 | Many discrete pass/fail criteria | **JSON done-ledger** instead of a markdown checklist |
+| Greenfield / early project (no gate yet) | **Bootstrap block** — iteration 0 scaffolds + writes the first failing acceptance tests, then the loop drives red → green |
 
 ### CORE template
 
@@ -332,6 +358,17 @@ DONE LEDGER: .loop/done.json  = [{ "criterion": "...", "status": "pass|fail",
 "verified_by": "<gate output / command>" }]
 - A model rewrites JSON less casually than a markdown [x]; status may only go to "pass" with
   a real verified_by. The loop is done only when every status is "pass".
+```
+
+**Bootstrap block** — for greenfield/early projects; prepend as ITERATION 0 (runs once):
+```
+ITERATION 0 — bootstrap the gate (run once, before the normal loop):
+- Scaffold the project: init the repo, the package manager / project file, and the stack's
+  standard test runner. Keep it minimal — only what the SUCCESS CRITERIA require.
+- Encode each SUCCESS CRITERION as a FAILING acceptance test; run them and confirm RED
+  (a gate that can't fail yet is not a gate).
+- Commit the scaffold + red tests. From here, <test command> is the VERIFY gate and the
+  normal loop drives red -> green.
 ```
 
 **Extended STOP taxonomy** — replace the CORE `STOP WHEN` line; label every halt:

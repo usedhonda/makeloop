@@ -45,11 +45,19 @@ The result is printed in chat and saved to `.loop/loop-prompt.md`, with a seeded
 
 ## Depth that matches the project
 
-`/makeloop` first builds a **Project Profile** (read-only): verification depth (single- vs
-multi-stage), whether there's a self-driving test harness that can fail silently, hard
-invariants and off-limits boundaries, existing loop infrastructure to extend, and commit
-conventions. The generated loop is **sized to that profile** — it stays lean for a project
-with one `npm test`, and grows the advanced blocks when the project supports them:
+`/makeloop` first builds a **Project Profile** (read-only): **maturity** (greenfield →
+scaffolded-but-no-gate → mature), verification depth (single- vs multi-stage), whether
+there's a self-driving test harness that can fail silently, hard invariants and off-limits
+boundaries, existing loop infrastructure to extend, and commit conventions. It judges
+maturity from the files — no flag — and adapts:
+
+- **Greenfield / empty** — instead of declaring "no gate → loop is the wrong tool", the loop
+  *bootstraps its own gate*: iteration 0 scaffolds the project and writes the acceptance
+  criteria as failing tests, then drives red → green.
+- **Mature** — reuses the gate the project already has.
+
+The generated loop is also **sized to the profile** — it stays lean for a project with one
+`npm test`, and grows the advanced blocks when the project supports them:
 
 - **Two-stage gate** (pre-gate / post-gate) with FREEZE-no-commit on regression, for
   projects with a build + baseline/regression audit.

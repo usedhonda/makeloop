@@ -26,6 +26,9 @@ across sessions and so contributors know *why* each block is shaped the way it i
 - **JSON done-ledger** — harder to casually fake than a markdown checklist.
 - **LLM-as-judge hardening** — judge family ≠ maker family, coarse rubric, escalate
   low-confidence; property/metamorphic gates when example tests are the only oracle.
+- **Maturity-adaptive** — DISCOVER judges greenfield → scaffolded → mature from the files;
+  greenfield gets a **Bootstrap block** (iteration 0 scaffolds + writes failing acceptance
+  tests, then drives red → green) instead of being told a loop is the wrong tool.
 
 ## Deferred (fleet / multi-loop orchestration — out of scope for the single-loop generator)
 

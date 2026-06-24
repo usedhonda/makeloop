@@ -99,6 +99,13 @@ DONE LEDGER: .loop/done.json = [{ "criterion": "...", "status": "pass|fail",
 "verified_by": "<gate output>" }]. status -> "pass" only with a real verified_by; done when
 all "pass". (Models rewrite JSON less casually than a markdown [x].)
 
+## [greenfield/early] Bootstrap block — prepend as ITERATION 0 (runs once)
+ITERATION 0 — bootstrap the gate (run once, before the normal loop):
+- Scaffold minimally: repo, package manager / project file, the stack's test runner — only
+  what the SUCCESS CRITERIA require.
+- Encode each SUCCESS CRITERION as a FAILING acceptance test; run and confirm RED.
+- Commit scaffold + red tests. From here <test command> is the gate; the loop drives red -> green.
+
 ## [taxonomy] Extended STOP — replaces CORE "STOP WHEN" line; label every halt
 STOP WHEN (label each halt with stop_reason in the log):
 - success              : <K consecutive clean iterations, e.g. K=3>
