@@ -107,6 +107,14 @@ weight. The machinery (built; the open loop is staged but not launched):
   anchor to add the H1 deny required an explicit human chmod (the auto-mode classifier blocked
   the agent from un-protecting it on a generic "GO" — the design working as intended).
 
+## Automation (the every-2-days self-improvement cron)
+
+The self-improvement loop runs unattended via local cron every 2 days → wrapper
+(`.loop/self-improve-run.sh`) → one headless `claude` cycle → Tier-1 auto-apply on
+`gate.sh` PASS. Operator runbook (pause/resume/monitor/install, first-watched-run, undo) is in
+[`AUTOMATION.md`](AUTOMATION.md). Pause = `touch .loop/PAUSED`; log = `.loop/cron.log`; bot
+commits authored `makeloop-selfimprove`. Ships PAUSED until one watched run proves it.
+
 ## Deferred (fleet / multi-loop orchestration — out of scope for the single-loop generator)
 
 makeloop today generates **one** loop. The biggest unexplored area is fleet-level: multiple

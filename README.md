@@ -59,6 +59,7 @@ plugins/makeloop/
   templates/loop-prompt.tmpl.md    # the generated loop-prompt template (canonical)
   eval/scenarios.md                # golden eval — objective quality gate for makeloop itself
   SELF-IMPROVEMENT.md              # governance contract for makeloop's self-strengthening loop
+  AUTOMATION.md                    # operator runbook for the every-2-days self-improvement cron
   loop-engineering-notes.md        # technique catalog + deferred fleet-mode roadmap
   README.md                        # plugin docs
 ```
