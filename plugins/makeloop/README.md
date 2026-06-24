@@ -62,6 +62,15 @@ flag — and adapts:
   criteria as failing tests, then drives red → green.
 - **Mature** — reuses the gate the project already has.
 
+It also judges the **loop kind** and shapes the prompt to match:
+
+- **Closed (drive-to-done)** — a goal with a SUCCESS CRITERION that ends the loop: GOAL +
+  VERIFY gate + iterate-to-green + `FINAL`. (The default.)
+- **Open (watch / react)** — a monitor with no end-state: a WATCH TARGET + TRIGGER CONDITION +
+  observe→evaluate→notify/act + dedup/cursor, runs indefinitely (or stop-on-event), **no
+  FINAL**. For a watcher, "no completion gate" is correct — so the "loop is the wrong tool"
+  warning is suppressed. On ambiguity it defaults to closed (the safer error).
+
 The generated loop is also **sized to the profile** — it stays lean for a project with one
 `npm test`, and grows the advanced blocks when the project supports them:
 

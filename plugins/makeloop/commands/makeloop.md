@@ -74,15 +74,17 @@ Extract whatever is present (natural phrasing, not strict flags — interpret in
 | --- | --- | --- |
 | **Goal / scope** | "finish the auth refactor", "全テストを緑に", "complete the project" | Goal hint + scope; skip the scope/goal question if unambiguous (still confirm criteria). |
 | **Runtime** | "self-paced", "interval 30m" / "30分ごと", "ralph-loop" | Sets the runtime; skip Step 4. |
+| **Loop kind** | open: "watch/monitor X", "notify me when", "poll", "alert on", "監視/通知/見張る"; closed: "finish", "complete", "get green", "fix all", "完成/緑に" | Sets KIND. If unspecified, classify in Step 1. On ambiguity default to **closed**. |
 | **Iteration cap / budget** | "cap 20", "上限20", "max 20 iterations", "wall-clock 30min", "no-progress 3" | Sets N / wall-clock / no-progress; don't ask. |
 | **Success K** | "K=3 consecutive clean", "3連続で新問題ゼロ" | Sets the success streak. |
 | **Verify gate** | "gate: npm test && tsc", "verify with cargo test" | Use as the gate verbatim. |
 | **Blocks on/off** | "two-stage gate", "harness検知あり/なし", "no budget block", "with regression guard" | Force-include or exclude that optional block, overriding the profile default. |
 | **Interaction level** | "質問は最小", "don't ask", "just generate", "auto" | Minimize questions: make sensible assumptions, note them, and ask ONLY if a choice is both ambiguous and high-impact. |
 
-State back to the user a one-line summary of what you parsed (e.g. *"Parsed: goal=QA green,
-runtime=ralph-loop, cap=20, harness=on, interaction=minimal"*) so they can correct it before
-you proceed. Anything not specified falls through to its normal step below.
+State back to the user a one-line summary of what you parsed, **leading with the loop kind**
+(e.g. *"Parsed: kind=closed, goal=QA green, runtime=ralph-loop, cap=20"* or *"Parsed:
+kind=open, watch=deploy status, runtime=/loop 5m, run=indefinitely"*) so they can correct it
+before you proceed. Anything not specified falls through to its normal step below.
 
 ## Step 1 — DISCOVER: build a Project Profile (read-only, go deep)
 
@@ -111,6 +113,10 @@ by reading one primary source each (don't take the summary on faith).
   `--audit`, `invariant`, `--drive-all`, e2e suites.
 - Decide: is verification **single-stage** (one test command) or **multi-stage**
   (e.g. build -> drive -> audit/regression)? Record the exact commands and pass conditions.
+- **If the loop is open (a watcher)**, reframe B: instead of "what gate exists", find **what
+  SIGNAL can be observed and what predicate fires on it** (a log pattern, a status field, a
+  queue/inbox, a PR/CI event) — and whether that signal covers **every terminal/failure state
+  incl crash/hang/OOM** (the silent-harness check in C generalizes to dead-watcher coverage).
 
 **C. Self-driving harness — this decides harness-failure handling**
 - Look for drivers: Playwright, Cypress, Selenium, XCUITest, simulators (`xcrun simctl`),
@@ -141,6 +147,14 @@ by reading one primary source each (don't take the summary on faith).
 Then **summarize the profile** for the user and state explicitly:
 - **What the session shows you're working on** (if any) — the in-flight goal from the
   conversation, and whether it matches the git diff.
+- **Loop kind** — **closed** (drive-to-done) or **open** (watch/react). Classify from two
+  signals: (1) the goal's verb/tense — terminus verbs → closed ("finish/complete/get green/
+  fix all/完成/緑に"), continuous/recurring → open ("watch/monitor/notify me when/poll/alert
+  on/triage incoming/監視/通知/見張る"); (2) the **decisive test** (also your confirm line to
+  the user): *"Can you write a SUCCESS CRITERION that becomes permanently true and ENDS the
+  loop? Yes → closed. If the only 'criterion' is a condition you REACT to that RECURS →
+  open."* On silence/conflict, **default to closed** (capped, stops) and state the assumption
+  — misclassifying closed→open runs forever, the costlier error.
 - **Maturity** (judge from the files, not a flag): where does it sit on the spectrum —
   *greenfield* (empty / only bootstrap files / no manifest / little-to-no git history) →
   *scaffolded but no gate* (code exists, but no tests/lint/build) → *mature* (a real gate
@@ -150,7 +164,12 @@ Then **summarize the profile** for the user and state explicitly:
 - Any existing loop infra to extend?
 - Any hard invariants / off-limits boundaries?
 
-Read the **"no automated check"** finding *through maturity* — it means opposite things:
+Read the **"no automated check"** finding *through kind first, then maturity*:
+- **kind=open (a watcher)** → "no completion gate" is **correct, not a defect**. Do NOT run
+  the four-conditions "done is objective" test or the Ralph-Wiggum warning — they are
+  closed-loop axioms. An open loop's failure modes are *missed events (coverage gap), alert
+  fatigue (no dedup), non-idempotent double-acting, silent death* — never "fails to
+  terminate". The two branches below apply only when **kind=closed**.
 - **Mature repo, still no gate** → a loop is likely the wrong tool; say so plainly (a single
   good prompt usually wins).
 - **Greenfield / early** → "no gate" is expected, nothing's built yet. Do NOT call the loop a
@@ -186,6 +205,16 @@ the goal as a *spec* and gather it from the user — what to build, the stack/la
 acceptance criteria that will *become the gate*. Read a `SPEC.md` / README intent if one
 exists. Here the SUCCESS CRITERIA are the user's acceptance criteria, not something derived.
 
+**Open (watcher) goals**: the above (scope A/B/C, SUCCESS CRITERIA) is the **closed** path.
+If kind=open, don't ask for success criteria — instead confirm: **WATCH TARGET** (the signal
+observed), **TRIGGER CONDITION** (the recurring predicate to react to), **REACTION**
+(notify-only vs act), and **RUN MODE** (run-indefinitely vs stop-on-first-event). When a
+surface goal is genuinely ambiguous ("handle CI failures" = drive *this* suite green [closed]
+vs watch for *new* failures and triage [open]), present **both** framings and disambiguate
+with the decisive test. Goal-fit for watchers: monitoring a discrete observable signal is
+loop-appropriate; "watch and use judgment on vague output" is loop-hostile (alert fatigue, no
+objective predicate) — recommend a human in the chair instead.
+
 *Skip the scope question* if Step 0 already resolved scope/goal unambiguously; still show the
 drafted SUCCESS CRITERIA for a quick confirm (unless interaction level is minimal, in which
 case state your assumptions and proceed).
@@ -218,6 +247,17 @@ case state your assumptions and proceed).
   labeled stop reasons per the profile (see the mapping in Step 5). Confirm N and the
   **budget** (iteration cap / wall-clock / no-progress streak).
 
+**If kind=open, this whole section changes** (everything above is the closed path):
+- Replace the VERIFY gate with a **TRIGGER CONDITION** — an objective predicate over the
+  *observed signal* (not a pass/fail on made work). Precision matters: a false fire trains the
+  user to ignore alerts.
+- Replace the STOP taxonomy with a **RUN MODE**: *run-indefinitely* (steady-state watcher) or
+  *stop-on-event* (fire once, then exit). No success-or-cap.
+- Confirm the **dedup policy** (edge-trigger / cooldown window) and, if the watcher **acts**,
+  an **idempotency key** so re-firing on the same event can't double-act.
+- The metric is **coverage + precision** (did it catch real events without crying wolf), not
+  cost per accepted change.
+
 *Honor Step 0*: if the request already gave a gate, cap, budget, success K, or forced a
 block on/off, use those values and don't re-ask. Block on/off directives from Step 0
 override the profile defaults in Step 5.
@@ -232,19 +272,27 @@ override the profile defaults in Step 5.
 
 *Skip this question* if Step 0 already named the runtime (and interval, if given).
 
-**Independent completion check** (the `/goal` pattern): "the gate passes" is objective and
-self-grading is fine for it. But "the *goal* is met" should not be decided by the maker when
-it can't be fully reduced to the gate — have a separate checker (a sub-agent, ideally a
-different model, seeing the spec + diff but not the maker's reasoning) confirm completion
-before the loop prints its completion token.
+**Independent completion check** (the `/goal` pattern, **closed loops only**): "the gate
+passes" is objective and self-grading is fine for it. But "the *goal* is met" should not be
+decided by the maker when it can't be fully reduced to the gate — have a separate checker (a
+sub-agent, ideally a different model, seeing the spec + diff but not the maker's reasoning)
+confirm completion before the loop prints its completion token.
 
-Completion token: `FINAL` for built-in `/loop`; `<promise>DONE</promise>` for ralph-loop.
+Completion token (closed only): `FINAL` for built-in `/loop`; `<promise>DONE</promise>` for
+ralph-loop.
+
+**If kind=open**: use `/loop <interval>` (cadence polling) or self-paced. **Drop the
+completion token and the `/goal` check** — a watcher has no completion. The only token an open
+loop may print is a `TRIGGERED` sentinel in *stop-on-event* mode. One hint for the loop body
+(not a launch line makeloop can emit): for live-stream watching use the **Monitor** tool; for
+wall-clock schedules use a **cron routine** — both are in-loop tool calls.
 
 ## Step 5 — ASSEMBLE: fill the template, include blocks the profile triggers
 
-Start from the CORE template below (always present), then add each OPTIONAL block whose
-trigger fired in DISCOVER. Drop blocks that don't apply — don't ship a two-stage gate for a
-project with one `npm test`. Replace every `<...>` placeholder.
+Pick the **CORE template that matches the loop kind** — **CLOSED CORE** (drive-to-done) or
+**OPEN CORE** (watch/react) — then add each OPTIONAL block whose trigger fired in DISCOVER
+(respect the kind-applicability column). Drop blocks that don't apply — don't ship a two-stage
+gate for a project with one `npm test`. Replace every `<...>` placeholder.
 
 **Output language**: render the generated loop prompt — and your chat-facing summaries — in
 the **user's working language** (the language of this conversation / their request). Default
@@ -269,8 +317,19 @@ user's language, not text to copy verbatim.
 | Unattended / scheduled / overnight run | **Escalation handoff** + **Scheduled-loop safety** (idempotency, external scheduler, tiered auto-approve, intent deny-list, token/cost cap) |
 | Many discrete pass/fail criteria | **JSON done-ledger** instead of a markdown checklist |
 | Greenfield / early project (no gate yet) | **Bootstrap block** — iteration 0 scaffolds + writes the first failing acceptance tests, then the loop drives red → green |
+| Open loop that ACTS (not notify-only) | **Scheduled-loop safety** (idempotency / deny-list / auto-approve) — an acting watcher is an unreviewed attack surface |
+| Open loop, run-indefinitely | **Dedup/cursor block** + wire **Escalation handoff** on (a dying watcher must hand off, not vanish) |
 
-### CORE template
+**Kind applicability** (which blocks belong to which CORE):
+
+| Block | CLOSED | OPEN |
+| --- | --- | --- |
+| Two-stage gate · Regression-guard · No-progress circuit breaker · JSON done-ledger · Bootstrap · Independent completion check | ✅ | ❌ (Bootstrap is **suppressed** when kind=open) |
+| Budget · Cross-run learnings · Escalation handoff · Scheduled-loop safety | ✅ | ✅ |
+| Observation-validity check | ✅ | ↳ folded into OPEN core's Liveness/Coverage |
+| **Dedup/cursor** | ❌ | ✅ (open-only) |
+
+### CLOSED CORE template (drive-to-done; use when kind=closed)
 
 ```
 # LOOP: <short goal name>
@@ -319,9 +378,72 @@ RULES:
 - Do not ask questions mid-loop. Make a sensible assumption, note it in state, continue.
 ```
 
+### OPEN CORE template (watch/react; use when kind=open — no FINAL, runs on cadence or event)
+
+```
+# WATCH: <short watch name>
+
+WATCH TARGET: <signal observed — deploy status / app.log / PR #123 comments / the queue>. <runbook if any>
+INTENT: keep watching and react each time the trigger fires. This loop has NO "done" —
+running until stopped is correct, not a defect.
+
+TRIGGER CONDITION (objective predicate over the observed signal — REPLACES a success gate;
+you read reality, not grade your own work):
+- FIRE when: <predicate, e.g. a line matching /ERROR|FATAL/ appears; status == "failed"; a new
+  unread item; a new comment by someone other than me>
+- A recurring condition to REACT to, not a criterion that becomes permanently true. Precision
+  matters: a false fire trains the user to ignore alerts.
+
+CURSOR FILE: .loop/cursor.json   (last-seen marker, NOT a done/failed/next ledger)
+- Read before each tick. Holds last-seen <id|timestamp|status> + a digest of the last fire
+  (for dedup). This is how you compute "what is NEW since the last tick".
+
+EACH TICK (one interval, or one event):
+1. OBSERVE: read the current signal; load the cursor.
+2. EVALUATE: is the trigger true for something NEW (beyond the cursor)?
+   - No  -> do nothing; advance the cursor if needed; wait for the next tick. (Silence is normal.)
+   - Yes -> go to 3.
+3. DEDUP: already fired (cursor digest / cooldown window)? If yes -> skip. Edge-trigger, not
+   level-trigger: do not re-fire while the same condition stays true.
+4. REACT (idempotent):
+   - NOTIFY: ONE message to <channel: PushNotification / .loop/alerts.md / a GitHub issue /
+     chat> with {what fired, the evidence, where, timestamp}.
+   - ACT (only if this watcher acts, e.g. auto-restart / file a ticket): stamp with an
+     idempotency key = <stable key over the event id> so re-firing cannot duplicate the effect.
+5. ADVANCE the cursor (last-seen marker + this fire's digest) and continue.
+
+RUN MODE: <run-indefinitely>   # steady-state watcher; never prints a completion token
+  # OR <stop-on-event>: the first time the trigger fires, NOTIFY then print "TRIGGERED" and exit.
+There is NO FINAL and NO "all criteria met -> stop" — those are closed-loop notions.
+
+RUNTIME: /loop <interval> for cadence polling. For live-stream watching use the Monitor tool;
+for wall-clock schedules use a cron routine — those are in-loop tool calls, not launch lines.
+
+LIVENESS / COVERAGE (a dead watcher looks identical to "all quiet"):
+- The trigger must cover EVERY terminal/failure state incl crash / hang / OOM. Ask: "if the
+  thing I watch died right now, would this loop emit anything?" If not, widen the predicate.
+- Emit a slow heartbeat ("still watching, last tick OK at <time>") so alive vs dead is visible.
+
+STOP WHEN (a watcher's stops — NOT success-or-cap):
+- never              : run-indefinitely; stops only when user / scheduler stops it.
+- event-fired        : stop-on-event mode handled the fire.            [stop-on-event only]
+- watch-target-gone  : the thing watched no longer exists -> notify + exit.
+- budget             : optional token/cost/wall-clock cap -> notify + exit (not a goal stop).
+
+RULES:
+- React to reality, don't grade your own work — correctness = coverage + precision.
+- Edge-trigger, not level-trigger: one notification per NEW occurrence; suppress until the
+  state CHANGES or the cooldown elapses.
+- Idempotent actions: any side effect must be safe to re-run on the same event (no double
+  file / restart / post).
+- Report compactly: a fire is one line {trigger, evidence, where, when}; silence prints nothing.
+- React only to what the trigger matched; don't "fix things while you're here".
+- Do not ask questions mid-loop. Make a sensible assumption, note it in the cursor, continue.
+```
+
 ### OPTIONAL blocks (include per the table above)
 
-**Two-stage gate** — replace the CORE `VERIFY` block and fold these into EACH ITERATION:
+**Two-stage gate** (closed only) — replace the CLOSED CORE `VERIFY` block and fold these into EACH ITERATION:
 ```
 VERIFY — two-stage gate (never self-grade):
 - pre-gate  (start of iteration): <build> && <full check>
@@ -403,7 +525,17 @@ DONE LEDGER: .loop/done.json  = [{ "criterion": "...", "status": "pass|fail",
   a real verified_by. The loop is done only when every status is "pass".
 ```
 
-**Bootstrap block** — for greenfield/early projects; prepend as ITERATION 0 (runs once):
+**Dedup/cursor block** (OPEN only) — the watcher's failure-mode defense; fold into the OPEN core:
+```
+- Edge-trigger suppression: keep a digest of the last fire in .loop/cursor.json; the same
+  condition staying true must NOT re-fire — only a NEW occurrence (or after the cooldown) fires.
+- Last-seen cursor: persist last id/timestamp/status so each tick computes "what is new".
+- Idempotency key (if the watcher acts): a stable key over the event id; re-handling the same
+  event must be a no-op (no double ticket / restart / post).
+```
+
+**Bootstrap block** — for greenfield/early projects (**closed only — suppressed when
+kind=open**: a watcher has no acceptance tests to fail); prepend as ITERATION 0 (runs once):
 ```
 ITERATION 0 — bootstrap the gate (run once, before the normal loop):
 - Scaffold the project: init the repo, the package manager / project file, and the stack's
@@ -414,7 +546,7 @@ ITERATION 0 — bootstrap the gate (run once, before the normal loop):
   normal loop drives red -> green.
 ```
 
-**Extended STOP taxonomy** — replace the CORE `STOP WHEN` line; label every halt:
+**Extended STOP taxonomy** (closed only) — replace the CLOSED CORE `STOP WHEN` line; label every halt:
 ```
 STOP WHEN (label each halt with stop_reason in the log):
 - success              : <K consecutive clean iterations, e.g. K=3>
@@ -439,7 +571,8 @@ ralph-loop. Use the exact `<N>`/`<K>`/`<P>`/`<T>` the user confirmed.
    (see Step 5), with only machine-significant literals left as-is.
 1. Create `.loop/` if it doesn't exist (or reuse the existing loop dir from profile E).
 2. Save the assembled prompt to `.loop/loop-prompt.md`.
-3. Seed a state file if absent (`.loop/state.md`, or the project's existing state file):
+3. Seed the state file if absent. **Closed** → `.loop/state.md` (or the project's existing
+   state file):
    ```
    # Loop state — <short goal name>
 
@@ -455,13 +588,20 @@ ralph-loop. Use the exact `<N>`/`<K>`/`<P>`/`<T>` the user confirmed.
    ## Next step
    <first concrete step toward the goal>
    ```
+   **Open** → seed `.loop/cursor.json` instead (last-seen marker, not a progress ledger):
+   ```
+   { "last_seen": null, "last_fired_digest": null, "note": "<watch target>" }
+   ```
 4. Print the **full assembled prompt** in chat, then the **exact launch line** for the
    chosen runtime:
    - self-paced: run `/loop` and paste the prompt (or `/loop <paste prompt>`).
-   - interval: `/loop <interval> <paste prompt>`.
+   - interval (incl. open watchers): `/loop <interval> <paste prompt>`.
    - ralph-loop: `/ralph-loop <paste prompt> --max-iterations <N> --completion-promise '<promise>DONE</promise>'`.
-5. Close with the order that works (**prove one manual run -> loop it -> schedule it**) and
-   the cost note (**watch cost per accepted change; if you're tossing more than half the
-   output, fix the gate before running again**).
+5. Close with the order that works and the cost note, **matched to the kind**:
+   - **closed**: *prove one manual run -> loop it -> schedule it*; watch **cost per accepted
+     change** — if you're tossing more than half the output, fix the gate before running again.
+   - **open**: *prove the trigger fires on one real event -> wrap it with dedup -> schedule/
+     persist it*; watch **coverage + false-positive rate** — a watcher that cries wolf gets
+     muted, and one that goes silent is worse than none.
 
 Stop here. Do not begin executing the loop — generating the prompt is the whole job.

@@ -41,6 +41,13 @@ across sessions and so contributors know *why* each block is shaped the way it i
 - **Security tax** for unattended loops — security checks in the gate (secret scan / dep audit
   / SAST), human approval before irreversible actions, log hygiene, skill/connector source
   audit, periodic permission re-audit.
+- **Loop kind: closed vs open** — DISCOVER classifies closed (drive-to-done: goal + verify
+  gate + FINAL) vs open (watch/react: WATCH TARGET + TRIGGER CONDITION + observe→evaluate→
+  notify/act + dedup/cursor, no FINAL). Decided by goal verb + the decisive test ("can a
+  SUCCESS CRITERION become permanently true and END the loop?"); default closed on ambiguity
+  (open→runs-forever is the costlier misclassification). The wrong-tool warning is suppressed
+  for open watchers. Deliberately NOT added: a trigger sub-taxonomy (heartbeat/cron/hook) and
+  a second full skeleton — one skeleton, kind-conditional middle; shared blocks stay DRY.
 
 ## Deferred (fleet / multi-loop orchestration — out of scope for the single-loop generator)
 

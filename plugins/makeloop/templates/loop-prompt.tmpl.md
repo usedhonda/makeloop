@@ -1,9 +1,10 @@
 <!--
 makeloop loop-prompt template (canonical).
 
-Structure: a CORE block that is ALWAYS present, plus OPTIONAL blocks that /makeloop
-includes only when the Project Profile (DISCOVER step) triggers them. Ship the smallest
-loop the project supports — do not paste a two-stage gate for a single `npm test`.
+Structure: pick ONE CORE — CLOSED (drive-to-done) or OPEN (watch/react) — by the loop kind,
+then add OPTIONAL blocks that /makeloop includes only when the Project Profile (DISCOVER step)
+triggers them. Ship the smallest loop the project supports — do not paste a two-stage gate for
+a single `npm test`. Closed-only blocks never appear in an OPEN loop and vice versa.
 
 completion token: FINAL for built-in /loop (self-paced/interval); <promise>DONE</promise> for ralph-loop.
 
@@ -12,7 +13,7 @@ user's working language (the conversation's language). Keep only machine-signifi
 unchanged: shell/gate commands, file paths, JSON keys, FINAL / <promise>DONE</promise>, ITERATING.
 -->
 
-# ============ CORE (always) ============
+# ============ CLOSED CORE (kind=closed; drive-to-done) ============
 
 # LOOP: <short goal name>
 
@@ -49,6 +50,42 @@ RULES:
 - maker != checker: on risky changes, re-verify with fresh eyes / a sub-agent.
 - Surgical changes only: every diff line must trace back to GOAL. <off-limits from profile D>
 - Do not ask questions mid-loop. Make a sensible assumption, note it in state, continue.
+
+
+# ============ OPEN CORE (kind=open; watch/react — no FINAL) ============
+
+# WATCH: <short watch name>
+
+WATCH TARGET: <signal observed — deploy status / app.log / PR comments / the queue>. <runbook if any>
+INTENT: keep watching and react each time the trigger fires. No "done" — running until stopped is correct.
+
+TRIGGER CONDITION (objective predicate over the observed signal; REPLACES a success gate):
+- FIRE when: <predicate, e.g. line matches /ERROR|FATAL/; status == "failed"; a new unread item>
+- A recurring condition to REACT to, not one that becomes permanently true. Precision matters.
+
+CURSOR FILE: .loop/cursor.json   (last-seen marker + last-fire digest; NOT a done/failed/next ledger)
+
+EACH TICK (one interval, or one event):
+1. OBSERVE: read the current signal; load the cursor.
+2. EVALUATE: trigger true for something NEW (beyond the cursor)? No -> do nothing, advance, wait. Yes -> 3.
+3. DEDUP: already fired (digest / cooldown)? Skip. Edge-trigger, not level-trigger.
+4. REACT (idempotent): NOTIFY one message {what fired, evidence, where, when} to <channel>; or
+   ACT with an idempotency key = <stable key over event id> so re-firing can't double-act.
+5. ADVANCE the cursor and continue.
+
+RUN MODE: <run-indefinitely>  # never prints a token   OR  <stop-on-event>  # first fire -> NOTIFY, print "TRIGGERED", exit
+RUNTIME: /loop <interval> for cadence; live-stream -> Monitor; wall-clock -> cron routine (in-loop tool calls).
+
+LIVENESS/COVERAGE: trigger must cover every terminal/failure state (crash/hang/OOM) — "if it died now, would this emit?";
+emit a slow heartbeat so alive vs dead is visible.
+
+STOP WHEN: never (run-indefinitely) / event-fired [stop-on-event] / watch-target-gone / budget (cap -> notify+exit).
+
+RULES:
+- React to reality, don't grade your own work (correctness = coverage + precision).
+- Edge-trigger: one notification per NEW occurrence; suppress until change/cooldown.
+- Idempotent actions; report compactly (a fire is one line; silence prints nothing).
+- React only to what the trigger matched; do not ask questions mid-loop (note in cursor, continue).
 
 
 # ============ OPTIONAL blocks (include per profile) ============
@@ -106,7 +143,13 @@ DONE LEDGER: .loop/done.json = [{ "criterion": "...", "status": "pass|fail",
 "verified_by": "<gate output>" }]. status -> "pass" only with a real verified_by; done when
 all "pass". (Models rewrite JSON less casually than a markdown [x].)
 
-## [greenfield/early] Bootstrap block — prepend as ITERATION 0 (runs once)
+## [open only] Dedup/cursor block — fold into the OPEN core
+- Edge-trigger suppression: keep a digest of the last fire in .loop/cursor.json; the same
+  condition staying true must NOT re-fire — only a NEW occurrence (or post-cooldown) fires.
+- Last-seen cursor: persist last id/timestamp/status so each tick computes "what is new".
+- Idempotency key (if the watcher acts): stable key over the event id; re-handling is a no-op.
+
+## [greenfield/early · closed only — suppressed when kind=open] Bootstrap block — prepend as ITERATION 0 (runs once)
 ITERATION 0 — bootstrap the gate (run once, before the normal loop):
 - Scaffold minimally: repo, package manager / project file, the stack's test runner — only
   what the SUCCESS CRITERIA require.

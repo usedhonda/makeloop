@@ -39,6 +39,11 @@ It judges the project's **maturity** too: for a greenfield/empty repo it generat
 *bootstraps its own gate* (scaffold + failing acceptance tests, then drives red → green)
 instead of calling a loop the wrong tool; for a mature repo it reuses the existing gate.
 
+And it judges the **loop kind** — **closed** (drive-to-done: goal + verify gate + `FINAL`) vs
+**open** (watch/react: a trigger condition + notify/act + dedup, runs indefinitely, no
+`FINAL`). For an open watcher "no completion gate" is correct, so the wrong-tool warning is
+suppressed; on ambiguity it defaults to closed.
+
 The output is printed in chat and saved to `.loop/loop-prompt.md`. `/makeloop` will also
 tell you when a loop is the wrong tool (no automated check -> a single good prompt wins).
 
