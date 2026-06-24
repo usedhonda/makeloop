@@ -51,6 +51,18 @@ behavior-changing reading* of the added line.
 agreement on real cases via the golden eval; promote an edit *class* from Tier 2 → Tier 1 only
 once agreement is high for that class. Never auto-promote to Tier 3.
 
+**The deterministic gate (what makes Tier 1 real automation, not human-GO).** Tier 1
+auto-apply is safe only because SAFETY is enforced by **code, not LLM prose**:
+`.githooks/gate.sh` mechanically checks — guarded phrases intact, no gate-bypass clause added
+(C2), trust anchor untouched, JSON/structure valid, no source leak, golden-eval machine
+checks. The loop applies a candidate to the working tree, runs `gate.sh`, and may auto-commit
+only on `GATE PASS`. The gate lives behind the anchor (settings deny + pre-commit + chmod), so
+the loop cannot edit the gate it runs. **Tier-1-eligible class is narrow + reversible**: a
+purely additive line in an existing OPTIONAL block, or a new OPTIONAL block, or a catalog/notes
+append — nothing that changes CORE/Step behavior. QUALITY ("earns weight") is handled by
+fit-critic + the prune pass, NOT per-edit human review — so Tier 1 needs no human GO; the human
+owns the gate + sampled audits, not the transactions.
+
 ## fit-critic rubric ("earns its weight")
 
 A harvested candidate is adopted into makeloop only if ALL hold. Run as an adversarial panel

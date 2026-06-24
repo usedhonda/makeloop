@@ -94,6 +94,11 @@ weight. The machinery (built; the open loop is staged but not launched):
 - **Self-improve open loop** (`.loop/self-improve.md`, local) — harvest → dedup → fit-critic →
   propose diff → eval-gate → Tier1 auto-apply / Tier2 escalate / Tier3 never → prune every 3
   cycles. Run-indefinitely. The contract + eval are read-only anchors it cannot edit.
+- **Deterministic gate** (`.githooks/gate.sh`) — the code (not prose) that makes Tier 1 real
+  automation: mechanically checks guarded phrases intact, no gate-bypass clause added, anchor
+  untouched, JSON/structure/leak/eval. Behind the anchor (deny + pre-commit + chmod). Red-team
+  hardened (C1 firewall, C2 behavioral monotonicity, C3 out-of-band enforcement, H1 exfil
+  allow-list, H2 critic independence, M1 fresh-context apply, M2 guarded-phrase integrity).
 
 ## Deferred (fleet / multi-loop orchestration — out of scope for the single-loop generator)
 
