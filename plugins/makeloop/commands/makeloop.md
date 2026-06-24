@@ -247,7 +247,10 @@ case state your assumptions and proceed).
   wave through its own slop), a coarse pass/fail rubric (not a fine 1-10 scale), and escalate
   low-confidence verdicts to a human instead of guessing. Better still, pair the judge with a
   **deterministic assertion** (value-in-range / file-exists / schema-valid) as an AND-gate —
-  mark done only if BOTH pass, and feed the failing check's message into the retry.
+  mark done only if BOTH pass, and feed the failing check's message into the retry. Ground the
+  rubric in the repo (let the judge read the code/conventions before scoring, not just the
+  spec) and give it an explicit **anti-cheating axis** (flag test-weakening, mass-renames,
+  dependency churn) and a **blast-radius axis** (penalize edits far wider than the goal).
 - **STOP taxonomy**: at minimum success + a hard iteration cap **N** (default **8**). Add
   labeled stop reasons per the profile (see the mapping in Step 5). Confirm N and the
   **budget** (iteration cap / wall-clock / no-progress streak).
@@ -390,6 +393,9 @@ RULES:
 - Retry by failure class: rate-limit -> back off; validation fail -> rewrite from the
   feedback (no blind retry); transient 5xx -> retry once or twice then move on; tool
   unavailable -> pause and surface it (don't burn retries).
+- Shrink the unit on repeat failure: if the same subtask fails twice, don't retry it as-is
+  and don't give up — re-scope to the smallest failing fragment (one function / line / test)
+  and attempt that; escalate only after the fragment also fails. (retry -> decompose -> escalate)
 - Do not ask questions mid-loop. Make a sensible assumption, note it in state, continue.
 ```
 

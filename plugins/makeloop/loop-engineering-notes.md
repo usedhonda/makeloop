@@ -71,6 +71,15 @@ Held in the local catalog (not wired — too niche/fleet for the generic generat
 (TLA+) as driver, self-instrumentation feedback, opportunity-object ranker, behavioral
 circuit breaker [D], toxic-flow simulation [D].
 
+Round 2 (confirmation, decay 11→5, harvest loop closed at near-saturation) — wired 2:
+- **Shrink-the-unit on repeat failure** — retry → decompose to the smallest failing fragment →
+  escalate (a middle gear between blind retry and abort).
+- **Repo-grounded rubric + anti-cheat/blast-radius axes** — the LLM-judge reads the repo before
+  scoring and carries an explicit anti-cheating axis (test-weakening / mass-rename / dep-churn)
+  and a blast-radius axis.
+Held in catalog: pre-code ambiguity gate (restates existing goal/criteria confirmation),
+weighted-drift→auto-retrospective [thin], oracle-gap adaptive test hardening [thin/eval-rig].
+
 ## Deferred (fleet / multi-loop orchestration — out of scope for the single-loop generator)
 
 makeloop today generates **one** loop. The biggest unexplored area is fleet-level: multiple

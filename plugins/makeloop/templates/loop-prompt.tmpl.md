@@ -51,6 +51,7 @@ RULES:
 - Surgical changes only: every diff line must trace back to GOAL. <off-limits from profile D>
 - Re-verify the diff, not the world: iter 1 checks all; later iters re-check only the changed surface.
 - Retry by failure class: rate-limit->backoff; validation->rewrite-from-feedback; 5xx->retry then move on; tool-unavailable->pause+notify.
+- Shrink the unit on repeat failure: same subtask fails twice -> re-scope to the smallest failing fragment (function/line/test); escalate only after that fails. (retry->decompose->escalate)
 - Do not ask questions mid-loop. Make a sensible assumption, note it in state, continue.
 
 
