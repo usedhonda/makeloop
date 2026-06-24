@@ -49,7 +49,7 @@ Cron line (install on the dev machine — see "Install" below):
 | **See what it did** | `tail -n 40 .loop/cron.log` ; `git log --author=makeloop-selfimprove --oneline` |
 | **Change frequency** | `crontab -e` (edit the `*/2` line) |
 | **Remove entirely** | `crontab -e` and delete the `self-improve-run.sh` line |
-| **Undo a bad auto-edit** | `git revert <commit>` (stopping cron does NOT revert past edits) |
+| **Undo a bad auto-edit** | `git revert <commit> && git push origin main` — it was already auto-pushed to main; stopping cron does NOT revert past edits, and a bare `git revert` also gets auto-pushed next cycle |
 
 The pause check runs in the wrapper (plain bash) *before* `claude` starts, so the LLM cannot
 ignore or remove its own pause — it's a deterministic human kill-switch.
@@ -84,7 +84,9 @@ schedule):
   commits local for human review (fail-safe). The LLM cycle only *commits* — the deterministic
   wrapper decides the *push*. `.local/` (secrets, sources) is gitignored, so a push never carries
   them (H1 preserved). The anchor-touching commit can't exist (pre-commit blocks it), so it can't
-  be pushed either.
+  be pushed either. The Scheduled-loop-safety deny-list's "never push to main without sign-off"
+  governs the loops makeloop *generates* for others; makeloop's *own* self-improve push is the
+  user's standing sign-off (decision A, 2026-06-24) — a separate layer, not a contradiction.
 
 ## Install (needs the human — macOS asks permission to modify cron)
 
