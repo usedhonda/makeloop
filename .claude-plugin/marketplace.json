@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "makeloop",
+  "description": "makeloop — generate ready-to-run /loop prompts grounded in loop-engineering best practices",
+  "owner": {
+    "name": "usedhonda"
+  },
+  "plugins": [
+    {
+      "name": "makeloop",
+      "description": "Analyze the current project, pin down the work goal, and generate a complete /loop prompt set (goal, success criteria, verify gate, state, stop condition) to reach it.",
+      "source": "./plugins/makeloop",
+      "category": "workflow"
+    }
+  ]
+}
