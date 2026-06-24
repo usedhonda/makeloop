@@ -45,11 +45,14 @@ The result is printed in chat and saved to `.loop/loop-prompt.md`, with a seeded
 
 ## Depth that matches the project
 
-`/makeloop` first builds a **Project Profile** (read-only): **maturity** (greenfield →
-scaffolded-but-no-gate → mature), verification depth (single- vs multi-stage), whether
-there's a self-driving test harness that can fail silently, hard invariants and off-limits
-boundaries, existing loop infrastructure to extend, and commit conventions. It judges
-maturity from the files — no flag — and adapts:
+`/makeloop` reads **two things**: the **live session conversation** (what you've been working
+on, what you just asked for, decisions made, errors hit — the *intent*) and the **project
+state** (git diff, code, tests — the *reality*), and reconciles them. From the project it
+builds a read-only **Project Profile**: **maturity** (greenfield → scaffolded-but-no-gate →
+mature), verification depth (single- vs multi-stage), whether there's a self-driving test
+harness that can fail silently, hard invariants and off-limits boundaries, existing loop
+infrastructure to extend, and commit conventions. It judges maturity from the files — no
+flag — and adapts:
 
 - **Greenfield / empty** — instead of declaring "no gate → loop is the wrong tool", the loop
   *bootstraps its own gate*: iteration 0 scaffolds the project and writes the acceptance

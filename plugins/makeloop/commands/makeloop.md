@@ -85,10 +85,18 @@ you proceed. Anything not specified falls through to its normal step below.
 
 ## Step 1 — DISCOVER: build a Project Profile (read-only, go deep)
 
-Investigate the working directory thoroughly and fill in the **Project Profile** below. Use
-read-only commands only. For a large or unfamiliar codebase, dispatch an `Explore` subagent
-(or 2-3 in parallel) to fill sections B–E faster, then confirm key findings yourself by
-reading one primary source each (don't take the summary on faith).
+**Session context first (if any).** You are running inside a live session — read the
+conversation so far as a *primary* signal for what the user is actually working on: the goal
+they've been pursuing, what they just asked for, decisions already made, errors they hit,
+files they touched. This often reveals the in-flight goal better than git does. Reconcile it
+with the project state below — the **conversation tells you the intent, git/files tell you the
+reality**; when they disagree, surface it. If there's no relevant history (fresh session, or
+it was compacted away), say so and fall back to the project state.
+
+Then investigate the working directory thoroughly and fill in the **Project Profile** below.
+Use read-only commands only. For a large or unfamiliar codebase, dispatch an `Explore`
+subagent (or 2-3 in parallel) to fill sections B–E faster, then confirm key findings yourself
+by reading one primary source each (don't take the summary on faith).
 
 **A. Orientation**
 - Git: `git status -s`, `git log --oneline -20`, `git diff --stat`, `git diff --stat HEAD`
@@ -130,6 +138,8 @@ reading one primary source each (don't take the summary on faith).
 - Crash/flake surfaces.
 
 Then **summarize the profile** for the user and state explicitly:
+- **What the session shows you're working on** (if any) — the in-flight goal from the
+  conversation, and whether it matches the git diff.
 - **Maturity** (judge from the files, not a flag): where does it sit on the spectrum —
   *greenfield* (empty / only bootstrap files / no manifest / little-to-no git history) →
   *scaffolded but no gate* (code exists, but no tests/lint/build) → *mature* (a real gate
@@ -148,8 +158,11 @@ Read the **"no automated check"** finding *through maturity* — it means opposi
 
 ## Step 2 — Goal: propose candidates, confirm scope (AskUserQuestion)
 
-From the profile (and `$ARGUMENTS` if given), derive **2-3 concrete goal candidates**. Then
-ask the user with `AskUserQuestion`. Ask **scope** first — it changes everything:
+From the profile (and `$ARGUMENTS` if given), derive **2-3 concrete goal candidates**. For
+the **"finish the in-flight work"** scope, lead with the *session-derived* goal — what the
+conversation shows you've been doing — confirmed against the git diff; that's usually the
+sharpest candidate. Then ask the user with `AskUserQuestion`. Ask **scope** first — it
+changes everything:
 
 - **A) Finish the in-flight work** — wrap up what's being worked on now / the dirty tree.
 - **B) Reach the nearest milestone** — the next coherent checkpoint.

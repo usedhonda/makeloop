@@ -29,6 +29,8 @@ across sessions and so contributors know *why* each block is shaped the way it i
 - **Maturity-adaptive** — DISCOVER judges greenfield → scaffolded → mature from the files;
   greenfield gets a **Bootstrap block** (iteration 0 scaffolds + writes failing acceptance
   tests, then drives red → green) instead of being told a loop is the wrong tool.
+- **Session-context aware** — DISCOVER reads the live conversation (intent) as a primary goal
+  signal and reconciles it with the git/files (reality); leads the in-flight-work goal with it.
 
 ## Deferred (fleet / multi-loop orchestration — out of scope for the single-loop generator)
 

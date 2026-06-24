@@ -1,6 +1,6 @@
 {
   "name": "makeloop",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Analyze the current project in depth, pin down the work goal, and generate a /loop prompt set sized to the project — verify gate, state file, stop condition, and (when warranted) two-stage gates, harness-failure detection, and a labeled stop taxonomy.",
   "author": {
     "name": "usedhonda"
