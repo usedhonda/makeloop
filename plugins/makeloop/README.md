@@ -41,9 +41,12 @@ You'll be asked (for anything not already specified inline):
    iteration cap (default 8).
 4. **Runtime** — built-in `/loop` (self-paced or interval) or the `ralph-loop` plugin.
 
-The result is printed in chat and saved to `.loop/loop-prompt.md`, with a seeded
-`.loop/state.md`. The generated prompt is written in **your working language** (the language
-of the conversation) — only machine-significant literals (commands, paths, `FINAL` /
+The result is saved to `.loop/<slug>.md` (a descriptive name, so multiple loops don't clobber
+each other) with a seeded state/cursor file, and the chat output **leads with the exact
+ready-to-paste launch line** — file-reference form like
+`/loop .loop/<slug>.md の手順に従って … state は .loop/<slug>-state.md。` — so you just copy one
+line instead of pasting the whole prompt. The generated prompt is written in **your working
+language**; only machine-significant literals (commands, paths, `FINAL` /
 `<promise>DONE</promise>`, JSON keys) stay as-is.
 
 ## Depth that matches the project

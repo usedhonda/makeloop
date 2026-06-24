@@ -570,9 +570,12 @@ ralph-loop. Use the exact `<N>`/`<K>`/`<P>`/`<T>` the user confirmed.
 0. Make sure the assembled prompt + state file are written in the **user's working language**
    (see Step 5), with only machine-significant literals left as-is.
 1. Create `.loop/` if it doesn't exist (or reuse the existing loop dir from profile E).
-2. Save the assembled prompt to `.loop/loop-prompt.md`.
-3. Seed the state file if absent. **Closed** → `.loop/state.md` (or the project's existing
-   state file):
+2. Save the assembled prompt to `.loop/<slug>.md` — a short descriptive slug from the goal
+   (e.g. `.loop/sources-harvest.md`, `.loop/qa-green.md`). Default to `loop-prompt.md` only
+   for a project's sole loop; **if a loop file already exists, use a distinct slug so you don't
+   clobber it** (a repo can hold several loops).
+3. Seed the state file if absent. **Closed** → `.loop/<slug>-state.md` (or the project's
+   existing state file):
    ```
    # Loop state — <short goal name>
 
@@ -588,15 +591,19 @@ ralph-loop. Use the exact `<N>`/`<K>`/`<P>`/`<T>` the user confirmed.
    ## Next step
    <first concrete step toward the goal>
    ```
-   **Open** → seed `.loop/cursor.json` instead (last-seen marker, not a progress ledger):
+   **Open** → seed `.loop/<slug>.cursor.json` instead (last-seen marker, not a progress ledger):
    ```
    { "last_seen": null, "last_fired_digest": null, "note": "<watch target>" }
    ```
-4. Print the **full assembled prompt** in chat, then the **exact launch line** for the
-   chosen runtime:
-   - self-paced: run `/loop` and paste the prompt (or `/loop <paste prompt>`).
-   - interval (incl. open watchers): `/loop <interval> <paste prompt>`.
-   - ralph-loop: `/ralph-loop <paste prompt> --max-iterations <N> --completion-promise '<promise>DONE</promise>'`.
+4. **Lead with the ready-to-paste launch line** — this is what the user actually runs, so put
+   it first, in the user's working language, in **file-reference form** (point `/loop` at the
+   saved file so the loop re-reads its contract each iteration — far kinder than pasting the
+   whole prompt). Name the state/cursor file too. Templates:
+   - self-paced (closed): `/loop <saved file> の手順に従って <short goal> を回して。state は <state file>。`
+     (English: `/loop follow <saved file> to <short goal>; state in <state file>.`)
+   - interval / open: `/loop <interval> <saved file> ... (cursor は <cursor file>)`.
+   - ralph-loop: `/ralph-loop <saved file> の手順に従って ... --max-iterations <N> --completion-promise '<promise>DONE</promise>'`.
+   Then, **below the launch line**, print the full assembled prompt for transparency/editing.
 5. Close with the order that works and the cost note, **matched to the kind**:
    - **closed**: *prove one manual run -> loop it -> schedule it*; watch **cost per accepted
      change** — if you're tossing more than half the output, fix the gate before running again.

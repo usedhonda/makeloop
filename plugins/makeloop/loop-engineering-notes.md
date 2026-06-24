@@ -41,6 +41,10 @@ across sessions and so contributors know *why* each block is shaped the way it i
 - **Security tax** for unattended loops — security checks in the gate (secret scan / dep audit
   / SAST), human approval before irreversible actions, log hygiene, skill/connector source
   audit, periodic permission re-audit.
+- **Ready-to-paste launch line** — Step 6 leads with the exact command the user runs, in
+  file-reference form (`/loop <saved file> の手順に従って…`) so the loop re-reads its contract
+  each iteration instead of pasting the whole prompt; saved files use a descriptive slug
+  (`.loop/<slug>.md`) so multiple loops don't clobber each other.
 - **Loop kind: closed vs open** — DISCOVER classifies closed (drive-to-done: goal + verify
   gate + FINAL) vs open (watch/react: WATCH TARGET + TRIGGER CONDITION + observe→evaluate→
   notify/act + dedup/cursor, no FINAL). Decided by goal verb + the decisive test ("can a
