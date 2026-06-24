@@ -9,7 +9,8 @@ allowed-tools: ["Read", "Glob", "Grep", "Bash", "AskUserQuestion", "Write", "Tas
 You are about to **build a `/loop` prompt**, not run one. Your single deliverable is a
 complete, paste-ready loop prompt that drives this project toward a clearly defined goal.
 Do **not** start doing the project work itself — your job ends when the loop prompt is
-generated, shown, and saved.
+generated, shown, and saved. Write your output in the **user's working language** (the
+language of this conversation), not English by default — see Step 5 "Output language".
 
 The user's request, if any: **$ARGUMENTS**
 
@@ -231,6 +232,15 @@ Start from the CORE template below (always present), then add each OPTIONAL bloc
 trigger fired in DISCOVER. Drop blocks that don't apply — don't ship a two-stage gate for a
 project with one `npm test`. Replace every `<...>` placeholder.
 
+**Output language**: render the generated loop prompt — and your chat-facing summaries — in
+the **user's working language** (the language of this conversation / their request). Default
+to *their* language, never default to English. Keep machine-significant literals unchanged:
+shell / gate commands, file paths, JSON keys, the completion token (`FINAL` or
+`<promise>DONE</promise>`), and `ITERATING`. The structural keywords and `stop_reason`
+identifiers below may stay as stable labels, but translate every heading description,
+instruction, and line of prose. The English template below is a scaffold to render in the
+user's language, not text to copy verbatim.
+
 **Profile signal -> block to include:**
 
 | Profile signal (from Step 1) | Add this block |
@@ -405,6 +415,8 @@ ralph-loop. Use the exact `<N>`/`<K>`/`<P>`/`<T>` the user confirmed.
 
 ## Step 6 — OUTPUT (show + save)
 
+0. Make sure the assembled prompt + state file are written in the **user's working language**
+   (see Step 5), with only machine-significant literals left as-is.
 1. Create `.loop/` if it doesn't exist (or reuse the existing loop dir from profile E).
 2. Save the assembled prompt to `.loop/loop-prompt.md`.
 3. Seed a state file if absent (`.loop/state.md`, or the project's existing state file):

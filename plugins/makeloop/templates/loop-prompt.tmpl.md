@@ -6,6 +6,10 @@ includes only when the Project Profile (DISCOVER step) triggers them. Ship the s
 loop the project supports — do not paste a two-stage gate for a single `npm test`.
 
 completion token: FINAL for built-in /loop (self-paced/interval); <promise>DONE</promise> for ralph-loop.
+
+Output language: this scaffold is in English, but /makeloop renders the FINAL prompt in the
+user's working language (the conversation's language). Keep only machine-significant literals
+unchanged: shell/gate commands, file paths, JSON keys, FINAL / <promise>DONE</promise>, ITERATING.
 -->
 
 # ============ CORE (always) ============

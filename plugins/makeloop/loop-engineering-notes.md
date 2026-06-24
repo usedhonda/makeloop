@@ -31,6 +31,8 @@ across sessions and so contributors know *why* each block is shaped the way it i
   tests, then drives red → green) instead of being told a loop is the wrong tool.
 - **Session-context aware** — DISCOVER reads the live conversation (intent) as a primary goal
   signal and reconciles it with the git/files (reality); leads the in-flight-work goal with it.
+- **Output in the user's language** — the generated prompt + summaries render in the
+  conversation's language, not English by default; only machine-significant literals stay as-is.
 
 ## Deferred (fleet / multi-loop orchestration — out of scope for the single-loop generator)
 

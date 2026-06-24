@@ -41,7 +41,9 @@ You'll be asked (for anything not already specified inline):
 4. **Runtime** — built-in `/loop` (self-paced or interval) or the `ralph-loop` plugin.
 
 The result is printed in chat and saved to `.loop/loop-prompt.md`, with a seeded
-`.loop/state.md`.
+`.loop/state.md`. The generated prompt is written in **your working language** (the language
+of the conversation) — only machine-significant literals (commands, paths, `FINAL` /
+`<promise>DONE</promise>`, JSON keys) stay as-is.
 
 ## Depth that matches the project
 
