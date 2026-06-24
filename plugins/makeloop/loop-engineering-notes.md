@@ -99,6 +99,13 @@ weight. The machinery (built; the open loop is staged but not launched):
   untouched, JSON/structure/leak/eval. Behind the anchor (deny + pre-commit + chmod). Red-team
   hardened (C1 firewall, C2 behavioral monotonicity, C3 out-of-band enforcement, H1 exfil
   allow-list, H2 critic independence, M1 fresh-context apply, M2 guarded-phrase integrity).
+- **H1/H2 now code-enforced (toward zero-human Tier 1):** H1 — `.claude/settings.json` denies
+  the outbound MCP tools (Gmail/Drive/Calendar) + secret-read globs (`.env`/`*credential*`/
+  `id_rsa*`); WebFetch is GET-only and gate.sh blocks committing secrets to public files. H2 —
+  the fit-critic runs as a 3-different-model panel (one a dedicated injection-hunter), with
+  corroboration counted by independent operator-trusted domains, not text agreement. Editing the
+  anchor to add the H1 deny required an explicit human chmod (the auto-mode classifier blocked
+  the agent from un-protecting it on a generic "GO" — the design working as intended).
 
 ## Deferred (fleet / multi-loop orchestration — out of scope for the single-loop generator)
 

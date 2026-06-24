@@ -8,7 +8,13 @@
       "Edit(.claude/settings.json)",
       "Write(.claude/settings.json)",
       "Edit(.githooks/**)",
-      "Write(.githooks/**)"
+      "Write(.githooks/**)",
+      "mcp__claude_ai_Gmail__*",
+      "mcp__claude_ai_Google_Drive__*",
+      "mcp__claude_ai_Google_Calendar__*",
+      "Read(**/.env)",
+      "Read(**/*credential*)",
+      "Read(**/id_rsa*)"
     ]
   }
 }
