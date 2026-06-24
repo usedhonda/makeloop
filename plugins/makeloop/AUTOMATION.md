@@ -19,6 +19,10 @@ cron (every 2 days, 09:00)
             -> follows .loop/self-improve.md  (harvest -> dedup -> fit-critic ->
                propose -> .githooks/gate.sh -> Tier-1 auto-apply / Tier-2 escalate)
             -> commits Tier-1 edits as author "makeloop-selfimprove"
+       -> if the cycle made commits AND .githooks/gate.sh re-PASSES on HEAD:
+            git pull --rebase --autostash origin main && git push origin main
+            (the LLM never pushes; the wrapper does. NEVER force-push;
+             on rebase/push failure the commits stay local for human review)
        -> appends to .loop/cron.log
 ```
 
@@ -75,6 +79,12 @@ schedule):
   is GET-only.
 - The human owns the anchor (the "constitution"), not each edit. Changing the constitution
   requires a human `chmod u+w` first (deliberate friction).
+- **Auto-push is gate-guarded**: the wrapper pushes bot commits to `origin/main` only after
+  `gate.sh` re-PASSES on HEAD; it **never force-pushes**, and a rebase/push failure leaves the
+  commits local for human review (fail-safe). The LLM cycle only *commits* — the deterministic
+  wrapper decides the *push*. `.local/` (secrets, sources) is gitignored, so a push never carries
+  them (H1 preserved). The anchor-touching commit can't exist (pre-commit blocks it), so it can't
+  be pushed either.
 
 ## Install (needs the human — macOS asks permission to modify cron)
 
