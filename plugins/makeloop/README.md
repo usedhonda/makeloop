@@ -2,10 +2,11 @@
 
 A Claude Code slash command that **builds `/loop` prompts for you**.
 
-`/makeloop` reads your current project, figures out the work goal, asks you a couple of
-focused questions, and emits a complete, paste-ready loop prompt — goal, strict success
-criteria, a real verify gate, a state file, and a stop condition. It does **not** run the
-loop; it produces the prompt you then feed to `/loop` (or `/ralph-loop`).
+`/makeloop` reads your current project **and the session conversation**, figures out the work
+goal, asks you a couple of focused questions, and emits a complete, paste-ready loop prompt —
+goal, strict success criteria, a real verify gate, a state file, and a stop condition,
+**written in your working language**. It does **not** run the loop; it produces the prompt you
+then feed to `/loop` (or `/ralph-loop`).
 
 ## Usage
 

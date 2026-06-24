@@ -2,10 +2,10 @@
 
 A Claude Code plugin that **builds `/loop` prompts for you**.
 
-`/makeloop` reads your current project, pins down the work goal, asks a couple of focused
-questions, and emits a complete, paste-ready loop prompt — goal, strict success criteria, a
-real verify gate, a state file, and a stop condition. It generates the prompt; it does not
-run the loop.
+`/makeloop` reads your current project **and the session conversation**, pins down the work
+goal, asks a couple of focused questions, and emits a complete, paste-ready loop prompt —
+goal, strict success criteria, a real verify gate, a state file, and a stop condition,
+**written in your working language**. It generates the prompt; it does not run the loop.
 
 ## Install
 
@@ -35,6 +35,10 @@ make a loop work instead of just burn tokens:
 for a single `npm test`, richer (two-stage gate, harness-failure detection, labeled stop
 taxonomy, budget) when the project has a build + regression audit or a self-driving harness.
 
+It judges the project's **maturity** too: for a greenfield/empty repo it generates a loop that
+*bootstraps its own gate* (scaffold + failing acceptance tests, then drives red → green)
+instead of calling a loop the wrong tool; for a mature repo it reuses the existing gate.
+
 The output is printed in chat and saved to `.loop/loop-prompt.md`. `/makeloop` will also
 tell you when a loop is the wrong tool (no automated check -> a single good prompt wins).
 
@@ -48,6 +52,7 @@ plugins/makeloop/
   .claude-plugin/plugin.json       # plugin manifest
   commands/makeloop.md             # the /makeloop command (self-contained)
   templates/loop-prompt.tmpl.md    # the generated loop-prompt template (canonical)
+  loop-engineering-notes.md        # technique catalog + deferred fleet-mode roadmap
   README.md                        # plugin docs
 ```
 
