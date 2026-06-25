@@ -68,6 +68,15 @@ The trailing text after `/makeloop` is free-form natural language. Read it and e
 they specified, **honor it and skip the matching question later** — only ask about what is
 still missing and material. If the request is empty, run the full interactive flow.
 
+**Refine an existing loop (fast path).** First check whether the request targets a loop that
+already exists — `$ARGUMENTS` names or points at a `.loop/<slug>.md`, or says "tweak / adjust /
+update the X loop". If so, this is a **refine**, not a fresh build: READ that loop file (plus its
+state/cursor), apply ONLY the single requested delta (change the cap, swap the runtime, add or
+remove one OPTIONAL block, tighten a criterion), and re-save under the **same slug** — preserve
+its state file, its kind, and every block you weren't asked to change. Skip DISCOVER and the
+interactive questions, run the Step 6 pre-save self-check, then output. If the named loop doesn't
+exist, fall through to a normal build.
+
 Extract whatever is present (natural phrasing, not strict flags — interpret intent):
 
 | Directive | Example phrasings | Effect |
@@ -137,6 +146,10 @@ by reading one primary source each (don't take the summary on faith).
   `scenarios/`, regression case dirs.
 - If present, read them and **extend** the existing loop (reuse its state files, runbook,
   scenario format) rather than starting fresh.
+- **List existing loops**: glob `.loop/*.md` (and read `.loop/INDEX.md` if present). If any loop
+  files exist, show a one-line summary per loop (slug / goal / kind / launch line) so the user
+  can choose **refresh/extend an existing loop** (→ the refine path in Step 0) vs **start a new
+  one** before you spend turns profiling.
 
 **F. Operational facts**
 - Commit convention (conventional commits in the log? commitlint/husky? signing policy?
@@ -616,7 +629,9 @@ ralph-loop. Use the exact `<N>`/`<K>`/`<P>`/`<T>` the user confirmed.
 2. Save the assembled prompt to `.loop/<slug>.md` — a short descriptive slug from the goal
    (e.g. `.loop/sources-harvest.md`, `.loop/qa-green.md`). Default to `loop-prompt.md` only
    for a project's sole loop; **if a loop file already exists, use a distinct slug so you don't
-   clobber it** (a repo can hold several loops).
+   clobber it** (a repo can hold several loops). Then append one row to `.loop/INDEX.md` (create
+   it if absent) — `slug | goal | kind | gate | cap | runtime | ready-to-paste launch line` — so
+   the repo's loops stay listable and re-runnable at a glance (this is the registry Step 1 reads).
 3. Seed the state file if absent. **Closed** → `.loop/<slug>-state.md` (or the project's
    existing state file):
    ```
