@@ -528,6 +528,10 @@ quietly. Treat "escalate to human with full context" as a success path, not a fa
 ```
 - Idempotency: stamp each side-effecting apply with an idempotency key; on resume, a node
   re-runs from its start, so duplicate effects must be impossible.
+- Bind the placeholders — don't ship the boilerplate raw: replace the idempotency key and the
+  allowed-action set with the project's REAL values (the stable event-id field; the ONE action
+  this watcher may take). An unbound deny-list lists generic verbs but carries no
+  project-specific authority check, so it blocks nothing concrete.
 - Durable schedule: drive recurring runs from an EXTERNAL scheduler (OS cron / CI / Actions
   with a per-loop concurrency group, cancel-in-progress=false) — in-process timers die on
   restart and don't auto-recover.

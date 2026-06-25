@@ -150,16 +150,26 @@ change; cost proxy falls back tokens → iterations → wall-clock when tokens a
 | df-002 | watch app.log, notify on ERROR | open | greenfield, notify-only | TRIGGER `/ERROR\|FATAL/` | 8 ticks | accepted |
 | df-003 | mature lib, fix planted bug | closed | mature (py, existing pytest) | `pytest -q` | 1 | accepted |
 | df-004 | watch crashed proc, auto-restart | open+acts | scaffolded, run-indefinitely | TRIGGER crash_id | 11 ticks | accepted |
+| df-005 | disk-cleanup watcher (re-dogfood after fix) | open+acts | scaffolded | TRIGGER disk% | gen-check | accepted |
 
 - df-001: **Bootstrap fired correctly** — iter0 scaffolded + confirmed RED, iter1 drove green; `csv.DictReader` met all 4 criteria in one pass. cost/accepted = 2.
 - df-002: **OPEN CORE correct** — no closed-only block leaked (grep 0); precision / dedup (edge-trigger) / coverage (truncation + file-gone) all PASS; wrong-tool warning suppressed per spec.
 - df-003: **mature/closed correct** — NO Bootstrap, existing gate reused verbatim; surgical 1-line fix, tests untouched (no Goodhart). cost/accepted = 1. Minor: `scope-boundary` STOP label omitted though the boundary was encoded in SUCCESS CRITERIA + RULES.
 - df-004: **open+acts correct** — Scheduled-loop safety + idempotency key + deny-list + escalation all wired; 21/21 sim checks. **Finding (recurring-candidate):** the Scheduled-loop-safety block ships as boilerplate with `<...>` placeholders — the safety *value* (idempotency key, allowed-action set) must be bound by the operator; pasted as-is it lists generic deny verbs without a project-bound authority check.
 
-4/4 accepted across closed (greenfield + mature) and open (notify + acts) paths — the generator
-classifies kind/maturity and selects blocks faithfully, with no cross-kind block leakage. Still early
-(target ~5-10). One recurring-candidate surfaced (df-004 boilerplate-binding); if it recurs, graduate
-it to a golden-eval scenario or a makeloop.md note that prompts operators to bind the safety placeholders.
+5/5 accepted across closed (greenfield + mature) and open (notify + acts) paths — the generator
+classifies kind/maturity and selects blocks faithfully, with no cross-kind block leakage.
+
+**Loop closed (first dogfood → improve → re-verify round):** the df-004 recurring-candidate
+(Scheduled-loop safety shipped as raw `<...>` boilerplate with no project-bound authority check) was
+fixed — a **Bind the placeholders** bullet added to `makeloop.md` Step 5 + the template (additive
++7 lines, 0 deletions). Re-dogfood **df-005** (open+acts, disk-cleanup watcher) confirms it: the
+directive is present AND acted on — idempotency key, allowed-action set, and a concrete `./logs`-only
+authority check are all project-bound (the exact thing df-004 lacked). Golden eval stayed **10/10
+green**, no regression. Independently verified (maker≠checker + a judge agent: `loop_closed=true`).
+Residual: to *mechanically* retire the candidate (vs. relying on operator diligence), graduate it to a
+golden-eval scenario asserting "no unbound `<...>` in a Scheduled-loop-safety output" — that edits the
+`eval/` anchor, so it needs a human `chmod` (out-of-loop). Volume still early (5 runs, target ~5-10).
 
 ## Deferred (fleet / multi-loop orchestration — out of scope for the single-loop generator)
 

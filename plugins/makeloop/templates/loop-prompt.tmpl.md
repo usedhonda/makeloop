@@ -137,6 +137,9 @@ that found nothing archives itself quietly. Escalation-to-human is a success pat
 ## [unattended/scheduled] Scheduled-loop safety
 - Idempotency: stamp each side-effecting apply with an idempotency key (node re-runs from its
   start on resume; duplicate effects must be impossible).
+- Bind the placeholders (don't ship raw): set the idempotency key + the allowed-action set to the
+  project's REAL values (stable event-id; the ONE permitted action). An unbound deny-list lists
+  generic verbs with no project-specific authority check — it blocks nothing concrete.
 - Durable schedule: drive from an EXTERNAL scheduler (cron / CI / Actions, per-loop
   concurrency group, cancel-in-progress=false); in-process timers die on restart.
 - Auto-approve (tiered): safe reads auto; in-repo writes auto (git-reviewable); shell /
