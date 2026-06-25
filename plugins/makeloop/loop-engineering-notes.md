@@ -80,6 +80,42 @@ Round 2 (confirmation, decay 11→5, harvest loop closed at near-saturation) —
 Held in catalog: pre-code ambiguity gate (restates existing goal/criteria confirmation),
 weighted-drift→auto-retrospective [thin], oracle-gap adaptive test hardening [thin/eval-rig].
 
+## Adopted — convenience hardening (2026-06-25)
+
+A maintainer-driven pass (multi-angle community harvest + cross-source ideation, deduped vs the
+catalog at near-saturation) that HARDENS machinery the generator already ships rather than adding
+scope. All seven are additive / generation-time-only; the golden eval stayed 10/10 green
+(maker≠checker) and the deterministic gate passed on each.
+
+Generated-loop content (CORE/OPTIONAL blocks):
+- **Typed verify status (empty-but-valid)** — a check that runs cleanly and returns nothing
+  (empty grep / zero diff / no-op build) is a real PASS, not a retry trigger; only a true error
+  re-enters the retry ladder. Plugs a silent token-burn where empty success read as "try harder".
+- **Learnings poisoning guard** — `.loop/learnings.md` splits into DURABLE (corroborated, obeyed)
+  and UNVERIFIED (candidate, read-not-obeyed); a lesson promotes only on a 2nd occurrence or an
+  independent pass, and may never rewrite a criterion/gate/stop condition. Stops one atypical run
+  from minting a rule the loop then obeys forever.
+
+Generator behavior (Steps):
+- **Pre-save self-check** — Step 6 opens with an assembly lint (no leftover `<...>`, exactly one
+  CORE, no cross-kind block leak, kind-consistent structure, launch line + state/cursor filenames
+  correct) and a confirm-gated, advisory gate smoke-test (closed + deterministic gate only: does
+  the command resolve? is the baseline green or a poisoned RED?). Catches per-run output defects
+  the golden eval's fixed scenarios can't.
+- **One-confirm default** — after DISCOVER, propose the whole loop (kind + goal + criteria/trigger
+  + gate + cap + runtime) and confirm in ONE question; branch to the granular per-step questions
+  only on genuine high-impact ambiguity (closed-vs-open, destructive gate, judgment-call success).
+  ~4 round-trips → 1, with the fail-safe fallback preserved.
+- **Refine mode** — a request naming an existing `.loop/<slug>.md` (or "tweak/adjust the X loop")
+  applies just the requested delta and re-saves under the same slug, skipping DISCOVER + the
+  question rounds; falls through to a normal build if the loop doesn't exist.
+- **Repo loop registry** — list existing `.loop/*.md` at invocation (refresh/extend vs new), and
+  append one row per generated loop to `.loop/INDEX.md` so a repo's loops stay listable.
+
+Held (not wired): falsifiable-prediction-per-edit (no automated cron edits yet to falsify),
+context-hygiene handoff (enforcement is runtime — a prompt can only advise), preset archetypes
+(would short-circuit the deep-discovery that is makeloop's value — only ever a DISCOVER bias).
+
 ## Self-improvement system (auto-strengthening — LIVE via the every-2-days cron)
 
 makeloop can strengthen itself by harvesting community knowledge and wiring what earns its
