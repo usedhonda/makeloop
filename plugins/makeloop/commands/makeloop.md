@@ -191,6 +191,17 @@ Read the **"no automated check"** finding *through kind first, then maturity*:
 
 ## Step 2 — Goal: propose candidates, confirm scope (AskUserQuestion)
 
+**Default interaction — propose the whole loop, confirm once.** Steps 2-4 are written as
+separate question rounds, but by default do NOT ask them one at a time. After DISCOVER, assemble
+a single consolidated proposal from the profile — **kind + goal + SUCCESS CRITERIA (or the
+watcher's TRIGGER) + gate + iteration cap + runtime** — and ask ONE `AskUserQuestion` to *confirm
+or edit* the whole thing. Branch into the granular per-step questions below ONLY for a choice
+that is both genuinely ambiguous AND high-impact (closed-vs-open is unclear; a destructive gate
+needs sign-off; success is a judgment call) — those still get their own dedicated question. This
+collapses a routine loop from ~4 round-trips to 1 while keeping the sharp questions for the cases
+that actually need them. (Honor Step 0: anything already specified is pre-filled and not
+re-asked; if interaction level is minimal, state the assumptions and skip the confirm entirely.)
+
 From the profile (and `$ARGUMENTS` if given), derive **2-3 concrete goal candidates**. For
 the **"finish the in-flight work"** scope, lead with the *session-derived* goal — what the
 conversation shows you've been doing — confirmed against the git diff; that's usually the
