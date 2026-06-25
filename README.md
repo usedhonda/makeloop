@@ -64,6 +64,18 @@ plugins/makeloop/
   README.md                        # plugin docs
 ```
 
+## Self-improvement (for maintainers)
+
+makeloop can strengthen itself on a schedule. A local cron runs one harvest → gate → apply cycle
+every 2 days: it adopts community loop-engineering techniques that pass a **deterministic safety
+gate** (`.githooks/gate.sh`) plus an adversarial fit-critic, and prunes to stay lean (homeostasis,
+not bloat). Gate-passed **Tier-1** edits auto-commit and push to `main`; anything that changes core
+behavior or weakens a constraint **escalates to a human** instead. The trust anchor is read-only to
+the loop (enforced out-of-band by settings deny + a pre-commit hook + `chmod`). Governance lives in
+[`plugins/makeloop/SELF-IMPROVEMENT.md`](plugins/makeloop/SELF-IMPROVEMENT.md); the operator runbook
+(install, pause/resume, undo) in [`plugins/makeloop/AUTOMATION.md`](plugins/makeloop/AUTOMATION.md).
+The system is opt-in and ships **PAUSED**.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).

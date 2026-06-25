@@ -88,6 +88,21 @@ schedule):
   governs the loops makeloop *generates* for others; makeloop's *own* self-improve push is the
   user's standing sign-off (decision A, 2026-06-24) — a separate layer, not a contradiction.
 
+## Enforcer bootstrap (one-time, after a fresh clone)
+
+Two of the out-of-band enforcers are **NOT carried by git** and must be re-applied on any new
+clone: git tracks only the 644/755 bit (not the `chmod 444` write-removal), and `core.hooksPath`
+lives in `.git/config`, which clone does not copy. Re-arm both:
+```
+git -C <REPO> config core.hooksPath .githooks         # arm the pre-commit anchor guard
+chmod 444 plugins/makeloop/SELF-IMPROVEMENT.md plugins/makeloop/eval/*.md .claude/settings.json
+chmod 555 .githooks/gate.sh .githooks/pre-commit
+```
+Until both are done, only `settings.json`'s deny survives a clone — so on a fresh machine the
+loop MUST stay at **Tier 0** until you re-arm these (SELF-IMPROVEMENT.md's "verified active"
+rule). Verify: `git config --get core.hooksPath` returns `.githooks`, and `.githooks/gate.sh`
+prints `GATE PASS`.
+
 ## Install (needs the human — macOS asks permission to modify cron)
 
 Modifying the user crontab triggers a macOS permission prompt that headless tooling can't
