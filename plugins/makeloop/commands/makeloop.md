@@ -393,6 +393,10 @@ RULES:
 - Retry by failure class: rate-limit -> back off; validation fail -> rewrite from the
   feedback (no blind retry); transient 5xx -> retry once or twice then move on; tool
   unavailable -> pause and surface it (don't burn retries).
+- Empty is not failure: a check that runs cleanly and returns nothing to act on (no matching
+  lines, an empty diff, a no-op build) has genuinely passed — record that empty result as a
+  real PASS and move on, don't read silence as "try harder". Only a true error or a failed
+  assertion re-enters the retry ladder above.
 - Shrink the unit on repeat failure: if the same subtask fails twice, don't retry it as-is
   and don't give up — re-scope to the smallest failing fragment (one function / line / test)
   and attempt that; escalate only after the fragment also fails. (retry -> decompose -> escalate)

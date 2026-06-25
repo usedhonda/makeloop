@@ -53,6 +53,7 @@ RULES:
 - No fake done: no placeholders/stubs/TODOs reported as complete; never delete, skip, or weaken a check to make the gate go green.
 - Re-verify the diff, not the world: iter 1 checks all; later iters re-check only the changed surface.
 - Retry by failure class: rate-limit->backoff; validation->rewrite-from-feedback; 5xx->retry then move on; tool-unavailable->pause+notify.
+- Empty is not failure: a check that runs cleanly and returns nothing (no matching lines, empty diff, no-op build) has genuinely passed -> record it as a real PASS, don't read silence as "try harder". Only a true error/failed assertion re-enters the retry ladder.
 - Shrink the unit on repeat failure: same subtask fails twice -> re-scope to the smallest failing fragment (function/line/test); escalate only after that fails. (retry->decompose->escalate)
 - Do not ask questions mid-loop. Make a sensible assumption, note it in state, continue.
 
