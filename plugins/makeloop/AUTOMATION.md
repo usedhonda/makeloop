@@ -46,7 +46,7 @@ Cron line (install on the dev machine — see "Install" below):
 | --- | --- |
 | **Pause** (cron stays installed) | `touch .loop/PAUSED` |
 | **Resume** | `rm .loop/PAUSED` |
-| **See what it did** | `tail -n 40 .loop/cron.log` ; `git log --author=makeloop-selfimprove --oneline` |
+| **See what it did** | public trail: `loop-engineering-notes.md` § Self-improvement run history ; per-commit detail: `git log --author=makeloop-selfimprove --oneline` ; local raw log: `tail -n 40 .loop/cron.log` |
 | **Change frequency** | `crontab -e` (edit the `*/2` line) |
 | **Remove entirely** | `crontab -e` and delete the `self-improve-run.sh` line |
 | **Undo a bad auto-edit** | `git revert <commit> && git push origin main` — it was already auto-pushed to main; stopping cron does NOT revert past edits, and a bare `git revert` also gets auto-pushed next cycle |

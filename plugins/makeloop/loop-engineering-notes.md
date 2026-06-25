@@ -80,10 +80,10 @@ Round 2 (confirmation, decay 11→5, harvest loop closed at near-saturation) —
 Held in catalog: pre-code ambiguity gate (restates existing goal/criteria confirmation),
 weighted-drift→auto-retrospective [thin], oracle-gap adaptive test hardening [thin/eval-rig].
 
-## Self-improvement system (auto-strengthening, ready but not yet running)
+## Self-improvement system (auto-strengthening — LIVE via the every-2-days cron)
 
 makeloop can strengthen itself by harvesting community knowledge and wiring what earns its
-weight. The machinery (built; the open loop is staged but not launched):
+weight. The machinery (built and running unattended every 2 days):
 - **Golden eval** (`eval/scenarios.md`) — the objective quality gate ("still good", beyond the
   lint's "not broken"): regenerate loops for fixed scenarios, check the output's properties.
 - **Governance contract** (`SELF-IMPROVEMENT.md`, the fixed trust anchor) — autonomy tiers
@@ -113,7 +113,30 @@ The self-improvement loop runs unattended via local cron every 2 days → wrappe
 (`.loop/self-improve-run.sh`) → one headless `claude` cycle → Tier-1 auto-apply on
 `gate.sh` PASS. Operator runbook (pause/resume/monitor/install, first-watched-run, undo) is in
 [`AUTOMATION.md`](AUTOMATION.md). Pause = `touch .loop/PAUSED`; log = `.loop/cron.log`; bot
-commits authored `makeloop-selfimprove`. Ships PAUSED until one watched run proves it.
+commits authored `makeloop-selfimprove`. Fresh clones ship PAUSED; enable with `rm .loop/PAUSED`
+after one watched run.
+
+## Self-improvement run history
+
+A public trail of what the self-improvement loop changed, when, and in which commit — the companion
+to `git log --author=makeloop-selfimprove` (richer per-commit detail) and `.loop/cron.log` (local
+raw log, gitignored). The loop appends ONE line here after any run that changed a public file.
+**Allowed fields only (H1): date, commit SHA, Tier, changed public files, change class, gate result,
+round/prune — NEVER source URLs, authors, fetched text, secrets, or `.local/` contents.**
+
+Format: `- <date> <SHA> [Tier-N] <changed public files> — <change class> · gate:PASS · <round|prune|manual>`
+
+Setup history (manual — built by hand before going LIVE; see `git log` for full diffs):
+- 2026-06-24 c1ef3d5 [manual] self-improvement system + red-team hardening (scaffold)
+- 2026-06-24 d67283e [manual] deterministic safety gate (`.githooks/gate.sh`)
+- 2026-06-24 54889a6 [manual] H1 code-enforced (`settings.json` deny: outbound MCP + secret globs)
+- 2026-06-24 5bcf686 [manual] AUTOMATION.md operator runbook
+- 2026-06-24 0095e2e [manual] auto-push to origin/main wired (decision A)
+- 2026-06-24 6781153 [manual] reconcile auto-push with H1 / undo / deny-list
+- 2026-06-25 e7e5ed2 [manual] enforcer bootstrap + README self-improvement section
+- 2026-06-25 9f26017 [manual] cross-cutting RULES restored (golden-eval green)
+
+Automated runs (`makeloop-selfimprove`): none yet — near-saturation, silent archives so far.
 
 ## Deferred (fleet / multi-loop orchestration — out of scope for the single-loop generator)
 

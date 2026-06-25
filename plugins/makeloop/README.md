@@ -104,7 +104,7 @@ learnings** (`.loop/learnings.md`), **escalation handoff** for unattended runs,
 **scheduled-loop safety** (idempotency, external scheduler, tiered auto-approve, intent
 deny-list), a **JSON done-ledger**, and **LLM-as-judge hardening**.
 
-The technique catalog and the deferred fleet-mode roadmap live in
+The technique catalog, the self-improvement run history, and the deferred fleet-mode roadmap live in
 [`loop-engineering-notes.md`](loop-engineering-notes.md).
 
 ## Why it's shaped this way (loop engineering)

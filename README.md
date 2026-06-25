@@ -60,7 +60,7 @@ plugins/makeloop/
   eval/scenarios.md                # golden eval — objective quality gate for makeloop itself
   SELF-IMPROVEMENT.md              # governance contract for makeloop's self-strengthening loop
   AUTOMATION.md                    # operator runbook for the every-2-days self-improvement cron
-  loop-engineering-notes.md        # technique catalog + deferred fleet-mode roadmap
+  loop-engineering-notes.md        # technique catalog + self-improvement run history + fleet-mode roadmap
   README.md                        # plugin docs
 ```
 
@@ -74,7 +74,9 @@ behavior or weakens a constraint **escalates to a human** instead. The trust anc
 the loop (enforced out-of-band by settings deny + a pre-commit hook + `chmod`). Governance lives in
 [`plugins/makeloop/SELF-IMPROVEMENT.md`](plugins/makeloop/SELF-IMPROVEMENT.md); the operator runbook
 (install, pause/resume, undo) in [`plugins/makeloop/AUTOMATION.md`](plugins/makeloop/AUTOMATION.md).
-The system is opt-in and ships **PAUSED**.
+The system is opt-in; fresh clones ship **PAUSED** (enable after a watched run — see AUTOMATION.md).
+Each run that changes a public file is logged in `loop-engineering-notes.md` § Self-improvement run
+history, alongside `git log --author=makeloop-selfimprove`.
 
 ## License
 
