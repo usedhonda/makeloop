@@ -49,6 +49,8 @@ RULES:
 - Never call it done until the gate actually passes. No self-grading.
 - maker != checker: on risky changes, re-verify with fresh eyes / a sub-agent.
 - Surgical changes only: every diff line must trace back to GOAL. <off-limits from profile D>
+- Search before assuming: grep before claiming a thing is missing or reimplementing it — "it's not there" is only true after you've looked.
+- No fake done: no placeholders/stubs/TODOs reported as complete; never delete, skip, or weaken a check to make the gate go green.
 - Re-verify the diff, not the world: iter 1 checks all; later iters re-check only the changed surface.
 - Retry by failure class: rate-limit->backoff; validation->rewrite-from-feedback; 5xx->retry then move on; tool-unavailable->pause+notify.
 - Shrink the unit on repeat failure: same subtask fails twice -> re-scope to the smallest failing fragment (function/line/test); escalate only after that fails. (retry->decompose->escalate)
@@ -86,9 +88,13 @@ STOP WHEN: never (run-indefinitely) / event-fired [stop-on-event] / watch-target
 
 RULES:
 - React to reality, don't grade your own work (correctness = coverage + precision).
+- maker != checker: if the watcher ACTS, verify the action before its side effect — don't let the actor wave through its own act.
+- Surgical changes only: react only to what the trigger matched; don't fix unrelated things while you're here.
+- Search before assuming: confirm the signal is real (read/grep the source) before firing — "nothing happened" is only true after you've looked.
+- No fake done: never fabricate or suppress an observation to stay quiet, and never weaken the trigger to silence it — a fire must reflect a real event.
 - Edge-trigger: one notification per NEW occurrence; suppress until change/cooldown.
 - Idempotent actions; report compactly (a fire is one line; silence prints nothing).
-- React only to what the trigger matched; do not ask questions mid-loop (note in cursor, continue).
+- Do not ask questions mid-loop (note in cursor, continue).
 
 
 # ============ OPTIONAL blocks (include per profile) ============

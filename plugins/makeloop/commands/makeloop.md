@@ -453,12 +453,19 @@ STOP WHEN (a watcher's stops — NOT success-or-cap):
 
 RULES:
 - React to reality, don't grade your own work — correctness = coverage + precision.
+- maker != checker: if the watcher ACTS, verify the action before its side effect — don't let
+  the actor wave through its own act.
+- Surgical changes only: react only to what the trigger matched; don't "fix things while
+  you're here".
+- Search before assuming: confirm the signal is real (read/grep the source) before firing —
+  "nothing happened" is only true after you've looked.
+- No fake done: never fabricate or suppress an observation to stay quiet, and never weaken the
+  trigger to silence it — a fire must reflect a real event.
 - Edge-trigger, not level-trigger: one notification per NEW occurrence; suppress until the
   state CHANGES or the cooldown elapses.
 - Idempotent actions: any side effect must be safe to re-run on the same event (no double
   file / restart / post).
 - Report compactly: a fire is one line {trigger, evidence, where, when}; silence prints nothing.
-- React only to what the trigger matched; don't "fix things while you're here".
 - Do not ask questions mid-loop. Make a sensible assumption, note it in the cursor, continue.
 ```
 
