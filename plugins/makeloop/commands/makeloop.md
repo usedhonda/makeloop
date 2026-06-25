@@ -515,8 +515,15 @@ no-progress stop reason):
 **Cross-run learnings** — for loops that will run again; add a learnings file + steps:
 ```
 LEARNINGS FILE: .loop/learnings.md  (re-read at the START of every run, before the contract)
-- On any recurring failure, write ONE durable rule (e.g. "v1/users is deprecated, use v2").
-- Prefer category-level prevention over a single regression case: a rule that kills the
+  Two sections: ## DURABLE (corroborated rules the loop obeys) and ## UNVERIFIED (candidate
+  lessons — read for context, NOT obeyed as rules yet). Default a new lesson to UNVERIFIED.
+- On any recurring failure, write the lesson to UNVERIFIED first, tagged with an occurrence
+  count + an evidence pointer (the run / iteration that showed it).
+- Promote UNVERIFIED -> DURABLE only when a SECOND occurrence (or an independent fresh-context
+  pass) confirms it — one atypical run may never mint a DURABLE rule it then obeys forever.
+- A learning may never rewrite a SUCCESS CRITERION, a gate, or a stop condition: those change
+  only by human edit, never from the loop's own notes.
+- Prefer category-level prevention over a single regression case: a DURABLE rule that kills the
   whole class of bug, folded into lint/AGENTS.md where it can be enforced.
 ```
 

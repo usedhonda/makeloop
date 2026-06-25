@@ -127,8 +127,13 @@ token+cost cap <C> (soft-pause + notify at 85%, hard stop at 100%).
 
 ## [recurring loop] Cross-run learnings
 LEARNINGS FILE: .loop/learnings.md  (re-read at the START of every run, before the contract)
-- On any recurring failure, write ONE durable rule. Prefer category-level prevention (a rule
-  folded into lint/AGENTS.md) over a single regression case.
+  Two sections: ## DURABLE (corroborated, obeyed) and ## UNVERIFIED (candidate, read-not-obeyed).
+- On any recurring failure, write the lesson to UNVERIFIED first, tagged with occurrence-count +
+  an evidence pointer. Promote to DURABLE only on a 2nd occurrence or an independent pass — one
+  atypical run may never mint a DURABLE rule.
+- A learning may never rewrite a SUCCESS CRITERION / gate / stop condition (human edit only).
+- Prefer category-level prevention (a DURABLE rule folded into lint/AGENTS.md) over a single
+  regression case.
 
 ## [unattended/scheduled] Escalation handoff — replaces silent death on a dead-end
 ON DEAD-END (failure / budget / unrecoverable-harness): write a context-rich handoff (what
