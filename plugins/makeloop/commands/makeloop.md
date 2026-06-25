@@ -623,6 +623,30 @@ ralph-loop. Use the exact `<N>`/`<K>`/`<P>`/`<T>` the user confirmed.
 
 ## Step 6 — OUTPUT (show + save)
 
+### Pre-save self-check (run this before saving)
+
+Before writing the files, run two read-only checks on what you assembled — both catch defects
+that otherwise surface only *after* the user launches and burns tokens.
+
+**Assembly lint** (always; a read-only pass over the assembled text):
+- No leftover raw `<...>` placeholder survives anywhere — every one was filled with a real value.
+- Exactly ONE CORE is present (CLOSED *or* OPEN, never both), and no closed-only block leaked
+  into an open loop or vice versa (cross-check the Kind-applicability table).
+- Kind-consistent: a **closed** loop has STATE + SUCCESS CRITERIA + a real VERIFY + a completion
+  token; an **open** loop has WATCH TARGET + TRIGGER + cursor + RUN MODE and no completion token.
+- The launch line points at the saved `.loop/<slug>.md`, and the state/cursor filename matches
+  the kind (`-state.md` for closed, `.cursor.json` for open).
+- Any block Step 0 forced on/off was honored.
+Print a short PASS / gap list. On a gap, fix it and re-lint — do not save a loop carrying an
+unbound placeholder or a leaked cross-kind block.
+
+**Gate smoke-test** (closed loops with a deterministic gate command only):
+- Behind a quick confirm, run the derived gate command ONCE to confirm it actually resolves
+  (catches `npm test` vs `npm run test`, a missing binary) and report whether the baseline is
+  already green or RED (a RED baseline is a `poisoned-baseline` worth knowing before looping).
+  This is advisory only and never blocks the save; do not run it for open watchers or for any
+  destructive / network / heavy gate.
+
 0. Make sure the assembled prompt + state file are written in the **user's working language**
    (see Step 5), with only machine-significant literals left as-is.
 1. Create `.loop/` if it doesn't exist (or reuse the existing loop dir from profile E).
