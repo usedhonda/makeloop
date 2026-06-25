@@ -138,6 +138,23 @@ Setup history (manual — built by hand before going LIVE; see `git log` for ful
 
 Automated runs (`makeloop-selfimprove`): none yet — near-saturation, silent archives so far.
 
+## Dogfood runs (does the generator earn its weight?)
+
+Real runs of makeloop-*generated* loops, measured for accept + cost — the public, sanitized
+"examples-as-benchmark" trail (raw ledger is local). Closed-loop metric = cost proxy per accepted
+change; cost proxy falls back tokens → iterations → wall-clock when tokens aren't available.
+
+| run | request | kind | profile | gate | iters | outcome |
+|-----|---------|------|---------|------|-------|---------|
+| df-001 | CSV→JSON CLI, tests green | closed | greenfield/empty (py) | `pytest -q` | 2 | accepted |
+
+- df-001: the **Bootstrap block fired correctly** — iteration 0 scaffolded `convert.py` + acceptance
+  tests and confirmed RED, iteration 1 drove green; stdlib `csv.DictReader` satisfied all four
+  criteria in one pass. cost/accepted = 2 iterations. (Greenfield-closed path validated end-to-end.)
+
+First data point — too few to conclude. Accumulate ~5-10 before judging the generator or wiring
+anything new; recurring failure classes graduate to golden-eval scenarios or docs.
+
 ## Deferred (fleet / multi-loop orchestration — out of scope for the single-loop generator)
 
 makeloop today generates **one** loop. The biggest unexplored area is fleet-level: multiple
