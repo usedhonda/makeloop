@@ -187,6 +187,8 @@ change; cost proxy falls back tokens → iterations → wall-clock when tokens a
 | df-003 | mature lib, fix planted bug | closed | mature (py, existing pytest) | `pytest -q` | 1 | accepted |
 | df-004 | watch crashed proc, auto-restart | open+acts | scaffolded, run-indefinitely | TRIGGER crash_id | 11 ticks | accepted |
 | df-005 | disk-cleanup watcher (re-dogfood after fix) | open+acts | scaffolded | TRIGGER disk% | gen-check | accepted |
+| df-006 | get the test suite green | closed | real-public, mature, gate already green | `pytest` | gen-check | accepted |
+| df-007 | improve the docs | wrong-tool | real-public, mature, docs gate already green | n/a | n/a | accepted (wrong-tool) |
 
 **df-004/005 residual eval-retired (2026-06-25, `a8dff5a`)** — the Scheduled-loop-safety
 unbound-`<...>` weakness is now closed end-to-end: generator fix (bind-placeholders) →
@@ -194,6 +196,19 @@ generation-time pre-save assembly lint (the maker==checker floor) → golden-eva
 cross-cutting no-unbound-placeholder check (the independent maker≠checker ceiling). The
 recurring-candidate is mechanically retired, not just patched. (Anchor edit applied in a
 human-authorized window; S11 verified gradeable + generator-passing before it landed.)
+
+**Phase 2 Measure — first real-repo / non-author runs (2026-06-25, `wqo111shs`)** — df-006/007
+used makeloop as a *non-author first-timer* on two real public repos (maker≠checker; graders
+independently RAN the gates). Both: kind/maturity/block-selection + the wrong-tool call were
+**correct** — generation is sound on real code, not just toys. The signal toy runs can't surface:
+the **"already-green-at-generation / degenerate-loop" gap** — on a mature repo whose gate is
+*already passing*, makeloop offers no off-ramp between "good closed loop" and "wrong tool"; a
+closed loop on a green gate prints FINAL at iteration 0 (does nothing) or tempts fabricated work,
+and the pre-save gate smoke-test *detects* already-green but is advisory-only with no decision
+branch. Second signal (→ Phase 3 Prune): cold-start spec weight — the command is read-heavy
+relative to its small product for a routine ask. **Per the framework these are RECORDED, not
+patched**: an already-green off-ramp would add a new decision branch (fails the
+immediate-exception gate), so it is a Phase 4 Decide candidate, not a reflexive fix.
 
 - df-001: **Bootstrap fired correctly** — iter0 scaffolded + confirmed RED, iter1 drove green; `csv.DictReader` met all 4 criteria in one pass. cost/accepted = 2.
 - df-002: **OPEN CORE correct** — no closed-only block leaked (grep 0); precision / dedup (edge-trigger) / coverage (truncation + file-gone) all PASS; wrong-tool warning suppressed per spec.
