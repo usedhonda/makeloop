@@ -188,6 +188,13 @@ change; cost proxy falls back tokens → iterations → wall-clock when tokens a
 | df-004 | watch crashed proc, auto-restart | open+acts | scaffolded, run-indefinitely | TRIGGER crash_id | 11 ticks | accepted |
 | df-005 | disk-cleanup watcher (re-dogfood after fix) | open+acts | scaffolded | TRIGGER disk% | gen-check | accepted |
 
+**df-004/005 residual eval-retired (2026-06-25, `a8dff5a`)** — the Scheduled-loop-safety
+unbound-`<...>` weakness is now closed end-to-end: generator fix (bind-placeholders) →
+generation-time pre-save assembly lint (the maker==checker floor) → golden-eval **S11** + a
+cross-cutting no-unbound-placeholder check (the independent maker≠checker ceiling). The
+recurring-candidate is mechanically retired, not just patched. (Anchor edit applied in a
+human-authorized window; S11 verified gradeable + generator-passing before it landed.)
+
 - df-001: **Bootstrap fired correctly** — iter0 scaffolded + confirmed RED, iter1 drove green; `csv.DictReader` met all 4 criteria in one pass. cost/accepted = 2.
 - df-002: **OPEN CORE correct** — no closed-only block leaked (grep 0); precision / dedup (edge-trigger) / coverage (truncation + file-gone) all PASS; wrong-tool warning suppressed per spec.
 - df-003: **mature/closed correct** — NO Bootstrap, existing gate reused verbatim; surgical 1-line fix, tests untouched (no Goodhart). cost/accepted = 1. Minor: `scope-boundary` STOP label omitted though the boundary was encoded in SUCCESS CRITERIA + RULES.
