@@ -147,13 +147,19 @@ change; cost proxy falls back tokens → iterations → wall-clock when tokens a
 | run | request | kind | profile | gate | iters | outcome |
 |-----|---------|------|---------|------|-------|---------|
 | df-001 | CSV→JSON CLI, tests green | closed | greenfield/empty (py) | `pytest -q` | 2 | accepted |
+| df-002 | watch app.log, notify on ERROR | open | greenfield, notify-only | TRIGGER `/ERROR\|FATAL/` | 8 ticks | accepted |
+| df-003 | mature lib, fix planted bug | closed | mature (py, existing pytest) | `pytest -q` | 1 | accepted |
+| df-004 | watch crashed proc, auto-restart | open+acts | scaffolded, run-indefinitely | TRIGGER crash_id | 11 ticks | accepted |
 
-- df-001: the **Bootstrap block fired correctly** — iteration 0 scaffolded `convert.py` + acceptance
-  tests and confirmed RED, iteration 1 drove green; stdlib `csv.DictReader` satisfied all four
-  criteria in one pass. cost/accepted = 2 iterations. (Greenfield-closed path validated end-to-end.)
+- df-001: **Bootstrap fired correctly** — iter0 scaffolded + confirmed RED, iter1 drove green; `csv.DictReader` met all 4 criteria in one pass. cost/accepted = 2.
+- df-002: **OPEN CORE correct** — no closed-only block leaked (grep 0); precision / dedup (edge-trigger) / coverage (truncation + file-gone) all PASS; wrong-tool warning suppressed per spec.
+- df-003: **mature/closed correct** — NO Bootstrap, existing gate reused verbatim; surgical 1-line fix, tests untouched (no Goodhart). cost/accepted = 1. Minor: `scope-boundary` STOP label omitted though the boundary was encoded in SUCCESS CRITERIA + RULES.
+- df-004: **open+acts correct** — Scheduled-loop safety + idempotency key + deny-list + escalation all wired; 21/21 sim checks. **Finding (recurring-candidate):** the Scheduled-loop-safety block ships as boilerplate with `<...>` placeholders — the safety *value* (idempotency key, allowed-action set) must be bound by the operator; pasted as-is it lists generic deny verbs without a project-bound authority check.
 
-First data point — too few to conclude. Accumulate ~5-10 before judging the generator or wiring
-anything new; recurring failure classes graduate to golden-eval scenarios or docs.
+4/4 accepted across closed (greenfield + mature) and open (notify + acts) paths — the generator
+classifies kind/maturity and selects blocks faithfully, with no cross-kind block leakage. Still early
+(target ~5-10). One recurring-candidate surfaced (df-004 boilerplate-binding); if it recurs, graduate
+it to a golden-eval scenario or a makeloop.md note that prompts operators to bind the safety placeholders.
 
 ## Deferred (fleet / multi-loop orchestration — out of scope for the single-loop generator)
 
