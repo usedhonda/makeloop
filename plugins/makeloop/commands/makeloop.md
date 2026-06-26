@@ -666,6 +666,10 @@ that otherwise surface only *after* the user launches and burns tokens.
 - The launch line points at the saved `.loop/<slug>.md`, and the state/cursor filename matches
   the kind (`-state.md` for closed, `.cursor.json` for open).
 - Any block Step 0 forced on/off was honored.
+- Criterion coverage (closed loops): map each SUCCESS CRITERION to the VERIFY check that proves
+  it; flag any criterion no check covers — the user adds a check or knowingly accepts it as a
+  manual spot-check. An uncovered criterion is an unverifiable soft-pass (a Goodhart surface).
+  Keep it a compact mapping, not a verbose block in the saved loop.
 Print a short PASS / gap list. On a gap, fix it and re-lint — do not save a loop carrying an
 unbound placeholder or a leaked cross-kind block.
 
