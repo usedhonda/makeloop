@@ -77,8 +77,10 @@ EACH TICK (one interval, or one event):
 1. OBSERVE: read the current signal; load the cursor.
 2. EVALUATE: trigger true for something NEW (beyond the cursor)? No -> do nothing, advance, wait. Yes -> 3.
 3. DEDUP: already fired (digest / cooldown)? Skip. Edge-trigger, not level-trigger.
-4. REACT (idempotent): NOTIFY one message {what fired, evidence, where, when} to <channel>; or
-   ACT with an idempotency key = <stable key over event id> so re-firing can't double-act.
+4. REACT (idempotent): NOTIFY one message {what fired, evidence, where, when} to a CONCRETE
+   project-bound channel (resolve <channel> to one real destination — a file always works in a
+   bare runtime; PushNotification / issue / chat only if actually wired); or ACT with an
+   idempotency key = <stable key over event id> so re-firing can't double-act.
 5. ADVANCE the cursor and continue.
 
 RUN MODE: <run-indefinitely>  # never prints a token   OR  <stop-on-event>  # first fire -> NOTIFY, print "TRIGGERED", exit

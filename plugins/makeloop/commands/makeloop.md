@@ -149,7 +149,9 @@ by reading one primary source each (don't take the summary on faith).
 - **List existing loops**: glob `.loop/*.md` (and read `.loop/INDEX.md` if present). If any loop
   files exist, show a one-line summary per loop (slug / goal / kind / launch line) so the user
   can choose **refresh/extend an existing loop** (→ the refine path in Step 0) vs **start a new
-  one** before you spend turns profiling.
+  one** before you spend turns profiling. If the new goal substantially matches an existing loop
+  (same target + kind), default to **refining that loop** even when `$ARGUMENTS` never named it —
+  don't spawn a near-duplicate (e.g. `qa-green-2`) or silently clobber the existing file.
 
 **F. Operational facts**
 - Commit convention (conventional commits in the log? commitlint/husky? signing policy?
@@ -462,8 +464,10 @@ EACH TICK (one interval, or one event):
 3. DEDUP: already fired (cursor digest / cooldown window)? If yes -> skip. Edge-trigger, not
    level-trigger: do not re-fire while the same condition stays true.
 4. REACT (idempotent):
-   - NOTIFY: ONE message to <channel: PushNotification / .loop/alerts.md / a GitHub issue /
-     chat> with {what fired, the evidence, where, timestamp}.
+   - NOTIFY: ONE message to a CONCRETE channel bound to THIS project (resolve <channel> to one
+     real destination — a file like .loop/alerts.md always works in a bare runtime; use
+     PushNotification / a GitHub issue / chat only if that integration is actually wired) with
+     {what fired, the evidence, where, timestamp}.
    - ACT (only if this watcher acts, e.g. auto-restart / file a ticket): stamp with an
      idempotency key = <stable key over the event id> so re-firing cannot duplicate the effect.
 5. ADVANCE the cursor (last-seen marker + this fire's digest) and continue.
