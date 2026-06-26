@@ -307,6 +307,24 @@ cross-cutting line. Verified maker≠checker (`wyjyvufzo`): all green on real re
 preserved — makeloop still generates one repo-specialized loop; presets only bias where DISCOVER
 looks first.
 
+**Retired — preset-as-bias removed (`5df0a86` reverts `fce92f2`; `0d47739` removes S15).** A
+post-hoc alignment audit (triggered by a "did all this stay true to the loop philosophy?" doubt)
+ran two INDEPENDENT reviews on different axes — a classification pass (each recent addition →
+loop-core / operator-convenience / self-machinery) and an adversarial pass (build the strongest
+case that the work strengthened the *generator's apparatus* rather than slimming the *emitted
+loop*). Both converged on the same first cut: **preset-as-bias**. It was inert by its own spec
+(ZERO authority; DISCOVER always overrode it), so it could not change any generated loop — 20
+generator lines + 3 eval scenarios spent to prove a no-op — and its projected value (high/high/
+medium) was never measured against real outcomes (user-edit / generation-time / wrong-gate). It
+was operator-convenience dressed in the same prose register as the gate-honesty rules, which is
+the quiet path from "lean generator" to "product." Retiring it (and S15) recovered ~43 lines
+across generator + eval with zero loss to any emitted loop; the df-011 addopts / df-012
+zero-runtime-deps traps stay DISCOVER's job, exactly as before. Discipline banked: **count
+concepts, not characters, when pruning** — Prune-7 cut prose fat but left concept count flat;
+the real homeostasis is removing a concept. Re-verified maker≠checker (clean removal + inertness
+confirmed by regeneration). The audit also judged the broader run NOT a runaway framework (the
+prune mandate fired, no safety rule weakened, monotonicity held); preset was the one red line.
+
 - df-001: **Bootstrap fired correctly** — iter0 scaffolded + confirmed RED, iter1 drove green; `csv.DictReader` met all 4 criteria in one pass. cost/accepted = 2.
 - df-002: **OPEN CORE correct** — no closed-only block leaked (grep 0); precision / dedup (edge-trigger) / coverage (truncation + file-gone) all PASS; wrong-tool warning suppressed per spec.
 - df-003: **mature/closed correct** — NO Bootstrap, existing gate reused verbatim; surgical 1-line fix, tests untouched (no Goodhart). cost/accepted = 1. Minor: `scope-boundary` STOP label omitted though the boundary was encoded in SUCCESS CRITERIA + RULES.
