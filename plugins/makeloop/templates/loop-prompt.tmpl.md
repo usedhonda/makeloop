@@ -47,6 +47,7 @@ ON STOP: summarize what changed, what still fails, and roughly the accept rate.
 
 RULES:
 - Never call it done until the gate actually passes. No self-grading.
+- First VERIFY counts: if VERIFY already passes every SUCCESS CRITERION before any change, that is a real success -> report FINAL honestly ("already satisfied, no loop work needed"); never fabricate or imply work that didn't happen.
 - maker != checker: on risky changes, re-verify with fresh eyes / a sub-agent.
 - Surgical changes only: every diff line must trace back to GOAL. <off-limits from profile D>
 - Search before assuming: grep before claiming a thing is missing or reimplementing it — "it's not there" is only true after you've looked.
@@ -70,6 +71,7 @@ TRIGGER CONDITION (objective predicate over the observed signal; REPLACES a succ
 - A recurring condition to REACT to, not one that becomes permanently true. Precision matters.
 
 CURSOR FILE: .loop/cursor.json   (last-seen marker + last-fire digest; NOT a done/failed/next ledger)
+- COLD START (first run): seed the cursor to the signal's CURRENT end/latest so pre-existing items are already-seen and you fire only on what arrives AFTER launch; replay existing backlog only if the request explicitly asks (bounded, deduped pass, then advance).
 
 EACH TICK (one interval, or one event):
 1. OBSERVE: read the current signal; load the cursor.

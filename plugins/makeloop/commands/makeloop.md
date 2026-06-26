@@ -403,6 +403,10 @@ ON STOP: summarize what changed, what still fails, and roughly the accept rate.
 
 RULES:
 - Never call it done until the gate actually passes. No self-grading.
+- First VERIFY counts — don't fabricate work to justify the loop: if VERIFY already passes every
+  SUCCESS CRITERION before you make any change, that is a real success — report FINAL honestly
+  ("already satisfied; no loop work was needed") and do not invent or imply a change that never
+  happened.
 - maker != checker: on risky changes, re-verify with fresh eyes / a sub-agent.
 - Surgical changes only: every diff line must trace back to GOAL. <off-limits from profile D>
 - Search before assuming: grep the codebase before claiming a thing is missing or
@@ -446,6 +450,10 @@ you read reality, not grade your own work):
 CURSOR FILE: .loop/cursor.json   (last-seen marker, NOT a done/failed/next ledger)
 - Read before each tick. Holds last-seen <id|timestamp|status> + a digest of the last fire
   (for dedup). This is how you compute "what is NEW since the last tick".
+- COLD START (first run): seed the cursor to the signal's CURRENT end/latest marker, so
+  pre-existing items count as already-seen and you fire only on what arrives AFTER launch (no
+  day-zero backlog false alarm). Replay existing backlog ONLY if the request explicitly asks
+  ("process existing errors / replay backlog / backfill"): one bounded, deduped pass, then advance.
 
 EACH TICK (one interval, or one event):
 1. OBSERVE: read the current signal; load the cursor.
@@ -684,7 +692,10 @@ unbound placeholder or a leaked cross-kind block.
    ## Next step
    <first concrete step toward the goal>
    ```
-   **Open** → seed `.loop/<slug>.cursor.json` instead (last-seen marker, not a progress ledger):
+   **Open** → seed `.loop/<slug>.cursor.json` instead (last-seen marker, not a progress ledger).
+   On the FIRST run the loop resolves `last_seen` to the signal's current end/latest marker (cold
+   start: pre-existing items are already-seen, no day-zero backlog fire), unless the request asked
+   to replay existing backlog:
    ```
    { "last_seen": null, "last_fired_digest": null, "note": "<watch target>" }
    ```
