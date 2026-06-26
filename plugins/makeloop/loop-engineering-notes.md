@@ -192,6 +192,9 @@ change; cost proxy falls back tokens → iterations → wall-clock when tokens a
 | df-008 | get the test suite green | closed | real-public, mature, gate already green | `pytest` | gen-check | accepted |
 | df-009 | finish in-flight + suite green | closed | real-public, dirty WIP (gate RED) | `pytest` | gen-check | accepted |
 | df-010 | watch app.log, notify on ERROR/FATAL | open | real-ish log, pre-existing backlog | TRIGGER `/ERROR\|FATAL/` | gen-check | accepted |
+| df-011 | get the full test suite green | closed | real-public, mature, slow/large gate, already green | `pytest` | gen-check | accepted |
+| df-012 | bump dependencies, keep green | closed | real-public, mature, dep-bump (tooling in lock) | `pytest` + CI parity | gen-check | accepted |
+| df-013 | keep CI green / stabilize flaky | closed | real-public, mature, CI matrix > local, already green | `pytest` + CI handoff | gen-check | accepted |
 
 **df-004/005 residual eval-retired (2026-06-25, `a8dff5a`)** — the Scheduled-loop-safety
 unbound-`<...>` weakness is now closed end-to-end: generator fix (bind-placeholders) →
@@ -278,6 +281,19 @@ generate-time mapping, closed-only, not embedded in the saved loop, no new branc
 maker≠checker (`wzlle4dil`): flags an uncovered criterion (C1) without false-flagging a
 fully-covered set (C2). The pre-save self-check is now complete — **lint + smoke-test +
 coverage**. (preset / Fleet remain data-deferred.)
+
+**Phase 2 third slice → preset/Fleet verdict (df-011/012/013, `wzpvdhp47`)** — three
+loop-appropriate intents (suite-green / dep-bump / ci-green) run non-author on real mature repos;
+all generation + fit correct, and the recent changes validated *in practice*: t=0 first-VERIFY
+honesty fired on the two already-green repos, the cost/time envelope was grounded, refine-vs-new
+fired against an existing loop. Two decision signals: **preset value CONFIRMED** — independent
+preset_value graded high / high / medium, and the cold-start friction is the same shape every time
+(scoping: "bump *what*?"; "full suite" = the right marker set, not the naive 32697; closed-vs-open
+"keep green") — a named preset (suite-green / dep-bump / ci-green / flaky-repro) would supply the
+scaffold + scope defaults and leave only per-repo gate detection. **Fleet NOT triggered** —
+fleet_needed = 0/3 (0/13 across all dogfood): every run was single-loop-suffices, sequential
+ladders with no structural deadlock or mutually-blocking objectives; the "3+ coordination-failure
+cases" trigger is not met, so Fleet stays roadmap-only — now backed by 13 real runs, not instinct.
 
 - df-001: **Bootstrap fired correctly** — iter0 scaffolded + confirmed RED, iter1 drove green; `csv.DictReader` met all 4 criteria in one pass. cost/accepted = 2.
 - df-002: **OPEN CORE correct** — no closed-only block leaked (grep 0); precision / dedup (edge-trigger) / coverage (truncation + file-gone) all PASS; wrong-tool warning suppressed per spec.
