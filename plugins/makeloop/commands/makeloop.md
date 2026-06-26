@@ -90,26 +90,6 @@ Extract whatever is present (natural phrasing, not strict flags — interpret in
 | **Blocks on/off** | "two-stage gate", "harness検知あり/なし", "no budget block", "with regression guard" | Force-include or exclude that optional block, overriding the profile default. |
 | **Interaction level** | "質問は最小", "don't ask", "just generate", "auto" | Minimize questions: make sensible assumptions, note them, and ask ONLY if a choice is both ambiguous and high-impact. |
 
-**Preset hint (a non-binding bias, never a mode).** If the request's wording matches a common loop
-intent, record `preset_hint=<name|none>` to bias *where DISCOVER looks first*. A preset has ZERO
-authority: repo evidence, explicit `$ARGUMENTS`, existing loop state, and Step 1 DISCOVER findings
-always override it; if they disagree, DISCOVER wins and the Step 2 proposal must name the override.
-Never skip Step 1 or the kind/maturity/gate verification because a preset matched, and never carry
-a generic default gate — the gate stays unknown until DISCOVER reads the repo. Surface the hint
-only as a weak-provenance assumption in the Step 2 proposal; do not add a "choose a preset"
-question. The closed-loop hints (open-watcher presets are deliberately not shipped yet — open
-loops already have verb detection + cursor/t=0/channel handling, and a preset there would risk
-trigger-taxonomy creep):
-- `suite-green` ("get tests/CI green", "make the suite pass"): likely kind=closed; bias DISCOVER to
-  find the repo's REAL full-suite marker (test command, `addopts`, tox/nox, CI matrix, regression/
-  golden markers), not a naive "all tests".
-- `dep-bump` ("update/bump dependencies"): likely kind=closed; do NOT assume runtime deps exist —
-  bias toward distinguishing direct-runtime vs dev/tooling/lockfile-only; criteria = bump target
-  found, lock updated, existing gate green, no broad churn.
-- `ci-green` / `flaky-repro` (one family: "stabilize/reproduce flaky", "keep CI green"): kind=closed
-  when stabilizing current failures (open only if watching FUTURE CI); bias toward local gate + CI
-  parity, a flaky marker / repro command, logs; preserve the first-VERIFY honesty if already green.
-
 State back to the user a one-line summary of what you parsed, **leading with the loop kind**
 (e.g. *"Parsed: kind=closed, goal=QA green, runtime=ralph-loop, cap=20"* or *"Parsed:
 kind=open, watch=deploy status, runtime=/loop 5m, run=indefinitely"*) so they can correct it
