@@ -107,27 +107,6 @@ classification, the launch-line form, language, and "no closed-only block in an 
   request explicitly asks. A watcher shipping `last_seen: null` with no day-zero/backlog policy
   (firing on pre-existing lines) FAILS.
 
-### S15a - preset-bias specializes (not a generic default)
-- request: `get the full test suite green`  on a mature repo where naive defaults are wrong (the
-  canonical suite is a marker-filtered subset, not literally "all tests").
-- expect: `preset_hint=suite-green` MAY be named, but Step 1 DISCOVER finds the repo's REAL
-  full-suite marker / gate from evidence (test config / `addopts` / tox / nox / CI) and uses THAT,
-  not a generic preset default gate. A loop that ships a generic preset default gate, or that skips
-  DISCOVER because a preset matched, FAILS. kind=closed.
-
-### S15b - explicit directives override the preset
-- request: `stabilize the flaky tests, gate: pytest -q, cap 4, self-paced`  (a preset-looking
-  intent PLUS explicit gate / cap / runtime).
-- expect: the explicit directives WIN - gate=`pytest -q`, cap=4, self-paced - the
-  ci-green/flaky-repro preset bias must not override them. kind=closed.
-
-### S15c - dep-bump does not fabricate runtime deps
-- request: `bump dependencies, keep the tests green`  on a repo with NO runtime dependencies (only
-  dev / tooling / lockfile deps).
-- expect: `preset_hint=dep-bump` MAY be named, but scope follows repo evidence (lock / tooling) -
-  the loop must NOT assume or fabricate a runtime-dependency bump; the dep-bump preset carries no
-  default that invents runtime deps. kind=closed.
-
 ## Cross-cutting properties (every generated loop)
 - The three hearts present (or their open-loop equivalents: trigger / cursor / run-mode).
 - maker≠checker, surgical-changes, search-before-assume, no-fake-done present in RULES.
@@ -141,8 +120,6 @@ classification, the launch-line form, language, and "no closed-only block in an 
 - Every generated loop has a **pre-existing-state (t=0) policy** for its kind (S12) — closed:
   first-VERIFY honesty (already-green -> honest FINAL, no fabricated work); open: cold-start
   cursor seeded to EOF/latest, pre-existing backlog does not fire, replay is opt-in only.
-- Any preset is a NON-BINDING bias (S15) - Step 1 DISCOVER still runs, and explicit directives
-  + repo evidence always override the preset (no generic preset default gate, no skipped discovery).
 
 ## Integrity property (repo-level; red-team M2) — GUARDED SAFETY PHRASES
 The golden eval and the `.githooks/pre-commit` hook grep `commands/makeloop.md` +
