@@ -262,6 +262,15 @@ goal substantially matches an existing loop even if `$ARGUMENTS` never named it 
 bound + refine routing + S2/S6/S1 regression green. eval scenario-ization deferred unless these
 recur (one data point each; mechanical retirement is reserved for safety / recurrence).
 
+**P4 Decide — cost/time envelope shipped (`edd9669`)** — the first data-deferred P4 item, taken
+because Cdx had already scoped a safe shape. Step 3 now shows a worst-case envelope before
+confirming N: `~N x <measured gate seconds>` when a real gate time exists (profile F / the
+smoke-test), else the formula only (`worst case = N x gate command`, time unknown until the first
+run). No fabricated token/cost number (the false-precision guard); heavy gates flagged.
+Generate-time display only — not embedded in the generated loop, no new decision branch. Verified
+maker≠checker (`w4q6dxx9n`): measured + formula paths green, no loop-body leak, cap sizing intact.
+(coverage table / preset / Fleet remain data-deferred.)
+
 - df-001: **Bootstrap fired correctly** — iter0 scaffolded + confirmed RED, iter1 drove green; `csv.DictReader` met all 4 criteria in one pass. cost/accepted = 2.
 - df-002: **OPEN CORE correct** — no closed-only block leaked (grep 0); precision / dedup (edge-trigger) / coverage (truncation + file-gone) all PASS; wrong-tool warning suppressed per spec.
 - df-003: **mature/closed correct** — NO Bootstrap, existing gate reused verbatim; surgical 1-line fix, tests untouched (no Goodhart). cost/accepted = 1. Minor: `scope-boundary` STOP label omitted though the boundary was encoded in SUCCESS CRITERIA + RULES.
