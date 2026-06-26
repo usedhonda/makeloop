@@ -189,6 +189,9 @@ change; cost proxy falls back tokens → iterations → wall-clock when tokens a
 | df-005 | disk-cleanup watcher (re-dogfood after fix) | open+acts | scaffolded | TRIGGER disk% | gen-check | accepted |
 | df-006 | get the test suite green | closed | real-public, mature, gate already green | `pytest` | gen-check | accepted |
 | df-007 | improve the docs | wrong-tool | real-public, mature, docs gate already green | n/a | n/a | accepted (wrong-tool) |
+| df-008 | get the test suite green | closed | real-public, mature, gate already green | `pytest` | gen-check | accepted |
+| df-009 | finish in-flight + suite green | closed | real-public, dirty WIP (gate RED) | `pytest` | gen-check | accepted |
+| df-010 | watch app.log, notify on ERROR/FATAL | open | real-ish log, pre-existing backlog | TRIGGER `/ERROR\|FATAL/` | gen-check | accepted |
 
 **df-004/005 residual eval-retired (2026-06-25, `a8dff5a`)** — the Scheduled-loop-safety
 unbound-`<...>` weakness is now closed end-to-end: generator fix (bind-placeholders) →
@@ -209,6 +212,21 @@ branch. Second signal (→ Phase 3 Prune): cold-start spec weight — the comman
 relative to its small product for a routine ask. **Per the framework these are RECORDED, not
 patched**: an already-green off-ramp would add a new decision branch (fails the
 immediate-exception gate), so it is a Phase 4 Decide candidate, not a reflexive fix.
+
+**Phase 2 corroboration (df-008/009/010, `wafpom1ls`)** — the cold-start/day-zero gap is now
+confirmed GENERAL across both kinds and repos. df-008 (a 2nd real mature repo) reproduced the
+already-green degenerate **closed** loop (recurs 2/2 on real mature gates). df-010 surfaced its
+**open-loop twin**: the cursor seeds `last_seen: null` with no day-zero/backlog policy, so a
+verbatim watcher cries wolf on pre-existing log lines on the first tick (no template guard).
+df-009 (dirty in-flight, gate RED) is the healthy non-degenerate counter-case — real work present,
+so makeloop correctly profiled scope=finish-in-flight and re-derived the true RED baseline over a
+stale prior artifact. Unified finding: **makeloop has no t=0 / pre-existing-state policy** (closed:
+gate already green; open: cursor backlog). With 3/3 real-state corroboration this is the lead
+**Phase 4 Decide** candidate. Secondary signals: the prune signal recurs (verbose scaffold prose
+carried into the product); a plain open-watcher's notify `<channel>` is left unbound (the df-004
+bind class, not covered for non-acting watchers); and refine-mode (Step 0) only fires when
+`$ARGUMENTS` names the loop, so a same-goal-unnamed re-run risks clobber/duplicate. **Dogfood is
+now at 10 runs (df-001..010) — the Phase 2 Measure target (5-10) is reached.**
 
 - df-001: **Bootstrap fired correctly** — iter0 scaffolded + confirmed RED, iter1 drove green; `csv.DictReader` met all 4 criteria in one pass. cost/accepted = 2.
 - df-002: **OPEN CORE correct** — no closed-only block leaked (grep 0); precision / dedup (edge-trigger) / coverage (truncation + file-gone) all PASS; wrong-tool warning suppressed per spec.
