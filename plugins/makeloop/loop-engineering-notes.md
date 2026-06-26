@@ -242,6 +242,17 @@ cross-cutting line. Verified maker≠checker (`w3vljibzw`): 9/9 incl S10 (the ne
 **not** a gate-bypass) + S12a/S12b green; S1/S2/S6/S7/S8/S11 regression green. Secondary residuals
 (notify-channel binding, unnamed-refine clobber) deliberately NOT bundled into this window.
 
+**Phase 3 Prune + an incidental safety harden (`592b9d3` + `437b958`)** — homeostasis pass: 7
+conservative trims (proposed, adversarially critic-approved; 1 rejected as meaning-in-doubt) cut
+benefit-rationale, the retry→decompose→escalate mnemonic, and a JSON-vs-markdown aside from
+OPTIONAL + CLOSED CORE blocks, keeping every directive (net -1 line; OPEN CORE untouched). The
+prune-verify (maker≠checker) then surfaced a *latent, prune-independent* weakness: the OPEN
+`maker != checker` pillar was phrased ACT-conditionally, so a generator could drop it for a
+notify-only watcher (the S2 cross-cutting class commit 9f26017 first fixed). Made **unconditional**
+(re-verify with fresh eyes always; the ACT-specific check kept) and re-verified reliably emitted
+(S2×2 + S3, `w4cgma4xy`). A prune that incidentally hardened a safety pillar — the adversarial
+verify earned its keep.
+
 - df-001: **Bootstrap fired correctly** — iter0 scaffolded + confirmed RED, iter1 drove green; `csv.DictReader` met all 4 criteria in one pass. cost/accepted = 2.
 - df-002: **OPEN CORE correct** — no closed-only block leaked (grep 0); precision / dedup (edge-trigger) / coverage (truncation + file-gone) all PASS; wrong-tool warning suppressed per spec.
 - df-003: **mature/closed correct** — NO Bootstrap, existing gate reused verbatim; surgical 1-line fix, tests untouched (no Goodhart). cost/accepted = 1. Minor: `scope-boundary` STOP label omitted though the boundary was encoded in SUCCESS CRITERIA + RULES.
