@@ -91,7 +91,7 @@ STOP WHEN: never (run-indefinitely) / event-fired [stop-on-event] / watch-target
 
 RULES:
 - React to reality, don't grade your own work (correctness = coverage + precision).
-- maker != checker: if the watcher ACTS, verify the action before its side effect — don't let the actor wave through its own act.
+- maker != checker: re-verify with fresh eyes / a sub-agent rather than trusting your own read — and if the watcher ACTS, verify the action before its side effect (don't let the actor wave through its own act).
 - Surgical changes only: react only to what the trigger matched; don't fix unrelated things while you're here.
 - Search before assuming: confirm the signal is real (read/grep the source) before firing — "nothing happened" is only true after you've looked.
 - No fake done: never fabricate or suppress an observation to stay quiet, and never weaken the trigger to silence it — a fire must reflect a real event.

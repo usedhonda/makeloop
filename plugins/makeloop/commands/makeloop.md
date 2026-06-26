@@ -488,8 +488,9 @@ STOP WHEN (a watcher's stops — NOT success-or-cap):
 
 RULES:
 - React to reality, don't grade your own work — correctness = coverage + precision.
-- maker != checker: if the watcher ACTS, verify the action before its side effect — don't let
-  the actor wave through its own act.
+- maker != checker: re-verify with fresh eyes / a sub-agent rather than trusting your own read —
+  and if the watcher ACTS, verify the action before its side effect (don't let the actor wave
+  through its own act).
 - Surgical changes only: react only to what the trigger matched; don't "fix things while
   you're here".
 - Search before assuming: confirm the signal is real (read/grep the source) before firing —
