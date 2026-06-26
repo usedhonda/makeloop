@@ -253,6 +253,15 @@ notify-only watcher (the S2 cross-cutting class commit 9f26017 first fixed). Mad
 (S2×2 + S3, `w4cgma4xy`). A prune that incidentally hardened a safety pillar — the adversarial
 verify earned its keep.
 
+**Secondary residuals closed (`690aba5`)** — two dogfood-surfaced, additive closures: (1) the OPEN
+NOTIFY channel now binds to one concrete project destination (a file works in a bare runtime)
+instead of shipping the raw `<channel>` option list — the df-004 bind class extended to non-acting
+watchers (df-010 signal); (2) the Step 1 existing-loops scan now defaults to **refine** when a new
+goal substantially matches an existing loop even if `$ARGUMENTS` never named it — no near-duplicate
+(`qa-green-2`) or silent clobber (df-009 signal). Verified maker≠checker (`wrg7o02kl`): channel
+bound + refine routing + S2/S6/S1 regression green. eval scenario-ization deferred unless these
+recur (one data point each; mechanical retirement is reserved for safety / recurrence).
+
 - df-001: **Bootstrap fired correctly** — iter0 scaffolded + confirmed RED, iter1 drove green; `csv.DictReader` met all 4 criteria in one pass. cost/accepted = 2.
 - df-002: **OPEN CORE correct** — no closed-only block leaked (grep 0); precision / dedup (edge-trigger) / coverage (truncation + file-gone) all PASS; wrong-tool warning suppressed per spec.
 - df-003: **mature/closed correct** — NO Bootstrap, existing gate reused verbatim; surgical 1-line fix, tests untouched (no Goodhart). cost/accepted = 1. Minor: `scope-boundary` STOP label omitted though the boundary was encoded in SUCCESS CRITERIA + RULES.
