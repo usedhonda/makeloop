@@ -284,6 +284,12 @@ case state your assumptions and proceed).
     ≈25%), so ~5-6 is often right; past the ceiling the loop re-touches validated code and
     regresses (oscillation). When quality plateaus, add MORE distinct verifier *types*
     (tests + lint + self-review + property) — "wide, not deep" — not more iterations of one.
+  - **Cost/time envelope (show before confirming N, so N isn't picked blind)**: if profile F has a
+    measured gate runtime (from the Step 6 smoke-test or user-given), show the wall-clock band
+    `~N x <gate seconds>`; otherwise show the formula only — `worst case = N x <gate command>`,
+    actual time unknown until the first gate run. Do NOT fabricate a token/cost estimate (LLM
+    figures are unreliable) — wall-clock from a measured gate is the only grounded number; flag a
+    heavy gate so a big N is a conscious choice.
 
 **If kind=open, this whole section changes** (everything above is the closed path):
 - Replace the VERIFY gate with a **TRIGGER CONDITION** — an objective predicate over the
