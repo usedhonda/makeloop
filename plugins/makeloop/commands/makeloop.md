@@ -382,7 +382,7 @@ VERIFY — the gate (run these; never self-grade):
 - <verify command 2, e.g. npm test>            # slower last
 PASS = <exact pass condition, e.g. all tests green, 0 type errors, exit 0>
 - Run the gate fastest -> slowest and STOP at the first red (don't run the slow suite when
-  typecheck is already failing). Cheapest signal that can fail the work runs first.
+  typecheck is already failing).
 
 STATE FILE: .loop/state.md   (or existing state file from profile E)
 - Read it before starting. This is a resume, not a restart.
@@ -416,8 +416,7 @@ RULES:
 - Report compactly: a PASS is one line; a FAIL gives {expected / actual / what to fix}.
   Don't re-print an unchanged prior failure — it just poisons the context.
 - Re-verify the diff, not the world: iteration 1 checks everything; later iterations re-check
-  only the just-changed surface, not the whole output (cheaper, and stops re-litigating
-  already-validated content).
+  only the just-changed surface, not the whole output.
 - Retry by failure class: rate-limit -> back off; validation fail -> rewrite from the
   feedback (no blind retry); transient 5xx -> retry once or twice then move on; tool
   unavailable -> pause and surface it (don't burn retries).
@@ -427,7 +426,7 @@ RULES:
   assertion re-enters the retry ladder above.
 - Shrink the unit on repeat failure: if the same subtask fails twice, don't retry it as-is
   and don't give up — re-scope to the smallest failing fragment (one function / line / test)
-  and attempt that; escalate only after the fragment also fails. (retry -> decompose -> escalate)
+  and attempt that; escalate only after the fragment also fails.
 - Do not ask questions mid-loop. Make a sensible assumption, note it in state, continue.
 ```
 
@@ -513,7 +512,7 @@ VERIFY — two-stage gate (never self-grade):
 - pre-gate  (start of iteration): <build> && <full check>
 - post-gate (after the fix):      <full check>
 PASS = <full check green + baseline/regression audit shows 0 regression>
-- pre-gate RED  -> HALT  (stop_reason=poisoned-baseline; the baseline is already broken)
+- pre-gate RED  -> HALT  (stop_reason=poisoned-baseline)
 - post-gate drops a previously-passing check -> FREEZE, do NOT commit (stop_reason=regression)
 ```
 
@@ -596,8 +595,8 @@ quietly. Treat "escalate to human with full context" as a success path, not a fa
 ```
 DONE LEDGER: .loop/done.json  = [{ "criterion": "...", "status": "pass|fail",
 "verified_by": "<gate output / command>" }]
-- A model rewrites JSON less casually than a markdown [x]; status may only go to "pass" with
-  a real verified_by. The loop is done only when every status is "pass".
+- Status may only go to "pass" with a real verified_by. The loop is done only when every
+  status is "pass".
 ```
 
 **Dedup/cursor block** (OPEN only) — the watcher's failure-mode defense; fold into the OPEN core:

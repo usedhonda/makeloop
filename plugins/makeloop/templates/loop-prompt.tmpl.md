@@ -55,7 +55,7 @@ RULES:
 - Re-verify the diff, not the world: iter 1 checks all; later iters re-check only the changed surface.
 - Retry by failure class: rate-limit->backoff; validation->rewrite-from-feedback; 5xx->retry then move on; tool-unavailable->pause+notify.
 - Empty is not failure: a check that runs cleanly and returns nothing (no matching lines, empty diff, no-op build) has genuinely passed -> record it as a real PASS, don't read silence as "try harder". Only a true error/failed assertion re-enters the retry ladder.
-- Shrink the unit on repeat failure: same subtask fails twice -> re-scope to the smallest failing fragment (function/line/test); escalate only after that fails. (retry->decompose->escalate)
+- Shrink the unit on repeat failure: same subtask fails twice -> re-scope to the smallest failing fragment (function/line/test); escalate only after that fails.
 - Do not ask questions mid-loop. Make a sensible assumption, note it in state, continue.
 
 
@@ -161,7 +161,7 @@ that found nothing archives itself quietly. Escalation-to-human is a success pat
 ## [many discrete criteria] JSON done-ledger — replaces the markdown success checklist
 DONE LEDGER: .loop/done.json = [{ "criterion": "...", "status": "pass|fail",
 "verified_by": "<gate output>" }]. status -> "pass" only with a real verified_by; done when
-all "pass". (Models rewrite JSON less casually than a markdown [x].)
+all "pass".
 
 ## [open only] Dedup/cursor block — fold into the OPEN core
 - Edge-trigger suppression: keep a digest of the last fire in .loop/cursor.json; the same
