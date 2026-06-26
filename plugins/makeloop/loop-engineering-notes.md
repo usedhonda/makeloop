@@ -228,6 +228,20 @@ bind class, not covered for non-acting watchers); and refine-mode (Step 0) only 
 `$ARGUMENTS` names the loop, so a same-goal-unnamed re-run risks clobber/duplicate. **Dogfood is
 now at 10 runs (df-001..010) — the Phase 2 Measure target (5-10) is reached.**
 
+**Phase 4 Decide → t=0 policy retired (A-prime, `e88397c` + `775dea1`)** — the
+t=0/pre-existing-state finding is closed. Decided with Cdx (log 008): **A-prime**, not a third
+DISCOVER verdict — add runtime semantics to the existing paths. CLOSED CORE gains a **first-VERIFY
+honesty** rule (if VERIFY already passes every criterion before any edit, report FINAL honestly —
+already satisfied, no work — and never fabricate work; reuses VERIFY→DECIDE→FINAL, **no new
+generator branch**). OPEN CORE + Step 6 gain a **cold-start cursor** (seed to EOF/latest on first
+run; pre-existing backlog doesn't fire; replay opt-in). The generation-time gate smoke-test stays
+advisory (two-layer: advisory warn + mandatory runtime first-VERIFY) — no heavy per-generation
+cost. Tier 2 (CORE behavior, human-GO) + eval anchor in a human window. Eval-retired by **S12a**
+(closed already-green → honest FINAL) + **S12b** (open cold-start, no day-zero fire) + a t=0
+cross-cutting line. Verified maker≠checker (`w3vljibzw`): 9/9 incl S10 (the new rule confirmed
+**not** a gate-bypass) + S12a/S12b green; S1/S2/S6/S7/S8/S11 regression green. Secondary residuals
+(notify-channel binding, unnamed-refine clobber) deliberately NOT bundled into this window.
+
 - df-001: **Bootstrap fired correctly** — iter0 scaffolded + confirmed RED, iter1 drove green; `csv.DictReader` met all 4 criteria in one pass. cost/accepted = 2.
 - df-002: **OPEN CORE correct** — no closed-only block leaked (grep 0); precision / dedup (edge-trigger) / coverage (truncation + file-gone) all PASS; wrong-tool warning suppressed per spec.
 - df-003: **mature/closed correct** — NO Bootstrap, existing gate reused verbatim; surgical 1-line fix, tests untouched (no Goodhart). cost/accepted = 1. Minor: `scope-boundary` STOP label omitted though the boundary was encoded in SUCCESS CRITERIA + RULES.
