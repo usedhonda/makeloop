@@ -271,6 +271,14 @@ Generate-time display only — not embedded in the generated loop, no new decisi
 maker≠checker (`w4q6dxx9n`): measured + formula paths green, no loop-body leak, cap sizing intact.
 (coverage table / preset / Fleet remain data-deferred.)
 
+**P4 Decide — criterion-coverage lint (`be0df28`)** — the pre-save self-check now also maps each
+SUCCESS CRITERION to the VERIFY check that proves it and flags any uncovered criterion (an
+unverifiable soft-pass / Goodhart surface) for the user to cover or knowingly accept. Compact
+generate-time mapping, closed-only, not embedded in the saved loop, no new branch. Verified
+maker≠checker (`wzlle4dil`): flags an uncovered criterion (C1) without false-flagging a
+fully-covered set (C2). The pre-save self-check is now complete — **lint + smoke-test +
+coverage**. (preset / Fleet remain data-deferred.)
+
 - df-001: **Bootstrap fired correctly** — iter0 scaffolded + confirmed RED, iter1 drove green; `csv.DictReader` met all 4 criteria in one pass. cost/accepted = 2.
 - df-002: **OPEN CORE correct** — no closed-only block leaked (grep 0); precision / dedup (edge-trigger) / coverage (truncation + file-gone) all PASS; wrong-tool warning suppressed per spec.
 - df-003: **mature/closed correct** — NO Bootstrap, existing gate reused verbatim; surgical 1-line fix, tests untouched (no Goodhart). cost/accepted = 1. Minor: `scope-boundary` STOP label omitted though the boundary was encoded in SUCCESS CRITERIA + RULES.
