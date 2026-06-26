@@ -295,6 +295,18 @@ fleet_needed = 0/3 (0/13 across all dogfood): every run was single-loop-suffices
 ladders with no structural deadlock or mutually-blocking objectives; the "3+ coordination-failure
 cases" trigger is not met, so Fleet stays roadmap-only — now backed by 13 real runs, not instinct.
 
+**P4 Decide — preset closed-3 (bias-only) shipped (`fce92f2` + `139cfe1`)** — the last data-backed
+P4 item. Decided GO with Cdx (log 009): preset-as-bias, not preset-as-mode. Step 0 records a
+`preset_hint` (suite-green / dep-bump / ci-green+flaky-repro) as a NON-BINDING hypothesis — zero
+authority; repo evidence, explicit `$ARGUMENTS`, existing loop state, and Step 1 DISCOVER always
+override it; no generic default gate (the df-011 addopts / df-012 zero-runtime-deps traps stay
+DISCOVER's job); surfaced only as a weak-provenance assumption in the one-confirm proposal (no
+selection UI). Open presets deferred (taxonomy-creep risk); Fleet stays roadmap-only (0/13). Tier
+2; eval-retired by S15a (specializes) / S15b (explicit overrides) / S15c (no dep fabrication) + a
+cross-cutting line. Verified maker≠checker (`wyjyvufzo`): all green on real repos. Product identity
+preserved — makeloop still generates one repo-specialized loop; presets only bias where DISCOVER
+looks first.
+
 - df-001: **Bootstrap fired correctly** — iter0 scaffolded + confirmed RED, iter1 drove green; `csv.DictReader` met all 4 criteria in one pass. cost/accepted = 2.
 - df-002: **OPEN CORE correct** — no closed-only block leaked (grep 0); precision / dedup (edge-trigger) / coverage (truncation + file-gone) all PASS; wrong-tool warning suppressed per spec.
 - df-003: **mature/closed correct** — NO Bootstrap, existing gate reused verbatim; surgical 1-line fix, tests untouched (no Goodhart). cost/accepted = 1. Minor: `scope-boundary` STOP label omitted though the boundary was encoded in SUCCESS CRITERIA + RULES.
