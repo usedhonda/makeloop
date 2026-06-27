@@ -295,7 +295,7 @@ fleet_needed = 0/3 (0/13 across all dogfood): every run was single-loop-suffices
 ladders with no structural deadlock or mutually-blocking objectives; the "3+ coordination-failure
 cases" trigger is not met, so Fleet stays roadmap-only — now backed by 13 real runs, not instinct.
 
-**P4 Decide — preset closed-3 (bias-only) shipped (`fce92f2` + `139cfe1`)** — the last data-backed
+**P4 Decide — preset closed-3 (bias-only) shipped (`fce92f2` + `139cfe1`)** *[later RETIRED — see "Retired — preset-as-bias removed" below]* — the last data-backed
 P4 item. Decided GO with Cdx (log 009): preset-as-bias, not preset-as-mode. Step 0 records a
 `preset_hint` (suite-green / dep-bump / ci-green+flaky-repro) as a NON-BINDING hypothesis — zero
 authority; repo evidence, explicit `$ARGUMENTS`, existing loop state, and Step 1 DISCOVER always
