@@ -57,8 +57,9 @@ You'll be asked (for anything not already specified inline):
 3. **Verify gate + stop condition** — the test/build/lint that rejects bad work, and a hard
    iteration cap (default 8).
 4. **Runtime** — Claude Code uses built-in `/loop` (self-paced or interval) or the `ralph-loop`
-   plugin; Codex gets a one-iteration or one-watcher-tick launch instruction instead of a runtime
-   command.
+   plugin; Codex gets a host-native run-mode menu: manual tick by default, `/goal` for closed
+   continuation, Automations for heartbeat/watch loops, and `codex exec resume` for external
+   schedulers or CI.
 
 The result is saved to `.loop/<slug>.md` (a descriptive name, so multiple loops don't clobber
 each other) with a seeded state/cursor file, and the chat output **leads with the exact
@@ -69,6 +70,9 @@ instruction in a fenced `text` block, like
 The launch block is followed by a short **Loop brief** explaining what the loop is trying to change
 or watch, why it is closed/open, what gate or trigger decides progress, what state/cursor file is
 preserved, and when the next run should stop.
+It also includes **Codex run options** so the user can choose the same loop contract as a manual
+tick, a goal-backed continuation, an Automation heartbeat, or an external `codex exec resume`
+pipeline when the host supports that mode.
 The generated prompt is written in **your working language**; only machine-significant literals
 (commands, paths, `FINAL` /
 `<promise>DONE</promise>`, JSON keys) stay as-is.
@@ -142,10 +146,12 @@ plugins/makeloop/skills/makeloop/SKILL.md
 ```
 
 The Codex skill reads the canonical Claude Code generator and template, then adapts only the host
-launch surface: no `/loop`, no `/ralph-loop`, and no hidden runner. Closed loops produce a
-one-iteration instruction with a state file; open loops produce a one-watcher-tick instruction with a
-cursor file. Scheduling or `codex exec resume` automation is intentionally left to an explicit
-follow-up request.
+launch surface: no fake `/loop`, no `/ralph-loop`, and no hidden runner. The default output is a
+copyable one-iteration or one-watcher-tick launch block backed by `.loop/<slug>.md` plus state/cursor.
+When the loop needs a closer Codex analogue to CC's runtime choices, the skill also offers Codex
+run options: `/goal` for closed continuation, thread/standalone Automations for cadence and
+watchers, and `codex exec resume` for external orchestration. It describes these modes but does not
+create unattended schedulers unless the user explicitly asks.
 
 ## Why it's shaped this way (loop engineering)
 

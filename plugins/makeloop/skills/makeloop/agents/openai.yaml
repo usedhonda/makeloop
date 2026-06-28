@@ -1,6 +1,6 @@
 interface:
   display_name: "makeloop"
   short_description: "Generate Codex-ready loop prompts."
-  default_prompt: "Use $makeloop to generate a Codex-ready loop prompt for the current project."
+  default_prompt: "Use $makeloop:makeloop to generate a Codex-ready loop prompt for the current project."
 policy:
   allow_implicit_invocation: true

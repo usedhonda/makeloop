@@ -8,7 +8,7 @@ argument-hint: "[goal hint (optional)]"
 
 You are building a loop prompt contract for Codex, not running the project work.
 Your deliverable is a saved `.loop/<slug>.md` prompt plus a seeded state or cursor file and a
-ready-to-send Codex launch instruction.
+ready-to-send Codex launch instruction plus Codex-native run options.
 
 ## Canonical sources
 
@@ -27,8 +27,34 @@ Follow the canonical behavior unless this skill says to adapt it for Codex.
   no gate-bypass, and no unbound template placeholders.
 - Do not generate a Claude Code `/loop` or `/ralph-loop` launch line. Codex does not have those
   commands.
-- Do not create a runner. Codex v1 is prompt-contract only.
-- The launch instruction is a normal Codex message that references the saved file.
+- Do not create a runner unless the user explicitly asks for a script/automation in a separate
+  request. Codex v1 is prompt-contract first.
+- The default launch instruction is a normal Codex message that references the saved file.
+- Codex loop behavior maps to Codex-native surfaces, not to a fake `/loop` command:
+  - manual tick: send one copyable message for one closed iteration or one open watcher tick;
+  - `/goal`: for closed loops where the user wants Codex to keep pursuing the objective across
+    turns, provide a copyable goal text that points at the saved loop file and state file;
+  - thread automation: for open watchers or cadence follow-up, provide a copyable prompt that asks
+    Codex to create a thread automation using the saved loop file and cursor file;
+  - `codex exec resume`: for CI/cron/shell orchestration, provide a copyable resume prompt, but no
+    shell runner unless explicitly requested.
+
+## Proposal discipline
+
+Mirror the canonical `/makeloop` interaction style instead of silently choosing a thin path.
+
+- After DISCOVER, present one consolidated proposal before writing files unless the request says
+  `just generate`, `don't ask`, `auto`, or equivalent.
+- The proposal must include: kind, goal or watch target, SUCCESS CRITERIA or TRIGGER CONDITION,
+  gate or signal predicate, state/cursor file, stop/run mode, and the recommended Codex run mode.
+- Offer 2-3 concrete scope/run choices when the user has not already fixed them. Keep the options
+  Codex-native:
+  - closed: manual tick (default), `/goal` assisted continuation, or `codex exec resume` pipeline;
+  - open: manual watcher tick, thread automation heartbeat, or standalone/project automation.
+- Ask a follow-up only for choices that are ambiguous and high-impact. Otherwise make the same
+  conservative assumptions the canonical generator would make and list them.
+- If an existing `.loop/<slug>.md` substantially matches the goal, default to refining it rather
+  than creating a duplicate.
 
 ## Launch instruction forms
 
@@ -51,6 +77,40 @@ Open watcher:
 If the user asks for unattended scheduling, explain after the launch instruction that Codex
 Automations can run the same tick prompt on a schedule, but do not create an automation unless the
 user explicitly asks in a separate step.
+
+## Codex run options
+
+After the launch block and Loop brief, include a compact `Codex run options` section. Mark exactly
+one option as recommended and keep the rest as alternates.
+
+Closed loop options:
+
+- **Manual tick (default, safest)** — the launch block above. User sends it again or asks Codex to
+  continue when `ITERATING` appears.
+- **Goal-backed continuation** — include this only when useful for a longer closed task:
+
+```text
+/goal .loop/<slug>.md の手順に従って <short goal> を完了まで進める。state は .loop/<slug>-state.md を毎回読んで更新する。VERIFY が全 SUCCESS CRITERIA を満たしたら FINAL、未達なら次の最小ステップへ進む。
+```
+
+- **Scripted resume** — include this only when the user wants CI/cron/wrapper control:
+
+```text
+codex exec resume --last ".loop/<slug>.md の手順に従って1 iterationだけ進めて。state は .loop/<slug>-state.md を読んで更新して。完了なら FINAL、続行なら ITERATING で終えて。"
+```
+
+Open watcher options:
+
+- **Manual watcher tick (default, safest)** — the watcher launch block above.
+- **Thread automation heartbeat** — recommend for recurring polling that should preserve thread
+  context. Provide a setup prompt, not a created automation, unless explicitly asked:
+
+```text
+このthreadで <interval> ごとに .loop/<slug>.md の watcher tick を実行する automation を作って。cursor は .loop/<slug>.cursor.json を読んで更新し、新しい trigger だけ notify/act して。
+```
+
+- **Standalone/project automation** — recommend only when each run should be independent or should
+  run in a background worktree. Mention that sandbox/worktree choice changes write risk.
 
 ## Output files
 
@@ -79,6 +139,7 @@ Report compactly:
   - the stop condition or next expected outcome;
 - saved prompt path;
 - state or cursor path;
+- `Codex run options` with the recommended mode and alternates;
 - key assumptions or wrong-tool warning, if any;
 - any validation gap found by the pre-save self-check.
 

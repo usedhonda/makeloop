@@ -54,8 +54,10 @@ across sessions and so contributors know *why* each block is shaped the way it i
   a second full skeleton — one skeleton, kind-conditional middle; shared blocks stay DRY.
 - **Codex surface** — the canonical Codex entry is a skill/plugin, not a custom prompt command or a
   new runner. It preserves the same generated loop contract but replaces Claude-only `/loop` launch
-  lines with ready-to-send Codex instructions for exactly one closed iteration or one open watcher
-  tick, always referencing the saved `.loop/<slug>.md` file plus state/cursor.
+  lines with Codex-native run surfaces: a safe manual one-iteration / one-watcher-tick launch block
+  by default, plus optional `/goal` continuation, thread/standalone Automations, or `codex exec
+  resume` prompts when those modes better match the user's loop. All modes keep the saved
+  `.loop/<slug>.md` file plus state/cursor as the coupling point.
 - **Self-improvement covers both hosts by contract, not mirroring** — the Codex skill READS the
   canonical generator; it is an adapter, not a fork. Its only delta is launch-surface translation.
   The launch-line contract (saved `.loop/<slug>.md` + state/cursor) is the single coupling point,
