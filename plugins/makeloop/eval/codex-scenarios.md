@@ -16,6 +16,10 @@ For each scenario, act as the Codex `$makeloop` skill would act:
 The checker must be independent from the maker. Do not self-grade. A PASS requires every listed
 property for that scenario plus every cross-cutting property.
 
+This file is part of the self-improvement eval suite. Any self-improvement candidate that
+changes canonical generator behavior must grade this file along with `scenarios.md`. A FAIL here
+blocks Tier-1 auto-apply and escalates the candidate for human review.
+
 ## C1 — closed mature loop
 
 Request/profile:

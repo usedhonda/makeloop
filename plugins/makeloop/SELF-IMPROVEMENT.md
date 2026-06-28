@@ -63,6 +63,13 @@ append — nothing that changes CORE/Step behavior. QUALITY ("earns weight") is 
 fit-critic + the prune pass, NOT per-edit human review — so Tier 1 needs no human GO; the human
 owns the gate + sampled audits, not the transactions.
 
+**Codex adapter invariant.** The Codex skill READS the canonical generator; it is an adapter,
+not a fork. Its only delta is launch-surface translation. Canonical generation-logic edits may
+remain Tier 1 only if the main golden eval and `eval/codex-scenarios.md` both grade green.
+Any edit that changes the launch-line contract (saved `.loop/<slug>.md` + state/cursor) is
+Tier 2 and requires paired adapter review. The self-improvement loop must refuse Tier-1
+auto-apply and escalate when Codex scenarios fail.
+
 ## fit-critic rubric ("earns its weight")
 
 A harvested candidate is adopted into makeloop only if ALL hold. Run as an adversarial panel
