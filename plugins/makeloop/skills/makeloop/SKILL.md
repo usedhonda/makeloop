@@ -60,6 +60,42 @@ Mirror the canonical `/makeloop` interaction style instead of silently choosing 
 - If an existing `.loop/<slug>.md` substantially matches the goal, default to refining it rather
   than creating a duplicate.
 
+Use this proposal shape when confirmation is needed:
+
+```markdown
+Proposed loop shape
+- Kind: <closed/open> — <one-line reason>
+- Target: <goal or watch target>
+- Check: <SUCCESS CRITERIA summary or TRIGGER CONDITION>
+- Verify/signal: <gate commands or observed signal>
+- State: <state/cursor path>
+- Run mode: <recommended Codex run mode> — <why>
+
+Options
+1. <recommended option>
+2. <alternate option>
+3. <alternate option, only if useful>
+
+Reply with the option number or edits.
+```
+
+## Codex run-mode recommendation
+
+Choose the recommendation from the user's intent and the profile, then show the alternates without
+overloading the user.
+
+| Situation | Recommend | Why |
+| --- | --- | --- |
+| Closed loop, user wants a safe first run or the gate is expensive/risky | Manual tick | Matches CC's controlled first iteration; easiest to inspect and stop. |
+| Closed loop, user wants Codex to keep pursuing the same objective in this thread | `/goal` | Codex keeps the objective attached across turns while the saved state file remains the loop ledger. |
+| Closed loop, user mentions CI, cron, wrapper, script, or non-interactive use | `codex exec resume` | An external scheduler can own cadence while Codex resumes the same contract. |
+| Open watcher, user wants recurring checks in this same thread | Thread automation | Preserves thread context and works like a heartbeat. |
+| Open watcher, each run should be independent or isolated from local edits | Standalone/project automation | Lets Codex use a background worktree when appropriate. |
+| Open watcher, user only wants to test the watcher once | Manual watcher tick | Proves trigger/cursor/dedup before scheduling. |
+
+If the user's requested run mode conflicts with safety (for example, unattended writes before one
+manual tick), recommend the safer first step and list the requested mode as the next upgrade path.
+
 ## Launch instruction forms
 
 Lead the final response with a short label, then a fenced `text` block that contains only the

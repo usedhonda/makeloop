@@ -77,6 +77,16 @@ The generated prompt is written in **your working language**; only machine-signi
 (commands, paths, `FINAL` /
 `<promise>DONE</promise>`, JSON keys) stay as-is.
 
+Codex run-mode recommendations are conservative:
+
+| Need | Codex mode |
+| --- | --- |
+| Inspect the first iteration safely | Manual tick |
+| Keep a closed goal alive in the same thread | `/goal` |
+| Run from CI, cron, or an external wrapper | `codex exec resume` |
+| Keep an open watcher alive in this thread | Thread automation |
+| Run independent/background watcher checks | Standalone/project automation |
+
 ## Depth that matches the project
 
 `/makeloop` reads **two things**: the **live session conversation** (what you've been working
