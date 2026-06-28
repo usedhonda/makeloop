@@ -1,25 +1,51 @@
 # makeloop
 
-A Claude Code plugin that **builds `/loop` prompts for you**.
+A Claude Code and Codex plugin that **builds loop prompts for you**.
 
-`/makeloop` reads your current project **and the session conversation**, pins down the work
+`/makeloop` or `$makeloop` reads your current project **and the session conversation**, pins down the work
 goal, asks a couple of focused questions, and emits a complete, paste-ready loop prompt —
 goal, strict success criteria, a real verify gate, a state file, and a stop condition,
 **written in your working language**. It generates the prompt; it does not run the loop.
 
 ## Install
 
+Claude Code:
+
 ```
 /plugin marketplace add usedhonda/makeloop
 /plugin install makeloop
 ```
 
-Then, in any project:
+Then:
 
 ```
 /makeloop
 /makeloop finish the auth refactor   # optional goal hint
 ```
+
+Codex:
+
+```
+codex plugin marketplace add usedhonda/makeloop
+codex plugin add makeloop@makeloop
+```
+
+Then use the `makeloop` skill from the slash menu when available, or call it explicitly:
+
+```
+$makeloop
+$makeloop finish the auth refactor   # optional goal hint
+```
+
+Optional local slash shim:
+
+```
+node plugins/makeloop/scripts/install-codex-prompt-shim.mjs
+```
+
+That installs a thin `~/.codex/prompts/makeloop.md` shim so `/prompts:makeloop ...` delegates to
+`$makeloop`. The skill is the canonical Codex surface; the shim exists only for slash-like muscle
+memory because custom prompts are deprecated in favor of skills.
 
 ## What you get
 
@@ -44,20 +70,28 @@ And it judges the **loop kind** — **closed** (drive-to-done: goal + verify gat
 `FINAL`). For an open watcher "no completion gate" is correct, so the wrong-tool warning is
 suppressed; on ambiguity it defaults to closed.
 
-The output is printed in chat and saved to `.loop/loop-prompt.md`. `/makeloop` will also
-tell you when a loop is the wrong tool (no automated check -> a single good prompt wins).
+The output is printed in chat and saved to `.loop/loop-prompt.md`. Claude Code output leads with a
+file-backed `/loop` launch line. Codex output leads with a ready-to-send instruction for exactly
+one iteration or watcher tick, referencing the saved `.loop/<slug>.md` file and state/cursor file.
+`makeloop` will also tell you when a loop is the wrong tool (no automated check -> a single good
+prompt wins).
 
 See [`plugins/makeloop/README.md`](plugins/makeloop/README.md) for details.
 
 ## Repository layout
 
 ```
+.agents/plugins/marketplace.json    # Codex marketplace manifest (one plugin: makeloop)
 .claude-plugin/marketplace.json   # marketplace manifest (one plugin: makeloop)
 plugins/makeloop/
+  .codex-plugin/plugin.json        # Codex plugin manifest
   .claude-plugin/plugin.json       # plugin manifest
   commands/makeloop.md             # the /makeloop command (self-contained)
+  skills/makeloop/SKILL.md         # the $makeloop Codex skill
   templates/loop-prompt.tmpl.md    # the generated loop-prompt template (canonical)
   eval/scenarios.md                # golden eval — objective quality gate for makeloop itself
+  eval/codex-scenarios.md          # Codex-surface eval — skill/plugin launch contract
+  scripts/install-codex-prompt-shim.mjs # optional local Codex slash-like prompt shim installer
   SELF-IMPROVEMENT.md              # governance contract for makeloop's self-strengthening loop
   AUTOMATION.md                    # operator runbook for the every-2-days self-improvement cron
   loop-engineering-notes.md        # technique catalog + self-improvement run history + fleet-mode roadmap

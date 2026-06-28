@@ -17,7 +17,8 @@ cron (every 2 days, 09:00)
        -> if .loop/PAUSED exists: skip
        -> claude -p "<one self-improve cycle>" --permission-mode acceptEdits
             -> follows .loop/self-improve.md  (harvest -> dedup -> fit-critic ->
-               propose -> .githooks/gate.sh -> Tier-1 auto-apply / Tier-2 escalate)
+               propose -> .githooks/gate.sh + eval suites ->
+               Tier-1 auto-apply / Tier-2 escalate)
             -> commits Tier-1 edits as author "makeloop-selfimprove"
        -> if the cycle made commits AND .githooks/gate.sh re-PASSES on HEAD:
             git pull --rebase --autostash origin main && git push origin main
@@ -75,6 +76,12 @@ schedule):
 - **`.githooks/gate.sh`** mechanically checks each change (guarded phrases intact, no
   gate-bypass clause, anchor untouched, JSON/structure/leak/eval). Tier-1 auto-apply only on
   `GATE PASS`.
+- **Codex stays coupled by architecture + eval, not mirroring.** The Codex skill is a thin reader
+  of the canonical generator and template; it is an adapter, not a fork. Its only delta is
+  launch-surface translation. The single coupling point is the saved-file launch contract
+  (`.loop/<slug>.md` + state/cursor); `eval/codex-scenarios.md` is the coupling detector that must
+  be graded with the main golden eval. If Codex scenarios fail, Tier-1 auto-apply is refused and
+  the cycle escalates the diff plus failing properties for human review.
 - Outbound exfil channels are denied (Gmail/Drive/Calendar MCP, secret-read globs); WebFetch
   is GET-only.
 - The human owns the anchor (the "constitution"), not each edit. Changing the constitution
@@ -95,13 +102,16 @@ clone: git tracks only the 644/755 bit (not the `chmod 444` write-removal), and 
 lives in `.git/config`, which clone does not copy. Re-arm both:
 ```
 git -C <REPO> config core.hooksPath .githooks         # arm the pre-commit anchor guard
+mkdir -p ~/.agents/skills
+ln -sfn <REPO>/plugins/makeloop/skills/makeloop ~/.agents/skills/makeloop  # optional dev-machine Codex skill link
 chmod 444 plugins/makeloop/SELF-IMPROVEMENT.md plugins/makeloop/eval/*.md .claude/settings.json
 chmod 555 .githooks/gate.sh .githooks/pre-commit
 ```
 Until both are done, only `settings.json`'s deny survives a clone — so on a fresh machine the
 loop MUST stay at **Tier 0** until you re-arm these (SELF-IMPROVEMENT.md's "verified active"
-rule). Verify: `git config --get core.hooksPath` returns `.githooks`, and `.githooks/gate.sh`
-prints `GATE PASS`.
+rule). Verify: `git config --get core.hooksPath` returns `.githooks`, `.githooks/gate.sh`
+prints `GATE PASS`, and `~/.agents/skills/makeloop/SKILL.md` resolves to this repo's Codex skill
+when you want dev-machine Codex to use the local checkout.
 
 ## Install (needs the human — macOS asks permission to modify cron)
 

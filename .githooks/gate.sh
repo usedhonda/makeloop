@@ -58,7 +58,8 @@ fi
 
 # G) no gate-bypass clause ADDED (C2/S10): an added line carrying BOTH a gate token and a
 # bypass verb, excluding prohibitions (never/must not/do not).
-added="$(git diff HEAD -- "$cmd" "$tpl" | grep -E '^\+' | grep -vE '^\+\+\+' | grep -ivE 'never|must not|do not')"
+skill="plugins/makeloop/skills/makeloop/SKILL.md"
+added="$(git diff HEAD -- "$cmd" "$tpl" "$skill" | grep -E '^\+' | grep -vE '^\+\+\+' | grep -ivE 'never|must not|do not')"
 if printf '%s\n' "$added" | grep -iE '(FINAL|SUCCESS CRITERIA|the gate|PASS =|stop condition)' | grep -iqE 'unavailable|skip|assume|treat[- ]as|fallback|degrade|bypass|when not present|fast-path'; then
   err "added a gate-bypass clause (C2/S10): a gate can be satisfied without the real check"
 fi
