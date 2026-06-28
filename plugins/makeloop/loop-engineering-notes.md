@@ -64,6 +64,41 @@ across sessions and so contributors know *why* each block is shaped the way it i
   and `eval/codex-scenarios.md` is the coupling detector: if it grades FAIL, Tier-1 auto-apply is
   refused and the candidate escalates.
 
+### Codex loop surface model (2026-06-28)
+
+Codex does not have Claude Code's `/loop` command. The equivalent behavior is built from official
+Codex surfaces, with the saved loop file as the durable contract:
+
+- **In-turn agent loop** — every Codex prompt already runs model/tool cycles until the task is done
+  or cancelled. This is useful for one bounded step, but it is not a durable watcher or scheduler.
+- **Manual tick** — default and safest. The generated launch block asks Codex to run exactly one
+  closed iteration or one open watcher tick, re-reading `.loop/<slug>.md` plus state/cursor.
+- **`/goal`** — same-thread closed continuation. Use when the user wants Codex to keep pursuing a
+  measurable done condition across turns while the state file remains the ledger.
+- **Thread automation** — same-thread open heartbeat. Use for recurring polling that should keep the
+  current thread context and wake up with a durable prompt.
+- **Standalone/project automation** — independent background recurrence. Use when each run should be
+  isolated, reported as a separate automation run, or run on a background worktree.
+- **`codex exec resume`** — external supervisor mode. Use when CI, cron, or a shell wrapper owns the
+  cadence and Codex should resume the same contract non-interactively.
+
+Recommendation mapping:
+
+- Closed + safe first run, expensive gate, or user wants inspection -> manual tick.
+- Closed + same-thread continuation until success -> `/goal`.
+- Closed + CI/cron/wrapper/non-interactive intent -> `codex exec resume`.
+- Open + first proof tick -> manual watcher tick.
+- Open + same-thread recurring checks -> thread automation.
+- Open + independent/background checks -> standalone/project automation.
+
+Hard invariants:
+
+- Do not fake `/loop`, `/ralph-loop`, or `codex-loop` on Codex.
+- Do not create a runner or automation unless the user explicitly asks for that as a separate step.
+- Keep the generated loop core identical: only the launch surface changes.
+- Keep `.loop/<slug>.md` plus state/cursor as the coupling point across CC and Codex.
+- Final Codex output must include a copyable launch block, Loop brief, and Codex run options.
+
 ## Adopted — Round 1 community harvest (2026-06-24)
 
 Surfaced by the sources-harvest loop and wired in after review:
