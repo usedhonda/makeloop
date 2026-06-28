@@ -53,6 +53,10 @@ Mirror the canonical `/makeloop` interaction style instead of silently choosing 
   - open: manual watcher tick, thread automation heartbeat, or standalone/project automation.
 - Ask a follow-up only for choices that are ambiguous and high-impact. Otherwise make the same
   conservative assumptions the canonical generator would make and list them.
+- Codex may not expose Claude Code's `AskUserQuestion` UI. If confirmation is needed, ask a concise
+  normal chat question with the consolidated proposal and wait for the user's answer before writing
+  files. If the user chooses a run mode, preserve that choice exactly in the saved `.loop/INDEX.md`
+  and final `Codex run options`.
 - If an existing `.loop/<slug>.md` substantially matches the goal, default to refining it rather
   than creating a duplicate.
 
