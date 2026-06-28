@@ -92,6 +92,7 @@ plugins/makeloop/
   eval/scenarios.md                # golden eval — objective quality gate for makeloop itself
   eval/codex-scenarios.md          # Codex-surface eval — skill/plugin launch contract
   scripts/install-codex-prompt-shim.mjs # optional local Codex slash-like prompt shim installer
+  scripts/check-codex-surface.sh   # self-improvement guard for the Codex plugin/skill surface
   SELF-IMPROVEMENT.md              # governance contract for makeloop's self-strengthening loop
   AUTOMATION.md                    # operator runbook for the every-2-days self-improvement cron
   loop-engineering-notes.md        # technique catalog + self-improvement run history + fleet-mode roadmap
