@@ -2,7 +2,7 @@
 
 A Claude Code slash command and Codex skill that **build loop prompts for you**.
 
-`/makeloop` or `$makeloop` reads your current project **and the session conversation**, figures out the work
+Claude Code `/makeloop` or Codex `$makeloop:makeloop` reads your current project **and the session conversation**, figures out the work
 goal, asks you a couple of focused questions, and emits a complete, paste-ready loop prompt —
 goal, strict success criteria, a real verify gate, a state file, and a stop condition,
 **written in your working language**. It does **not** run the loop; it produces the prompt you
@@ -20,27 +20,27 @@ Claude Code:
 Codex:
 
 ```
-$makeloop                  # analyze the project and build a loop prompt
-$makeloop finish the auth refactor   # optional: pass a goal hint
+$makeloop:makeloop                  # analyze the project and build a loop prompt
+$makeloop:makeloop finish the auth refactor   # optional: pass a goal hint
 ```
 
-In Codex, use it from the slash UI when possible: type `/` and choose **makeloop** from the slash
-command list. Codex exposes enabled skills in that slash list, but the CLI does not currently
-accept a typed top-level `/makeloop` command. For users who want a typed slash prompt,
-`scripts/install-codex-prompt-shim.mjs` installs an optional local `/prompts:makeloop` shim that
-delegates to `$makeloop`. The shim is intentionally thin because custom prompts are deprecated; the
-skill is the maintained surface.
+In the Codex app, enabled skills may appear in the slash command list, so type `/` and choose
+**makeloop** when it is shown. In Codex CLI, use `/skills` to browse skills or call
+`$makeloop:makeloop` directly. Codex CLI does not currently accept a typed top-level `/makeloop`
+command, and the legacy custom prompt form (`/prompts:makeloop`) is deprecated and may not appear
+in current CLI slash completion. `scripts/install-codex-prompt-shim.mjs` is retained only for older
+Codex builds that still load custom prompts.
 
 ### Inline directives
 
-The text after `/makeloop` or `$makeloop` is parsed for both a **goal** and **operational directives** —
+The text after `/makeloop` or `$makeloop:makeloop` is parsed for both a **goal** and **operational directives** —
 anything you decide up front is honored and its question is skipped. Natural phrasing, not
 strict flags:
 
 ```
 /makeloop QA all green, ralph-loop, cap 20, with harness detection, ask minimally
 /makeloop 全テストを緑に、30分ごと、上限15、質問は最小で
-$makeloop QA all green, cap 20, with harness detection, ask minimally
+$makeloop:makeloop QA all green, cap 20, with harness detection, ask minimally
 ```
 
 Recognized: goal/scope, runtime (`self-paced` / `interval 30m` / `ralph-loop`), iteration

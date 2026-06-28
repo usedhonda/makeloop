@@ -26,8 +26,8 @@
       "Write"
     ],
     "defaultPrompt": [
-      "$makeloop",
-      "$makeloop finish the auth refactor"
+      "$makeloop:makeloop",
+      "$makeloop:makeloop finish the auth refactor"
     ]
   }
 }

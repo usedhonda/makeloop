@@ -11,7 +11,7 @@ description: Generate a Codex-ready makeloop prompt contract
 argument-hint: "[goal hint (optional)]"
 ---
 
-Use the $makeloop skill to generate a Codex-ready loop prompt contract.
+Use the $makeloop:makeloop skill to generate a Codex-ready loop prompt contract.
 
 Optional goal hint:
 $ARGUMENTS
@@ -19,4 +19,7 @@ $ARGUMENTS
 
 fs.mkdirSync(promptsDir, { recursive: true });
 fs.writeFileSync(promptPath, prompt, "utf8");
-console.log(`installed Codex prompt shim: ${promptPath}`);
+console.log(`installed legacy Codex prompt shim: ${promptPath}`);
+console.log(
+  "Note: custom prompts are deprecated and current Codex CLI builds may not show /prompts:makeloop. Use $makeloop:makeloop or /skills when it is not listed.",
+);

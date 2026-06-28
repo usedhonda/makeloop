@@ -21,7 +21,7 @@ Follow the canonical behavior unless this skill says to adapt it for Codex.
 
 ## Codex adaptations
 
-- The user invokes this skill as `$makeloop`, or from the slash menu when the plugin is enabled.
+- The user invokes this skill as `$makeloop:makeloop` in Codex CLI, or from the slash menu when the plugin is enabled in the Codex app.
 - Preserve the loop-engineering contract: Project Profile, closed/open kind, real VERIFY gate or
   trigger, state/cursor, stop condition or run mode, t=0 policy, no fake done, maker != checker,
   no gate-bypass, and no unbound template placeholders.

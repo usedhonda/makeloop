@@ -2,7 +2,7 @@
 
 A Claude Code and Codex plugin that **builds loop prompts for you**.
 
-`/makeloop` or `$makeloop` reads your current project **and the session conversation**, pins down the work
+Claude Code `/makeloop` or Codex `$makeloop:makeloop` reads your current project **and the session conversation**, pins down the work
 goal, asks a couple of focused questions, and emits a complete, paste-ready loop prompt —
 goal, strict success criteria, a real verify gate, a state file, and a stop condition,
 **written in your working language**. It generates the prompt; it does not run the loop.
@@ -30,25 +30,22 @@ codex plugin marketplace add usedhonda/makeloop
 codex plugin add makeloop@makeloop
 ```
 
-Then use it from Codex's slash UI: type `/` and choose **makeloop** from the slash menu when it
-appears. Codex exposes enabled skills in that slash list, but the CLI does not currently accept a
-typed top-level `/makeloop` command. You can also call the same skill explicitly:
+In the Codex app, type `/` and choose **makeloop** from the slash menu when it appears. In Codex
+CLI, use `/skills` to browse skills or call the same skill explicitly:
 
 ```
-$makeloop
-$makeloop finish the auth refactor   # optional goal hint
+$makeloop:makeloop
+$makeloop:makeloop finish the auth refactor   # optional goal hint
 ```
 
-Optional local slash shim:
+Codex CLI does not currently support a typed top-level `/makeloop` command. The legacy custom
+prompt form (`/prompts:makeloop`) is deprecated by Codex and may not appear in current CLI slash
+completion even when `~/.codex/prompts/makeloop.md` exists. The helper below is retained only for
+older Codex builds that still load custom prompts:
 
 ```
 node plugins/makeloop/scripts/install-codex-prompt-shim.mjs
 ```
-
-That installs a thin `~/.codex/prompts/makeloop.md` shim so the typed command
-`/prompts:makeloop ...` delegates to `$makeloop`. The skill is the canonical Codex surface; the
-shim exists only for slash-like muscle memory because custom prompts are deprecated in favor of
-skills.
 
 ## What you get
 
@@ -90,7 +87,7 @@ plugins/makeloop/
   .codex-plugin/plugin.json        # Codex plugin manifest
   .claude-plugin/plugin.json       # plugin manifest
   commands/makeloop.md             # the /makeloop command (self-contained)
-  skills/makeloop/SKILL.md         # the $makeloop Codex skill
+  skills/makeloop/SKILL.md         # the $makeloop:makeloop Codex skill
   templates/loop-prompt.tmpl.md    # the generated loop-prompt template (canonical)
   eval/scenarios.md                # golden eval — objective quality gate for makeloop itself
   eval/codex-scenarios.md          # Codex-surface eval — skill/plugin launch contract
