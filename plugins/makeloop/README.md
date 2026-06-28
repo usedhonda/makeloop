@@ -62,9 +62,10 @@ You'll be asked (for anything not already specified inline):
 
 The result is saved to `.loop/<slug>.md` (a descriptive name, so multiple loops don't clobber
 each other) with a seeded state/cursor file, and the chat output **leads with the exact
-ready-to-paste launch line**. Claude Code uses file-reference form like
+ready-to-paste launch block**. Claude Code uses file-reference form like
 `/loop .loop/<slug>.md の手順に従って … state は .loop/<slug>-state.md。`. Codex uses a ready-to-send
-instruction like `Codexに次を送ってください: ".loop/<slug>.md の手順に従って1 iterationだけ進めて..."`.
+instruction in a fenced `text` block, like
+`.loop/<slug>.md の手順に従って1 iterationだけ進めて...`.
 The generated prompt is written in **your working language**; only machine-significant literals
 (commands, paths, `FINAL` /
 `<promise>DONE</promise>`, JSON keys) stay as-is.

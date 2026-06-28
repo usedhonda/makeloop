@@ -32,20 +32,20 @@ Follow the canonical behavior unless this skill says to adapt it for Codex.
 
 ## Launch instruction forms
 
-Lead the final response with the ready-to-send launch instruction in the user's working language.
+Lead the final response with a short label, then a fenced `text` block that contains only the
+ready-to-send Codex message in the user's working language. Do not wrap the message in quotes, and
+do not put the message itself in a bullet.
 
 Closed loop:
 
 ```text
-Codexに次を送ってください:
-「.loop/<slug>.md の手順に従って1 iterationだけ進めて。state は .loop/<slug>-state.md を読んで更新して。完了なら FINAL、続行なら ITERATING で終えて。」
+.loop/<slug>.md の手順に従って1 iterationだけ進めて。state は .loop/<slug>-state.md を読んで更新して。完了なら FINAL、続行なら ITERATING で終えて。
 ```
 
 Open watcher:
 
 ```text
-Codexに次を送ってください:
-「.loop/<slug>.md の手順に従って1 watcher tickだけ実行して。cursor は .loop/<slug>.cursor.json を読んで更新して。新しい trigger があれば一度だけ notify/act し、なければ静かに終えて。」
+.loop/<slug>.md の手順に従って1 watcher tickだけ実行して。cursor は .loop/<slug>.cursor.json を読んで更新して。新しい trigger があれば一度だけ notify/act し、なければ静かに終えて。
 ```
 
 If the user asks for unattended scheduling, explain after the launch instruction that Codex
