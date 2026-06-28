@@ -80,7 +80,8 @@ schedule):
   of the canonical generator and template; it is an adapter, not a fork. Its only delta is
   launch-surface translation. The single coupling point is the saved-file launch contract
   (`.loop/<slug>.md` + state/cursor); `eval/codex-scenarios.md` is the coupling detector that must
-  stay green when canonical behavior changes.
+  be graded with the main golden eval. If Codex scenarios fail, Tier-1 auto-apply is refused and
+  the cycle escalates the diff plus failing properties for human review.
 - Outbound exfil channels are denied (Gmail/Drive/Calendar MCP, secret-read globs); WebFetch
   is GET-only.
 - The human owns the anchor (the "constitution"), not each edit. Changing the constitution

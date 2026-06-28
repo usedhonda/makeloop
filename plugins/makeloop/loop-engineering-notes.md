@@ -59,7 +59,8 @@ across sessions and so contributors know *why* each block is shaped the way it i
 - **Self-improvement covers both hosts by contract, not mirroring** — the Codex skill READS the
   canonical generator; it is an adapter, not a fork. Its only delta is launch-surface translation.
   The launch-line contract (saved `.loop/<slug>.md` + state/cursor) is the single coupling point,
-  and `eval/codex-scenarios.md` is the coupling detector that must stay green.
+  and `eval/codex-scenarios.md` is the coupling detector: if it grades FAIL, Tier-1 auto-apply is
+  refused and the candidate escalates.
 
 ## Adopted — Round 1 community harvest (2026-06-24)
 
