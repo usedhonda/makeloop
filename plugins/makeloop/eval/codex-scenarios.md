@@ -6,7 +6,7 @@ preserves the same loop contract without depending on Claude-only slash commands
 
 ## How to run
 
-For each scenario, act as the Codex `$makeloop` skill would act:
+For each scenario, act as the Codex `$makeloop:makeloop` skill would act:
 
 1. Read the current request and profile.
 2. Generate the loop prompt that would be saved under `.loop/<slug>.md`, plus the state/cursor file
@@ -23,7 +23,7 @@ blocks Tier-1 auto-apply and escalates the candidate for human review.
 ## C1 — closed mature loop
 
 Request/profile:
-- Request: `$makeloop finish the auth refactor, gate: npm test && tsc`
+- Request: `$makeloop:makeloop finish the auth refactor, gate: npm test && tsc`
 - Profile: mature project, existing test/build commands, no watcher intent, no existing loop named.
 
 Expected properties:
@@ -32,14 +32,20 @@ Expected properties:
 - Contains GOAL, SUCCESS CRITERIA, VERIFY, RULES, UPDATE STATE, and FINAL.
 - VERIFY uses the explicit gate `npm test && tsc` unless repo evidence finds a stricter matching gate.
 - Seeds a state file, not a cursor file.
-- Chat output leads with a Codex-ready launch instruction that references `.loop/<slug>.md` and the
-  state file, says to run exactly one iteration, and ends with `FINAL` or `ITERATING`.
+- Chat output leads with a copyable fenced `text` launch block that contains only a Codex-ready
+  message. It references `.loop/<slug>.md` and the state file, says to run exactly one iteration,
+  and ends with `FINAL` or `ITERATING`.
+- Chat output includes a concrete Loop brief explaining the loop purpose, closed kind, gate,
+  state file, and stop or next outcome.
+- Chat output includes Codex run options. Manual tick is the recommended default for a safe first
+  run; `/goal` may be offered for same-thread continuation; `codex exec resume` is offered only
+  when CI/cron/wrapper intent is present.
 - Does not emit `/loop`, `/ralph-loop`, or `codex-loop` as the launch mechanism.
 
 ## C2 — open watcher loop
 
 Request/profile:
-- Request: `$makeloop watch deploy status every 5 min and notify me when it fails`
+- Request: `$makeloop:makeloop watch deploy status every 5 min and notify me when it fails`
 - Profile: mature project with deploy/status files or commands; no permanent completion criterion.
 
 Expected properties:
@@ -49,8 +55,14 @@ Expected properties:
 - Does not contain FINAL or SUCCESS CRITERIA as a completion gate.
 - Seeds a cursor file, not a closed-loop state file.
 - Suppresses the wrong-tool warning for missing final completion gate.
-- Chat output leads with a Codex-ready launch instruction that references `.loop/<slug>.md` and the
-  cursor file, says to run exactly one watcher tick, and updates the cursor.
+- Chat output leads with a copyable fenced `text` launch block that contains only a Codex-ready
+  watcher message. It references `.loop/<slug>.md` and the cursor file, says to run exactly one
+  watcher tick, and updates the cursor.
+- Chat output includes a concrete Loop brief explaining the watch target, open kind, trigger,
+  cursor file, and dedup or next outcome.
+- Chat output includes Codex run options. Manual watcher tick is the recommended default for first
+  proof; thread automation is offered for same-thread heartbeat; standalone/project automation is
+  offered only when independent or background runs are appropriate.
 - Does not emit `/loop`, `/ralph-loop`, or `codex-loop` as the launch mechanism.
 
 ## C3 — greenfield closed loop
@@ -64,7 +76,8 @@ Expected properties:
 - Includes the Bootstrap block.
 - Bootstrap creates or discovers a deterministic acceptance gate before claiming completion.
 - Does not call the lack of an existing gate a wrong-tool condition.
-- Chat output leads with a Codex-ready closed launch instruction.
+- Chat output leads with a copyable fenced `text` launch block for one closed iteration and includes
+  a concrete Loop brief plus Codex run options.
 
 ## C4 — pre-existing-state policy
 
@@ -89,9 +102,12 @@ Request/profile:
 Expected properties:
 - Canonical surface is a Codex skill named `makeloop`.
 - Plugin manifest exposes the skill as installable/discoverable.
-- Optional prompt shim is thin: it delegates to `$makeloop` and does not duplicate generator logic.
+- Explicit CLI invocation may be `$makeloop:makeloop` when plugin prefixing is visible.
+- Optional prompt shim is thin: it delegates to `$makeloop:makeloop` and does not duplicate
+  generator logic.
 - Generated loop files remain file-backed under `.loop/`.
-- No deterministic runner, scheduler, or background loop is implied unless requested separately.
+- No deterministic runner, scheduler, or background loop is created unless requested separately.
+  Codex run options may be described without implying creation.
 
 ## Cross-cutting Codex properties
 
@@ -100,7 +116,9 @@ Every generated Codex loop prompt must satisfy:
 - Preserves the three hearts: verify/trigger, state/cursor, stop/dedup.
 - RULES contain maker != checker, Surgical changes only, Search before assuming, and No fake done.
 - No source citations, raw harvest text, secret material, or `.local/` contents appear.
-- Chat output begins with a file-reference launch instruction for Codex.
+- Chat output begins with a file-reference launch block for Codex.
+- Chat output includes a concrete Loop brief.
+- Chat output includes Codex run options with exactly one recommended mode and safe alternates.
 - Closed-only blocks do not appear in open prompts; open-only blocks do not appear in closed prompts.
 - No gate-bypass wording in RULES or VERIFY (unavailable, skip, assume, treat-as, fallback, degrade,
   bypass, or equivalent).

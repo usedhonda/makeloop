@@ -66,9 +66,10 @@ owns the gate + sampled audits, not the transactions.
 **Codex adapter invariant.** The Codex skill READS the canonical generator; it is an adapter,
 not a fork. Its only delta is launch-surface translation. Canonical generation-logic edits may
 remain Tier 1 only if the main golden eval and `eval/codex-scenarios.md` both grade green.
-Any edit that changes the launch-line contract (saved `.loop/<slug>.md` + state/cursor) is
-Tier 2 and requires paired adapter review. The self-improvement loop must refuse Tier-1
-auto-apply and escalate when Codex scenarios fail.
+Any edit that changes the saved-file contract or Codex run surface (saved `.loop/<slug>.md` +
+state/cursor + manual tick / `/goal` / Automation / `codex exec resume` wording) is Tier 2 and
+requires paired adapter review. The self-improvement loop must refuse Tier-1 auto-apply and
+escalate when Codex scenarios fail.
 
 ## fit-critic rubric ("earns its weight")
 
