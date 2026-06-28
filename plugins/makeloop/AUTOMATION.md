@@ -110,8 +110,8 @@ chmod 555 .githooks/gate.sh .githooks/pre-commit
 Until both are done, only `settings.json`'s deny survives a clone — so on a fresh machine the
 loop MUST stay at **Tier 0** until you re-arm these (SELF-IMPROVEMENT.md's "verified active"
 rule). Verify: `git config --get core.hooksPath` returns `.githooks`, `.githooks/gate.sh`
-prints `GATE PASS`, and `/Users/usedhonda/.agents/skills/makeloop/SKILL.md` resolves to this
-repo's Codex skill when you want dev-machine Codex to use the local checkout.
+prints `GATE PASS`, and `~/.agents/skills/makeloop/SKILL.md` resolves to this repo's Codex skill
+when you want dev-machine Codex to use the local checkout.
 
 ## Install (needs the human — macOS asks permission to modify cron)
 
