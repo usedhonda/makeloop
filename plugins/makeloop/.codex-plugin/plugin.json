@@ -1,0 +1,33 @@
+{
+  "name": "makeloop",
+  "version": "0.11.1",
+  "description": "Analyze the current project in depth and generate a Codex-ready loop prompt contract sized to the project.",
+  "author": {
+    "name": "usedhonda"
+  },
+  "license": "MIT",
+  "keywords": [
+    "loop",
+    "loop-engineering",
+    "automation",
+    "agent",
+    "workflow",
+    "codex"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "makeloop",
+    "shortDescription": "Generate Codex-ready loop prompt contracts.",
+    "longDescription": "makeloop reads the current project and conversation, then generates a file-backed loop contract with a real gate or trigger, state or cursor, and a Codex launch instruction for one safe iteration or watcher tick.",
+    "developerName": "usedhonda",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "$makeloop",
+      "$makeloop finish the auth refactor"
+    ]
+  }
+}

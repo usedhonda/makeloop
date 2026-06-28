@@ -1,29 +1,44 @@
 # makeloop
 
-A Claude Code slash command that **builds `/loop` prompts for you**.
+A Claude Code slash command and Codex skill that **build loop prompts for you**.
 
-`/makeloop` reads your current project **and the session conversation**, figures out the work
+`/makeloop` or `$makeloop` reads your current project **and the session conversation**, figures out the work
 goal, asks you a couple of focused questions, and emits a complete, paste-ready loop prompt —
 goal, strict success criteria, a real verify gate, a state file, and a stop condition,
 **written in your working language**. It does **not** run the loop; it produces the prompt you
-then feed to `/loop` (or `/ralph-loop`).
+then feed to the host agent.
 
 ## Usage
+
+Claude Code:
 
 ```
 /makeloop                  # analyze the project and build a loop prompt
 /makeloop finish the auth refactor   # optional: pass a goal hint
 ```
 
+Codex:
+
+```
+$makeloop                  # analyze the project and build a loop prompt
+$makeloop finish the auth refactor   # optional: pass a goal hint
+```
+
+In Codex App, installed skills can also appear in the slash command list. For users who want a
+slash-like text entry, `scripts/install-codex-prompt-shim.mjs` installs an optional local
+`/prompts:makeloop` shim that delegates to `$makeloop`. The shim is intentionally thin; the skill is
+the maintained surface.
+
 ### Inline directives
 
-The text after `/makeloop` is parsed for both a **goal** and **operational directives** —
+The text after `/makeloop` or `$makeloop` is parsed for both a **goal** and **operational directives** —
 anything you decide up front is honored and its question is skipped. Natural phrasing, not
 strict flags:
 
 ```
 /makeloop QA all green, ralph-loop, cap 20, with harness detection, ask minimally
 /makeloop 全テストを緑に、30分ごと、上限15、質問は最小で
+$makeloop QA all green, cap 20, with harness detection, ask minimally
 ```
 
 Recognized: goal/scope, runtime (`self-paced` / `interval 30m` / `ralph-loop`), iteration
@@ -39,14 +54,17 @@ You'll be asked (for anything not already specified inline):
 2. **Success criteria** — confirmed, strict, objectively checkable.
 3. **Verify gate + stop condition** — the test/build/lint that rejects bad work, and a hard
    iteration cap (default 8).
-4. **Runtime** — built-in `/loop` (self-paced or interval) or the `ralph-loop` plugin.
+4. **Runtime** — Claude Code uses built-in `/loop` (self-paced or interval) or the `ralph-loop`
+   plugin; Codex gets a one-iteration or one-watcher-tick launch instruction instead of a runtime
+   command.
 
 The result is saved to `.loop/<slug>.md` (a descriptive name, so multiple loops don't clobber
 each other) with a seeded state/cursor file, and the chat output **leads with the exact
-ready-to-paste launch line** — file-reference form like
-`/loop .loop/<slug>.md の手順に従って … state は .loop/<slug>-state.md。` — so you just copy one
-line instead of pasting the whole prompt. The generated prompt is written in **your working
-language**; only machine-significant literals (commands, paths, `FINAL` /
+ready-to-paste launch line**. Claude Code uses file-reference form like
+`/loop .loop/<slug>.md の手順に従って … state は .loop/<slug>-state.md。`. Codex uses a ready-to-send
+instruction like `Codexに次を送ってください: ".loop/<slug>.md の手順に従って1 iterationだけ進めて..."`.
+The generated prompt is written in **your working language**; only machine-significant literals
+(commands, paths, `FINAL` /
 `<promise>DONE</promise>`, JSON keys) stay as-is.
 
 ## Depth that matches the project
@@ -106,6 +124,22 @@ deny-list), a **JSON done-ledger**, and **LLM-as-judge hardening**.
 
 The technique catalog, the self-improvement run history, and the deferred fleet-mode roadmap live in
 [`loop-engineering-notes.md`](loop-engineering-notes.md).
+
+## Codex packaging
+
+Codex uses a skill/plugin surface, not a custom prompt command as the primary interface:
+
+```
+plugins/makeloop/.codex-plugin/plugin.json
+plugins/makeloop/skills/makeloop/SKILL.md
+.agents/plugins/marketplace.json
+```
+
+The Codex skill reads the canonical Claude Code generator and template, then adapts only the host
+launch surface: no `/loop`, no `/ralph-loop`, and no hidden runner. Closed loops produce a
+one-iteration instruction with a state file; open loops produce a one-watcher-tick instruction with a
+cursor file. Scheduling or `codex exec resume` automation is intentionally left to an explicit
+follow-up request.
 
 ## Why it's shaped this way (loop engineering)
 

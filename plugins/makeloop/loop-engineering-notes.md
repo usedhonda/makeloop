@@ -52,6 +52,10 @@ across sessions and so contributors know *why* each block is shaped the way it i
   (open→runs-forever is the costlier misclassification). The wrong-tool warning is suppressed
   for open watchers. Deliberately NOT added: a trigger sub-taxonomy (heartbeat/cron/hook) and
   a second full skeleton — one skeleton, kind-conditional middle; shared blocks stay DRY.
+- **Codex surface** — the canonical Codex entry is a skill/plugin, not a custom prompt command or a
+  new runner. It preserves the same generated loop contract but replaces Claude-only `/loop` launch
+  lines with ready-to-send Codex instructions for exactly one closed iteration or one open watcher
+  tick, always referencing the saved `.loop/<slug>.md` file plus state/cursor.
 
 ## Adopted — Round 1 community harvest (2026-06-24)
 
