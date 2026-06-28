@@ -30,7 +30,8 @@ codex plugin marketplace add usedhonda/makeloop
 codex plugin add makeloop@makeloop
 ```
 
-Then use the `makeloop` skill from the slash menu when available, or call it explicitly:
+Then use it slash-first, like Claude Code: type `/` and choose **makeloop** from the Codex slash
+menu. Codex exposes enabled skills in that slash list. You can also call the same skill explicitly:
 
 ```
 $makeloop
