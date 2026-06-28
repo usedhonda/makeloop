@@ -30,8 +30,9 @@ codex plugin marketplace add usedhonda/makeloop
 codex plugin add makeloop@makeloop
 ```
 
-Then use it slash-first, like Claude Code: type `/` and choose **makeloop** from the Codex slash
-menu. Codex exposes enabled skills in that slash list. You can also call the same skill explicitly:
+Then use it from Codex's slash UI: type `/` and choose **makeloop** from the slash menu when it
+appears. Codex exposes enabled skills in that slash list, but the CLI does not currently accept a
+typed top-level `/makeloop` command. You can also call the same skill explicitly:
 
 ```
 $makeloop
@@ -44,9 +45,10 @@ Optional local slash shim:
 node plugins/makeloop/scripts/install-codex-prompt-shim.mjs
 ```
 
-That installs a thin `~/.codex/prompts/makeloop.md` shim so `/prompts:makeloop ...` delegates to
-`$makeloop`. The skill is the canonical Codex surface; the shim exists only for slash-like muscle
-memory because custom prompts are deprecated in favor of skills.
+That installs a thin `~/.codex/prompts/makeloop.md` shim so the typed command
+`/prompts:makeloop ...` delegates to `$makeloop`. The skill is the canonical Codex surface; the
+shim exists only for slash-like muscle memory because custom prompts are deprecated in favor of
+skills.
 
 ## What you get
 

@@ -24,11 +24,12 @@ $makeloop                  # analyze the project and build a loop prompt
 $makeloop finish the auth refactor   # optional: pass a goal hint
 ```
 
-In Codex, use it slash-first when possible: type `/` and choose **makeloop** from the slash command
-list. Codex exposes enabled skills in that slash list, so the maintained Codex surface is still the
-`makeloop` skill. For users who want a typed slash prompt, `scripts/install-codex-prompt-shim.mjs`
-installs an optional local `/prompts:makeloop` shim that delegates to `$makeloop`. The shim is
-intentionally thin because custom prompts are deprecated; the skill is the maintained surface.
+In Codex, use it from the slash UI when possible: type `/` and choose **makeloop** from the slash
+command list. Codex exposes enabled skills in that slash list, but the CLI does not currently
+accept a typed top-level `/makeloop` command. For users who want a typed slash prompt,
+`scripts/install-codex-prompt-shim.mjs` installs an optional local `/prompts:makeloop` shim that
+delegates to `$makeloop`. The shim is intentionally thin because custom prompts are deprecated; the
+skill is the maintained surface.
 
 ### Inline directives
 
