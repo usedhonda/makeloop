@@ -56,9 +56,10 @@ across sessions and so contributors know *why* each block is shaped the way it i
   new runner. It preserves the same generated loop contract but replaces Claude-only `/loop` launch
   lines with ready-to-send Codex instructions for exactly one closed iteration or one open watcher
   tick, always referencing the saved `.loop/<slug>.md` file plus state/cursor.
-- **Self-improvement covers both hosts** — the local self-improvement loop still runs through
-  Claude Code, but it now treats the Codex skill/plugin/shim/eval as a first-class downstream
-  surface and runs `plugins/makeloop/scripts/check-codex-surface.sh` before Tier-1 auto-apply.
+- **Self-improvement covers both hosts by contract, not mirroring** — the Codex skill READS the
+  canonical generator; it is an adapter, not a fork. Its only delta is launch-surface translation.
+  The launch-line contract (saved `.loop/<slug>.md` + state/cursor) is the single coupling point,
+  and `eval/codex-scenarios.md` is the coupling detector that must stay green.
 
 ## Adopted — Round 1 community harvest (2026-06-24)
 

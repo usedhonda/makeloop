@@ -17,7 +17,7 @@ cron (every 2 days, 09:00)
        -> if .loop/PAUSED exists: skip
        -> claude -p "<one self-improve cycle>" --permission-mode acceptEdits
             -> follows .loop/self-improve.md  (harvest -> dedup -> fit-critic ->
-               propose -> .githooks/gate.sh + Codex surface check ->
+               propose -> .githooks/gate.sh + eval suites ->
                Tier-1 auto-apply / Tier-2 escalate)
             -> commits Tier-1 edits as author "makeloop-selfimprove"
        -> if the cycle made commits AND .githooks/gate.sh re-PASSES on HEAD:
@@ -76,10 +76,11 @@ schedule):
 - **`.githooks/gate.sh`** mechanically checks each change (guarded phrases intact, no
   gate-bypass clause, anchor untouched, JSON/structure/leak/eval). Tier-1 auto-apply only on
   `GATE PASS`.
-- **Codex surface check** (`plugins/makeloop/scripts/check-codex-surface.sh`) also runs in the
-  local self-improvement loop. It verifies the Codex plugin manifest, `$makeloop` skill, optional
-  prompt shim, `eval/codex-scenarios.md`, and this dev machine's `~/.agents/skills/makeloop`
-  symlink when present. A CC-side improvement must not leave the Codex front door stale.
+- **Codex stays coupled by architecture + eval, not mirroring.** The Codex skill is a thin reader
+  of the canonical generator and template; it is an adapter, not a fork. Its only delta is
+  launch-surface translation. The single coupling point is the saved-file launch contract
+  (`.loop/<slug>.md` + state/cursor); `eval/codex-scenarios.md` is the coupling detector that must
+  stay green when canonical behavior changes.
 - Outbound exfil channels are denied (Gmail/Drive/Calendar MCP, secret-read globs); WebFetch
   is GET-only.
 - The human owns the anchor (the "constitution"), not each edit. Changing the constitution
@@ -108,8 +109,8 @@ chmod 555 .githooks/gate.sh .githooks/pre-commit
 Until both are done, only `settings.json`'s deny survives a clone — so on a fresh machine the
 loop MUST stay at **Tier 0** until you re-arm these (SELF-IMPROVEMENT.md's "verified active"
 rule). Verify: `git config --get core.hooksPath` returns `.githooks`, `.githooks/gate.sh`
-prints `GATE PASS`, and `plugins/makeloop/scripts/check-codex-surface.sh` prints
-`CODEX SURFACE PASS`.
+prints `GATE PASS`, and `/Users/usedhonda/.agents/skills/makeloop/SKILL.md` resolves to this
+repo's Codex skill when you want dev-machine Codex to use the local checkout.
 
 ## Install (needs the human — macOS asks permission to modify cron)
 
