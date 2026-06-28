@@ -71,8 +71,9 @@ And it judges the **loop kind** — **closed** (drive-to-done: goal + verify gat
 suppressed; on ambiguity it defaults to closed.
 
 The output is printed in chat and saved to `.loop/loop-prompt.md`. Claude Code output leads with a
-file-backed `/loop` launch line. Codex output leads with a ready-to-send instruction for exactly
-one iteration or watcher tick, referencing the saved `.loop/<slug>.md` file and state/cursor file.
+file-backed `/loop` launch line. Codex output leads with a copyable launch block for exactly one
+iteration or watcher tick, then a short Loop brief explaining the loop's purpose, kind, gate or
+trigger, state/cursor file, and stop condition.
 `makeloop` will also tell you when a loop is the wrong tool (no automated check -> a single good
 prompt wins).
 

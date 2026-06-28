@@ -66,6 +66,9 @@ ready-to-paste launch block**. Claude Code uses file-reference form like
 `/loop .loop/<slug>.md の手順に従って … state は .loop/<slug>-state.md。`. Codex uses a ready-to-send
 instruction in a fenced `text` block, like
 `.loop/<slug>.md の手順に従って1 iterationだけ進めて...`.
+The launch block is followed by a short **Loop brief** explaining what the loop is trying to change
+or watch, why it is closed/open, what gate or trigger decides progress, what state/cursor file is
+preserved, and when the next run should stop.
 The generated prompt is written in **your working language**; only machine-significant literals
 (commands, paths, `FINAL` /
 `<promise>DONE</promise>`, JSON keys) stay as-is.

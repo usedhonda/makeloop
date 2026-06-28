@@ -70,8 +70,17 @@ explicitly asked to change them.
 
 Report compactly:
 
-- ready-to-send Codex launch instruction first;
+- ready-to-send Codex launch instruction first, as a copyable fenced `text` block;
+- `Loop brief` immediately after the launch block, with 3-5 short bullets:
+  - what the loop is trying to change or watch;
+  - closed/open kind and why;
+  - the success gate or trigger condition;
+  - the state or cursor file and what it preserves;
+  - the stop condition or next expected outcome;
 - saved prompt path;
 - state or cursor path;
 - key assumptions or wrong-tool warning, if any;
 - any validation gap found by the pre-save self-check.
+
+Keep the brief concrete to the generated loop. Do not say only "follow the prompt" or repeat the
+file path as the explanation.
