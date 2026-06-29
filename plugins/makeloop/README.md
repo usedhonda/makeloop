@@ -73,6 +73,8 @@ preserved, and when the next run should stop.
 It also includes **Codex run options** so the user can choose the same loop contract as a manual
 tick, a goal-backed continuation, an Automation heartbeat, or an external `codex exec resume`
 pipeline when the host supports that mode.
+For Codex, detailed criteria, source inventories, and iteration instructions stay in the saved
+`.loop/<slug>.md`; chat output stays copy/paste-first.
 The generated prompt is written in **your working language**; only machine-significant literals
 (commands, paths, `FINAL` /
 `<promise>DONE</promise>`, JSON keys) stay as-is.

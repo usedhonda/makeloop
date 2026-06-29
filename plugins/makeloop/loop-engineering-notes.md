@@ -99,6 +99,8 @@ Hard invariants:
 - Keep the generated loop core identical: only the launch surface changes.
 - Keep `.loop/<slug>.md` plus state/cursor as the coupling point across CC and Codex.
 - Final Codex output must include a copyable launch block, Loop brief, and Codex run options.
+- Keep Codex chat thin: detailed criteria, source inventories, and iteration instructions belong in
+  `.loop/<slug>.md`, not in the front-door response.
 
 ## Adopted — Round 1 community harvest (2026-06-24)
 

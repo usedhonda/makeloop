@@ -10,6 +10,10 @@ You are building a loop prompt contract for Codex, not running the project work.
 Your deliverable is a saved `.loop/<slug>.md` prompt plus a seeded state or cursor file and a
 ready-to-send Codex launch instruction plus Codex-native run options.
 
+Keep the chat surface thin. Put the detailed loop contract, source lists, long criteria, and
+iteration instructions in `.loop/<slug>.md`; the chat response is a launch surface, not the full
+prompt.
+
 ## Canonical sources
 
 Before generating, read these files from this plugin:
@@ -43,14 +47,18 @@ Follow the canonical behavior unless this skill says to adapt it for Codex.
 
 Mirror the canonical `/makeloop` interaction style instead of silently choosing a thin path.
 
-- After DISCOVER, present one consolidated proposal before writing files unless the request says
-  `just generate`, `don't ask`, `auto`, or equivalent.
+- After DISCOVER, write the loop files directly when kind, target, gate/trigger, and run mode are
+  clear enough from the request and repo profile. Do not ask just to restate a safe default.
+- Present one consolidated proposal before writing files only when an ambiguity is high-impact
+  enough that choosing wrong would create the wrong loop. Keep that proposal to at most 10 lines.
 - The proposal must include: kind, goal or watch target, SUCCESS CRITERIA or TRIGGER CONDITION,
   gate or signal predicate, state/cursor file, stop/run mode, and the recommended Codex run mode.
-- Offer 2-3 concrete scope/run choices when the user has not already fixed them. Keep the options
+- Offer 2-3 concrete scope/run choices only when there is a real fork. Keep the options terse and
   Codex-native:
   - closed: manual tick (default), `/goal` assisted continuation, or `codex exec resume` pipeline;
   - open: manual watcher tick, thread automation heartbeat, or standalone/project automation.
+- Do not dump the full source inventory, long SUCCESS CRITERIA, implementation plan, or rationale
+  into the proposal. Put that material in the saved loop file after the user confirms.
 - Ask a follow-up only for choices that are ambiguous and high-impact. Otherwise make the same
   conservative assumptions the canonical generator would make and list them.
 - Codex may not expose Claude Code's `AskUserQuestion` UI. If confirmation is needed, ask a concise
@@ -66,7 +74,7 @@ Use this proposal shape when confirmation is needed:
 Proposed loop shape
 - Kind: <closed/open> — <one-line reason>
 - Target: <goal or watch target>
-- Check: <SUCCESS CRITERIA summary or TRIGGER CONDITION>
+- Check: <one-line SUCCESS CRITERIA summary or TRIGGER CONDITION>
 - Verify/signal: <gate commands or observed signal>
 - State: <state/cursor path>
 - Run mode: <recommended Codex run mode> — <why>
@@ -101,6 +109,10 @@ manual tick), recommend the safer first step and list the requested mode as the 
 Lead the final response with a short label, then a fenced `text` block that contains only the
 ready-to-send Codex message in the user's working language. Do not wrap the message in quotes, and
 do not put the message itself in a bullet.
+
+The launch block must be the first substantial output after any one-line completion note. This is
+more important than explaining the design: the user should be able to copy the block without
+editing or hunting through prose.
 
 Closed loop:
 
@@ -171,7 +183,7 @@ explicitly asked to change them.
 Report compactly:
 
 - ready-to-send Codex launch instruction first, as a copyable fenced `text` block;
-- `Loop brief` immediately after the launch block, with 3-5 short bullets:
+- `Loop brief` immediately after the launch block, with 3-5 short bullets, each one line:
   - what the loop is trying to change or watch;
   - closed/open kind and why;
   - the success gate or trigger condition;
@@ -179,9 +191,12 @@ Report compactly:
   - the stop condition or next expected outcome;
 - saved prompt path;
 - state or cursor path;
-- `Codex run options` with the recommended mode and alternates;
+- `Codex run options` with the recommended mode and at most two alternates;
 - key assumptions or wrong-tool warning, if any;
 - any validation gap found by the pre-save self-check.
 
 Keep the brief concrete to the generated loop. Do not say only "follow the prompt" or repeat the
 file path as the explanation.
+Do not print the full generated prompt, full source inventory, full SUCCESS CRITERIA, or full
+implementation plan in chat unless the user explicitly asks to see it. Those belong in the saved
+file.
