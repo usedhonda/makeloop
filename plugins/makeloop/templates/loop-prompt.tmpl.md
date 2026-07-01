@@ -25,16 +25,18 @@ SUCCESS CRITERIA (strict, no soft passes):
 - <criterion 3 — include any hard invariant from profile D>
 
 VERIFY — the gate (run these; never self-grade):
-- <verify command 1, e.g. npm test>
-- <verify command 2, e.g. npm run typecheck>
+- <verify command 1, e.g. npm run typecheck>   # fastest first
+- <verify command 2, e.g. npm test>            # slower last
 PASS = <exact pass condition, e.g. all tests green, 0 type errors, exit 0>
+- Run the gate fastest -> slowest and STOP at the first red.
 
 STATE FILE: .loop/state.md   (or existing state file from the project)
 - Read it before starting. This is a resume, not a restart.
 - Each iteration, append: what you did / what passed or failed / the single next step.
 
 EACH ITERATION:
-1. READ state, then run VERIFY to see the current failures.
+1. RE-READ the loop contract (GOAL + SUCCESS CRITERIA + RULES) AND state, then run VERIFY to
+   see the current failures.
 2. PLAN the single highest-impact next step (just one).
 3. EXECUTE the smallest change that advances that step.
 4. VERIFY by running the gate; record the result in state.
@@ -52,6 +54,7 @@ RULES:
 - Surgical changes only: every diff line must trace back to GOAL. <off-limits from profile D>
 - Search before assuming: grep before claiming a thing is missing or reimplementing it — "it's not there" is only true after you've looked.
 - No fake done: no placeholders/stubs/TODOs reported as complete; never delete, skip, or weaken a check to make the gate go green.
+- Report compactly: a PASS is one line; a FAIL gives {expected / actual / what to fix}. Don't re-print an unchanged prior failure — it poisons the context.
 - Re-verify the diff, not the world: iter 1 checks all; later iters re-check only the changed surface.
 - Retry by failure class: rate-limit->backoff; validation->rewrite-from-feedback; 5xx->retry then move on; tool-unavailable->pause+notify.
 - Empty is not failure: a check that runs cleanly and returns nothing (no matching lines, empty diff, no-op build) has genuinely passed -> record it as a real PASS, don't read silence as "try harder". Only a true error/failed assertion re-enters the retry ladder.
