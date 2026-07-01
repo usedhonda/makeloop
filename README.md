@@ -70,7 +70,8 @@ And it judges the **loop kind** — **closed** (drive-to-done: goal + verify gat
 `FINAL`). For an open watcher "no completion gate" is correct, so the wrong-tool warning is
 suppressed; on ambiguity it defaults to closed.
 
-The output is printed in chat and saved to `.loop/loop-prompt.md`. Claude Code output leads with a
+The output is printed in chat and saved to `.loop/<slug>.md` (a descriptive name so multiple
+loops coexist, listed in `.loop/INDEX.md`). Claude Code output leads with a
 file-backed `/loop` launch line. Codex output leads with a copyable launch block for exactly one
 iteration or watcher tick, then a short Loop brief explaining the loop's purpose, kind, gate or
 trigger, state/cursor file, and stop condition. It also shows Codex-native run options: manual
