@@ -1,7 +1,3 @@
-# >>> project-bootstrap managed >>>
-.cc-status-bar.voice.json
-# <<< project-bootstrap managed <<<
-
 # makeloop: generated loop artifacts + local-only files
 .loop/
 .local/
@@ -9,8 +5,13 @@
 docs/
 
 # Local agent / persona files — never publish (self-contained; do not rely on global gitignore)
-AGENTS.md
-CLAUDE.md
 .persona.md
 .codex/
 .claude/settings.local.json
+
+# >>> project-bootstrap local-only >>>
+CLAUDE.local.md
+.codex/config.toml
+.local/
+.cc-status-bar.voice.json
+# <<< project-bootstrap local-only <<<
