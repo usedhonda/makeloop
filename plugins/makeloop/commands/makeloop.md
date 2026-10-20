@@ -1,13 +1,13 @@
 ---
-description: "Analyze the current project in depth, pin down the work goal, and generate a ready-to-run /loop prompt set to reach it"
+description: "Analyze the current project in depth, pin down the work goal, and generate purpose-led loop choices with copyable native launch instructions"
 argument-hint: "[goal hint (optional)]"
-allowed-tools: ["Read", "Glob", "Grep", "Bash", "AskUserQuestion", "Write", "Task"]
+allowed-tools: ["Read", "Glob", "Grep", "Bash", "AskUserQuestion", "Write", "Agent"]
 ---
 
 # /makeloop — build a loop prompt for this project
 
-You are about to **build a `/loop` prompt**, not run one. Your single deliverable is a
-complete, paste-ready loop prompt that drives this project toward a clearly defined goal.
+You are about to **build a host-native loop contract**, not run one. Your single deliverable is a
+file-backed loop contract with explained choices and complete, copyable launch instructions.
 Do **not** start doing the project work itself — your job ends when the loop prompt is
 generated, shown, and saved. Write your output in the **user's working language** (the
 language of this conversation), not English by default — see Step 5 "Output language".
@@ -36,9 +36,8 @@ tokens:
 - **The metric that matters**: cost per *accepted* change. Below ~50% accept rate, a loop
   costs more than it returns.
 - **Re-anchor, don't drift**: a long run loses its "do not touch" boundaries as context
-  grows (rules tend to evaporate by ~turn 47). Make the loop *re-read its contract* (goal +
-  criteria + rules) every iteration, and prefer many short fresh-context iterations over one
-  long one.
+  grows. Make the loop consult its contract and ledger after continuation/compaction and before a new step;
+  preserve the accepted scope rather than restarting discovery.
 - **The gate will be gamed** (Goodhart): if fooling the check is easier than doing the work,
   a loop drifts toward fooling it (stubs, matching the test instead of the spec, weakening
   assertions). Defend with holdout/rotating cases, properties over self-written example
@@ -106,9 +105,9 @@ reality**; when they disagree, surface it. If there's no relevant history (fresh
 it was compacted away), say so and fall back to the project state.
 
 Then investigate the working directory thoroughly and fill in the **Project Profile** below.
-Use read-only commands only. For a large or unfamiliar codebase, dispatch an `Explore`
-subagent (or 2-3 in parallel) to fill sections B–E faster, then confirm key findings yourself
-by reading one primary source each (don't take the summary on faith).
+Use read-only commands only. Read only what changes the goal, gate or boundary decision. Use an `Explore`/`Agent`
+subagent only when delegation is explicitly authorized and the tool is exposed; otherwise
+collect evidence directly. Tool names and allowed-tools do not authorize delegation.
 
 **A. Orientation**
 - Git: `git status -s`, `git log --oneline -20`, `git diff --stat`, `git diff --stat HEAD`
@@ -191,59 +190,26 @@ Read the **"no automated check"** finding *through kind first, then maturity*:
   bad fit. The loop's *first job is to create its gate* (scaffold + a first failing acceptance
   test); see Step 3's bootstrap guidance and the Bootstrap block in Step 5.
 
-## Step 2 — Goal: propose candidates, confirm scope (AskUserQuestion)
+## Step 2 — Choose the purpose, explain the choices
 
-**Default interaction — propose the whole loop, confirm once.** Steps 2-4 are written as
-separate question rounds, but by default do NOT ask them one at a time. After DISCOVER, assemble
-a single consolidated proposal from the profile — **kind + goal + SUCCESS CRITERIA (or the
-watcher's TRIGGER) + gate + iteration cap + runtime** — and ask ONE `AskUserQuestion` to *confirm
-or edit* the whole thing. Branch into the granular per-step questions below ONLY for a choice
-that is both genuinely ambiguous AND high-impact (closed-vs-open is unclear; a destructive gate
-needs sign-off; success is a judgment call) — those still get their own dedicated question. This
-collapses a routine loop from ~4 round-trips to 1 while keeping the sharp questions for the cases
-that actually need them. (Honor Step 0: anything already specified is pre-filled and not
-re-asked; if interaction level is minimal, state the assumptions and skip the confirm entirely.)
+Read `../references/output-guide.md`. Reconcile the request with the profile; do not replace it.
+If the purpose is unclear, offer concrete project-specific candidates, distinguishing closed
+repair/milestone work from open observation. Do not write executable contracts for unselected
+purposes. When the purpose is clear, compare ways to run that same contract instead of adding goals.
 
-From the profile (and `$ARGUMENTS` if given), derive **2-3 concrete goal candidates**. For
-the **"finish the in-flight work"** scope, lead with the *session-derived* goal — what the
-conversation shows you've been doing — confirmed against the git diff; that's usually the
-sharpest candidate.
+State the kind, target, criteria/trigger, reaction boundary, gate, state and cap/run mode together.
+Ask once only when a genuinely ambiguous, high-impact choice needs resolution. Use the host's
+question UI if exposed, otherwise normal chat. Already supplied scope/runtime/cap/gate decisions
+are not questions. For minimal interaction, state conservative assumptions; ambiguous CI intent
+defaults to a capped closed loop unless the user explicitly wants a comparison first.
 
-**Bias candidates toward loop-appropriate work** — repetitive and machine-checkable: CI /
-test-failure triage, dependency bumps, lint-and-fix passes, flaky-test reproduction, getting
-a suite green, issue-to-PR on well-tested code. **Steer away from loop-hostile goals** where
-"done" is a judgment call — architecture rewrites, auth/payments, production deploys, vague
-product work. If the user's goal is one of those, say so plainly and recommend a single
-guided prompt with a human in the chair instead of a loop.
-
-Then ask the user with `AskUserQuestion`. Ask **scope** first — it changes everything:
-
-- **A) Finish the in-flight work** — wrap up what's being worked on now / the dirty tree.
-- **B) Reach the nearest milestone** — the next coherent checkpoint.
-- **C) Complete the project to the end** — drive all the way to the finish line.
-
-Fold your candidates into the options; if `$ARGUMENTS` carried a hint, make it the top
-candidate. Then **draft strict SUCCESS CRITERIA** (3-5 bullets, each objectively
-checkable — pull invariants from profile D where relevant) and confirm them with the user.
-
-**Greenfield / early projects**: there's nothing in the code to infer a goal from, so treat
-the goal as a *spec* and gather it from the user — what to build, the stack/language, and the
-acceptance criteria that will *become the gate*. Read a `SPEC.md` / README intent if one
-exists. Here the SUCCESS CRITERIA are the user's acceptance criteria, not something derived.
-
-**Open (watcher) goals**: the above (scope A/B/C, SUCCESS CRITERIA) is the **closed** path.
-If kind=open, don't ask for success criteria — instead confirm: **WATCH TARGET** (the signal
-observed), **TRIGGER CONDITION** (the recurring predicate to react to), **REACTION**
-(notify-only vs act), and **RUN MODE** (run-indefinitely vs stop-on-first-event). When a
-surface goal is genuinely ambiguous ("handle CI failures" = drive *this* suite green [closed]
-vs watch for *new* failures and triage [open]), present **both** framings and disambiguate
-with the decisive test. Goal-fit for watchers: monitoring a discrete observable signal is
-loop-appropriate; "watch and use judgment on vague output" is loop-hostile (alert fatigue, no
-objective predicate) — recommend a human in the chair instead.
-
-*Skip the scope question* if Step 0 already resolved scope/goal unambiguously; still show the
-drafted SUCCESS CRITERIA for a quick confirm (unless interaction level is minimal, in which
-case state your assumptions and proceed).
+For closed work, derive strict SUCCESS CRITERIA from the accepted request and invariants, not
+from what is easiest to pass. For greenfield work, use the user's spec (ask only missing material
+requirements), then bootstrap a real gate. For open work, settle WATCH TARGET, objective TRIGGER,
+notify/act scope, destination, dedup and run-indefinitely versus stop-on-event. A missing completion
+gate is correct for a watcher; vague judgment without an observable signal is not a good loop.
+Mature closed work with no rejecting check may be the wrong tool: explain that and propose a
+single guided prompt or an explicitly agreed objective manual check, never an invented gate.
 
 ## Step 3 — Gate + stop condition, sized to the project (AskUserQuestion / propose)
 
@@ -252,10 +218,13 @@ case state your assumptions and proceed).
   cheapest check that can fail the work runs first. This "backpressure ladder" is the main
   lever on cost per accepted change.
   - Single-stage -> one gate command + pass condition.
-  - Multi-stage -> a **two-stage gate**: a *pre-gate* (e.g. `build` + a full check) run at
-    the start of each iteration, and a *post-gate* (re-run the full check) after the fix.
-    A red pre-gate means the baseline is already broken (HALT); a post-gate that drops a
-    previously-passing check means the fix caused a regression (FREEZE, do not commit).
+  - Multi-stage -> a **two-stage gate**: establish the initial baseline once; after changes,
+    run affected checks and the required final acceptance gate. Reuse only evidence that is
+    valid for the same target, input and environment. Repair-target RED is expected; distinguish
+    it from an invalid harness or a previously-green invariant regressing (FREEZE, no commit).
+  - Acquire missing evidence and replace invalid or target-mismatched evidence even without a
+    source diff. Refresh time-dependent/external observations. Do not repeat valid unaffected
+    green checks or full suites at both ends of every iteration. Preserve every criterion's proof.
   - When example tests are the only oracle, prefer a **property / metamorphic check** where
     possible (an invariant true for all inputs, or a relation like "reordering inputs must
     not change the result") — a self-written example test shares the code's blind spots.
@@ -280,10 +249,9 @@ case state your assumptions and proceed).
 - **STOP taxonomy**: at minimum success + a hard iteration cap **N** (default **8**). Add
   labeled stop reasons per the profile (see the mapping in Step 5). Confirm N and the
   **budget** (iteration cap / wall-clock / no-progress streak).
-  - Size N from *diminishing returns*: most reachable gain lands in rounds 1-2 (≈50% then
-    ≈25%), so ~5-6 is often right; past the ceiling the loop re-touches validated code and
-    regresses (oscillation). When quality plateaus, add MORE distinct verifier *types*
-    (tests + lint + self-review + property) — "wide, not deep" — not more iterations of one.
+  - Cap exhaustion is an incomplete checkpoint, not success or permission to shrink scope.
+    Use K consecutive successes only for a real repeat-stability criterion or explicit K request;
+    different meaningful observations must justify repetition. Do not add K=3 by habit.
   - **Cost/time envelope (show before confirming N, so N isn't picked blind)**: if profile F has a
     measured gate runtime (from the Step 6 smoke-test or user-given), show the wall-clock band
     `~N x <gate seconds>`; otherwise show the formula only — `worst case = N x <gate command>`,
@@ -306,30 +274,23 @@ case state your assumptions and proceed).
 block on/off, use those values and don't re-ask. Block on/off directives from Step 0
 override the profile defaults in Step 5.
 
-## Step 4 — Choose the loop runtime (AskUserQuestion)
+## Step 4 — Match the host-native runtime to the purpose
 
-- **Built-in `/loop` self-paced** — omit the interval; iterate until done. Best for
-  goal-completion. (Recommended default.)
-- **Built-in `/loop <interval>`** — e.g. `/loop 30m ...`; cadence-based. Ask for interval.
-- **ralph-loop plugin `/ralph-loop`** — built-in stop machinery (`--max-iterations N`,
-  `--completion-promise '<TAG>'`).
+Read only the current host guide: `../references/claude-code.md` or
+`../references/codex.md`. A Codex adapter changes the launch surface, not the common contract.
+Honor explicit runtime choices. Offer one recommendation and meaningful alternatives with the
+shared output guide. Separate documented, installed-help-confirmed, session-available and unknown.
+Unconfirmed features get conditional explanation, not runnable copy blocks.
 
-*Skip this question* if Step 0 already named the runtime (and interval, if given).
+For risky/spec-heavy work, keep the independent completion check: a checker sees the spec + diff
+and evidence, not the maker's reasoning. Native goal evaluators do not independently run the gate.
+No self-grading: required objective checks and independent reviews remain required. A new checker
+agent requires explicit authorization; an absent checker is a verification gap, not a soft pass.
 
-**Independent completion check** (the `/goal` pattern, **closed loops only**): "the gate
-passes" is objective and self-grading is fine for it. But "the *goal* is met" should not be
-decided by the maker when it can't be fully reduced to the gate — have a separate checker (a
-sub-agent, ideally a different model, seeing the spec + diff but not the maker's reasoning)
-confirm completion before the loop prints its completion token.
-
-Completion token (closed only): `FINAL` for built-in `/loop`; `<promise>DONE</promise>` for
-ralph-loop.
-
-**If kind=open**: use `/loop <interval>` (cadence polling) or self-paced. **Drop the
-completion token and the `/goal` check** — a watcher has no completion. The only token an open
-loop may print is a `TRIGGERED` sentinel in *stop-on-event* mode. One hint for the loop body
-(not a launch line makeloop can emit): for live-stream watching use the **Monitor** tool; for
-wall-clock schedules use a **cron routine** — both are in-loop tool calls.
+FINAL is the closed contract's report marker, not proof the host stopped. Render native stop and
+resume instructions from the chosen host guide. Open loops have no FINAL or completion evaluator;
+stop-on-event may report TRIGGERED, then stop the exact native schedule if configured.
+Generated/configured/started/finished are separate states. Do not create a runner or schedule here.
 
 ## Step 5 — ASSEMBLE: fill the template, include blocks the profile triggers
 
@@ -373,9 +334,25 @@ user's language, not text to copy verbatim.
 | Observation-validity check | ✅ | ↳ folded into OPEN core's Liveness/Coverage |
 | **Dedup/cursor** | ❌ | ✅ (open-only) |
 
-### CLOSED CORE template (drive-to-done; use when kind=closed)
+### Emitted scaffold
 
-```
+<!--
+makeloop loop-prompt template (canonical).
+
+Structure: pick ONE CORE — CLOSED (drive-to-done) or OPEN (watch/react) — by the loop kind,
+then add OPTIONAL blocks that /makeloop includes only when the Project Profile (DISCOVER step)
+triggers them. Ship the smallest loop the project supports — do not paste a two-stage gate for
+a single `npm test`. Closed-only blocks never appear in an OPEN loop and vice versa.
+
+completion report: FINAL for closed contracts; <promise>DONE</promise> for verified ralph-loop. Native stopping is a separate host action.
+
+Output language: this scaffold is in English, but /makeloop renders the FINAL prompt in the
+user's working language (the conversation's language). Keep only machine-significant literals
+unchanged: shell/gate commands, file paths, JSON keys, FINAL / <promise>DONE</promise>, ITERATING.
+-->
+
+# ============ CLOSED CORE (kind=closed; drive-to-done) ============
+
 # LOOP: <short goal name>
 
 GOAL: <one sentence, objective, checkable>. <runbook path if one exists>
@@ -389,344 +366,230 @@ VERIFY — the gate (run these; never self-grade):
 - <verify command 1, e.g. npm run typecheck>   # fastest first
 - <verify command 2, e.g. npm test>            # slower last
 PASS = <exact pass condition, e.g. all tests green, 0 type errors, exit 0>
-- Run the gate fastest -> slowest and STOP at the first red (don't run the slow suite when
-  typecheck is already failing).
+- Run the gate fastest -> slowest and STOP at the first red.
 
-STATE FILE: .loop/state.md   (or existing state file from profile E)
+STATE FILE: .loop/state.md   (or existing state file from the project)
 - Read it before starting. This is a resume, not a restart.
 - Each iteration, append: what you did / what passed or failed / the single next step.
 
 EACH ITERATION:
-1. RE-READ the loop contract (GOAL + SUCCESS CRITERIA + RULES) AND state, then run VERIFY to
-   see the current failures.
+1. READ the loop contract (GOAL + SUCCESS CRITERIA + RULES) and state. Reconcile goal version,
+   repo/worktree, exact session/run handle, cancellation and surviving work; one writer per state.
+   Acquire baseline evidence on first run; later reuse valid unaffected results for the same
+   target/input/environment. Obtain missing proof and replace invalid or mismatched proof.
 2. PLAN the single highest-impact next step (just one).
 3. EXECUTE the smallest change that advances that step.
-4. VERIFY by running the gate; record the result in state.
+4. VERIFY the changed surface and unmet criteria; refresh affected/time-dependent evidence.
+   Run required final acceptance checks once at the checkpoint. Record target, input/environment,
+   result and evidence pointer in state. Do not repeat unaffected green checks.
 5. DECIDE: are ALL success criteria met?
    - Yes -> print "<completion token>" and stop.
    - No  -> print "ITERATING" and continue, fixing the weakest criterion first.
 
 STOP WHEN: VERIFY passes every criterion, OR <N> iterations are reached.
-ON STOP: summarize what changed, what still fails, and roughly the accept rate.
+ON STOP: summarize actual changes, proved criteria, unmet requirements and evidence. Cap/budget
+exhaustion is an incomplete checkpoint, never success or a smaller replacement goal. Preserve the
+original scope and cumulative counters. Apply the selected host stop procedure and record its
+actual result separately from the report marker. Reconcile uncertain external effects; never resend.
 
 RULES:
 - Never call it done until the gate actually passes. No self-grading.
-- First VERIFY counts — don't fabricate work to justify the loop: if VERIFY already passes every
-  SUCCESS CRITERION before you make any change, that is a real success — report FINAL honestly
-  ("already satisfied; no loop work was needed") and do not invent or imply a change that never
-  happened.
-- maker != checker: on risky changes, re-verify with fresh eyes / a sub-agent.
+- First VERIFY counts: if VERIFY already passes every SUCCESS CRITERION before any change, that is a real success -> report FINAL honestly ("already satisfied, no loop work needed"); never fabricate or imply work that didn't happen.
+- maker != checker: preserve independent checking for risky/spec-heavy changes; objective checks
+  are real evidence, native evaluators are not tool-running checkers. Spawn only when explicitly
+  authorized; otherwise record a required independent review as unmet, never self-approve it.
 - Surgical changes only: every diff line must trace back to GOAL. <off-limits from profile D>
-- Search before assuming: grep the codebase before claiming a thing is missing or
-  reimplementing it — "it's not there" is only true after you've looked.
-- No fake done: no placeholders, stubs, or TODOs reported as complete; never delete, skip,
-  or weaken a check to make the gate go green.
-- Report compactly: a PASS is one line; a FAIL gives {expected / actual / what to fix}.
-  Don't re-print an unchanged prior failure — it just poisons the context.
-- Re-verify the diff, not the world: iteration 1 checks everything; later iterations re-check
-  only the just-changed surface, not the whole output.
-- Retry by failure class: rate-limit -> back off; validation fail -> rewrite from the
-  feedback (no blind retry); transient 5xx -> retry once or twice then move on; tool
-  unavailable -> pause and surface it (don't burn retries).
-- Empty is not failure: a check that runs cleanly and returns nothing to act on (no matching
-  lines, an empty diff, a no-op build) has genuinely passed — record that empty result as a
-  real PASS and move on, don't read silence as "try harder". Only a true error or a failed
-  assertion re-enters the retry ladder above.
-- Shrink the unit on repeat failure: if the same subtask fails twice, don't retry it as-is
-  and don't give up — re-scope to the smallest failing fragment (one function / line / test)
-  and attempt that; escalate only after the fragment also fails.
-- Do not ask questions mid-loop. Make a sensible assumption, note it in state, continue.
-```
+- Search before assuming: grep before claiming a thing is missing or reimplementing it — "it's not there" is only true after you've looked.
+- No fake done: no placeholders/stubs/TODOs reported as complete; never delete, skip, or weaken a check to make the gate go green.
+- Report compactly: a PASS is one line; a FAIL gives {expected / actual / what to fix}. Don't re-print an unchanged prior failure — it poisons the context.
+- Re-verify the diff, not the world: establish criterion coverage, reuse valid unaffected proof,
+  acquire missing proof and replace invalid/mismatched proof. External inputs/time can invalidate
+  evidence without a git diff. A valid prior green is not a reason to repeat it.
+- Retry by failure class: rate-limit->backoff; validation->rewrite-from-feedback; 5xx->retry then move on; tool-unavailable->pause+notify.
+- Empty is not failure: a check that runs cleanly and returns nothing (no matching lines, empty diff, no-op build) has genuinely passed -> record it as a real PASS, don't read silence as "try harder". Only a true error/failed assertion re-enters the retry ladder.
+- Shrink the unit on repeat failure: same subtask fails twice -> re-scope to the smallest failing fragment (function/line/test); escalate only after that fails.
+- Do not ask routine questions mid-loop. Continue within accepted scope; a new unsafe or
+  high-impact decision is a boundary, not permission to assume consent. Record blockers immediately
+  and continue independent authorized work. Never manufacture turns to satisfy status thresholds.
 
-### OPEN CORE template (watch/react; use when kind=open — no FINAL, runs on cadence or event)
 
-```
+# ============ OPEN CORE (kind=open; watch/react — no FINAL) ============
+
 # WATCH: <short watch name>
 
-WATCH TARGET: <signal observed — deploy status / app.log / PR #123 comments / the queue>. <runbook if any>
-INTENT: keep watching and react each time the trigger fires. This loop has NO "done" —
-running until stopped is correct, not a defect.
+WATCH TARGET: <signal observed — deploy status / app.log / PR comments / the queue>. <runbook if any>
+INTENT: keep watching and react each time the trigger fires. No "done" — running until stopped is correct.
 
-TRIGGER CONDITION (objective predicate over the observed signal — REPLACES a success gate;
-you read reality, not grade your own work):
-- FIRE when: <predicate, e.g. a line matching /ERROR|FATAL/ appears; status == "failed"; a new
-  unread item; a new comment by someone other than me>
-- A recurring condition to REACT to, not a criterion that becomes permanently true. Precision
-  matters: a false fire trains the user to ignore alerts.
+TRIGGER CONDITION (objective predicate over the observed signal; REPLACES a success gate):
+- FIRE when: <predicate, e.g. line matches /ERROR|FATAL/; status == "failed"; a new unread item>
+- A recurring condition to REACT to, not one that becomes permanently true. Precision matters.
 
-CURSOR FILE: .loop/cursor.json   (last-seen marker, NOT a done/failed/next ledger)
-- Read before each tick. Holds last-seen <id|timestamp|status> + a digest of the last fire
-  (for dedup). This is how you compute "what is NEW since the last tick".
-- COLD START (first run): seed the cursor to the signal's CURRENT end/latest marker, so
-  pre-existing items count as already-seen and you fire only on what arrives AFTER launch (no
-  day-zero backlog false alarm). Replay existing backlog ONLY if the request explicitly asks
-  ("process existing errors / replay backlog / backfill"): one bounded, deduped pass, then advance.
+CURSOR FILE: .loop/cursor.json   (last-seen marker + last-fire digest; NOT a done/failed/next ledger)
+- COLD START (first run): seed the cursor to the signal's CURRENT end/latest so pre-existing items are already-seen and you fire only on what arrives AFTER launch; replay existing backlog only if the request explicitly asks (bounded, deduped pass, then advance).
 
 EACH TICK (one interval, or one event):
 1. OBSERVE: read the current signal; load the cursor.
-2. EVALUATE: is the trigger true for something NEW (beyond the cursor)?
-   - No  -> do nothing; advance the cursor if needed; wait for the next tick. (Silence is normal.)
-   - Yes -> go to 3.
-3. DEDUP: already fired (cursor digest / cooldown window)? If yes -> skip. Edge-trigger, not
-   level-trigger: do not re-fire while the same condition stays true.
-4. REACT (idempotent):
-   - NOTIFY: ONE message to a CONCRETE channel bound to THIS project (resolve <channel> to one
-     real destination — a file like .loop/alerts.md always works in a bare runtime; use
-     PushNotification / a GitHub issue / chat only if that integration is actually wired) with
-     {what fired, the evidence, where, timestamp}.
-   - ACT (only if this watcher acts, e.g. auto-restart / file a ticket): stamp with an
-     idempotency key = <stable key over the event id> so re-firing cannot duplicate the effect.
-5. ADVANCE the cursor (last-seen marker + this fire's digest) and continue.
+2. EVALUATE: trigger true for something NEW (beyond the cursor)? No -> do nothing, advance, wait. Yes -> 3.
+3. DEDUP: already fired (digest / cooldown)? Skip. Edge-trigger, not level-trigger.
+4. REACT (idempotent): NOTIFY one message {what fired, evidence, where, when} to a CONCRETE
+   project-bound channel (resolve <channel> to one real destination — a file always works in a
+   bare runtime; PushNotification / issue / chat only if actually wired); or ACT with an
+   idempotency key = <stable key over event id> so re-firing can't double-act.
+5. ADVANCE the cursor and continue.
 
-RUN MODE: <run-indefinitely>   # steady-state watcher; never prints a completion token
-  # OR <stop-on-event>: the first time the trigger fires, NOTIFY then print "TRIGGERED" and exit.
-There is NO FINAL and NO "all criteria met -> stop" — those are closed-loop notions.
+RUN MODE: <run-indefinitely>  # never prints a token   OR  <stop-on-event>  # first fire -> NOTIFY, print "TRIGGERED", exit
+RUNTIME: <one confirmed host-native observation mode>. Observe fresh signal on each tick.
+Bind exact schedule/run identity, expiry and cancellation procedure in the saved contract.
+Generate the contract only; do not configure a schedule from this text.
 
-RUNTIME: /loop <interval> for cadence polling. For live-stream watching use the Monitor tool;
-for wall-clock schedules use a cron routine — those are in-loop tool calls, not launch lines.
+LIVENESS/COVERAGE: trigger must cover every terminal/failure state (crash/hang/OOM) — "if it died now, would this emit?";
+emit a slow heartbeat so alive vs dead is visible.
 
-LIVENESS / COVERAGE (a dead watcher looks identical to "all quiet"):
-- The trigger must cover EVERY terminal/failure state incl crash / hang / OOM. Ask: "if the
-  thing I watch died right now, would this loop emit anything?" If not, widen the predicate.
-- Emit a slow heartbeat ("still watching, last tick OK at <time>") so alive vs dead is visible.
-
-STOP WHEN (a watcher's stops — NOT success-or-cap):
-- never              : run-indefinitely; stops only when user / scheduler stops it.
-- event-fired        : stop-on-event mode handled the fire.            [stop-on-event only]
-- watch-target-gone  : the thing watched no longer exists -> notify + exit.
-- budget             : optional token/cost/wall-clock cap -> notify + exit (not a goal stop).
+STOP WHEN: event-fired [stop-on-event] / watch-target-gone / cancellation / host expiry /
+budget (notify+exit), otherwise keep observing. Run-indefinitely is intent, not guaranteed uptime.
+Reconcile real native run state before restarting; do not double-act or reset an existing cursor.
 
 RULES:
-- React to reality, don't grade your own work — correctness = coverage + precision.
-- maker != checker: re-verify with fresh eyes / a sub-agent rather than trusting your own read —
-  and if the watcher ACTS, verify the action before its side effect (don't let the actor wave
-  through its own act).
-- Surgical changes only: react only to what the trigger matched; don't "fix things while
-  you're here".
-- Search before assuming: confirm the signal is real (read/grep the source) before firing —
-  "nothing happened" is only true after you've looked.
-- No fake done: never fabricate or suppress an observation to stay quiet, and never weaken the
-  trigger to silence it — a fire must reflect a real event.
-- Edge-trigger, not level-trigger: one notification per NEW occurrence; suppress until the
-  state CHANGES or the cooldown elapses.
-- Idempotent actions: any side effect must be safe to re-run on the same event (no double
-  file / restart / post).
-- Report compactly: a fire is one line {trigger, evidence, where, when}; silence prints nothing.
-- Do not ask questions mid-loop. Make a sensible assumption, note it in the cursor, continue.
-```
+- React to reality, don't grade your own work (correctness = coverage + precision).
+- maker != checker: independently verify risky actions before their side effects; do not let
+  the actor self-approve. New checker agents require explicit authorization; missing required
+  independent proof is a blocker, not a passing observation.
+- Surgical changes only: react only to what the trigger matched; don't fix unrelated things while you're here.
+- Search before assuming: confirm the signal is real (read/grep the source) before firing — "nothing happened" is only true after you've looked.
+- No fake done: never fabricate or suppress an observation to stay quiet, and never weaken the trigger to silence it — a fire must reflect a real event.
+- Edge-trigger: one notification per NEW occurrence; suppress until change/cooldown.
+- Idempotent actions; report compactly (a fire is one line; silence prints nothing).
+- Do not ask routine questions mid-loop; note blockers in cursor and continue independent
+  authorized observation. New unsafe actions require a boundary decision, not guessed consent.
 
-### OPTIONAL blocks (include per the table above)
 
-**Two-stage gate** (closed only) — replace the CLOSED CORE `VERIFY` block and fold these into EACH ITERATION:
-```
+# ============ OPTIONAL blocks (include per profile) ============
+
+## [multi-stage verify] Two-stage gate — replaces CORE VERIFY
 VERIFY — two-stage gate (never self-grade):
-- pre-gate  (start of iteration): <build> && <full check>
-- post-gate (after the fix):      <full check>
-PASS = <full check green + baseline/regression audit shows 0 regression>
-- pre-gate RED  -> HALT  (stop_reason=poisoned-baseline)
-- post-gate drops a previously-passing check -> FREEZE, do NOT commit (stop_reason=regression)
-```
+- pre-gate: establish <build + baseline check> once for this target/input/environment;
+  reuse valid unaffected results. Repair-target RED is expected, not poisoned-baseline.
+- post-gate: <affected checks + required final acceptance audit> after relevant changes.
+PASS = <all acceptance criteria proved + previously-green invariants show 0 regression>
+- Invalid harness or unexplained baseline failure -> HALT (stop_reason=poisoned-baseline).
+- Previously-green invariant regresses -> FREEZE, do NOT commit (stop_reason=regression).
+- Acquire missing or invalid/mismatched proof; never repeat a valid unaffected green merely
+  because another iteration began. Keep full criterion coverage and required release gates.
 
-**Observation-validity check** — insert into EACH ITERATION right after driving the harness:
-```
+## [self-driving harness] Observation-validity check — into EACH ITERATION after driving
 - After driving the harness, validate the observation BEFORE trusting it:
   blank/baseline-identical screenshot, empty snapshot, or frozen run
   -> HALT (stop_reason=unrecoverable-harness). A crash -> HALT (stop_reason=pinata).
-```
 
-**Regression-guard step** — insert into EACH ITERATION after the fix, before the post-gate:
-```
+## [baseline/golden/scenarios] Regression-guard — into EACH ITERATION after the fix
 - Add ONE minimal regression case (<scenarios path>/<name>) that asserts the violated
   invariant, tied to the root-cause fix. One fix + one guard per commit.
-```
 
-**Budget block** — add under STATE FILE:
-```
+## [autonomous loop] Budget — under STATE FILE
 BUDGET (write into state): iteration cap <N> / wall-clock <T> / no-progress streak <P> /
-token+cost cap <C> (soft-pause + notify at 85%, hard stop at 100%).
-```
+token+cost cap <C> when measurable (notify at 85%, stop at 100%).
+Keep cumulative counters across resume, distinguish prompt/native limits, and mark unmeasured
+spend unknown. Budget exhaustion is incomplete; never claim task success or shrink the objective.
 
-**No-progress circuit breaker** — add to EACH ITERATION (mechanistic, complements the
-no-progress stop reason):
-```
-- Hash {tool name + args} for each action this iteration and keep a short window. The same
-  action repeated (3rd identical call, or >85% similar plan/action across iterations) means
-  stuck -> stop_reason=no-progress. Don't keep paying for a spin.
-```
+## [autonomous loop] No-progress circuit breaker — into EACH ITERATION
+- Hash {tool name + args} per action, keep a short window. Same action repeated (3rd
+  identical, or >85% similar plan/action across iterations) -> stop_reason=no-progress.
 
-**Cross-run learnings** — for loops that will run again; add a learnings file + steps:
-```
+## [recurring loop] Cross-run learnings
 LEARNINGS FILE: .loop/learnings.md  (re-read at the START of every run, before the contract)
-  Two sections: ## DURABLE (corroborated rules the loop obeys) and ## UNVERIFIED (candidate
-  lessons — read for context, NOT obeyed as rules yet). Default a new lesson to UNVERIFIED.
-- On any recurring failure, write the lesson to UNVERIFIED first, tagged with an occurrence
-  count + an evidence pointer (the run / iteration that showed it).
-- Promote UNVERIFIED -> DURABLE only when a SECOND occurrence (or an independent fresh-context
-  pass) confirms it — one atypical run may never mint a DURABLE rule it then obeys forever.
-- A learning may never rewrite a SUCCESS CRITERION, a gate, or a stop condition: those change
-  only by human edit, never from the loop's own notes.
-- Prefer category-level prevention over a single regression case: a DURABLE rule that kills the
-  whole class of bug, folded into lint/AGENTS.md where it can be enforced.
-```
+  Two sections: ## DURABLE (corroborated, obeyed) and ## UNVERIFIED (candidate, read-not-obeyed).
+- On any recurring failure, write the lesson to UNVERIFIED first, tagged with occurrence-count +
+  an evidence pointer. Promote to DURABLE only on a 2nd occurrence or an independent pass — one
+  atypical run may never mint a DURABLE rule.
+- A learning may never rewrite a SUCCESS CRITERION / gate / stop condition (human edit only).
+- Prefer category-level prevention (a DURABLE rule folded into lint/AGENTS.md) over a single
+  regression case.
 
-**Escalation handoff** — for unattended/scheduled runs; replaces silent death on a dead-end:
-```
-ON DEAD-END (failure / budget / unrecoverable-harness): do NOT die silently. Write a
-context-rich handoff (what was tried, last error, where it stopped, run_id) to <inbox:
-a file / GitHub issue / channel>. A run that found nothing actionable archives itself
-quietly. Treat "escalate to human with full context" as a success path, not a failure.
-```
+## [unattended/scheduled] Escalation handoff — replaces silent death on a dead-end
+ON DEAD-END (failure / budget / unrecoverable-harness): write a context-rich handoff (what
+was tried, last error, where it stopped, run_id) to <inbox: file / issue / channel>. A run
+that found nothing archives itself quietly. Escalation-to-human is a success path.
 
-**Scheduled-loop safety** — for cron / interval / overnight runs:
-```
-- Idempotency: stamp each side-effecting apply with an idempotency key; on resume, a node
-  re-runs from its start, so duplicate effects must be impossible.
-- Bind the placeholders — don't ship the boilerplate raw: replace the idempotency key and the
-  allowed-action set with the project's REAL values (the stable event-id field; the ONE action
-  this watcher may take). An unbound deny-list lists generic verbs but carries no
-  project-specific authority check, so it blocks nothing concrete.
-- Durable schedule: drive recurring runs from an EXTERNAL scheduler (OS cron / CI / Actions
-  with a per-loop concurrency group, cancel-in-progress=false) — in-process timers die on
-  restart and don't auto-recover.
-- Auto-approve boundary (tiered): safe reads/search auto-run; in-repo file writes auto-run
-  (reviewable via git); shell / external calls / out-of-repo writes / subagent spawns are
-  gated. Default trust boundary = this git repo only.
-- Intent deny-list (judge real impact, not surface text): never force-push, mass-delete,
-  exfiltrate secrets, disable logging, install keys/cronjobs, push to main, or deploy to
-  prod without explicit human sign-off. Anything the loop chose on its own is unauthorized.
-- Security tax (unattended = an unreviewed attack surface): put security checks IN the gate
-  (secret scan, dependency audit, SAST) so insecure code can't auto-merge; require a human
-  approval gate before anything irreversible (merge to main, deploy, dependency changes).
-- Hygiene: don't log credentials (sanitize loop logs); audit any skill/connector source
-  before the loop uses it (prompt-injection vector); re-audit the loop's permissions on a
-  cadence rather than letting scope creep accumulate.
-```
+## [unattended/scheduled] Scheduled-loop safety
+- Idempotency: stamp each side-effecting apply with an idempotency key (node re-runs from its
+  start on resume; duplicate effects must be impossible).
+- Bind the placeholders (don't ship raw): set the idempotency key + the allowed-action set to the
+  project's REAL values (stable event-id; the ONE permitted action). An unbound deny-list lists
+  generic verbs with no project-specific authority check — it blocks nothing concrete.
+- Durable schedule: choose ONE confirmed native scheduler or explicitly requested external
+  scheduler (cron / CI / Actions with per-loop concurrency). Never duplicate continuation.
+  Bind exact job/session, scope, cancellation and expiry; in-process timers die on restart.
+- Auto-approve (tiered): safe reads auto; in-repo writes auto (git-reviewable); shell /
+  external / out-of-repo / subagent-spawn gated. Trust boundary = this repo only.
+- Intent deny-list (judge real impact): no force-push / mass-delete / secret-exfil /
+  disable-logging / push-to-main / prod-deploy without explicit human sign-off.
+- Security tax (unattended = unreviewed attack surface): security checks IN the gate
+  (secret scan / dependency audit / SAST); human approval before anything irreversible;
+  sanitize logs (no credentials); audit skill/connector sources; re-audit permissions on a cadence.
 
-**JSON done-ledger** — replace the markdown success checklist when criteria are many/discrete:
-```
-DONE LEDGER: .loop/done.json  = [{ "criterion": "...", "status": "pass|fail",
-"verified_by": "<gate output / command>" }]
-- Status may only go to "pass" with a real verified_by. The loop is done only when every
-  status is "pass".
-```
+## [many discrete criteria] JSON done-ledger — replaces the markdown success checklist
+DONE LEDGER: .loop/done.json = [{ "criterion": "...", "status": "pass|fail",
+"verified_by": "<gate output>" }]. status -> "pass" only with a real verified_by; done when
+all "pass".
 
-**Dedup/cursor block** (OPEN only) — the watcher's failure-mode defense; fold into the OPEN core:
-```
+## [open only] Dedup/cursor block — fold into the OPEN core
 - Edge-trigger suppression: keep a digest of the last fire in .loop/cursor.json; the same
-  condition staying true must NOT re-fire — only a NEW occurrence (or after the cooldown) fires.
+  condition staying true must NOT re-fire — only a NEW occurrence (or post-cooldown) fires.
 - Last-seen cursor: persist last id/timestamp/status so each tick computes "what is new".
-- Idempotency key (if the watcher acts): a stable key over the event id; re-handling the same
-  event must be a no-op (no double ticket / restart / post).
-```
+- Idempotency key (if the watcher acts): stable key over the event id; re-handling is a no-op.
 
-**Bootstrap block** — for greenfield/early projects (**closed only — suppressed when
-kind=open**: a watcher has no acceptance tests to fail); prepend as ITERATION 0 (runs once):
-```
+## [greenfield/early · closed only — suppressed when kind=open] Bootstrap block — prepend as ITERATION 0 (runs once)
 ITERATION 0 — bootstrap the gate (run once, before the normal loop):
-- Scaffold the project: init the repo, the package manager / project file, and the stack's
-  standard test runner. Keep it minimal — only what the SUCCESS CRITERIA require.
-- Encode each SUCCESS CRITERION as a FAILING acceptance test; run them and confirm RED
-  (a gate that can't fail yet is not a gate).
-- Commit the scaffold + red tests. From here, <test command> is the VERIFY gate and the
-  normal loop drives red -> green.
-```
+- Scaffold minimally: repo, package manager / project file, the stack's test runner — only
+  what the SUCCESS CRITERIA require.
+- Encode each SUCCESS CRITERION as a FAILING acceptance test; run and confirm RED.
+- Commit scaffold + red tests. From here <test command> is the gate; the loop drives red -> green.
 
-**Extended STOP taxonomy** (closed only) — replace the CLOSED CORE `STOP WHEN` line; label every halt:
-```
+## [taxonomy] Extended STOP — replaces CORE "STOP WHEN" line; label every halt
 STOP WHEN (label each halt with stop_reason in the log):
-- success              : <K consecutive clean iterations, e.g. K=3>
+- success              : all original criteria proved; K repeats only if explicitly requested
+                         or required by a meaningful stability criterion
 - no-progress          : <P> iterations new-nothing, or repeated tool-call/plan (circuit breaker)
 - oscillation          : same problem-fix pair repeated 3x
 - failure              : one problem fails to fix after 3 tries
 - budget               : iteration / wall-clock / token+cost cap reached
 - escalate             : dead-end handed off to a human with full context  [unattended only]
 - regression           : post-gate dropped a previously-passing check   [two-stage only]
-- poisoned-baseline    : pre-gate already red                            [two-stage only]
+- poisoned-baseline    : invalid harness/unexplained baseline failure                            [two-stage only]
 - unrecoverable-harness: blank/empty/frozen observation                  [harness only]
 - pinata               : crash                                           [harness only]
 - scope-boundary       : would touch an off-limits area / exceeds turn cap [invariants only]
-```
 
-`<completion token>` = `FINAL` for built-in `/loop`, or `<promise>DONE</promise>` for
-ralph-loop. Use the exact `<N>`/`<K>`/`<P>`/`<T>` the user confirmed.
 
-## Step 6 — OUTPUT (show + save)
+## Step 6 — Validate, save, explain, and provide copyable launches
 
-### Pre-save self-check (run this before saving)
+Read `../references/output-guide.md` and the current host launch guide. Before writing, inspect
+assembled output: exactly one core; correct kind-only blocks; no unbound scaffold placeholders;
+all forced directives honored; every criterion mapped to real evidence; launch path and state
+agree; copy blocks have the right destination and contain no explanation or other candidate.
+An unavailable check is an unresolved verification gap. Do not treat it as a passing criterion.
+Fix assembly defects before saving. State any unresolved acceptance gap without claiming success.
 
-Before writing the files, run two read-only checks on what you assembled — both catch defects
-that otherwise surface only *after* the user launches and burns tokens.
+Generation is not project execution. Do not run the project's test/build gate merely to write a
+prompt. If the user explicitly authorized a lightweight baseline check, run it once, reuse valid
+existing evidence, and distinguish expected repair RED from a harness error. Do not run destructive,
+network or heavy gates just for a smoke test.
 
-**Assembly lint** (always; a read-only pass over the assembled text):
-- No leftover raw `<...>` placeholder survives anywhere — every one was filled with a real value.
-- Exactly ONE CORE is present (CLOSED *or* OPEN, never both), and no closed-only block leaked
-  into an open loop or vice versa (cross-check the Kind-applicability table).
-- Kind-consistent: a **closed** loop has STATE + SUCCESS CRITERIA + a real VERIFY + a completion
-  token; an **open** loop has WATCH TARGET + TRIGGER + cursor + RUN MODE and no completion token.
-- The launch line points at the saved `.loop/<slug>.md`, and the state/cursor filename matches
-  the kind (`-state.md` for closed, `.cursor.json` for open).
-- Any block Step 0 forced on/off was honored.
-- Criterion coverage (closed loops): map each SUCCESS CRITERION to the VERIFY check that proves
-  it; flag any criterion no check covers — the user adds a check or knowingly accepts it as a
-  manual spot-check. An uncovered criterion is an unverifiable soft-pass (a Goodhart surface).
-  Keep it a compact mapping, not a verbose block in the saved loop.
-Print a short PASS / gap list. On a gap, fix it and re-lint — do not save a loop carrying an
-unbound placeholder or a leaked cross-kind block.
+Save the chosen contract as `.loop/<slug>.md`, using a distinct slug for a different purpose.
+Refine a matching existing contract instead of creating a duplicate; preserve its kind/state and
+all unrelated blocks. Seed `.loop/<slug>-state.md` (closed) or `.loop/<slug>.cursor.json` (open)
+only if absent. Never reinitialize existing progress, evidence, cancellation, or cursor history.
+Closed state holds original goal/version, cumulative budget, done/failed/next and evidence pointers.
+Open cursor starts at EOF/latest on the first tick; pre-existing matches do not fire unless bounded
+replay was explicitly requested. Cursor keys include last_seen and last_fired_digest.
 
-**Gate smoke-test** (closed loops with a deterministic gate command only):
-- Behind a quick confirm, run the derived gate command ONCE to confirm it actually resolves
-  (catches `npm test` vs `npm run test`, a missing binary) and report whether the baseline is
-  already green or RED (a RED baseline is a `poisoned-baseline` worth knowing before looping).
-  This is advisory only and never blocks the save; do not run it for open watchers or for any
-  destructive / network / heavy gate.
+Update `.loop/INDEX.md`: slug, purpose, kind, gate/trigger, cap/run mode, chosen runtime (or
+unselected), saved paths and launch message. Showing alternatives does not select an unchosen
+runtime or start anything. Keep one writer and reconcile real run/session ownership before resume.
 
-0. Make sure the assembled prompt + state file are written in the **user's working language**
-   (see Step 5), with only machine-significant literals left as-is.
-1. Create `.loop/` if it doesn't exist (or reuse the existing loop dir from profile E).
-2. Save the assembled prompt to `.loop/<slug>.md` — a short descriptive slug from the goal
-   (e.g. `.loop/sources-harvest.md`, `.loop/qa-green.md`). Default to `loop-prompt.md` only
-   for a project's sole loop; **if a loop file already exists, use a distinct slug so you don't
-   clobber it** (a repo can hold several loops). Then append one row to `.loop/INDEX.md` (create
-   it if absent) — `slug | goal | kind | gate | cap | runtime | ready-to-paste launch line` — so
-   the repo's loops stay listable and re-runnable at a glance (this is the registry Step 1 reads).
-3. Seed the state file if absent. **Closed** → `.loop/<slug>-state.md` (or the project's
-   existing state file):
-   ```
-   # Loop state — <short goal name>
+Output in the user's language: recommended launch block first, concrete Loop brief, explained
+candidate cards (Codex run options on Codex), saved paths and remaining gaps. The complete prompt
+lives in its saved file, not a chat dump. Each usable alternative has its own resolved copy block.
+For unresolved purpose comparisons, explain choices and ask before writing executable loop files.
 
-   ## Budget
-   iteration cap <N> / wall-clock <T> / no-progress <P>   (omit if no budget block)
-
-   ## Done
-   (nothing yet)
-
-   ## Failed / blocked
-   (nothing yet)
-
-   ## Next step
-   <first concrete step toward the goal>
-   ```
-   **Open** → seed `.loop/<slug>.cursor.json` instead (last-seen marker, not a progress ledger).
-   On the FIRST run the loop resolves `last_seen` to the signal's current end/latest marker (cold
-   start: pre-existing items are already-seen, no day-zero backlog fire), unless the request asked
-   to replay existing backlog:
-   ```
-   { "last_seen": null, "last_fired_digest": null, "note": "<watch target>" }
-   ```
-4. **Lead with the ready-to-paste launch line** — this is what the user actually runs, so put
-   it first, in the user's working language, in **file-reference form** (point `/loop` at the
-   saved file so the loop re-reads its contract each iteration — far kinder than pasting the
-   whole prompt). Name the state/cursor file too. Templates:
-   - self-paced (closed): `/loop <saved file> の手順に従って <short goal> を回して。state は <state file>。`
-     (English: `/loop follow <saved file> to <short goal>; state in <state file>.`)
-   - interval / open: `/loop <interval> <saved file> ... (cursor は <cursor file>)`.
-   - ralph-loop: `/ralph-loop <saved file> の手順に従って ... --max-iterations <N> --completion-promise '<promise>DONE</promise>'`.
-   Then, **below the launch line**, print the full assembled prompt for transparency/editing.
-5. Close with the order that works and the cost note, **matched to the kind**:
-   - **closed**: *prove one manual run -> loop it -> schedule it*; watch **cost per accepted
-     change** — if you're tossing more than half the output, fix the gate before running again.
-   - **open**: *prove the trigger fires on one real event -> wrap it with dedup -> schedule/
-     persist it*; watch **coverage + false-positive rate** — a watcher that cries wolf gets
-     muted, and one that goes silent is worse than none.
-
-Stop here. Do not begin executing the loop — generating the prompt is the whole job.
+Stop after generation. Do not begin the project work, create an automation, or claim it is running.

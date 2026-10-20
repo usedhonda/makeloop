@@ -3,9 +3,35 @@
 A Claude Code and Codex plugin that **builds loop prompts for you**.
 
 Claude Code `/makeloop` or Codex `$makeloop:makeloop` reads your current project **and the session conversation**, pins down the work
-goal, asks a couple of focused questions, and emits a complete, paste-ready loop prompt —
+goal, offers purpose-led choices and emits a complete, copyable loop contract —
 goal, strict success criteria, a real verify gate, a state file, and a stop condition,
 **written in your working language**. It generates the prompt; it does not run the loop.
+
+## Choose by what you want to do
+
+makeloop separates **purpose** from **execution mode**. If the goal is unclear, compare concrete
+project-specific purposes before creating a contract. If it is clear, compare ways to run the
+same contract. Usually you get one recommendation plus one or two useful alternatives:
+
+| Want to… | Choice | What the explanation covers |
+| --- | --- | --- |
+| Finish the accepted repair or milestone | Native goal continuation, when available | Edits, acceptance evidence, budget, stop and resume |
+| Inspect one bounded step first | One manual iteration | What may change, what is checked, remaining work and how to continue |
+| Watch for new events | Open watcher tick or supported cadence | Signal, new-event dedup, notification/action scope, cursor, expiry and cancellation |
+| Continue from CI or a wrapper | Exact-session resume, when requested | Working directory, state ownership and uncertain-effect reconciliation |
+
+Each choice explains when it fits **and when it does not**, its actual effects and permissions,
+its saved state and its stopping condition. A watcher is not an alternative implementation of a
+repair. Choices are derived from the project, not fixed presets or a menu padded with irrelevant tools.
+
+**Copy-first output:** a host/paste-destination label, one complete launch block, then a concrete
+Loop brief and explained alternative cards. Long criteria live in the saved file. Each usable
+alternative has its own block; explanations and shell prompts stay outside it, necessary shell
+quotes stay inside. Unconfirmed features are described separately, not presented as runnable commands.
+
+**Generated is not started.** Displaying goal/schedule alternatives does not create them, replace
+an existing goal, reset a cursor or authorize concurrent writers. Existing `.loop/` files are not
+bulk-migrated; refining preserves unrelated choices and progress.
 
 ## Install
 

@@ -1,7 +1,7 @@
 {
   "name": "makeloop",
-  "version": "0.11.1",
-  "description": "Analyze the current project in depth and generate a Codex-ready loop prompt contract sized to the project.",
+  "version": "0.12.0",
+  "description": "Generate purpose-led loop contracts with explained, copyable host-native launch choices, verification, state and stopping conditions.",
   "author": {
     "name": "usedhonda"
   },
@@ -18,7 +18,7 @@
   "interface": {
     "displayName": "makeloop",
     "shortDescription": "Generate Codex-ready loop prompt contracts.",
-    "longDescription": "makeloop reads the current project and conversation, then generates a file-backed loop contract with a real gate or trigger, state or cursor, and a Codex launch instruction for one safe iteration or watcher tick.",
+    "longDescription": "Compare project-grounded loop purposes or run modes, then generate a file-backed contract with verification or trigger, preserved state, stopping conditions, and separately copyable Codex launch choices. Generation does not start a run.",
     "developerName": "usedhonda",
     "category": "Productivity",
     "capabilities": [

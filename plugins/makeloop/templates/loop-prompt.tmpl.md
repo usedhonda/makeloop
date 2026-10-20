@@ -6,7 +6,7 @@ then add OPTIONAL blocks that /makeloop includes only when the Project Profile (
 triggers them. Ship the smallest loop the project supports — do not paste a two-stage gate for
 a single `npm test`. Closed-only blocks never appear in an OPEN loop and vice versa.
 
-completion token: FINAL for built-in /loop (self-paced/interval); <promise>DONE</promise> for ralph-loop.
+completion report: FINAL for closed contracts; <promise>DONE</promise> for verified ralph-loop. Native stopping is a separate host action.
 
 Output language: this scaffold is in English, but /makeloop renders the FINAL prompt in the
 user's working language (the conversation's language). Keep only machine-significant literals
@@ -35,31 +35,44 @@ STATE FILE: .loop/state.md   (or existing state file from the project)
 - Each iteration, append: what you did / what passed or failed / the single next step.
 
 EACH ITERATION:
-1. RE-READ the loop contract (GOAL + SUCCESS CRITERIA + RULES) AND state, then run VERIFY to
-   see the current failures.
+1. READ the loop contract (GOAL + SUCCESS CRITERIA + RULES) and state. Reconcile goal version,
+   repo/worktree, exact session/run handle, cancellation and surviving work; one writer per state.
+   Acquire baseline evidence on first run; later reuse valid unaffected results for the same
+   target/input/environment. Obtain missing proof and replace invalid or mismatched proof.
 2. PLAN the single highest-impact next step (just one).
 3. EXECUTE the smallest change that advances that step.
-4. VERIFY by running the gate; record the result in state.
+4. VERIFY the changed surface and unmet criteria; refresh affected/time-dependent evidence.
+   Run required final acceptance checks once at the checkpoint. Record target, input/environment,
+   result and evidence pointer in state. Do not repeat unaffected green checks.
 5. DECIDE: are ALL success criteria met?
    - Yes -> print "<completion token>" and stop.
    - No  -> print "ITERATING" and continue, fixing the weakest criterion first.
 
 STOP WHEN: VERIFY passes every criterion, OR <N> iterations are reached.
-ON STOP: summarize what changed, what still fails, and roughly the accept rate.
+ON STOP: summarize actual changes, proved criteria, unmet requirements and evidence. Cap/budget
+exhaustion is an incomplete checkpoint, never success or a smaller replacement goal. Preserve the
+original scope and cumulative counters. Apply the selected host stop procedure and record its
+actual result separately from the report marker. Reconcile uncertain external effects; never resend.
 
 RULES:
 - Never call it done until the gate actually passes. No self-grading.
 - First VERIFY counts: if VERIFY already passes every SUCCESS CRITERION before any change, that is a real success -> report FINAL honestly ("already satisfied, no loop work needed"); never fabricate or imply work that didn't happen.
-- maker != checker: on risky changes, re-verify with fresh eyes / a sub-agent.
+- maker != checker: preserve independent checking for risky/spec-heavy changes; objective checks
+  are real evidence, native evaluators are not tool-running checkers. Spawn only when explicitly
+  authorized; otherwise record a required independent review as unmet, never self-approve it.
 - Surgical changes only: every diff line must trace back to GOAL. <off-limits from profile D>
 - Search before assuming: grep before claiming a thing is missing or reimplementing it — "it's not there" is only true after you've looked.
 - No fake done: no placeholders/stubs/TODOs reported as complete; never delete, skip, or weaken a check to make the gate go green.
 - Report compactly: a PASS is one line; a FAIL gives {expected / actual / what to fix}. Don't re-print an unchanged prior failure — it poisons the context.
-- Re-verify the diff, not the world: iter 1 checks all; later iters re-check only the changed surface.
+- Re-verify the diff, not the world: establish criterion coverage, reuse valid unaffected proof,
+  acquire missing proof and replace invalid/mismatched proof. External inputs/time can invalidate
+  evidence without a git diff. A valid prior green is not a reason to repeat it.
 - Retry by failure class: rate-limit->backoff; validation->rewrite-from-feedback; 5xx->retry then move on; tool-unavailable->pause+notify.
 - Empty is not failure: a check that runs cleanly and returns nothing (no matching lines, empty diff, no-op build) has genuinely passed -> record it as a real PASS, don't read silence as "try harder". Only a true error/failed assertion re-enters the retry ladder.
 - Shrink the unit on repeat failure: same subtask fails twice -> re-scope to the smallest failing fragment (function/line/test); escalate only after that fails.
-- Do not ask questions mid-loop. Make a sensible assumption, note it in state, continue.
+- Do not ask routine questions mid-loop. Continue within accepted scope; a new unsafe or
+  high-impact decision is a boundary, not permission to assume consent. Record blockers immediately
+  and continue independent authorized work. Never manufacture turns to satisfy status thresholds.
 
 
 # ============ OPEN CORE (kind=open; watch/react — no FINAL) ============
@@ -87,33 +100,43 @@ EACH TICK (one interval, or one event):
 5. ADVANCE the cursor and continue.
 
 RUN MODE: <run-indefinitely>  # never prints a token   OR  <stop-on-event>  # first fire -> NOTIFY, print "TRIGGERED", exit
-RUNTIME: /loop <interval> for cadence; live-stream -> Monitor; wall-clock -> cron routine (in-loop tool calls).
+RUNTIME: <one confirmed host-native observation mode>. Observe fresh signal on each tick.
+Bind exact schedule/run identity, expiry and cancellation procedure in the saved contract.
+Generate the contract only; do not configure a schedule from this text.
 
 LIVENESS/COVERAGE: trigger must cover every terminal/failure state (crash/hang/OOM) — "if it died now, would this emit?";
 emit a slow heartbeat so alive vs dead is visible.
 
-STOP WHEN: never (run-indefinitely) / event-fired [stop-on-event] / watch-target-gone / budget (cap -> notify+exit).
+STOP WHEN: event-fired [stop-on-event] / watch-target-gone / cancellation / host expiry /
+budget (notify+exit), otherwise keep observing. Run-indefinitely is intent, not guaranteed uptime.
+Reconcile real native run state before restarting; do not double-act or reset an existing cursor.
 
 RULES:
 - React to reality, don't grade your own work (correctness = coverage + precision).
-- maker != checker: re-verify with fresh eyes / a sub-agent rather than trusting your own read — and if the watcher ACTS, verify the action before its side effect (don't let the actor wave through its own act).
+- maker != checker: independently verify risky actions before their side effects; do not let
+  the actor self-approve. New checker agents require explicit authorization; missing required
+  independent proof is a blocker, not a passing observation.
 - Surgical changes only: react only to what the trigger matched; don't fix unrelated things while you're here.
 - Search before assuming: confirm the signal is real (read/grep the source) before firing — "nothing happened" is only true after you've looked.
 - No fake done: never fabricate or suppress an observation to stay quiet, and never weaken the trigger to silence it — a fire must reflect a real event.
 - Edge-trigger: one notification per NEW occurrence; suppress until change/cooldown.
 - Idempotent actions; report compactly (a fire is one line; silence prints nothing).
-- Do not ask questions mid-loop (note in cursor, continue).
+- Do not ask routine questions mid-loop; note blockers in cursor and continue independent
+  authorized observation. New unsafe actions require a boundary decision, not guessed consent.
 
 
 # ============ OPTIONAL blocks (include per profile) ============
 
 ## [multi-stage verify] Two-stage gate — replaces CORE VERIFY
 VERIFY — two-stage gate (never self-grade):
-- pre-gate  (start of iteration): <build> && <full check>
-- post-gate (after the fix):      <full check>
-PASS = <full check green + baseline/regression audit shows 0 regression>
-- pre-gate RED  -> HALT  (stop_reason=poisoned-baseline)
-- post-gate drops a previously-passing check -> FREEZE, do NOT commit (stop_reason=regression)
+- pre-gate: establish <build + baseline check> once for this target/input/environment;
+  reuse valid unaffected results. Repair-target RED is expected, not poisoned-baseline.
+- post-gate: <affected checks + required final acceptance audit> after relevant changes.
+PASS = <all acceptance criteria proved + previously-green invariants show 0 regression>
+- Invalid harness or unexplained baseline failure -> HALT (stop_reason=poisoned-baseline).
+- Previously-green invariant regresses -> FREEZE, do NOT commit (stop_reason=regression).
+- Acquire missing or invalid/mismatched proof; never repeat a valid unaffected green merely
+  because another iteration began. Keep full criterion coverage and required release gates.
 
 ## [self-driving harness] Observation-validity check — into EACH ITERATION after driving
 - After driving the harness, validate the observation BEFORE trusting it:
@@ -126,7 +149,9 @@ PASS = <full check green + baseline/regression audit shows 0 regression>
 
 ## [autonomous loop] Budget — under STATE FILE
 BUDGET (write into state): iteration cap <N> / wall-clock <T> / no-progress streak <P> /
-token+cost cap <C> (soft-pause + notify at 85%, hard stop at 100%).
+token+cost cap <C> when measurable (notify at 85%, stop at 100%).
+Keep cumulative counters across resume, distinguish prompt/native limits, and mark unmeasured
+spend unknown. Budget exhaustion is incomplete; never claim task success or shrink the objective.
 
 ## [autonomous loop] No-progress circuit breaker — into EACH ITERATION
 - Hash {tool name + args} per action, keep a short window. Same action repeated (3rd
@@ -153,8 +178,9 @@ that found nothing archives itself quietly. Escalation-to-human is a success pat
 - Bind the placeholders (don't ship raw): set the idempotency key + the allowed-action set to the
   project's REAL values (stable event-id; the ONE permitted action). An unbound deny-list lists
   generic verbs with no project-specific authority check — it blocks nothing concrete.
-- Durable schedule: drive from an EXTERNAL scheduler (cron / CI / Actions, per-loop
-  concurrency group, cancel-in-progress=false); in-process timers die on restart.
+- Durable schedule: choose ONE confirmed native scheduler or explicitly requested external
+  scheduler (cron / CI / Actions with per-loop concurrency). Never duplicate continuation.
+  Bind exact job/session, scope, cancellation and expiry; in-process timers die on restart.
 - Auto-approve (tiered): safe reads auto; in-repo writes auto (git-reviewable); shell /
   external / out-of-repo / subagent-spawn gated. Trust boundary = this repo only.
 - Intent deny-list (judge real impact): no force-push / mass-delete / secret-exfil /
@@ -183,14 +209,15 @@ ITERATION 0 — bootstrap the gate (run once, before the normal loop):
 
 ## [taxonomy] Extended STOP — replaces CORE "STOP WHEN" line; label every halt
 STOP WHEN (label each halt with stop_reason in the log):
-- success              : <K consecutive clean iterations, e.g. K=3>
+- success              : all original criteria proved; K repeats only if explicitly requested
+                         or required by a meaningful stability criterion
 - no-progress          : <P> iterations new-nothing, or repeated tool-call/plan (circuit breaker)
 - oscillation          : same problem-fix pair repeated 3x
 - failure              : one problem fails to fix after 3 tries
 - budget               : iteration / wall-clock / token+cost cap reached
 - escalate             : dead-end handed off to a human with full context  [unattended only]
 - regression           : post-gate dropped a previously-passing check   [two-stage only]
-- poisoned-baseline    : pre-gate already red                            [two-stage only]
+- poisoned-baseline    : invalid harness/unexplained baseline failure                            [two-stage only]
 - unrecoverable-harness: blank/empty/frozen observation                  [harness only]
 - pinata               : crash                                           [harness only]
 - scope-boundary       : would touch an off-limits area / exceeds turn cap [invariants only]
