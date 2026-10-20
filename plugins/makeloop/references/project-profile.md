@@ -100,4 +100,3 @@ Read the **"no automated check"** finding *through kind first, then maturity*:
 - **Greenfield / early** → "no gate" is expected, nothing's built yet. Do NOT call the loop a
   bad fit. The loop's *first job is to create its gate* (scaffold + a first failing acceptance
   test); see Step 3's bootstrap guidance and the Bootstrap block in Step 5.
-
