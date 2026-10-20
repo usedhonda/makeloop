@@ -59,6 +59,11 @@ protected golden properties and the following acceptance criteria:
 - valid unaffected green is reused; fresh signals remain fresh; native completion is not proof;
 - no check weakening, invented success, source citations or operational secrets in output.
 
+The deterministic provenance check recognizes URLs in explicit source/reference/citation labels
+or sections. Operational gate/target URLs and evidence links are valid contract content, not
+automatically source citations. Unlabelled or differently formatted provenance still requires
+the independent semantic check above; URL presence alone is not a rejection rule.
+
 Record per-case results and evidence locally. Run the golden batch once after stabilization;
 rerun only affected failed cases after a concrete correction. Synthetic generation is not a
 live scheduled run, desktop paste test, or proof of production host availability.

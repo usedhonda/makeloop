@@ -74,6 +74,35 @@ class ArtifactInputTests(unittest.TestCase):
         cases = json.loads(CHECKER.with_name('scenarios.json').read_text())
         self.assertEqual(input_errors(cases, []), [])
 
+    def test_operational_urls_are_not_source_citations(self):
+        for kind in ('closed', 'open'):
+            with self.subTest(kind=kind):
+                case, out = sample(kind)
+                path = '.loop/example.md'
+                original = out['files'][path]
+                if kind == 'closed':
+                    case['gate'] = 'curl --fail https://example.com/health'
+                    contract = original.replace('python3 -m unittest', case['gate'])
+                    state_path = '.loop/example-state.md'
+                    out['files'][state_path] += '\nEvidence: https://example.com/runs/42'
+                else:
+                    contract = original.replace('app.log', 'https://example.com/status')
+                out['files'][path] = contract
+                out['chat'] = out['chat'].replace(original, contract)
+                self.assertEqual(check(case, out), [])
+
+    def test_explicit_source_citations_are_rejected(self):
+        for citation in ('Source: https://example.com/article',
+                         '## Sources\n- [Article](https://example.com/article)',
+                         '出典：https://example.com/article'):
+            with self.subTest(citation=citation):
+                case, out = sample()
+                path = '.loop/example.md'
+                original = out['files'][path]
+                out['files'][path] += '\n' + citation
+                out['chat'] = out['chat'].replace(original, out['files'][path])
+                self.assertIn('source citation in generated files', check(case, out))
+
     def test_declared_learning_ledger_is_not_a_second_contract(self):
         for kind in ('closed', 'open'):
             with self.subTest(kind=kind):

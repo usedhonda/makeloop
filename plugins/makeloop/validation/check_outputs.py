@@ -71,6 +71,24 @@ def input_errors(cases, outputs):
     return errors
 
 
+def has_source_citation(text):
+    """Recognize explicit citation labels/sections, not operational URL values.
+
+    Unlabelled provenance still requires the independent semantic review.
+    """
+    labels = r'sources?|references?|citations?|bibliography|出典|参考文献|参考資料'
+    pattern = (r'^[ \t]*(?:#{1,6}[ \t]+)?(?:' + labels +
+               r')[ \t]*(?:[:：][ \t]*(.*)|$)')
+    for match in re.finditer(pattern, text, re.M | re.I):
+        content = match.group(1) or ''
+        if not content.strip():
+            content = re.split(r'^#{1,6}[ \t]+', text[match.end():],
+                               maxsplit=1, flags=re.M)[0]
+        if re.search(r'https?://', content):
+            return True
+    return False
+
+
 def check(case, out, presentation=True):
     errors = case_errors(case) + output_errors(out)
     if errors:
@@ -112,7 +130,8 @@ def check(case, out, presentation=True):
     require(state_path in files, 'missing matching state/cursor')
     # Safety-rule meaning is graded independently against the golden rubric, not
     # by forcing English labels onto valid Japanese or paraphrased contracts.
-    require(not re.search(r'https?://', body), 'source citation in generated files')
+    require(not any(has_source_citation(text) for text in files.values()),
+            'source citation in generated files')
     require(not re.search(r'<(?:slug|channel|event id|N|K|P|T|C|completion token|saved file)>', body, re.I),
             'unbound scaffold placeholder')
     if kind == 'closed':
