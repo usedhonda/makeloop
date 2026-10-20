@@ -24,10 +24,12 @@ Each choice explains when it fits **and when it does not**, its actual effects a
 its saved state and its stopping condition. A watcher is not an alternative implementation of a
 repair. Choices are derived from the project, not fixed presets or a menu padded with irrelevant tools.
 
-**Copy-first output:** a host/paste-destination label, one complete launch block, then a concrete
-Loop brief and explained alternative cards. Long criteria live in the saved file. Each usable
-alternative has its own block; explanations and shell prompts stay outside it, necessary shell
-quotes stay inside. Unconfirmed features are described separately, not presented as runnable commands.
+**Final-only output:** no launch commands or full Loop body during progress or questions. Once
+files and checks are complete, one final response contains the explanations and candidate choices,
+then the chosen Loop body, then **all launch blocks at the very end**. Nothing follows the last
+launch block. Each block is independent and labeled by host and paste destination; explanations
+and shell prompts stay outside, necessary shell quotes stay inside. Unknown features remain
+conditional explanations without runnable blocks. This replaces the former launch-first ordering.
 
 **Generated is not started.** Displaying goal/schedule alternatives does not create them, replace
 an existing goal, reset a cursor or authorize concurrent writers. Existing `.loop/` files are not
@@ -96,13 +98,11 @@ And it judges the **loop kind** — **closed** (drive-to-done: goal + verify gat
 `FINAL`). For an open watcher "no completion gate" is correct, so the wrong-tool warning is
 suppressed; on ambiguity it defaults to closed.
 
-The output is printed in chat and saved to `.loop/<slug>.md` (a descriptive name so multiple
-loops coexist, listed in `.loop/INDEX.md`). Claude Code output leads with a
-file-backed `/loop` launch line. Codex output leads with a copyable launch block for exactly one
-iteration or watcher tick, then a short Loop brief explaining the loop's purpose, kind, gate or
-trigger, state/cursor file, and stop condition. It also shows Codex-native run options: manual
-ticks by default, `/goal` for closed continuation, Automations for heartbeat/watch loops, and
-`codex exec resume` for external schedulers or CI.
+The full contract is saved to `.loop/<slug>.md`, with progress/cursor and `.loop/INDEX.md`.
+Chat presents explanations and the chosen Loop body only in the final package, with all
+resolved launch blocks last and nothing after them. Manual ticks are the safe-first-run default; explicit completion/cadence/CI intent
+selects a supported native mode. Unsupported features are conditional explanations, not runnable
+copy blocks. Generation does not start a loop, configure scheduling or overwrite existing state.
 `makeloop` will also tell you when a loop is the wrong tool (no automated check -> a single good
 prompt wins).
 
@@ -116,9 +116,11 @@ See [`plugins/makeloop/README.md`](plugins/makeloop/README.md) for details.
 plugins/makeloop/
   .codex-plugin/plugin.json        # Codex plugin manifest
   .claude-plugin/plugin.json       # plugin manifest
-  commands/makeloop.md             # the /makeloop command (self-contained)
+  commands/makeloop.md             # shared generator and /makeloop entrypoint
   skills/makeloop/SKILL.md         # the $makeloop:makeloop Codex skill
   templates/loop-prompt.tmpl.md    # the generated loop-prompt template (canonical)
+  references/                     # on-demand profile, output and host launch guides
+  validation/                     # supplemental synthetic-output cases and checker
   eval/scenarios.md                # golden eval — objective quality gate for makeloop itself
   eval/codex-scenarios.md          # Codex-surface eval — skill/plugin launch contract
   scripts/install-codex-prompt-shim.mjs # optional local Codex slash-like prompt shim installer

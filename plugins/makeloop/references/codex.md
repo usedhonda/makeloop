@@ -14,7 +14,8 @@ The portable default is a normal Codex message for one iteration or watcher tick
 | CI/external scheduler | `codex exec resume` | Bind the exact session and working directory; no runner is created |
 
 Recommend one iteration for a safe first run. Preserve an explicit goal/cadence/CI choice rather
-than forcing manual mode. Describe the purpose, behavior, effects, check, stop and resume for each
+than forcing manual mode. A confirmed explicit CI/external-resume choice remains selected and
+recommended in the contract, INDEX and final launch group; manual is only an optional alternative. Describe the purpose, behavior, effects, check, stop and resume for each
 candidate using the shared output guide. No fake `/loop`, `/ralph-loop` or `codex-loop` commands.
 
 ## Launch forms

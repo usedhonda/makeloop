@@ -44,7 +44,7 @@ EACH ITERATION:
 4. VERIFY the changed surface and unmet criteria; refresh affected/time-dependent evidence.
    Run required final acceptance checks once at the checkpoint. Record target, input/environment,
    result and evidence pointer in state. Do not repeat unaffected green checks.
-5. DECIDE: are ALL success criteria met?
+5. DECIDE: are ALL success criteria AND mandatory RULES/review requirements proved?
    - Yes -> print "<completion token>" and stop.
    - No  -> print "ITERATING" and continue, fixing the weakest criterion first.
 
@@ -60,6 +60,7 @@ RULES:
 - maker != checker: preserve independent checking for risky/spec-heavy changes; objective checks
   are real evidence, native evaluators are not tool-running checkers. Spawn only when explicitly
   authorized; otherwise record a required independent review as unmet, never self-approve it.
+  Put every required independent review in SUCCESS CRITERIA. No FINAL until it is actually passed.
 - Surgical changes only: every diff line must trace back to GOAL. <off-limits from profile D>
 - Search before assuming: grep before claiming a thing is missing or reimplementing it — "it's not there" is only true after you've looked.
 - No fake done: no placeholders/stubs/TODOs reported as complete; never delete, skip, or weaken a check to make the gate go green.
@@ -102,7 +103,7 @@ EACH TICK (one interval, or one event):
 RUN MODE: <run-indefinitely>  # never prints a token   OR  <stop-on-event>  # first fire -> NOTIFY, print "TRIGGERED", exit
 RUNTIME: <one confirmed host-native observation mode>. Observe fresh signal on each tick.
 Bind exact schedule/run identity, expiry and cancellation procedure in the saved contract.
-Generate the contract only; do not configure a schedule from this text.
+Each invocation runs one watcher tick; schedule setup is separate. Do not create duplicate schedules.
 
 LIVENESS/COVERAGE: trigger must cover every terminal/failure state (crash/hang/OOM) — "if it died now, would this emit?";
 emit a slow heartbeat so alive vs dead is visible.

@@ -16,6 +16,10 @@ one iteration, native goal continuation, or a supported scheduled watcher. Do no
 goals or expand scope to fill a menu. Normally show one recommendation and 1-2 meaningful
 alternatives (at most four total when useful); one appropriate choice is better than padding.
 Explicit runtime, cap, gate and safety decisions override defaults without a second confirmation.
+When a requested runtime is confirmed available, it is the selected/recommended mode, not merely
+an alternative. In particular, a CI/external-resume request must not silently become manual-first;
+manual can be an optional inspection card, not a replacement recommendation. If the requested mode
+is unavailable, keep it recorded as requested/unconfigured and explain the usable alternative.
 
 ## Explain every candidate
 
@@ -33,18 +37,33 @@ not just tool names. Each card must explain, concretely for this project:
 Give enough explanation to make the choice, usually a short paragraph plus concrete bullets.
 Do not compress differences into generic “safe / advanced” labels or bury them in a tool menu.
 
-## Output order after the purpose is settled
+## Final-only output: explanation, contract, launches last
 
-1. One short recommendation label naming the host and **paste destination**.
-2. The recommended complete launch block, before lengthy explanations.
-3. A concrete **Loop brief**: purpose, closed/open reason, check/trigger, state and stop/next outcome.
-4. Candidate cards explaining the recommendation and meaningful alternatives. For Codex, group
-   these under **Codex run options**. Mark exactly one recommendation across the response.
-5. Saved paths, assumptions, and status: **contract generated; continuation/schedule not configured;
-   not started**. Report an existing run only with its real observed handle/status.
+Do not show launch commands or the full Loop body in commentary, progress messages, proposals,
+question rounds or before saving/checking is complete. Explain purpose choices when needed, but
+hold executable text until the final deliverable. The user must not have to hunt through the
+conversation to find the latest launch. Earlier copy-first guidance is superseded by this rule.
 
-Do not dump the full assembled prompt into chat unless requested; the saved file is the full
-contract. Long criteria, source inventories and instructions belong there, not in the launch line.
+After resolving material questions, saving files and completing assembly checks, send ONE final
+package in this order:
+
+1. Explanations and a concrete **Loop brief**: purpose, closed/open reason, actual actions,
+   scope/effects, check/trigger, stop/cap/expiry, state and next/resume behavior.
+2. Explained candidate cards. For Codex, use **Codex run options**. Mark exactly one choice as
+   recommended; distinguish different purposes from ways to run the same accepted contract.
+3. Saved paths, assumptions/gaps, and truthful status: **contract generated; continuation/schedule
+   not configured; not started**. Put caveats, cost notes and all closing prose HERE, not after commands.
+4. **Loop contract / Loop本文**: show the complete chosen saved contract once in a `markdown` fence,
+   so the user can inspect or copy the body. Use the saved content checked before the final response,
+   not a newly reconstructed variant. Do not print unchosen-purpose executable contracts.
+5. **Launch commands / 起動コマンド**, at the very end: one fully resolved independent block per
+   confirmed runnable choice, with host/paste destination and the candidate name immediately above.
+   Keep unconfirmed options in the earlier explanation; they have no launch fence.
+
+After the last launch fence, output nothing: no summary, warning, file links, cost note, question,
+metrics or repeated assumptions. Do not repeat a launch under its earlier candidate explanation.
+Long criteria/source inventories remain in the saved contract; showing that contract once in the
+final package does not authorize executing it or creating schedules.
 
 ## Copy contract
 

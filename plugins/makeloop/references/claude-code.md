@@ -2,7 +2,8 @@
 
 Read for Step 4/6 on Claude Code only. Contract generation is not execution or permission setup.
 Use observed host capabilities, not a version number alone. Keep unavailable or unconfirmed
-commands in Conditional options without runnable fences. A normal one-iteration message is the
+commands in Conditional options without runnable fences.
+Confirm optional ralph-loop through the actual exposed Skill/command list, not just a package name. A normal one-iteration message is the
 portable first-run alternative. Honor the requested runtime when available.
 
 | Need | Candidate | Behavior and limits |
@@ -45,9 +46,15 @@ The saved contract carries the host-specific stop instructions below, not merely
 - Fixed intervals keep firing until cancelled or expired. Record the exact job ID; cancel that
   job with the native cancellation tool (such as `CronDelete`) at stop-on-event/cap/completion.
   Do not cancel unrelated schedules or claim FINAL cancelled anything.
+  A fixed schedule is a cron cadence, not a guaranteed elapsed-time timer. Capture the host's
+  confirmed cron/timezone/next fire; do not invent an immediate first tick or promise exact 24h
+  spacing/number of runs. For “nightly”, resolve the intended wall-clock time before scheduling.
 - Session loops have a seven-day expiry; “run-indefinitely” describes intent, not an uptime
   guarantee. Self-paced wakeups are not restored by session resume. Do not silently recreate an
   uncertain prior schedule. Record expiry and actual cancellation/restart status.
+  This does NOT mean every schedule disappears: CronCreate tasks are restored on resume except
+  expired recurring tasks and elapsed one-shots; background Bash/Monitor tasks are not restored.
+  Never generalize the self-paced limitation to fixed scheduled tasks.
 - Resumed native goals can reset native turn/time/spend counters. Keep the original goal version,
   accepted scope and cumulative budget in the file-backed ledger. Native and prompt limits are
   different mechanisms; do not promise a machine-enforced limit from prose alone.
@@ -57,3 +64,12 @@ The saved contract carries the host-specific stop instructions below, not merely
 
 Persistent cloud/Desktop scheduling is a separate deployment choice, not an automatic migration
 of local `.loop/` files. Describe it only if requested; keep this generator free of new runners.
+
+## Final text turn
+
+Finish all Write/Bash operations, INDEX updates, saved-file checks and other tools in earlier
+turns. The final package must be a tool-free final text turn: explanations, chosen Loop body,
+then launch blocks last. Do not mix a launch with a tool call or run a saving/checking tool
+after it. Text between tools is visible to the user and is not the final deliverable.
+Allowed-tools entries expose capabilities; they do not authorize spawning agents. Honor the
+user's chosen interaction style rather than imposing a question UI.

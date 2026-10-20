@@ -25,10 +25,12 @@ Each choice explains when it fits **and when it does not**, its actual effects a
 its saved state and its stopping condition. A watcher is not an alternative implementation of a
 repair. Choices are derived from the project, not fixed presets or a menu padded with irrelevant tools.
 
-**Copy-first output:** a host/paste-destination label, one complete launch block, then a concrete
-Loop brief and explained alternative cards. Long criteria live in the saved file. Each usable
-alternative has its own block; explanations and shell prompts stay outside it, necessary shell
-quotes stay inside. Unconfirmed features are described separately, not presented as runnable commands.
+**Final-only output:** no launch commands or full Loop body during progress or questions. Once
+files and checks are complete, one final response contains the explanations and candidate choices,
+then the chosen Loop body, then **all launch blocks at the very end**. Nothing follows the last
+launch block. Each block is independent and labeled by host and paste destination; explanations
+and shell prompts stay outside, necessary shell quotes stay inside. Unknown features remain
+conditional explanations without runnable blocks. This replaces the former launch-first ordering.
 
 **Generated is not started.** Displaying goal/schedule alternatives does not create them, replace
 an existing goal, reset a cursor or authorize concurrent writers. Existing `.loop/` files are not
@@ -79,7 +81,7 @@ explicit verify gate (`gate: npm test && tsc`), forcing optional blocks on/off
 The generator asks only for material ambiguity, using one consolidated proposal rather than
 separate scope/gate/runtime question rounds. It honors supplied decisions. The selected contract
 is saved as `.loop/<slug>.md`, with closed `-state.md` or open `.cursor.json` seeded only if absent.
-The launch block references these files, followed by the Loop brief and explained run choices.
+The final package explains the choices, shows the chosen Loop body, and ends with resolved launches.
 
 Claude Code can offer `/goal` for closed completion, `/loop` for dynamic/fixed waiting and an
 installed ralph-loop workflow. Codex can offer manual ticks, `/goal`, supported chat/project
@@ -143,7 +145,7 @@ Beyond the three hearts, each loop is shaped by lessons from loop-engineering pr
 
 Profile/directive-triggered blocks add a **no-progress circuit breaker**, **cross-run
 learnings** (`.loop/learnings.md`), **escalation handoff** for unattended runs,
-**scheduled-loop safety** (idempotency, external scheduler, tiered auto-approve, intent
+**scheduled-loop safety** (idempotency, one confirmed scheduler, tiered auto-approve, intent
 deny-list), a **JSON done-ledger**, and **LLM-as-judge hardening**.
 
 The technique catalog, the self-improvement run history, and the deferred fleet-mode roadmap live in
@@ -159,9 +161,9 @@ plugins/makeloop/skills/makeloop/SKILL.md
 .agents/plugins/marketplace.json
 ```
 
-The Codex skill reads the canonical Claude Code generator and template, then adapts only the host
-launch surface: no fake `/loop`, no `/ralph-loop`, and no hidden runner. The default output is a
-copyable one-iteration or one-watcher-tick launch block backed by `.loop/<slug>.md` plus state/cursor.
+The Codex skill reads the shared canonical generator and template, then adapts only the host
+launch surface: no fake `/loop`, no `/ralph-loop`, and no hidden runner. The final package ends with
+copyable launch blocks backed by `.loop/<slug>.md` plus state/cursor; none appear during progress.
 When the loop needs a closer Codex analogue to CC's runtime choices, the skill also offers Codex
 run options: `/goal` for closed continuation, thread/standalone Automations for cadence and
 watchers, and `codex exec resume` for external orchestration. It describes these modes but does not

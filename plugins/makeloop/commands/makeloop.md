@@ -80,8 +80,8 @@ Extract whatever is present (natural phrasing, not strict flags — interpret in
 
 | Directive | Example phrasings | Effect |
 | --- | --- | --- |
-| **Goal / scope** | "finish the auth refactor", "全テストを緑に", "complete the project" | Goal hint + scope; skip the scope/goal question if unambiguous (still confirm criteria). |
-| **Runtime** | "self-paced", "interval 30m" / "30分ごと", "ralph-loop" | Sets the runtime; skip Step 4. |
+| **Goal / scope** | "finish the auth refactor", "全テストを緑に", "complete the project" | Goal hint + scope; skip resolved scope/goal questions; show criteria without re-asking supplied decisions. |
+| **Runtime** | "one iteration", "/goal", "self-paced", "interval 30m" / "30分ごと", "schedule", "CI/external resume", "ralph-loop" | Sets the runtime; omit its question, still apply Step 4 capability/stop rules. |
 | **Loop kind** | open: "watch/monitor X", "notify me when", "poll", "alert on", "監視/通知/見張る"; closed: "finish", "complete", "get green", "fix all", "完成/緑に" | Sets KIND. If unspecified, classify in Step 1. On ambiguity default to **closed**. |
 | **Iteration cap / budget** | "cap 20", "上限20", "max 20 iterations", "wall-clock 30min", "no-progress 3" | Sets N / wall-clock / no-progress; don't ask. |
 | **Success K** | "K=3 consecutive clean", "3連続で新問題ゼロ" | Sets the success streak. |
@@ -287,9 +287,10 @@ Update `.loop/INDEX.md`: slug, purpose, kind, gate/trigger, cap/run mode, chosen
 unselected), saved paths and launch message. Showing alternatives does not select an unchosen
 runtime or start anything. Keep one writer and reconcile real run/session ownership before resume.
 
-Output in the user's language: recommended launch block first, concrete Loop brief, explained
-candidate cards (Codex run options on Codex), saved paths and remaining gaps. The complete prompt
-lives in its saved file, not a chat dump. Each usable alternative has its own resolved copy block.
+Only in the final response, after saving and checking: explanations/Loop brief, explained candidate
+cards (Codex run options on Codex), paths/status/gaps, complete chosen Loop body once, then the
+resolved launch blocks at the very end. Do not output launch commands or full Loop bodies during
+progress or proposals. Nothing follows the final launch fence; see the output guide.
 For unresolved purpose comparisons, explain choices and ask before writing executable loop files.
 
 Stop after generation. Do not begin the project work, create an automation, or claim it is running.

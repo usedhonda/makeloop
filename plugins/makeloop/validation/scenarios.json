@@ -1,0 +1,177 @@
+[
+  {
+    "id": "S1",
+    "host": "claude",
+    "request": "finish the auth refactor, gate: npm test && tsc; just generate",
+    "kind": "closed",
+    "profile": "Claude Code; ordinary messages, /goal and /loop confirmed available; ralph-loop absent. No active goal or schedule. No delegation authorization. Mature JavaScript repo; npm test && tsc is the accepted deterministic gate. Known auth test failure is the repair target, other invariants green. Work scope src/auth only. .loop absent unless specified. All contract generation only, no project work.",
+    "gate": "npm test && tsc"
+  },
+  {
+    "id": "S2",
+    "host": "claude",
+    "request": "watch deploy status every 5 min and notify me when it fails; just generate",
+    "kind": "open",
+    "profile": "Claude Code; ordinary messages, /goal and /loop confirmed available; ralph-loop absent. No active goal or schedule. No delegation authorization. Mature JavaScript repo; npm test && tsc is the accepted deterministic gate. Known auth test failure is the repair target, other invariants green. Work scope src/auth only. .loop absent unless specified. All contract generation only, no project work. Deploy status read by deploy-status --json, states pending/succeeded/failed/crashed/timed_out, event field deployment_id, notify to .loop/deploy-alerts.log."
+  },
+  {
+    "id": "S3",
+    "host": "claude",
+    "request": "tell me the first time PR #123 gets a comment from someone else; just generate",
+    "kind": "open",
+    "profile": "Claude Code; ordinary messages, /goal and /loop confirmed available; ralph-loop absent. No active goal or schedule. No delegation authorization. Mature JavaScript repo; npm test && tsc is the accepted deterministic gate. Known auth test failure is the repair target, other invariants green. Work scope src/auth only. .loop absent unless specified. All contract generation only, no project work. Read command pr-comments --pr 123 --json; stable comment_id and author_is_owner fields; notification file .loop/pr-alerts.log.",
+    "stop_event": true
+  },
+  {
+    "id": "S4",
+    "host": "claude",
+    "request": "handle CI failures; just generate, questions minimal",
+    "kind": "closed",
+    "profile": "Claude Code; ordinary messages, /goal and /loop confirmed available; ralph-loop absent. No active goal or schedule. No delegation authorization. Mature JavaScript repo; npm test && tsc is the accepted deterministic gate. Known auth test failure is the repair target, other invariants green. Work scope src/auth only. .loop absent unless specified. All contract generation only, no project work."
+  },
+  {
+    "id": "S5",
+    "host": "claude",
+    "request": "monitor the build log; just generate",
+    "kind": "open",
+    "profile": "Claude Code /loop available. Empty repo except build.log. Watch appended ERROR/FATAL, notify local .loop/build-alerts.log. No code/test project; no bootstrap requested."
+  },
+  {
+    "id": "S6",
+    "host": "claude",
+    "request": "watch for crashed processes and auto-restart them; just generate",
+    "kind": "open",
+    "profile": "Claude Code; ordinary messages, /goal and /loop confirmed available; ralph-loop absent. No active goal or schedule. No delegation authorization. Mature JavaScript repo; npm test && tsc is the accepted deterministic gate. Known auth test failure is the repair target, other invariants green. Work scope src/auth only. .loop absent unless specified. All contract generation only, no project work. Supervisor observations: worker-status --json, worker_id, state running/crashed. Only permitted action: restart-worker --id FIELD_worker_id, only for worker_id worker-1. Local inbox .loop/worker-alerts.log. Bind actual runtime field worker_id for event idempotency.",
+    "acts": true
+  },
+  {
+    "id": "S7",
+    "host": "claude",
+    "request": "build a CLI that converts CSV to JSON, tests passing; just generate",
+    "kind": "closed",
+    "profile": "Claude Code /goal and /loop available. Empty repo. Spec: Python stdlib CLI csv2json.py, stdin CSV to stdout JSON array, malformed input nonzero. unittest acceptance runner python3 -m unittest. Do not implement now.",
+    "bootstrap": true
+  },
+  {
+    "id": "S8",
+    "host": "claude",
+    "request": "improve the docs",
+    "kind": "choice",
+    "profile": "Claude Code. Mature documentation repo, no tests or objective automated gate. No accepted manual rubric. User has not chosen a measurable purpose. Explain wrong-tool risk and propose an objective bounded closed pass or an open change watcher before writing files."
+  },
+  {
+    "id": "S9",
+    "host": "claude",
+    "request": "全テストを緑に。質問せず生成して。gate: npm test && tsc",
+    "kind": "closed",
+    "profile": "Claude Code; ordinary messages, /goal and /loop confirmed available; ralph-loop absent. No active goal or schedule. No delegation authorization. Mature JavaScript repo; npm test && tsc is the accepted deterministic gate. Known auth test failure is the repair target, other invariants green. Work scope src/auth only. .loop absent unless specified. All contract generation only, no project work.",
+    "lang": "ja",
+    "gate": "npm test && tsc"
+  },
+  {
+    "id": "S11",
+    "host": "claude",
+    "request": "every night watch the deploy job queue and auto-retry failed jobs, notify me in the team channel; just generate",
+    "kind": "open",
+    "profile": "Claude Code; ordinary messages, /goal and /loop confirmed available; ralph-loop absent. No active goal or schedule. No delegation authorization. Mature JavaScript repo; npm test && tsc is the accepted deterministic gate. Known auth test failure is the repair target, other invariants green. Work scope src/auth only. .loop absent unless specified. All contract generation only, no project work. Queue read job-queue --json with job_id, state queued/running/failed/succeeded/crashed/timed_out. Only authorized effect retry-job --id FIELD_job_id. Team notifier tool team_notify confirmed, destination build-alerts; local handoff .loop/job-handoff.md. Runtime /loop 1d available. Stable project id field job_id, bind it rather than a generic event placeholder.",
+    "acts": true
+  },
+  {
+    "id": "S12a",
+    "host": "claude",
+    "request": "get the test suite green - fix any failing tests; just generate",
+    "kind": "closed",
+    "profile": "Claude Code; ordinary messages, /goal and /loop confirmed available; ralph-loop absent. No active goal or schedule. No delegation authorization. Mature JavaScript repo; npm test && tsc is the accepted deterministic gate. Gate actually green at generation; every acceptance criterion already satisfied. Work scope src/auth only. .loop absent unless specified. All contract generation only, no project work."
+  },
+  {
+    "id": "S12b",
+    "host": "claude",
+    "request": "watch app.log and notify me on a new ERROR or FATAL; just generate",
+    "kind": "open",
+    "profile": "Claude Code; ordinary messages, /goal and /loop confirmed available; ralph-loop absent. No active goal or schedule. No delegation authorization. Mature JavaScript repo; npm test && tsc is the accepted deterministic gate. Known auth test failure is the repair target, other invariants green. Work scope src/auth only. .loop absent unless specified. All contract generation only, no project work. app.log has many pre-existing ERROR/FATAL lines. No replay requested. Notify .loop/log-alerts.log."
+  },
+  {
+    "id": "C1",
+    "host": "codex",
+    "request": "$makeloop:makeloop finish the auth refactor, gate: npm test && tsc; just generate",
+    "kind": "closed",
+    "profile": "Codex CLI; ordinary messages and /goal confirmed available; no Scheduled management tools in this session. No active goal or schedule. No delegation authorization. Mature JavaScript repo; npm test && tsc is the accepted deterministic gate. Known auth test failure is the repair target, other invariants green. Work scope src/auth only. .loop absent unless specified. All contract generation only, no project work.",
+    "gate": "npm test && tsc"
+  },
+  {
+    "id": "C2",
+    "host": "codex",
+    "request": "$makeloop:makeloop watch deploy status every 5 min and notify me when it fails; just generate",
+    "kind": "open",
+    "profile": "Codex CLI; ordinary messages and /goal confirmed available; no Scheduled management tools in this session. No active goal or schedule. No delegation authorization. Mature JavaScript repo; npm test && tsc is the accepted deterministic gate. Known auth test failure is the repair target, other invariants green. Work scope src/auth only. .loop absent unless specified. All contract generation only, no project work. deploy-status --json outputs deployment_id and state pending/succeeded/failed/crashed/timed_out. Notify .loop/deploy-alerts.log. Scheduling is unavailable here, explain conditionally."
+  },
+  {
+    "id": "C3",
+    "host": "codex",
+    "request": "$makeloop build a CLI that converts CSV to JSON, tests passing; just generate",
+    "kind": "closed",
+    "profile": "Codex normal messages and /goal available. Empty repo. Spec: Python stdlib csv2json.py stdin CSV to stdout JSON array; malformed input nonzero; python3 -m unittest acceptance. Generate contract only.",
+    "bootstrap": true
+  },
+  {
+    "id": "C4a",
+    "host": "codex",
+    "request": "get the test suite green; just generate",
+    "kind": "closed",
+    "profile": "Codex CLI; ordinary messages and /goal confirmed available; no Scheduled management tools in this session. No active goal or schedule. No delegation authorization. Mature JavaScript repo; npm test && tsc is the accepted deterministic gate. All acceptance criteria proved green now. Work scope src/auth only. .loop absent unless specified. All contract generation only, no project work."
+  },
+  {
+    "id": "C4b",
+    "host": "codex",
+    "request": "watch app.log for new ERROR lines; just generate",
+    "kind": "open",
+    "profile": "Codex CLI; ordinary messages and /goal confirmed available; no Scheduled management tools in this session. No active goal or schedule. No delegation authorization. Mature JavaScript repo; npm test && tsc is the accepted deterministic gate. Known auth test failure is the repair target, other invariants green. Work scope src/auth only. .loop absent unless specified. All contract generation only, no project work. Existing ERROR backlog, notify local .loop/log-alerts.log; no replay requested."
+  },
+  {
+    "id": "C5",
+    "host": "codex",
+    "request": "use makeloop from Codex to finish the auth refactor, with a slash-like entrypoint if available; just generate",
+    "kind": "closed",
+    "profile": "Codex CLI; ordinary messages and /goal confirmed available; no Scheduled management tools in this session. No active goal or schedule. No delegation authorization. Mature JavaScript repo; npm test && tsc is the accepted deterministic gate. Known auth test failure is the repair target, other invariants green. Work scope src/auth only. .loop absent unless specified. All contract generation only, no project work."
+  },
+  {
+    "id": "M1",
+    "host": "claude",
+    "request": "Give me several loop purposes for this repo and explain each before I pick. Do not choose for me.",
+    "kind": "choice",
+    "profile": "Claude Code; ordinary messages, /goal and /loop confirmed available; ralph-loop absent. No active goal or schedule. No delegation authorization. Mature JavaScript repo; npm test && tsc is the accepted deterministic gate. Known auth test failure is the repair target, other invariants green. Work scope src/auth only. .loop absent unless specified. All contract generation only, no project work.",
+    "compare": true
+  },
+  {
+    "id": "M2",
+    "host": "claude",
+    "request": "Finish auth refactor via /goal, cap 8; generate the loop only, not the goal itself.",
+    "kind": "closed",
+    "profile": "Claude Code; ordinary messages, /goal and /loop confirmed available; ralph-loop absent. No active goal or schedule. No delegation authorization. Mature JavaScript repo; npm test && tsc is the accepted deterministic gate. Known auth test failure is the repair target, other invariants green. Work scope src/auth only. .loop absent unless specified. All contract generation only, no project work."
+  },
+  {
+    "id": "M3",
+    "host": "claude",
+    "request": "Refine .loop/repair.md only to cap 12; preserve all other blocks and state. Show one-iteration and /goal launch choices.",
+    "kind": "closed",
+    "profile": "Claude Code; ordinary messages, /goal and /loop confirmed available; ralph-loop absent. No active goal or schedule. No delegation authorization. Mature JavaScript repo; npm test && tsc is the accepted deterministic gate. Known auth test failure is the repair target, other invariants green. Work scope src/auth only. .loop absent unless specified. All contract generation only, no project work. Existing .loop/repair.md: closed auth repair contract, gate npm test && tsc, cap 8, state .loop/repair-state.md. Existing state exact content:\n# Repair state\nGoal version: 1\nIterations used: 3\nCancelled run: old-run\nNext: reconcile before resume\n",
+    "preserve": {
+      ".loop/repair-state.md": "# Repair state\nGoal version: 1\nIterations used: 3\nCancelled run: old-run\nNext: reconcile before resume\n"
+    }
+  },
+  {
+    "id": "M4",
+    "host": "codex",
+    "request": "Finish the auth refactor; explain continuation options, just generate",
+    "kind": "closed",
+    "profile": "Codex CLI; ordinary messages confirmed available; /goal unconfirmed; no Scheduled management tools in this session. No active goal or schedule. No delegation authorization. Mature JavaScript repo; npm test && tsc is the accepted deterministic gate. Known auth test failure is the repair target, other invariants green. Work scope src/auth only. .loop absent unless specified. All contract generation only, no project work."
+  },
+  {
+    "id": "M5",
+    "host": "codex",
+    "request": "Generate CI/external-resume loop for the auth refactor; show one manual iteration and an exact-session shell resume.",
+    "kind": "closed",
+    "profile": "Codex CLI; ordinary messages and /goal confirmed available; no Scheduled management tools in this session. No active goal or schedule. No delegation authorization. Mature JavaScript repo; npm test && tsc is the accepted deterministic gate. Known auth test failure is the repair target, other invariants green. Work scope src/auth only. .loop absent unless specified. All contract generation only, no project work. Actual isolated fixture cwd is /tmp/loop sample. Bound session 00000000-0000-4000-8000-000000000001 matches repo and contract. CLI exec resume help confirms exact session positional and prompt positional. No job currently running.",
+    "preferred_mode": "external-resume"
+  }
+]
