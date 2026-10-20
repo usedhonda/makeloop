@@ -24,14 +24,20 @@ Fill real values in the user's language; examples here are scaffolds, not execut
 
 - Manual: “Follow .loop/repair.md for exactly one iteration; update .loop/repair-state.md;
   report FINAL only when every criterion is proved, otherwise ITERATING.”
-- Closed continuation: `/goal Follow .loop/repair.md to complete its acceptance criteria;
-  preserve .loop/repair-state.md and its cumulative budget; report evidence and unmet criteria.`
+- Closed continuation: `/goal Follow .loop/repair.md. End this run when (1) all acceptance
+  criteria are proved, or (2) a saved incomplete checkpoint evidences the cumulative 8-iteration
+  budget being exhausted or the contract's unrecoverable-blocker condition being met. Preserve
+  .loop/repair-state.md and report the evidence, cumulative counters and unmet criteria.
+  Report FINAL only for acceptance success.`
 - Watcher: `/loop 5m Follow .loop/deploy-watch.md for one tick; update
   .loop/deploy-watch.cursor.json; react only to new events under the saved permissions.`
 - Ralph: use the installed plugin's verified invocation, with `--max-iterations N` and
-  `--completion-promise '<promise>DONE</promise>'` when that syntax is supported.
+  `--completion-promise 'DONE'` when that syntax is supported. The argument is the plain promise
+  text; the completion output is `<promise>DONE</promise>`. Do not put the tags in the flag value.
 
 The saved contract carries the host-specific stop instructions below, not merely the launch line.
+For `/goal`, expand the contract's actual cumulative limits and terminal blocker conditions into
+the emitted condition; the 8-iteration example is not a new default or an override of user choices.
 
 ## Stop, evaluate, resume
 
@@ -41,6 +47,16 @@ The saved contract carries the host-specific stop instructions below, not merely
   run checks. Native evaluation supplements objective evidence and any required independent
   review, not replaces them. It can clear a goal as impossible or after an unrecoverable error;
   neither is success. A new agent/checker still needs explicit delegation authorization.
+- Include both acceptance success and evidenced non-success terminal checkpoints in the native
+  goal condition. A budget/dead-end stop must not leave the evaluator instructed to continue
+  until acceptance passes. Surface the check results, target, cumulative counters, stop reason,
+  remaining work and checkpoint path in the conversation; a pointer to an unread file is not
+  evidence for that evaluator. Native condition satisfaction can mean the run ended incompletely;
+  keep project acceptance status separate and never print FINAL for that case.
+  Explain `/goal clear` as the user's cancellation command for an active goal. If a terminal
+  checkpoint leaves the goal active, report that status and the cancellation command rather than
+  claiming it stopped. Showing the command does not execute it; do not invent a goal-control tool
+  or change hook/permission settings to force an exit.
 - Self-paced `/loop` chooses a delay (typically one minute to one hour). On completion or cap,
   explicitly stop its native wakeup (`ScheduleWakeup` with `stop: true` when exposed).
 - Fixed intervals keep firing until cancelled or expired. Record the exact job ID; cancel that
@@ -71,5 +87,8 @@ Finish all Write/Bash operations, INDEX updates, saved-file checks and other too
 turns. The final package must be a tool-free final text turn: explanations, chosen Loop body,
 then launch blocks last. Do not mix a launch with a tool call or run a saving/checking tool
 after it. Text between tools is visible to the user and is not the final deliverable.
-Allowed-tools entries expose capabilities; they do not authorize spawning agents. Honor the
-user's chosen interaction style rather than imposing a question UI.
+`allowed-tools` pre-approves the listed tools for the invoking turn; it does not restrict the
+available tool pool, and the grant clears on the next user message. A bare `Bash` entry grants
+broad shell pre-approval rather than enforcing read-only discovery. Keep these grants separate
+from the user's task scope and delegation authorization. Honor the user's chosen interaction
+style rather than imposing a question UI.

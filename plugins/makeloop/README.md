@@ -4,7 +4,7 @@ A Claude Code slash command and Codex skill that **build loop prompts for you**.
 
 Claude Code `/makeloop` or Codex `$makeloop:makeloop` reads your current project **and the session conversation**, figures out the work
 goal, offers purpose-led choices and emits a complete, copyable loop contract —
-goal, strict success criteria, a real verify gate, a state file, and a stop condition,
+goal, strict success criteria, observations, adaptive decisions, recoverable state and stopping,
 **written in your working language**. It does **not** run the loop; it produces the prompt you
 then feed to the host agent.
 
@@ -171,15 +171,26 @@ create unattended schedulers unless the user explicitly asks.
 
 ## Why it's shaped this way (loop engineering)
 
-Every generated prompt carries the parts that make a loop actually work rather than just
-spend tokens:
+The generated contract closes a feedback path: **requirement → hypothesis → action → evidence →
+decision**. It maps every original criterion to valid observations, identifies useful progress,
+and changes the next action when results disprove the current approach. Clearing a plan or a
+review is followed by a check of the original goal and any remaining delivery requirements.
 
-- **Verify** is a real gate (test/build/lint), not the agent grading its own homework.
-- **State** (`.loop/state.md`) carries done / failed / next across iterations, so the loop
-  resumes instead of restarting.
-- **Stop condition** is success OR a hard cap, to avoid the "Ralph Wiggum loop" (exits too
-  early, or spins forever spending money).
-- **maker != checker**: risky changes get re-verified with fresh eyes.
+- **Progress** is an observed improvement or a useful eliminated cause. Repeating a test on an
+  improved target is valid; changing command text while making no progress cannot evade the limit.
+- **Verification** checks both the result and whether the intended source/suite was observed.
+  Empty valid results may pass; missing coverage remains a gap. Required reviews bind to the target.
+- **Recovery** reserves an attempt before work, keeps interrupted attempts counted, and reconciles
+  results before new work. The current state summary stays compact with pointers to detailed logs.
+- **Watcher feedback** distinguishes read frontier, occurrence identity, pending intent and
+  confirmed effect. Uncertain notifications/actions are reconciled without blind resending.
+- **Completion** requires current proof for the original goal. Budget/blocker checkpoints retain
+  its unmet scope and are reported separately from task success and native runtime stopping.
+
+See [feedback-design.md](references/feedback-design.md) for the generator's design questions and
+short interruption/stall traces. The guide is loaded during generation; it is not pasted wholesale
+into every emitted contract. Measured time/cost per accepted outcome guides efficiency; unmeasured
+usage stays unknown, and gate duration is only one component of wall-clock time.
 
 It will also tell you when a loop is the *wrong* tool — if there's no automated way to
 reject bad output, a single good prompt usually beats a loop.

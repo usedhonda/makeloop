@@ -19,13 +19,15 @@ whole way through; they decide whether the loop you generate actually helps or j
 tokens:
 
 - **The five phases of a loop**: DISCOVER -> PLAN -> EXECUTE -> VERIFY -> ITERATE.
+  Close the feedback path: each iteration targets an unmet requirement, predicts an observable
+  result, compares it with reality, and uses that difference to choose the next action.
 - **The three hearts of a real loop**:
   1. **Verify** — a *real* gate (a test/build/lint or an objective check), never the agent
      grading its own homework.
   2. **State** — a small record carried across iterations (done / failed / next) so the
      loop resumes instead of restarting and never repeats the same mistake.
-  3. **Stop condition** — success OR a hard iteration cap, so a stuck loop can't run all
-     night spending money (the "Ralph Wiggum loop": exits too early or spins forever).
+  3. **Stop condition** — verified success or an explicit iteration/budget cap. Distinguish
+     instruction-level limits from limits actually enforced by the selected native runtime.
 - **The four conditions a loop must meet** to be worth building (vs. just one good prompt):
   the task repeats; bad output can be rejected automatically; the token budget can absorb
   retries; and "done" is objective, not a matter of taste. If these don't hold, say so.
@@ -33,8 +35,8 @@ tokens:
   loop re-verify with fresh eyes (or a sub-agent) on risky changes.
 - **The order that survives**: get ONE manual run reliable -> wrap it in a loop with a gate
   + stop condition -> only then schedule it.
-- **The metric that matters**: cost per *accepted* change. Below ~50% accept rate, a loop
-  costs more than it returns.
+- **The metric that matters**: measured time/cost per *accepted outcome*, including failed
+  attempts and review. Acceptance rate alone has no universal break-even threshold.
 - **Re-anchor, don't drift**: a long run loses its "do not touch" boundaries as context
   grows. Make the loop consult its contract and ledger after continuation/compaction and before a new step;
   preserve the accepted scope rather than restarting discovery.
@@ -119,10 +121,18 @@ from what is easiest to pass. For greenfield work, use the user's spec (ask only
 requirements), then bootstrap a real gate. For open work, settle WATCH TARGET, objective TRIGGER,
 notify/act scope, destination, dedup and run-indefinitely versus stop-on-event. A missing completion
 gate is correct for a watcher; vague judgment without an observable signal is not a good loop.
-Mature closed work with no rejecting check may be the wrong tool: explain that and propose a
-single guided prompt or an explicitly agreed objective manual check, never an invented gate.
+Mature closed work with neither a rejecting check nor an accepted plan to build one may be
+the wrong tool: explain that and propose a single guided prompt or an explicitly agreed objective
+manual check, never an invented gate.
 
 ## Step 3 — Gate + stop condition, sized to the project (AskUserQuestion / propose)
+
+Read `../references/feedback-design.md`. Bind the outcome, observations, allowed actions,
+feedback decisions and resume state to this project. For closed work, save stable criterion IDs
+with their checks, observation-validity conditions and evidence requirements. Specify what an
+observable improvement means and how a failed hypothesis changes the next step. A plan or clean
+review is not the completion criterion: reconcile uncovered requirements against the original goal.
+Keep in-scope residual work in the loop; propose unrelated work separately after completion.
 
 - **VERIFY gate**: build it from profile B. Always order checks **fastest -> slowest**
   (typecheck/lint before unit before integration before e2e) and stop at the first red — the
@@ -139,6 +149,12 @@ single guided prompt or an explicitly agreed objective manual check, never an in
   - When example tests are the only oracle, prefer a **property / metamorphic check** where
     possible (an invariant true for all inputs, or a relation like "reordering inputs must
     not change the result") — a self-written example test shares the code's blind spots.
+  - For a new/changed custom verifier, bind representative acceptable and plausible wrong/partial
+    outcomes to its pass rule. Use existing calibration evidence when valid; otherwise plan that
+    check in the contract. Generation must not execute the project to manufacture proof.
+    An explicitly requested verifier repair with objective expected outcomes can build that
+    rejecting check first within the accepted scope. Preserve existing criteria and project setup;
+    an uncalibrated green result cannot establish completion.
   - For **UI / web** work, add a "drive-and-capture" check: actually exercise the feature and
     capture an artifact (screenshot / GIF) as proof-of-use — synthetic interaction catches
     wiring/state bugs that unit tests miss, and the artifact doubles as evidence on the PR.
@@ -148,10 +164,11 @@ single guided prompt or an explicitly agreed objective manual check, never an in
     (confirm red); from then on that test command is the gate and the loop drives red → green.
     Add the **Bootstrap block** in Step 5.
 - If **no automated check exists in a mature project**, warn clearly, help define an objective
-  manual check, and ask whether to proceed anyway. If the gate must be an **LLM-as-judge**, harden it: use a
-  *different model family* than the maker (self-enhancement bias makes a same-model judge
-  wave through its own slop), a coarse pass/fail rubric (not a fine 1-10 scale), and escalate
-  low-confidence verdicts to a human instead of guessing. Better still, pair the judge with a
+  manual check, and ask whether to proceed anyway. If the gate must be an **LLM-as-judge**, use an
+  independent checker with a concrete pass/fail/unknown rubric calibrated against reference
+  examples and the user's criteria. A different model family alone does not establish reliability;
+  do not assume another model or delegation is available. Require inspected evidence for each
+  dimension and escalate unresolved judgments instead of guessing. Pair the judge with a
   **deterministic assertion** (value-in-range / file-exists / schema-valid) as an AND-gate —
   mark done only if BOTH pass, and feed the failing check's message into the retry. Ground the
   rubric in the repo (let the judge read the code/conventions before scoring, not just the
@@ -163,12 +180,11 @@ single guided prompt or an explicitly agreed objective manual check, never an in
   - Cap exhaustion is an incomplete checkpoint, not success or permission to shrink scope.
     Use K consecutive successes only for a real repeat-stability criterion or explicit K request;
     different meaningful observations must justify repetition. Do not add K=3 by habit.
-  - **Cost/time envelope (show before confirming N, so N isn't picked blind)**: if profile F has a
-    measured gate runtime (from the Step 6 smoke-test or user-given), show the wall-clock band
-    `~N x <gate seconds>`; otherwise show the formula only — `worst case = N x <gate command>`,
-    actual time unknown until the first gate run. Do NOT fabricate a token/cost estimate (LLM
-    figures are unreliable) — wall-clock from a measured gate is the only grounded number; flag a
-    heavy gate so a big N is a conscious choice.
+  - **Cost/time envelope**: when profile F has a measured gate duration, `N x gate seconds`
+    estimates only that gate's contribution if it runs once per attempt. Editing, reasoning,
+    review, I/O and backoff add time; this is not a worst-case wall-clock bound. Otherwise mark
+    duration unknown. Record actual token/cost usage only if exposed, and keep the explicit
+    wall-clock limit separate. Do not run a gate solely to invent an estimate for generation.
 
 **If kind=open, this whole section changes** (everything above is the closed path):
 - Replace the VERIFY gate with a **TRIGGER CONDITION** — an objective predicate over the
@@ -178,6 +194,9 @@ single guided prompt or an explicitly agreed objective manual check, never an in
   *stop-on-event* (fire once, then exit). No success-or-cap.
 - Confirm the **dedup policy** (edge-trigger / cooldown window) and, if the watcher **acts**,
   an **idempotency key** so re-firing on the same event can't double-act.
+- Bind occurrence identity separately from the watched entity, and specify pending intent,
+  confirmed receipt, definite failure and unknown outcome. Notifications are effects too.
+  Reading past an event must not lose an unsettled reaction; a restart must not blindly repeat it.
 - The metric is **coverage + precision** (did it catch real events without crying wolf), not
   cost per accepted change.
 
@@ -267,6 +286,10 @@ Read `../references/output-guide.md` and the current host launch guide. Before w
 assembled output: exactly one core; correct kind-only blocks; no unbound scaffold placeholders;
 all forced directives honored; every criterion mapped to real evidence; launch path and state
 agree; copy blocks have the right destination and contain no explanation or other candidate.
+Walk the applicable short traces in `../references/feedback-design.md`: does the observed outcome
+change the next decision, does interruption preserve consumed attempts and pending effects, and
+does a declared stop actually end the chosen native execution? Check both useful repetition and
+stalled activity. A keyword/structure check alone cannot establish these behavioral properties.
 An unavailable check is an unresolved verification gap. Do not treat it as a passing criterion.
 Fix assembly defects before saving. State any unresolved acceptance gap without claiming success.
 
@@ -279,9 +302,12 @@ Save the chosen contract as `.loop/<slug>.md`, using a distinct slug for a diffe
 Refine a matching existing contract instead of creating a duplicate; preserve its kind/state and
 all unrelated blocks. Seed `.loop/<slug>-state.md` (closed) or `.loop/<slug>.cursor.json` (open)
 only if absent. Never reinitialize existing progress, evidence, cancellation, or cursor history.
-Closed state holds original goal/version, cumulative budget, done/failed/next and evidence pointers.
+Closed state holds original goal/version, criterion/evidence map, cumulative reserved attempts,
+running/interrupted work, observed progress, recent failed approaches, next decision and evidence
+pointers. Keep its current summary small; reference history instead of replaying full tool logs.
 Open cursor starts at EOF/latest on the first tick; pre-existing matches do not fire unless bounded
-replay was explicitly requested. Cursor keys include last_seen and last_fired_digest.
+replay was explicitly requested. Cursor keys include last_seen, last_fired_digest and pending
+effect outcomes. Reserve before acting and settle with evidence; initialize only new state files.
 
 Update `.loop/INDEX.md`: slug, purpose, kind, gate/trigger, cap/run mode, chosen runtime (or
 unselected), saved paths and launch message. Showing alternatives does not select an unchosen

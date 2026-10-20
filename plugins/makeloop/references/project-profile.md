@@ -25,10 +25,17 @@ collect evidence directly. Tool names and allowed-tools do not authorize delegat
   `--audit`, `invariant`, `--drive-all`, e2e suites.
 - Decide: is verification **single-stage** (one test command) or **multi-stage**
   (e.g. build -> drive -> audit/regression)? Record the exact commands and pass conditions.
+- Map each requested outcome to evidence, including required delivery/review. Record what makes
+  the observation valid (intended target, collected suite, readable source) and what invalidates
+  prior proof. A green existing suite does not establish a requirement it never tests.
+- Identify a concrete progress signal and the smallest experiment that would distinguish likely
+  causes of a failure. Capture existing failed approaches instead of rediscovering them each run.
 - **If the loop is open (a watcher)**, reframe B: instead of "what gate exists", find **what
   SIGNAL can be observed and what predicate fires on it** (a log pattern, a status field, a
   queue/inbox, a PR/CI event) — and whether that signal covers **every terminal/failure state
   incl crash/hang/OOM** (the silent-harness check in C generalizes to dead-watcher coverage).
+  Find the real occurrence ID or recovery/failure transition, reaction acknowledgement/lookup,
+  and destination idempotency support. Entity identity alone does not identify recurring events.
 
 **C. Self-driving harness — this decides harness-failure handling**
 - Look for drivers: Playwright, Cypress, Selenium, XCUITest, simulators (`xcrun simctl`),

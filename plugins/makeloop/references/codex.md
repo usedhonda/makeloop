@@ -26,8 +26,10 @@ Render with actual paths and values in the user's language; these are illustrati
   .loop/repair-state.md. If all criteria are proved, report FINAL; otherwise ITERATING.”
 - Open manual message: “Follow .loop/deploy-watch.md for one watcher tick. Preserve and update
   .loop/deploy-watch.cursor.json; react once per new event under the saved permissions.”
-- Goal: `/goal Follow .loop/repair.md to achieve its criteria, preserving the original scope,
-  evidence and cumulative budget in .loop/repair-state.md.`
+- Goal: `/goal Follow .loop/repair.md until every criterion is proved or its cumulative budget/
+  terminal blocker requires an incomplete checkpoint. Preserve scope, evidence, consumed attempts
+  and remaining work in .loop/repair-state.md; distinguish successful completion from stopping
+  this execution incomplete.` Bind actual limits and stop conditions in the generated launch.
 - Chat schedule setup message: “Create a scheduled task in this chat, every five minutes,
   running one tick of .loop/deploy-watch.md with .loop/deploy-watch.cursor.json; observe only
   new events and stop under the contract's conditions.” Label it **schedule setup**, not a tick.

@@ -4,8 +4,39 @@ A Claude Code and Codex plugin that **builds loop prompts for you**.
 
 Claude Code `/makeloop` or Codex `$makeloop:makeloop` reads your current project **and the session conversation**, pins down the work
 goal, offers purpose-led choices and emits a complete, copyable loop contract —
-goal, strict success criteria, a real verify gate, a state file, and a stop condition,
+goal, strict success criteria, observations, adaptive decisions, recoverable state and stopping,
 **written in your working language**. It generates the prompt; it does not run the loop.
+
+## Loop engineering in makeloop
+
+Design the feedback that makes each iteration advance the goal: **unmet requirement → hypothesis
+and predicted result → small action → observed evidence → next decision**. The saved contract
+defines what progress means, how to change approach when it stalls, and how to recover after an
+interruption. A finished task list or a clear review leads back to the original requirements;
+completion requires evidence for all of them, including any required delivery.
+
+The design has two decisions: what to do next within an iteration, and whether the original goal
+has been achieved. A passing check for one subtask does not erase the remaining requirements.
+Once the goal is proved, the loop finishes; unrelated improvements do not extend it.
+
+| Situation | Generated behavior |
+| --- | --- |
+| Same test command, improving results | Continue from the evidenced progress |
+| Different commands, unchanged failure and no new evidence | Change the hypothesis or narrow the action; stop incomplete at the configured limit |
+| Green gate, uncovered requirement or missing mandatory suite | Obtain the missing proof; no completion claim |
+| Independent approval without evidence for a required dimension | Keep that dimension unproved; calibrate a new/custom verifier |
+| Interrupted attempt | Keep its pre-reserved budget slot and reconcile existing work |
+| Notification/action timed out | Preserve pending intent; reconcile receipts before any retry |
+| Same worker crashes again | Use the new occurrence identity; do not dedup by worker alone |
+| Budget exhausted | Preserve unmet scope and report an incomplete checkpoint; stop the native execution separately |
+
+These rules fit the existing file-backed contract. They do not add a scheduler, execution engine
+or database. The on-demand [feedback design guide](plugins/makeloop/references/feedback-design.md)
+contains the generation decisions; only the relevant contract is carried into each run.
+
+Optional planning, review cadence and context workarounds must have a current purpose. Reassess
+them after model/host changes through comparable examples, preserving required checks and user
+boundaries. Maintain the feedback system as well as the task it drives.
 
 ## Choose by what you want to do
 
@@ -81,9 +112,10 @@ A loop prompt grounded in loop-engineering practice — built around the three t
 make a loop work instead of just burn tokens:
 
 - **Verify** — a real gate (test / build / lint), never the agent grading its own homework.
-- **State** — `.loop/state.md` carries done / failed / next across iterations (resume, not
-  restart).
-- **Stop condition** — success OR a hard iteration cap, to avoid the "Ralph Wiggum loop".
+- **State** — `.loop/<slug>-state.md` carries criterion evidence, consumed attempts, observed
+  progress and the next decision across iterations.
+- **Stop condition** — verified success or the configured cap, with native enforcement stated
+  separately from an instruction in the contract.
 
 `/makeloop` first builds a read-only **Project Profile** and **sizes the loop to it** — lean
 for a single `npm test`, richer (two-stage gate, harness-failure detection, labeled stop

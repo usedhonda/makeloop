@@ -5,24 +5,96 @@ Usage: python3 check_outputs.py SCENARIOS.json OUTPUTS.json
 Model generation and this deterministic checker are separate. This checks observable
 artifact contracts; human semantic grading of suitability and safety is still required.
 """
+import argparse
 import json
 import re
-import sys
 from pathlib import Path
 
 
-def check(case, out, presentation=True):
+def case_errors(case):
+    if not isinstance(case, dict):
+        return ['scenario must be an object']
     errors = []
+    if case.get('kind') not in ('closed', 'open', 'choice'):
+        errors.append('unsupported scenario kind')
+    if case.get('host') not in ('claude', 'codex'):
+        errors.append('unsupported scenario host')
+    if 'gate' in case and not isinstance(case['gate'], str):
+        errors.append('gate must be a string')
+    for flag in ('compare', 'bootstrap', 'stop_event', 'acts'):
+        if flag in case and not isinstance(case[flag], bool):
+            errors.append(flag + ' must be a boolean')
+    if 'preserve' in case and not text_files(case['preserve']):
+        errors.append('preserve must map file paths to text')
+    return errors
+
+
+def text_files(value):
+    return isinstance(value, dict) and all(
+        isinstance(p, str) and isinstance(t, str) for p, t in value.items())
+
+
+def output_errors(out):
+    if not isinstance(out, dict):
+        return ['output must be an object']
+    errors = []
+    if not text_files(out.get('files', {})):
+        errors.append('files must map file paths to text')
+    if not isinstance(out.get('chat', ''), str):
+        errors.append('chat must be a string')
+    return errors
+
+
+def input_errors(cases, outputs):
+    """Reject ambiguous or malformed batches before emitting any PASS verdict."""
+    errors = []
+    for label, rows, validate in (
+            ('scenarios', cases, case_errors), ('outputs', outputs, output_errors)):
+        if not isinstance(rows, list):
+            errors.append(label + ' must be an array')
+            continue
+        if label == 'scenarios' and not rows:
+            errors.append('scenarios must not be empty')
+        seen = set()
+        for index, row in enumerate(rows):
+            prefix = f'{label}[{index}]: '
+            errors.extend(prefix + error for error in validate(row))
+            if not isinstance(row, dict):
+                continue
+            scenario_id = row.get('id')
+            if not isinstance(scenario_id, str) or not scenario_id.strip():
+                errors.append(prefix + 'id must be a nonempty string')
+            elif scenario_id in seen:
+                errors.append(prefix + 'duplicate scenario id: ' + scenario_id)
+            else:
+                seen.add(scenario_id)
+    return errors
+
+
+def check(case, out, presentation=True):
+    errors = case_errors(case) + output_errors(out)
+    if errors:
+        return errors
     files = out.get('files', {})
     chat = out.get('chat', '')
     kind = case['kind']
-    contracts = [(p, t) for p, t in files.items()
-                 if p.startswith('.loop/') and p.endswith('.md')
-                 and not p.endswith('-state.md') and p != '.loop/INDEX.md']
+    markdown_files = [(p, t) for p, t in files.items()
+                      if p.startswith('.loop/') and p.endswith('.md')
+                      and not p.endswith('-state.md') and p != '.loop/INDEX.md']
+    # The optional recurring-loop block saves a declared learning ledger too.
+    # Exclude that auxiliary file, but never let its name hide another contract.
+    learning_files = {
+        path for _, text in markdown_files
+        for path in re.findall(r'^LEARNINGS FILE:\s*`?(\.loop/[^\s`]+\.md)`?', text, re.M)
+    }
+    contracts = [(p, t) for p, t in markdown_files
+                 if p not in learning_files or
+                 re.search(r'\b(?:GOAL|WATCH TARGET)\s*:|'
+                           r'^\s*(?:#{1,6}\s+)?(?:GOAL|WATCH TARGET)\b', t, re.M)]
     def require(ok, why):
         if not ok:
             errors.append(why)
-    require(bool(chat), 'missing chat output')
+    require(bool(chat.strip()), 'missing chat output')
     if kind == 'choice':
         require(not files, 'unselected purpose created files')
         require(not re.search(r'```(?:text|sh)\s*\n', chat), 'unselected purpose has runnable block')
@@ -61,7 +133,8 @@ def check(case, out, presentation=True):
         cursor = files.get(state_path, '')
         try:
             data = json.loads(cursor)
-            require('last_seen' in data and 'last_fired_digest' in data, 'cursor missing keys')
+            require(isinstance(data, dict) and 'last_seen' in data and
+                    'last_fired_digest' in data, 'cursor must be an object with required keys')
         except (ValueError, TypeError):
             errors.append('cursor is not valid JSON')
         require(bool(re.search(r'COLD START|cold.start|初回', contract, re.I)), 'missing cold-start policy section')
@@ -109,13 +182,24 @@ def check(case, out, presentation=True):
 
 
 def main():
-    cases = json.loads(Path(sys.argv[1]).read_text())
-    raw = Path(sys.argv[2]).read_text().strip()
-    if raw.startswith('```'):
-        raw = re.sub(r'^```(?:json)?\s*\n|\n```$', '', raw)
-    outputs = json.loads(raw)
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('scenarios', type=Path)
+    parser.add_argument('outputs', type=Path)
+    parser.add_argument('--contracts-only', action='store_true')
+    args = parser.parse_args()
+    try:
+        cases = json.loads(args.scenarios.read_text())
+        raw = args.outputs.read_text().strip()
+        if raw.startswith('```'):
+            raw = re.sub(r'^```(?:json)?\s*\n|\n```$', '', raw)
+        outputs = json.loads(raw)
+    except (OSError, ValueError) as error:
+        parser.error(str(error))
+    errors = input_errors(cases, outputs)
+    if errors:
+        parser.error('; '.join(errors))
     by_id = {row['id']: row for row in outputs}
-    contracts_only = '--contracts-only' in sys.argv[3:]
+    contracts_only = args.contracts_only
     if contracts_only:
         print('Contract/content checks only; final-only presentation is not graded.')
     failures = 0

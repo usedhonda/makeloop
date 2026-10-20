@@ -1,6 +1,6 @@
 ---
 name: makeloop
-description: Generate file-backed loop contracts with explained, copyable host-native launch choices for a project goal or watcher. Use to build or refine a loop, not to run the project work.
+description: Design evidence-driven loops for a project goal or watcher, with progress, adaptation, interruption recovery and copyable host-native launches. Use to build or refine a loop contract, not to run the project work.
 ---
 
 # makeloop — host-aware entrypoint
@@ -17,12 +17,16 @@ logic, not a Claude-only runtime prescription. Do not fork it into this skill.
 Use progressive disclosure:
 
 - Steps 2/6: `../../references/output-guide.md` for purpose choices, explanations and copy format.
+- Steps 3/6: `../../references/feedback-design.md` for outcome-to-evidence mapping, adaptive
+  decisions, progress, attempt accounting and watcher effect recovery.
 - Steps 4/6: the current host reference above for launch/stop/resume and capability boundaries.
 - Step 5: `../../templates/loop-prompt.tmpl.md`; select exactly one core and only triggered blocks.
 
 Preserve the three hearts (verify/trigger, state/cursor, stop/dedup), Project Profile,
 closed/open distinction, first-VERIFY honesty, cold-start cursor, no-fake-done and maker != checker.
 No self-grading, no gate weakening, no unbound output placeholders. Existing state must survive refine.
+Judge progress by observed changes, including useful diagnosis; repeated commands alone are not
+stalls. A finished plan or clear review must still be reconciled with every original requirement.
 
 Codex invocation is `$makeloop:makeloop` when the plugin prefix is visible, or a discovered slash-menu
 skill. Do not invent a Codex `/loop`, `/ralph-loop`, `codex-loop` runner, or a top-level `/makeloop` on Codex. CC may expose `/makeloop` or a namespaced plugin command;
