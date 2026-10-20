@@ -3,9 +3,68 @@
 A Claude Code and Codex plugin that **builds loop prompts for you**.
 
 Claude Code `/makeloop` or Codex `$makeloop:makeloop` reads your current project **and the session conversation**, pins down the work
-goal, asks a couple of focused questions, and emits a complete, paste-ready loop prompt —
-goal, strict success criteria, a real verify gate, a state file, and a stop condition,
+goal, offers purpose-led choices and emits a complete, copyable loop contract —
+goal, strict success criteria, observations, adaptive decisions, recoverable state and stopping,
 **written in your working language**. It generates the prompt; it does not run the loop.
+
+## Loop engineering in makeloop
+
+Design the feedback that makes each iteration advance the goal: **unmet requirement → hypothesis
+and predicted result → small action → observed evidence → next decision**. The saved contract
+defines what progress means, how to change approach when it stalls, and how to recover after an
+interruption. A finished task list or a clear review leads back to the original requirements;
+completion requires evidence for all of them, including any required delivery.
+
+The design has two decisions: what to do next within an iteration, and whether the original goal
+has been achieved. A passing check for one subtask does not erase the remaining requirements.
+Once the goal is proved, the loop finishes; unrelated improvements do not extend it.
+
+| Situation | Generated behavior |
+| --- | --- |
+| Same test command, improving results | Continue from the evidenced progress |
+| Different commands, unchanged failure and no new evidence | Change the hypothesis or narrow the action; stop incomplete at the configured limit |
+| Green gate, uncovered requirement or missing mandatory suite | Obtain the missing proof; no completion claim |
+| Independent approval without evidence for a required dimension | Keep that dimension unproved; calibrate a new/custom verifier |
+| Interrupted attempt | Keep its pre-reserved budget slot and reconcile existing work |
+| Notification/action timed out | Preserve pending intent; reconcile receipts before any retry |
+| Same worker crashes again | Use the new occurrence identity; do not dedup by worker alone |
+| Budget exhausted | Preserve unmet scope and report an incomplete checkpoint; stop the native execution separately |
+
+These rules fit the existing file-backed contract. They do not add a scheduler, execution engine
+or database. The on-demand [feedback design guide](plugins/makeloop/references/feedback-design.md)
+contains the generation decisions; only the relevant contract is carried into each run.
+
+Optional planning, review cadence and context workarounds must have a current purpose. Reassess
+them after model/host changes through comparable examples, preserving required checks and user
+boundaries. Maintain the feedback system as well as the task it drives.
+
+## Choose by what you want to do
+
+makeloop separates **purpose** from **execution mode**. If the goal is unclear, compare concrete
+project-specific purposes before creating a contract. If it is clear, compare ways to run the
+same contract. Usually you get one recommendation plus one or two useful alternatives:
+
+| Want to… | Choice | What the explanation covers |
+| --- | --- | --- |
+| Finish the accepted repair or milestone | Native goal continuation, when available | Edits, acceptance evidence, budget, stop and resume |
+| Inspect one bounded step first | One manual iteration | What may change, what is checked, remaining work and how to continue |
+| Watch for new events | Open watcher tick or supported cadence | Signal, new-event dedup, notification/action scope, cursor, expiry and cancellation |
+| Continue from CI or a wrapper | Exact-session resume, when requested | Working directory, state ownership and uncertain-effect reconciliation |
+
+Each choice explains when it fits **and when it does not**, its actual effects and permissions,
+its saved state and its stopping condition. A watcher is not an alternative implementation of a
+repair. Choices are derived from the project, not fixed presets or a menu padded with irrelevant tools.
+
+**Final-only output:** no launch commands or full Loop body during progress or questions. Once
+files and checks are complete, one final response contains the explanations and candidate choices,
+then the chosen Loop body, then **all launch blocks at the very end**. Nothing follows the last
+launch block. Each block is independent and labeled by host and paste destination; explanations
+and shell prompts stay outside, necessary shell quotes stay inside. Unknown features remain
+conditional explanations without runnable blocks. This replaces the former launch-first ordering.
+
+**Generated is not started.** Displaying goal/schedule alternatives does not create them, replace
+an existing goal, reset a cursor or authorize concurrent writers. Existing `.loop/` files are not
+bulk-migrated; refining preserves unrelated choices and progress.
 
 ## Install
 
@@ -53,9 +112,10 @@ A loop prompt grounded in loop-engineering practice — built around the three t
 make a loop work instead of just burn tokens:
 
 - **Verify** — a real gate (test / build / lint), never the agent grading its own homework.
-- **State** — `.loop/state.md` carries done / failed / next across iterations (resume, not
-  restart).
-- **Stop condition** — success OR a hard iteration cap, to avoid the "Ralph Wiggum loop".
+- **State** — `.loop/<slug>-state.md` carries criterion evidence, consumed attempts, observed
+  progress and the next decision across iterations.
+- **Stop condition** — verified success or the configured cap, with native enforcement stated
+  separately from an instruction in the contract.
 
 `/makeloop` first builds a read-only **Project Profile** and **sizes the loop to it** — lean
 for a single `npm test`, richer (two-stage gate, harness-failure detection, labeled stop
@@ -70,13 +130,11 @@ And it judges the **loop kind** — **closed** (drive-to-done: goal + verify gat
 `FINAL`). For an open watcher "no completion gate" is correct, so the wrong-tool warning is
 suppressed; on ambiguity it defaults to closed.
 
-The output is printed in chat and saved to `.loop/<slug>.md` (a descriptive name so multiple
-loops coexist, listed in `.loop/INDEX.md`). Claude Code output leads with a
-file-backed `/loop` launch line. Codex output leads with a copyable launch block for exactly one
-iteration or watcher tick, then a short Loop brief explaining the loop's purpose, kind, gate or
-trigger, state/cursor file, and stop condition. It also shows Codex-native run options: manual
-ticks by default, `/goal` for closed continuation, Automations for heartbeat/watch loops, and
-`codex exec resume` for external schedulers or CI.
+The full contract is saved to `.loop/<slug>.md`, with progress/cursor and `.loop/INDEX.md`.
+Chat presents explanations and the chosen Loop body only in the final package, with all
+resolved launch blocks last and nothing after them. Manual ticks are the safe-first-run default; explicit completion/cadence/CI intent
+selects a supported native mode. Unsupported features are conditional explanations, not runnable
+copy blocks. Generation does not start a loop, configure scheduling or overwrite existing state.
 `makeloop` will also tell you when a loop is the wrong tool (no automated check -> a single good
 prompt wins).
 
@@ -90,9 +148,11 @@ See [`plugins/makeloop/README.md`](plugins/makeloop/README.md) for details.
 plugins/makeloop/
   .codex-plugin/plugin.json        # Codex plugin manifest
   .claude-plugin/plugin.json       # plugin manifest
-  commands/makeloop.md             # the /makeloop command (self-contained)
+  commands/makeloop.md             # shared generator and /makeloop entrypoint
   skills/makeloop/SKILL.md         # the $makeloop:makeloop Codex skill
   templates/loop-prompt.tmpl.md    # the generated loop-prompt template (canonical)
+  references/                     # on-demand profile, output and host launch guides
+  validation/                     # supplemental synthetic-output cases and checker
   eval/scenarios.md                # golden eval — objective quality gate for makeloop itself
   eval/codex-scenarios.md          # Codex-surface eval — skill/plugin launch contract
   scripts/install-codex-prompt-shim.mjs # optional local Codex slash-like prompt shim installer

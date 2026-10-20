@@ -1,202 +1,52 @@
 ---
 name: makeloop
-description: Generate a Codex-ready loop prompt contract for the current project. Use for makeloop, loop prompt, Codex loop, project loop, getting tests green with a reusable stateful loop, open watcher loops, or requests that ask to build a loop rather than do the project work directly.
-argument-hint: "[goal hint (optional)]"
+description: Design evidence-driven loops for a project goal or watcher, with progress, adaptation, interruption recovery and copyable host-native launches. Use to build or refine a loop contract, not to run the project work.
 ---
 
-# makeloop for Codex
+# makeloop — host-aware entrypoint
 
-You are building a loop prompt contract for Codex, not running the project work.
-Your deliverable is a saved `.loop/<slug>.md` prompt plus a seeded state or cursor file and a
-ready-to-send Codex launch instruction plus Codex-native run options.
+Identify the actual host from the exposed runtime/tools, not the model name. This skill may be
+visible in both Claude Code and Codex. On Claude Code, route through the shared generator and
+`../../references/claude-code.md`; do not apply Codex-only invocation or launch choices below.
+On Codex, use `../../references/codex.md`. Do not alter user-level aliases or plugin installation.
 
-Keep the chat surface thin. Put the detailed loop contract, source lists, long criteria, and
-iteration instructions in `.loop/<slug>.md`; the chat response is a launch surface, not the full
-prompt.
+Build the loop contract; do not do the project work. Read
+`../../commands/makeloop.md` for the shared generator Steps 0-6. It is the canonical generation
+logic, not a Claude-only runtime prescription. Do not fork it into this skill.
 
-## Canonical sources
+Use progressive disclosure:
 
-Before generating, read these files from this plugin:
+- Steps 2/6: `../../references/output-guide.md` for purpose choices, explanations and copy format.
+- Steps 3/6: `../../references/feedback-design.md` for outcome-to-evidence mapping, adaptive
+  decisions, progress, attempt accounting and watcher effect recovery.
+- Steps 4/6: the current host reference above for launch/stop/resume and capability boundaries.
+- Step 5: `../../templates/loop-prompt.tmpl.md`; select exactly one core and only triggered blocks.
 
-- `../../commands/makeloop.md` — canonical generator behavior and Steps 0-6.
-- `../../templates/loop-prompt.tmpl.md` — canonical closed/open core and optional blocks.
+Preserve the three hearts (verify/trigger, state/cursor, stop/dedup), Project Profile,
+closed/open distinction, first-VERIFY honesty, cold-start cursor, no-fake-done and maker != checker.
+No self-grading, no gate weakening, no unbound output placeholders. Existing state must survive refine.
+Judge progress by observed changes, including useful diagnosis; repeated commands alone are not
+stalls. A finished plan or clear review must still be reconciled with every original requirement.
 
-Follow the canonical behavior unless this skill says to adapt it for Codex.
+Codex invocation is `$makeloop:makeloop` when the plugin prefix is visible, or a discovered slash-menu
+skill. Do not invent a Codex `/loop`, `/ralph-loop`, `codex-loop` runner, or a top-level `/makeloop` on Codex. CC may expose `/makeloop` or a namespaced plugin command;
+use the actually discovered alias, never remove or duplicate user-level aliases here.
 
-## Codex adaptations
+When purpose is ambiguous, explain concrete project-specific choices before writing executable
+contracts for an unselected purpose. When purpose is clear, compare ways to run the same contract.
+Preserve supplied choices. Ask only for material ambiguity; use a concise normal chat question if
+its question UI is absent. Do not require ritual confirmation for decisions already supplied.
 
-- The user invokes this skill as `$makeloop:makeloop` in Codex CLI, or from the slash menu when the plugin is enabled in the Codex app.
-- Preserve the loop-engineering contract: Project Profile, closed/open kind, real VERIFY gate or
-  trigger, state/cursor, stop condition or run mode, t=0 policy, no fake done, maker != checker,
-  no gate-bypass, and no unbound template placeholders.
-- Do not generate a Claude Code `/loop` or `/ralph-loop` launch line. Codex does not have those
-  commands.
-- Do not create a runner unless the user explicitly asks for a script/automation in a separate
-  request. Codex v1 is prompt-contract first.
-- The default launch instruction is a normal Codex message that references the saved file.
-- Codex loop behavior maps to Codex-native surfaces, not to a fake `/loop` command:
-  - manual tick: send one copyable message for one closed iteration or one open watcher tick;
-  - `/goal`: for closed loops where the user wants Codex to keep pursuing the objective across
-    turns, provide a copyable goal text that points at the saved loop file and state file;
-  - thread automation: for open watchers or cadence follow-up, provide a copyable prompt that asks
-    Codex to create a thread automation using the saved loop file and cursor file;
-  - `codex exec resume`: for CI/cron/shell orchestration, provide a copyable resume prompt, but no
-    shell runner unless explicitly requested.
+Save `.loop/<slug>.md`, seed closed `-state.md` or open `.cursor.json` only if absent, and maintain
+`.loop/INDEX.md`. Hold launch commands and the full Loop body until saving/checks are complete.
+In ONE final response: explanation/Loop brief and choices, paths/status/gaps, complete chosen Loop
+body once, then the copyable launch blocks at the very end. Nothing follows the last launch fence.
+On Codex use **Codex run options** for explained alternatives; use host-native choice labels on CC. Mark exactly one recommendation. Manual tick
+is the safe-first-run default; honor explicit goal/cadence/CI intent when supported. Each executable
+choice has its own fully resolved block, labeled with the paste destination. Keep unavailable or
+unconfirmed capabilities in separate Conditional options without executable fences.
 
-## Proposal discipline
-
-Mirror the canonical `/makeloop` interaction style instead of silently choosing a thin path.
-
-- After DISCOVER, write the loop files directly when kind, target, gate/trigger, and run mode are
-  clear enough from the request and repo profile. Do not ask just to restate a safe default.
-- Present one consolidated proposal before writing files only when an ambiguity is high-impact
-  enough that choosing wrong would create the wrong loop. Keep that proposal to at most 10 lines.
-- The proposal must include: kind, goal or watch target, SUCCESS CRITERIA or TRIGGER CONDITION,
-  gate or signal predicate, state/cursor file, stop/run mode, and the recommended Codex run mode.
-- Offer 2-3 concrete scope/run choices only when there is a real fork. Keep the options terse and
-  Codex-native:
-  - closed: manual tick (default), `/goal` assisted continuation, or `codex exec resume` pipeline;
-  - open: manual watcher tick, thread automation heartbeat, or standalone/project automation.
-- Do not dump the full source inventory, long SUCCESS CRITERIA, implementation plan, or rationale
-  into the proposal. Put that material in the saved loop file after the user confirms.
-- Ask a follow-up only for choices that are ambiguous and high-impact. Otherwise make the same
-  conservative assumptions the canonical generator would make and list them.
-- Codex may not expose Claude Code's `AskUserQuestion` UI. If confirmation is needed, ask a concise
-  normal chat question with the consolidated proposal and wait for the user's answer before writing
-  files. If the user chooses a run mode, preserve that choice exactly in the saved `.loop/INDEX.md`
-  and final `Codex run options`.
-- If an existing `.loop/<slug>.md` substantially matches the goal, default to refining it rather
-  than creating a duplicate.
-
-Use this proposal shape when confirmation is needed:
-
-```markdown
-Proposed loop shape
-- Kind: <closed/open> — <one-line reason>
-- Target: <goal or watch target>
-- Check: <one-line SUCCESS CRITERIA summary or TRIGGER CONDITION>
-- Verify/signal: <gate commands or observed signal>
-- State: <state/cursor path>
-- Run mode: <recommended Codex run mode> — <why>
-
-Options
-1. <recommended option>
-2. <alternate option>
-3. <alternate option, only if useful>
-
-Reply with the option number or edits.
-```
-
-## Codex run-mode recommendation
-
-Choose the recommendation from the user's intent and the profile, then show the alternates without
-overloading the user.
-
-| Situation | Recommend | Why |
-| --- | --- | --- |
-| Closed loop, user wants a safe first run or the gate is expensive/risky | Manual tick | Matches CC's controlled first iteration; easiest to inspect and stop. |
-| Closed loop, user wants Codex to keep pursuing the same objective in this thread | `/goal` | Codex keeps the objective attached across turns while the saved state file remains the loop ledger. |
-| Closed loop, user mentions CI, cron, wrapper, script, or non-interactive use | `codex exec resume` | An external scheduler can own cadence while Codex resumes the same contract. |
-| Open watcher, user wants recurring checks in this same thread | Thread automation | Preserves thread context and works like a heartbeat. |
-| Open watcher, each run should be independent or isolated from local edits | Standalone/project automation | Lets Codex use a background worktree when appropriate. |
-| Open watcher, user only wants to test the watcher once | Manual watcher tick | Proves trigger/cursor/dedup before scheduling. |
-
-If the user's requested run mode conflicts with safety (for example, unattended writes before one
-manual tick), recommend the safer first step and list the requested mode as the next upgrade path.
-
-## Launch instruction forms
-
-Lead the final response with a short label, then a fenced `text` block that contains only the
-ready-to-send Codex message in the user's working language. Do not wrap the message in quotes, and
-do not put the message itself in a bullet.
-
-The launch block must be the first substantial output after any one-line completion note. This is
-more important than explaining the design: the user should be able to copy the block without
-editing or hunting through prose.
-
-Closed loop:
-
-```text
-.loop/<slug>.md の手順に従って1 iterationだけ進めて。state は .loop/<slug>-state.md を読んで更新して。完了なら FINAL、続行なら ITERATING で終えて。
-```
-
-Open watcher:
-
-```text
-.loop/<slug>.md の手順に従って1 watcher tickだけ実行して。cursor は .loop/<slug>.cursor.json を読んで更新して。新しい trigger があれば一度だけ notify/act し、なければ静かに終えて。
-```
-
-If the user asks for unattended scheduling, explain after the launch instruction that Codex
-Automations can run the same tick prompt on a schedule, but do not create an automation unless the
-user explicitly asks in a separate step.
-
-## Codex run options
-
-After the launch block and Loop brief, include a compact `Codex run options` section. Mark exactly
-one option as recommended and keep the rest as alternates.
-
-Closed loop options:
-
-- **Manual tick (default, safest)** — the launch block above. User sends it again or asks Codex to
-  continue when `ITERATING` appears.
-- **Goal-backed continuation** — include this only when useful for a longer closed task:
-
-```text
-/goal .loop/<slug>.md の手順に従って <short goal> を完了まで進める。state は .loop/<slug>-state.md を毎回読んで更新する。VERIFY が全 SUCCESS CRITERIA を満たしたら FINAL、未達なら次の最小ステップへ進む。
-```
-
-- **Scripted resume** — include this only when the user wants CI/cron/wrapper control:
-
-```text
-codex exec resume --last ".loop/<slug>.md の手順に従って1 iterationだけ進めて。state は .loop/<slug>-state.md を読んで更新して。完了なら FINAL、続行なら ITERATING で終えて。"
-```
-
-Open watcher options:
-
-- **Manual watcher tick (default, safest)** — the watcher launch block above.
-- **Thread automation heartbeat** — recommend for recurring polling that should preserve thread
-  context. Provide a setup prompt, not a created automation, unless explicitly asked:
-
-```text
-このthreadで <interval> ごとに .loop/<slug>.md の watcher tick を実行する automation を作って。cursor は .loop/<slug>.cursor.json を読んで更新し、新しい trigger だけ notify/act して。
-```
-
-- **Standalone/project automation** — recommend only when each run should be independent or should
-  run in a background worktree. Mention that sandbox/worktree choice changes write risk.
-
-## Output files
-
-- Save the generated prompt to `.loop/<slug>.md`.
-- Closed loops seed `.loop/<slug>-state.md`.
-- Open loops seed `.loop/<slug>.cursor.json`.
-- Append or update `.loop/INDEX.md` with the slug, goal, kind, gate or trigger, cap/run mode, and
-  Codex launch instruction.
-
-## Refine behavior
-
-If the request names or clearly matches an existing `.loop/<slug>.md`, refine that loop instead of
-creating a near-duplicate. Preserve the existing kind, state/cursor file, and blocks unless the user
-explicitly asked to change them.
-
-## Final response
-
-Report compactly:
-
-- ready-to-send Codex launch instruction first, as a copyable fenced `text` block;
-- `Loop brief` immediately after the launch block, with 3-5 short bullets, each one line:
-  - what the loop is trying to change or watch;
-  - closed/open kind and why;
-  - the success gate or trigger condition;
-  - the state or cursor file and what it preserves;
-  - the stop condition or next expected outcome;
-- saved prompt path;
-- state or cursor path;
-- `Codex run options` with the recommended mode and at most two alternates;
-- key assumptions or wrong-tool warning, if any;
-- any validation gap found by the pre-save self-check.
-
-Keep the brief concrete to the generated loop. Do not say only "follow the prompt" or repeat the
-file path as the explanation.
-Do not print the full generated prompt, full source inventory, full SUCCESS CRITERIA, or full
-implementation plan in chat unless the user explicitly asks to see it. Those belong in the saved
-file.
+Explain outcome, actual actions, effects/scope, suitability, check/trigger, stop/cap/expiry, state
+and resume for each candidate. Keep detailed criteria in the saved contract and show its complete body only once in the final package. State **generated / not configured / not started** truthfully.
+Displaying choices does not start a goal, configure scheduling, select an unchosen runtime, reset
+state, or authorize simultaneous writers. Do not create a runner or schedule here.

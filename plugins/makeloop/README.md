@@ -3,10 +3,38 @@
 A Claude Code slash command and Codex skill that **build loop prompts for you**.
 
 Claude Code `/makeloop` or Codex `$makeloop:makeloop` reads your current project **and the session conversation**, figures out the work
-goal, asks you a couple of focused questions, and emits a complete, paste-ready loop prompt —
-goal, strict success criteria, a real verify gate, a state file, and a stop condition,
+goal, offers purpose-led choices and emits a complete, copyable loop contract —
+goal, strict success criteria, observations, adaptive decisions, recoverable state and stopping,
 **written in your working language**. It does **not** run the loop; it produces the prompt you
 then feed to the host agent.
+
+## Choose by what you want to do
+
+makeloop separates **purpose** from **execution mode**. If the goal is unclear, compare concrete
+project-specific purposes before creating a contract. If it is clear, compare ways to run the
+same contract. Usually you get one recommendation plus one or two useful alternatives:
+
+| Want to… | Choice | What the explanation covers |
+| --- | --- | --- |
+| Finish the accepted repair or milestone | Native goal continuation, when available | Edits, acceptance evidence, budget, stop and resume |
+| Inspect one bounded step first | One manual iteration | What may change, what is checked, remaining work and how to continue |
+| Watch for new events | Open watcher tick or supported cadence | Signal, new-event dedup, notification/action scope, cursor, expiry and cancellation |
+| Continue from CI or a wrapper | Exact-session resume, when requested | Working directory, state ownership and uncertain-effect reconciliation |
+
+Each choice explains when it fits **and when it does not**, its actual effects and permissions,
+its saved state and its stopping condition. A watcher is not an alternative implementation of a
+repair. Choices are derived from the project, not fixed presets or a menu padded with irrelevant tools.
+
+**Final-only output:** no launch commands or full Loop body during progress or questions. Once
+files and checks are complete, one final response contains the explanations and candidate choices,
+then the chosen Loop body, then **all launch blocks at the very end**. Nothing follows the last
+launch block. Each block is independent and labeled by host and paste destination; explanations
+and shell prompts stay outside, necessary shell quotes stay inside. Unknown features remain
+conditional explanations without runnable blocks. This replaces the former launch-first ordering.
+
+**Generated is not started.** Displaying goal/schedule alternatives does not create them, replace
+an existing goal, reset a cursor or authorize concurrent writers. Existing `.loop/` files are not
+bulk-migrated; refining preserves unrelated choices and progress.
 
 ## Usage
 
@@ -50,44 +78,20 @@ explicit verify gate (`gate: npm test && tsc`), forcing optional blocks on/off
 (`don't ask` / `just generate`). Anything you omit falls back to its normal question.
 `/makeloop` echoes a one-line summary of what it parsed so you can correct it.
 
-You'll be asked (for anything not already specified inline):
+The generator asks only for material ambiguity, using one consolidated proposal rather than
+separate scope/gate/runtime question rounds. It honors supplied decisions. The selected contract
+is saved as `.loop/<slug>.md`, with closed `-state.md` or open `.cursor.json` seeded only if absent.
+The final package explains the choices, shows the chosen Loop body, and ends with resolved launches.
 
-1. **Scope** — finish in-flight work / reach the next milestone / complete the project.
-2. **Success criteria** — confirmed, strict, objectively checkable.
-3. **Verify gate + stop condition** — the test/build/lint that rejects bad work, and a hard
-   iteration cap (default 8).
-4. **Runtime** — Claude Code uses built-in `/loop` (self-paced or interval) or the `ralph-loop`
-   plugin; Codex gets a host-native run-mode menu: manual tick by default, `/goal` for closed
-   continuation, Automations for heartbeat/watch loops, and `codex exec resume` for external
-   schedulers or CI.
+Claude Code can offer `/goal` for closed completion, `/loop` for dynamic/fixed waiting and an
+installed ralph-loop workflow. Codex can offer manual ticks, `/goal`, supported chat/project
+scheduled tasks and exact-session `codex exec resume` for CI. Availability is verified per surface;
+CLI alone is not a scheduler management interface. A normal message is the portable first-run path.
 
-The result is saved to `.loop/<slug>.md` (a descriptive name, so multiple loops don't clobber
-each other) with a seeded state/cursor file, and the chat output **leads with the exact
-ready-to-paste launch block**. Claude Code uses file-reference form like
-`/loop .loop/<slug>.md の手順に従って … state は .loop/<slug>-state.md。`. Codex uses a ready-to-send
-instruction in a fenced `text` block, like
-`.loop/<slug>.md の手順に従って1 iterationだけ進めて...`.
-The launch block is followed by a short **Loop brief** explaining what the loop is trying to change
-or watch, why it is closed/open, what gate or trigger decides progress, what state/cursor file is
-preserved, and when the next run should stop.
-It also includes **Codex run options** so the user can choose the same loop contract as a manual
-tick, a goal-backed continuation, an Automation heartbeat, or an external `codex exec resume`
-pipeline when the host supports that mode.
-For Codex, detailed criteria, source inventories, and iteration instructions stay in the saved
-`.loop/<slug>.md`; chat output stays copy/paste-first.
-The generated prompt is written in **your working language**; only machine-significant literals
-(commands, paths, `FINAL` /
-`<promise>DONE</promise>`, JSON keys) stay as-is.
-
-Codex run-mode recommendations are conservative:
-
-| Need | Codex mode |
-| --- | --- |
-| Inspect the first iteration safely | Manual tick |
-| Keep a closed goal alive in the same thread | `/goal` |
-| Run from CI, cron, or an external wrapper | `codex exec resume` |
-| Keep an open watcher alive in this thread | Thread automation |
-| Run independent/background watcher checks | Standalone/project automation |
+`FINAL` reports contract success; it does not cancel a native job. CC session loops expire after
+seven days and self-paced wakeups are not restored on resume. Native goal evaluators do not
+independently execute acceptance checks. The saved contract explains its real stop/restart behavior.
+Use only one continuation owner for a shared state file.
 
 ## Depth that matches the project
 
@@ -117,16 +121,16 @@ It also judges the **loop kind** and shapes the prompt to match:
 The generated loop is also **sized to the profile** — it stays lean for a project with one
 `npm test`, and grows the advanced blocks when the project supports them:
 
-- **Two-stage gate** (pre-gate / post-gate) with FREEZE-no-commit on regression, for
-  projects with a build + baseline/regression audit.
+- **Two-stage gate** with an initial baseline and affected/final acceptance checks, with
+  FREEZE-no-commit on regression. Expected repair failures are not poisoned baselines.
 - **Observation-validity check** + `unrecoverable-harness` / `pinata` stops, for self-driving
   harnesses that emit screenshots/snapshots.
 - **Regression-guard step** (one minimal case per fix) when `scenarios/`/golden files exist.
 - **Budget** + a **labeled stop taxonomy** (`no-progress`, `oscillation`, `failure`,
   `scope-boundary`, …) for autonomous loops.
 
-For large or unfamiliar codebases it can dispatch `Explore` subagents to build the profile
-faster, then confirm the key findings before generating.
+For large or unfamiliar codebases, exploration agents are used only when delegation is explicitly
+authorized; otherwise discovery stays in the current conversation.
 
 ### Hardening built into every generated loop
 
@@ -141,7 +145,7 @@ Beyond the three hearts, each loop is shaped by lessons from loop-engineering pr
 
 Profile/directive-triggered blocks add a **no-progress circuit breaker**, **cross-run
 learnings** (`.loop/learnings.md`), **escalation handoff** for unattended runs,
-**scheduled-loop safety** (idempotency, external scheduler, tiered auto-approve, intent
+**scheduled-loop safety** (idempotency, one confirmed scheduler, tiered auto-approve, intent
 deny-list), a **JSON done-ledger**, and **LLM-as-judge hardening**.
 
 The technique catalog, the self-improvement run history, and the deferred fleet-mode roadmap live in
@@ -157,9 +161,9 @@ plugins/makeloop/skills/makeloop/SKILL.md
 .agents/plugins/marketplace.json
 ```
 
-The Codex skill reads the canonical Claude Code generator and template, then adapts only the host
-launch surface: no fake `/loop`, no `/ralph-loop`, and no hidden runner. The default output is a
-copyable one-iteration or one-watcher-tick launch block backed by `.loop/<slug>.md` plus state/cursor.
+The Codex skill reads the shared canonical generator and template, then adapts only the host
+launch surface: no fake `/loop`, no `/ralph-loop`, and no hidden runner. The final package ends with
+copyable launch blocks backed by `.loop/<slug>.md` plus state/cursor; none appear during progress.
 When the loop needs a closer Codex analogue to CC's runtime choices, the skill also offers Codex
 run options: `/goal` for closed continuation, thread/standalone Automations for cadence and
 watchers, and `codex exec resume` for external orchestration. It describes these modes but does not
@@ -167,15 +171,26 @@ create unattended schedulers unless the user explicitly asks.
 
 ## Why it's shaped this way (loop engineering)
 
-Every generated prompt carries the parts that make a loop actually work rather than just
-spend tokens:
+The generated contract closes a feedback path: **requirement → hypothesis → action → evidence →
+decision**. It maps every original criterion to valid observations, identifies useful progress,
+and changes the next action when results disprove the current approach. Clearing a plan or a
+review is followed by a check of the original goal and any remaining delivery requirements.
 
-- **Verify** is a real gate (test/build/lint), not the agent grading its own homework.
-- **State** (`.loop/state.md`) carries done / failed / next across iterations, so the loop
-  resumes instead of restarting.
-- **Stop condition** is success OR a hard cap, to avoid the "Ralph Wiggum loop" (exits too
-  early, or spins forever spending money).
-- **maker != checker**: risky changes get re-verified with fresh eyes.
+- **Progress** is an observed improvement or a useful eliminated cause. Repeating a test on an
+  improved target is valid; changing command text while making no progress cannot evade the limit.
+- **Verification** checks both the result and whether the intended source/suite was observed.
+  Empty valid results may pass; missing coverage remains a gap. Required reviews bind to the target.
+- **Recovery** reserves an attempt before work, keeps interrupted attempts counted, and reconciles
+  results before new work. The current state summary stays compact with pointers to detailed logs.
+- **Watcher feedback** distinguishes read frontier, occurrence identity, pending intent and
+  confirmed effect. Uncertain notifications/actions are reconciled without blind resending.
+- **Completion** requires current proof for the original goal. Budget/blocker checkpoints retain
+  its unmet scope and are reported separately from task success and native runtime stopping.
+
+See [feedback-design.md](references/feedback-design.md) for the generator's design questions and
+short interruption/stall traces. The guide is loaded during generation; it is not pasted wholesale
+into every emitted contract. Measured time/cost per accepted outcome guides efficiency; unmeasured
+usage stays unknown, and gate duration is only one component of wall-clock time.
 
 It will also tell you when a loop is the *wrong* tool — if there's no automated way to
 reject bad output, a single good prompt usually beats a loop.
