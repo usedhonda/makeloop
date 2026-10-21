@@ -4,10 +4,13 @@
 Usage: python3 check_outputs.py SCENARIOS.json OUTPUTS.json
 Model generation and this deterministic checker are separate. This checks observable
 artifact contracts; human semantic grading of suitability and safety is still required.
+Optional outputs[].progress contains collected pre-final messages. If omitted, earlier
+turns are not inspected; this checker cannot establish live host availability or behavior.
 """
 import argparse
 import json
 import re
+import shlex
 from pathlib import Path
 
 
@@ -42,6 +45,9 @@ def output_errors(out):
         errors.append('files must map file paths to text')
     if not isinstance(out.get('chat', ''), str):
         errors.append('chat must be a string')
+    progress = out.get('progress', [])
+    if not isinstance(progress, list) or not all(isinstance(t, str) for t in progress):
+        errors.append('progress must be an array of strings')
     return errors
 
 
@@ -89,6 +95,67 @@ def has_source_citation(text):
     return False
 
 
+
+def fenced_blocks(text):
+    """Read top-level matched fences; a longer outer fence protects nested examples."""
+    return list(re.finditer(
+        r'^(?P<marker>`{3,}|~{3,})(?P<lang>[^\n]*)\n'
+        r'(?P<body>.*?)^(?P=marker)[ \t]*(?:\n|$)', text, re.M | re.S))
+
+
+def has_launch_text(text):
+    # Feature names alone are allowed; concrete saved-file launches are not.
+    return bool(re.search(
+        r'(?m)(?:^|`)[ \t]*(?:/(?:goal|loop|ralph-loop)\b|codex\s+exec\b|Follow\b)'
+        r'[^\n`]*\.loop/', text))
+
+
+def copy_presentation_errors(case, chat, contract, blocks, launches):
+    """Structural copy checks, not a host-capability or semantic safety verdict."""
+    errors = []
+    def require(ok, why):
+        if not ok:
+            errors.append(why)
+    bodies = [b for b in blocks if b['lang'].strip() == 'markdown'
+              and b['body'].rstrip('\n') == contract.rstrip('\n')]
+    require(len(bodies) == 1 and bool(contract.strip()) and chat.count(contract.strip()) == 1,
+            'show the saved contract once in a markdown fence')
+    if bodies:
+        require(all(f.start() > bodies[0].end() for f in launches),
+                'launch appears before the complete final Loop body')
+    require(len(blocks) == len(launches) + 1,
+            'only the contract and final launch fences belong in the package')
+    outside = chat
+    for b in reversed(blocks):
+        outside = outside[:b.start()] + '\n' + outside[b.end():]
+    require(not re.search(r'(?m)^(?:`{3,}|~{3,})', outside), 'unclosed or malformed code fence')
+    require(not has_launch_text(outside), 'launch outside the final copy blocks')
+    require(len({f['body'].strip() for f in launches}) == len(launches), 'duplicate launch block')
+    labels = []
+    previous_end = bodies[0].end() if len(bodies) == 1 else 0
+    for i, f in enumerate(launches):
+        between = [line.strip() for line in chat[previous_end:f.start()].splitlines() if line.strip()]
+        label = between[-1] if between else ''
+        labels.append(label)
+        require(len(between) == (2 if i == 0 else 1)
+                and (i != 0 or between[0].startswith('## '))
+                and bool(re.match(r'^### [A-Z]\s+[—|\-]', label)),
+                'launch group must contain only heading, labels and blocks')
+        expected_host = 'Claude Code' if case['host'] == 'claude' else 'Codex'
+        other_host = 'Codex' if case['host'] == 'claude' else 'Claude Code'
+        require(expected_host.lower() in label.lower() and other_host.lower() not in label.lower(),
+                'launch label missing or mismatching host')
+        destination = (r'input|chat|composer|入力欄|チャット' if f['lang'].strip() == 'text'
+                       else r'terminal|shell|ターミナル|シェル')
+        require(bool(re.search(destination, label, re.I)), 'launch label missing paste destination')
+        require(label.startswith('### ' + chr(ord('A') + i) + ' '), 'launch labels must follow A/B/C order')
+        previous_end = f.end()
+    recommendations = [bool(re.search(r'\bRecommended\b|おすすめ|推奨', label, re.I)) for label in labels]
+    require(bool(recommendations) and recommendations[0] and sum(recommendations) == 1,
+            'recommend exactly one launch, first')
+    return errors
+
+
 def check(case, out, presentation=True):
     errors = case_errors(case) + output_errors(out)
     if errors:
@@ -96,6 +163,14 @@ def check(case, out, presentation=True):
     files = out.get('files', {})
     chat = out.get('chat', '')
     kind = case['kind']
+    blocks = fenced_blocks(chat)
+    launches = [b for b in blocks if b['lang'].strip() in ('text', 'sh')]
+    for message in out.get('progress', []):
+        if has_launch_text(message) or any(
+                b['lang'].strip() != 'markdown' for b in fenced_blocks(message)) or any(
+                text.strip() and text.strip() in message for path, text in files.items()
+                if path.endswith('.md') and not path.endswith('-state.md') and path != '.loop/INDEX.md'):
+            errors.append('launch or full contract leaked into progress')
     markdown_files = [(p, t) for p, t in files.items()
                       if p.startswith('.loop/') and p.endswith('.md')
                       and not p.endswith('-state.md') and p != '.loop/INDEX.md']
@@ -115,7 +190,7 @@ def check(case, out, presentation=True):
     require(bool(chat.strip()), 'missing chat output')
     if kind == 'choice':
         require(not files, 'unselected purpose created files')
-        require(not re.search(r'```(?:text|sh)\s*\n', chat), 'unselected purpose has runnable block')
+        require(not blocks and not has_launch_text(chat), 'unselected purpose has runnable block')
         if case.get('compare'):
             require(bool(re.search(r'closed|完了|修理', chat, re.I)) and
                     bool(re.search(r'open|監視|watch', chat, re.I)), 'purpose alternatives absent')
@@ -158,17 +233,32 @@ def check(case, out, presentation=True):
             errors.append('cursor is not valid JSON')
         require(bool(re.search(r'COLD START|cold.start|初回', contract, re.I)), 'missing cold-start policy section')
         require(bool(re.search(r'backlog|pre.existing|existing|lines before.*cursor|historical|既存|過去', contract, re.I)), 'missing backlog policy')
-    fences = list(re.finditer(r'```(text|sh)\s*\n(.*?)\n```', chat, re.S))
+    fences = launches
     require(bool(fences), 'no runnable copy block')
     if fences:
-        require(prompt_path in fences[0][2] and state_path in fences[0][2], 'first launch file/state mismatch')
+        require(prompt_path in fences[0]['body'] and state_path in fences[0]['body'], 'first launch file/state mismatch')
         if presentation:
             body_start = chat.find(contract)
             require(body_start >= 0 and all(f.start() > body_start + len(contract) for f in fences),
                     'launch appears before the complete final Loop body')
             require(not chat[fences[-1].end():].strip(), 'prose follows the last launch block')
+    if presentation:
+        errors.extend(copy_presentation_errors(case, chat, contract, blocks, fences))
     for fence in fences:
-        code = fence[2]
+        code = fence['body'].strip()
+        if fence['lang'].strip() == 'text':
+            pairs = [('"', '"'), ("'", "'"), ('“', '”'), ('「', '」')]
+            require(not any(code.startswith(a) and code.endswith(b) for a, b in pairs),
+                    'display quotes in conversation block')
+            require(not re.search(r'^(?:codex|claude|cd)\s+', code), 'shell command in conversation block')
+            if re.search(r'(?m)^/(?:goal|loop|ralph-loop)\b', code):
+                require('\n' not in code, 'slash launch must be one physical line')
+        else:
+            require(not re.search(r'^/(?:goal|loop|ralph-loop)\b', code), 'chat command in terminal block')
+            try:
+                shlex.split(code)
+            except ValueError:
+                errors.append('invalid shell quoting')
         require(not re.search(r'^\s*(?:\$ |[-*] |\d+\. |# )', code, re.M), 'copy block contains prompt/list/comment')
         require(not re.search(r'<[^\n>]+>', code), 'placeholder in launch')
         require(prompt_path in code, 'launch missing saved contract')
@@ -176,6 +266,9 @@ def check(case, out, presentation=True):
         if case['host'] == 'codex':
             require(not re.search(r'(?<![\w/])/(?:loop|ralph-loop)\b|codex-loop', code), 'Claude launch on Codex')
             require('--last' not in code, 'ambiguous unattended resume')
+        else:
+            require(not re.search(r'\bcodex\s+(?:exec|resume)\b|codex-loop', code),
+                    'Codex launch on Claude Code')
     require(bool(re.search(r'Loop brief|ループ概要', chat)), 'missing concrete Loop brief')
     if case['host'] == 'codex':
         require('Codex run options' in chat, 'missing Codex choices section')

@@ -18,6 +18,19 @@ than forcing manual mode. A confirmed explicit CI/external-resume choice remains
 recommended in the contract, INDEX and final launch group; manual is only an optional alternative. Describe the purpose, behavior, effects, check, stop and resume for each
 candidate using the shared output guide. No fake `/loop`, `/ralph-loop` or `codex-loop` commands.
 
+## Final copy choices
+
+Use the shared output guide: save/check first, then explanations, the chosen Loop body, and one
+final launch group with A/B/C labels. Name the actual paste surface: **Codex CLI input**, the
+**Codex desktop chat**, or the **IDE chat** for `text`; the **OS terminal** for `sh`.
+For closed work, offer one iteration plus `/goal` only when continuation and the contract's stop
+behavior are confirmed on that surface. An open watcher gets one tick plus a supported schedule
+setup only when appropriate; label setup as creating a schedule, not as one observation.
+Offer `codex exec resume` only for the explicit CI/external intent below; it is a terminal command,
+not a slash command. Do not infer desktop/IDE capabilities from CLI help or offer a fake `/loop`.
+Put the recommended choice first, preserve explicit supported mode choices, and make each block
+complete with the exact contract/state and execution unit. Emit slash launches as one physical line.
+
 ## Launch forms
 
 Render with actual paths and values in the user's language; these are illustrative scaffolds.

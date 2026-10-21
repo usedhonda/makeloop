@@ -29,9 +29,11 @@ def sample(kind='closed', host='codex'):
         state_path = '.loop/example.cursor.json'
         state = json.dumps({'last_seen': None, 'last_fired_digest': None})
     launch = f'Follow {prompt_path} once; preserve and update {state_path}.'
+    destination = 'Claude Code input' if host == 'claude' else 'Codex CLI input'
     chat = ('Loop brief: repair or watch the selected target.\n'
-            'Codex run options: one manual tick.\n\n' + contract +
-            '\n\nPaste into chat:\n```text\n' + launch + '\n```')
+            'Codex run options: one manual tick.\n\n```markdown\n' + contract +
+            '\n```\n\n## Launch commands\n\n### A — Recommended: one tick | ' + destination +
+            '\n```text\n' + launch + '\n```')
     return case, {'id': case['id'], 'files': {prompt_path: contract, state_path: state},
                   'chat': chat}
 
