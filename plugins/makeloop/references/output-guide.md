@@ -42,6 +42,34 @@ Budget consumption and runtime availability are separate facts. Do not reset/inc
 or call the work configured/started to make the presentation look usable. Preserve later state:
 an historical 7/8 regression input is not permission to rewind a real run now at 8/8.
 
+## Resolve readiness inside the invocation, before presenting a launch
+
+Produce a coherent saved artifact and its launch, not a plausible command followed by reasons it
+cannot run. Before final output, reconcile the actual request, saved contract, current state and
+remaining budget, live run ownership, and the exposed host's start/resume/stop controls. A normal
+chat sentence saying "continue until complete" does not configure native cross-turn continuation.
+Do not use that sentence to disguise a blocked backend or a missing resume operation.
+
+If a material user decision is needed, bundle the concrete unresolved choices once during the
+skill invocation: state the observed budget/control/ownership facts and exactly what authority
+or mode change would be needed. Do not ask for facts already readable or for extra budget when
+that alone cannot resolve a known capability failure. After an answer, finish contract assembly,
+save/read-back and presentation in the same workflow; do not hand back a half-prepared launch.
+Never increase or reset limits without the user's explicit additional-budget approval.
+
+Before any copy fence, distinguish: (1) an executable proposal for the requested mode, verified
+against its actual prerequisites but not yet started; (2) a proposal awaiting a specified user
+decision, with no executable block yet; or (3) a capability/budget/ownership constraint for which
+**no executable launch for the requested mode has been generated**. For (3), keep the original
+intent and saved state, explain what is missing and omit all replacement launch blocks. Do not
+present a command and then retract its usability in a later caveat or follow-up turn.
+
+At 8/8 with unfinished work, blocked Goal and no resume tool, the outcome is (3), not a fresh goal
+or manual tick. No new project work is authorized; existing-result reconciliation/checkpointing
+is distinct. Re-generation itself must not reset the ledger. Re-read saved files before final
+presentation and verify that purpose, residual work, mode, limits, authority, review and ownership
+still match; a structurally short block alone cannot establish this semantic agreement.
+
 Use stable A/B/C labels in the explanations and final copy blocks. Put the single recommended
 choice first in both places; honor an explicit supported runtime. Default to the active host only,
 not a mixed CC/Codex menu. Different modes are alternatives, not steps to execute in sequence.

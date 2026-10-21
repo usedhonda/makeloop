@@ -316,6 +316,13 @@ Mandatory safety remains in force in every generated contract:
 
 ## Step 6 — Validate, save, explain, and provide copyable launches
 
+Resolve execution readiness inside this invocation using the output guide before emitting any
+launch. Reconcile actual request/contract/state, remaining budget, run ownership and exposed
+start/resume/stop capability. Resolve concrete high-impact user decisions once before saving
+and presenting; never use a normal "continue" message as evidence that continuation is configured.
+If readiness cannot be established, preserve the requested outcome, report that no executable
+launch for that mode was generated, and omit runnable blocks. No command-first/caveat-later output.
+
 Read `../references/output-guide.md` and the current host launch guide. Before writing, inspect
 assembled output: exactly one core; correct kind-only blocks; no unbound scaffold placeholders;
 all forced directives honored; every criterion mapped to real evidence; launch path and state

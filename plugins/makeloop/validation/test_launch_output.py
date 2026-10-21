@@ -69,6 +69,28 @@ class CopyLayoutTests(unittest.TestCase):
             out['files'][path] = replacement
             self.assertIn('existing state overwritten: ' + path, check(case, out))
 
+    def test_exhausted_continuation_never_emits_command_then_unusable_caveat(self):
+        case, out = self.blocked_continuation()
+        for path in (PROMPT, STATE):
+            text = out['files'][path].replace('7/8 consumed, 1 remaining', '8/8 consumed, 0 remaining')
+            text = text.replace('Attempts used: 7', 'Attempts used: 8').replace('Remaining: 1', 'Remaining: 0')
+            out['files'][path] = text
+            case['preserve'][path] = text
+        out['chat'] = ('Loop brief: Keep every UI residual requirement, consultation and review.\n'
+                       'Codex run options: requested continuous completion is unconfigured.\n'
+                       '8/8 consumed, 0 remaining; blocked Goal has no resume operation.\n'
+                       'No executable launch for the requested mode has been generated.\n'
+                       'Saved contract and current state preserved; no new project work or budget reset.')
+        self.assertEqual(check(case, out), [])
+        for candidate in (f'{PROMPT} に従い完遂まで継続して。',
+                          f'/goal Follow {PROMPT} until complete.',
+                          f'{PROMPT} に従い1回進めて。'):
+            with self.subTest(candidate=candidate):
+                bad = dict(out, chat=out['chat'] +
+                    '\n## Launch commands\n### A — Recommended | Codex CLI input\n```text\n' +
+                    candidate + '\n```\nBut this will not run until budget and resume are fixed.')
+                self.assertIn('unconfigured execution has a runnable replacement', check(case, bad))
+
     def compact(self, host='codex', kind='closed'):
         code = f'{PROMPT} に従い1回進めて。'
         target = 'Claude Code' if host == 'claude' else 'Codex CLI'

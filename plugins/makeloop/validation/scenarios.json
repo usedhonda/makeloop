@@ -202,5 +202,17 @@
     },
     "request": "既存UI改善の全残件をGoalで完遂する起動文を短くして。相談とレビューも保持し、予算やstateを変更しない。実行はしない。",
     "profile": "Historical regression fixture, not a live project state: Codex Goal backend is blocked; exposed tools have no resume/active operation. Requested execution is continuous completion, not a manual pass. 7 of 8 attempts were already consumed and only one remains. No budget extension/reset is authorized. Existing complete files follow; preserve them during generation:\n{\".loop/example.md\": \"GOAL: Finish all UI residual work, not just dependency diagnosis.\\nSUCCESS CRITERIA: C1 diagnose; C2 implement and apply; C3 consult and review.\\nVERIFY: retain all original checks; FINAL only with all proof.\\nIf already satisfied, report honestly.\\nREQUESTED MODE: continuous completion; Goal blocked, resume unavailable.\\nBUDGET: 7/8 consumed, 1 remaining; no reset or increase.\\nAUTHORITY: src/ui edits approved; no other changes or external effects.\\nSTATE FILE: .loop/example-state.md; reconcile same owner before resume.\", \".loop/example-state.md\": \"Attempts used: 7\\nCap: 8\\nRemaining: 1\\nGoal: blocked\\n\"}"
+  },
+  {
+    "id": "M10",
+    "kind": "closed",
+    "host": "codex",
+    "execution_unconfigured": true,
+    "preserve": {
+      ".loop/example.md": "GOAL: Finish all UI residual work, not just dependency diagnosis.\nSUCCESS CRITERIA: C1 diagnose; C2 implement and apply; C3 consult and review.\nVERIFY: retain all original checks; FINAL only with all proof.\nIf already satisfied, report honestly.\nREQUESTED MODE: continuous completion; Goal blocked, resume unavailable.\nBUDGET: 8/8 consumed, 0 remaining; no reset or increase.\nAUTHORITY: src/ui edits approved; no other changes or external effects.\nSTATE FILE: .loop/example-state.md; reconcile same owner before resume.",
+      ".loop/example-state.md": "Attempts used: 8\nCap: 8\nRemaining: 0\nGoal: blocked\n"
+    },
+    "request": "現stateは8/8、Goal blockedでresume toolなし。UI改善の全残件を相談・レビュー込みで完遂するため、短いLoop起動案を一発で再生成して。予算の追加/resetや単発への変更は未承認。実行はしない。",
+    "profile": "Synthetic exhausted-state fixture; not permission to mutate a real project. Existing Goal blocked; no exposed resume/active operation, no verified alternative continuation. All original contracts/state remain authoritative. Actual existing files:\n{\".loop/example.md\": \"GOAL: Finish all UI residual work, not just dependency diagnosis.\\nSUCCESS CRITERIA: C1 diagnose; C2 implement and apply; C3 consult and review.\\nVERIFY: retain all original checks; FINAL only with all proof.\\nIf already satisfied, report honestly.\\nREQUESTED MODE: continuous completion; Goal blocked, resume unavailable.\\nBUDGET: 8/8 consumed, 0 remaining; no reset or increase.\\nAUTHORITY: src/ui edits approved; no other changes or external effects.\\nSTATE FILE: .loop/example-state.md; reconcile same owner before resume.\", \".loop/example-state.md\": \"Attempts used: 8\\nCap: 8\\nRemaining: 0\\nGoal: blocked\\n\"}"
   }
 ]

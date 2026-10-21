@@ -52,6 +52,10 @@ stays requested/unconfigured; do not silently turn it into one iteration or offe
 budget as a fresh completion opportunity. Each executable
 choice has its own fully resolved block, labeled with the paste destination. Keep unavailable or
 unconfirmed capabilities in separate Conditional options without executable fences.
+Complete the output guide's readiness check during this invocation, before presenting any launch.
+Resolve necessary user decisions once; if actual state/budget/ownership or host capability prevents
+the requested execution, report no executable launch generated instead of a command plus a later
+disclaimer. A normal "continue" message is not native continuation setup.
 
 Explain outcome, actual actions, effects/scope, suitability, check/trigger, stop/cap/expiry, state
 and resume for each candidate. Keep detailed criteria in the saved contract instead of repeating
