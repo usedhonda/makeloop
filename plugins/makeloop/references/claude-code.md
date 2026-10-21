@@ -38,6 +38,9 @@ Fill real values in the user's language; examples here are scaffolds, not execut
 The saved contract carries the host-specific stop instructions below, not merely the launch line.
 For `/goal`, expand the contract's actual cumulative limits and terminal blocker conditions into
 the emitted condition; the 8-iteration example is not a new default or an override of user choices.
+When a pause point is requested, include its evidenced checkpoint as another non-success exit in
+that condition. Surface the remaining criteria, not a project-completion claim. On explicit resume,
+release only that reached pause in the saved state and retain the original scope and limits.
 
 ## Stop, evaluate, resume
 

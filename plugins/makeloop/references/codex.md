@@ -26,10 +26,10 @@ Render with actual paths and values in the user's language; these are illustrati
   .loop/repair-state.md. If all criteria are proved, report FINAL; otherwise ITERATING.”
 - Open manual message: “Follow .loop/deploy-watch.md for one watcher tick. Preserve and update
   .loop/deploy-watch.cursor.json; react once per new event under the saved permissions.”
-- Goal: `/goal Follow .loop/repair.md until every criterion is proved or its cumulative budget/
-  terminal blocker requires an incomplete checkpoint. Preserve scope, evidence, consumed attempts
-  and remaining work in .loop/repair-state.md; distinguish successful completion from stopping
-  this execution incomplete.` Bind actual limits and stop conditions in the generated launch.
+- Goal: `/goal Follow .loop/repair.md to prove every original criterion. Preserve scope, evidence,
+  consumed attempts and remaining work in .loop/repair-state.md. Honor its limits and stop
+  instructions; a pause or budget checkpoint is not achievement of this objective.` Bind actual
+  limits and any requested pause in the launch; do not put non-success exits in its success rule.
 - Chat schedule setup message: “Create a scheduled task in this chat, every five minutes,
   running one tick of .loop/deploy-watch.md with .loop/deploy-watch.cursor.json; observe only
   new events and stop under the contract's conditions.” Label it **schedule setup**, not a tick.
@@ -46,6 +46,14 @@ are optional integration aids, not a new runner or proof of task success.
 
 - Generated contract, configured goal/schedule, started run and finished run are different states.
   FINAL/ITERATING are contract reports, not proof of native achieved/cancelled/exited state.
+- For an explicitly requested pause point, offer native goal continuation only when the exposed
+  controls can honor that user-authorized pause. If `update_goal` accepts `paused` in this session,
+  bind the request/condition, call it only at that boundary and report the returned status; never
+  use `complete` or invent `blocked` to make an unfinished goal stop. A later explicit resume
+  releases that reached pause, not the remaining review/approval or cumulative limits.
+  Otherwise keep the requested mode unconfigured and offer a bounded manual message instead;
+  explain the user's `/goal pause` control without claiming to have invoked it. Do not promise
+  unattended stopping from a prompt alone or create another runner to compensate.
 - Keep one continuation owner. Do not combine native goal, a chat timer and an external cron for
   the same state. A goal launch can replace an existing objective; expose that conflict first.
 - Before resuming, reconcile exact session, repo/worktree, original goal and contract version,

@@ -86,6 +86,7 @@ Extract whatever is present (natural phrasing, not strict flags — interpret in
 | **Runtime** | "one iteration", "/goal", "self-paced", "interval 30m" / "30分ごと", "schedule", "CI/external resume", "ralph-loop" | Sets the runtime; omit its question, still apply Step 4 capability/stop rules. |
 | **Loop kind** | open: "watch/monitor X", "notify me when", "poll", "alert on", "監視/通知/見張る"; closed: "finish", "complete", "get green", "fix all", "完成/緑に" | Sets KIND. If unspecified, classify in Step 1. On ambiguity default to **closed**. |
 | **Iteration cap / budget** | "cap 20", "上限20", "max 20 iterations", "wall-clock 30min", "no-progress 3" | Sets N / wall-clock / no-progress; don't ask. |
+| **Pause point (closed)** | "pause before human review", "変更と検証が揃ったら一度止めて" | Add an observable pause point without changing the original goal, required reviews or limits. |
 | **Success K** | "K=3 consecutive clean", "3連続で新問題ゼロ" | Sets the success streak. |
 | **Verify gate** | "gate: npm test && tsc", "verify with cargo test" | Use as the gate verbatim. |
 | **Blocks on/off** | "two-stage gate", "harness検知あり/なし", "no budget block", "with regression guard" | Force-include or exclude that optional block, overriding the profile default. |
@@ -186,6 +187,15 @@ Keep in-scope residual work in the loop; propose unrelated work separately after
     duration unknown. Record actual token/cost usage only if exposed, and keep the explicit
     wall-clock limit separate. Do not run a gate solely to invent an estimate for generation.
 
+**Optional pause point (closed only).** Only when the user asks to stop at a milestone or before
+an action, bind the condition to concrete evidence and include the **Pause point** block. A required
+review by itself is not a request to pause. Keep the full goal and required review in SUCCESS
+CRITERIA; a pause with unmet criteria is an incomplete handoff, not success. Do not turn a vague
+"be flexible" into a new pause, a larger cap or automatic extensions. Existing caps remain hard
+contract limits; reuse the existing time/no-progress budget rather than adding a policy language.
+For a time limit, save its start/deadline at first execution and preserve it across resume. Explain
+instruction-level timing versus confirmed host enforcement; do not invent remaining usage data.
+
 **If kind=open, this whole section changes** (everything above is the closed path):
 - Replace the VERIFY gate with a **TRIGGER CONDITION** — an objective predicate over the
   *observed signal* (not a pass/fail on made work). Precision matters: a false fire trains the
@@ -245,6 +255,7 @@ user's language, not text to copy verbatim.
 | Multi-stage verify (build + audit/regression) | **Two-stage gate** (pre-gate / post-gate, FREEZE-no-commit on regression); stop reasons `poisoned-baseline`, `regression` |
 | Self-driving harness emitting artifacts | **Observation-validity check**; stop reasons `unrecoverable-harness`, and `pinata` (crash) |
 | Baseline / golden / `scenarios/` present | **Regression-guard step**: add one minimal regression case per fix, tied to root cause |
+| Explicit user-requested pause point (closed only) | **Pause point**; stop reason `checkpoint`; omit when not requested |
 | Any autonomous (self-paced) loop | **Budget block** + stop reasons `no-progress`, `oscillation`, `failure`; **No-progress circuit breaker** |
 | Hard invariants / off-limits boundaries (profile D) | Encode them in SUCCESS CRITERIA + RULES; stop reason `scope-boundary` |
 | Existing loop infra (profile E) | Point STATE at the existing files + runbook; reuse scenario format |
@@ -259,7 +270,7 @@ user's language, not text to copy verbatim.
 
 | Block | CLOSED | OPEN |
 | --- | --- | --- |
-| Two-stage gate · Regression-guard · No-progress circuit breaker · JSON done-ledger · Bootstrap · Independent completion check | ✅ | ❌ (Bootstrap is **suppressed** when kind=open) |
+| Two-stage gate · Regression-guard · No-progress circuit breaker · JSON done-ledger · Bootstrap · Independent completion check · Pause point | ✅ | ❌ (Bootstrap is **suppressed** when kind=open) |
 | Budget · Cross-run learnings · Escalation handoff · Scheduled-loop safety | ✅ | ✅ |
 | Observation-validity check | ✅ | ↳ folded into OPEN core's Liveness/Coverage |
 | **Dedup/cursor** | ❌ | ✅ (open-only) |
@@ -290,6 +301,9 @@ Walk the applicable short traces in `../references/feedback-design.md`: does the
 change the next decision, does interruption preserve consumed attempts and pending effects, and
 does a declared stop actually end the chosen native execution? Check both useful repetition and
 stalled activity. A keyword/structure check alone cannot establish these behavioral properties.
+For a requested pause, check that the brief, STOP WHEN and native launch agree, a reached pause
+prevents further project actions, and explicit resume does not reset limits or approve pending
+review/actions. Do not migrate unrelated blocks or state in a narrow refine.
 An unavailable check is an unresolved verification gap. Do not treat it as a passing criterion.
 Fix assembly defects before saving. State any unresolved acceptance gap without claiming success.
 

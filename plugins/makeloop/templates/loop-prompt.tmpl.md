@@ -199,6 +199,20 @@ PASS = <all acceptance criteria proved + previously-green invariants show 0 regr
 - Add ONE minimal regression case (<scenarios path>/<name>) that asserts the violated
   invariant, tied to the root-cause fix. One fix + one guard per commit.
 
+## [explicit pause point · closed only] Pause point — fold into STOP WHEN and action boundaries
+PAUSE WHEN: <user-requested milestone or before-action boundary, with its evidence>.
+- Add this non-success halt to the selected STOP WHEN, including Extended STOP when used.
+  Check after state reconciliation and before each new project action, including checks/review.
+  At the reached boundary, stop the whole run's project work, not just one subtask. Reuse existing
+  proof; do not run another check or independent task past the boundary just to finish the goal.
+- If every original criterion and required review already has current proof, report success
+  without new work. Otherwise save stop_reason=checkpoint, reached condition/evidence, unmet
+  criteria and the next step in the existing state; never emit the completion token for that
+  incomplete handoff. Apply the selected host stop procedure and report its actual status.
+- Keep this pause pending across ticks/restarts until the user explicitly resumes past it.
+  Record that release so this one-time boundary does not immediately pause again. Releasing it
+  does not grant pending review/approval, relax scope, or reset cumulative limits/deadlines.
+
 ## [autonomous loop] Budget — under STATE FILE
 BUDGET (write into state): iteration cap <N> / wall-clock <T> / no-progress streak <P> /
 token+cost cap <C> when measurable (notify at 85%, stop at 100%).

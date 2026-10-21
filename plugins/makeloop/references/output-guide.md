@@ -48,7 +48,10 @@ After resolving material questions, saving files and completing assembly checks,
 package in this order:
 
 1. Explanations and a concrete **Loop brief**: purpose, closed/open reason, actual actions,
-   scope/effects, check/trigger, stop/cap/expiry, state and next/resume behavior.
+   scope/effects, check/trigger, stop/cap/expiry, state and next/resume behavior. Add a short
+   **How it stops / 今回の止め方** sentence: verified completion (or the watcher's exit), the
+   requested pause if any, the actual limits, and what is saved/how to resume. No new pause menu;
+   do not imply a pause is completion or promise native stopping without confirmed support.
 2. Explained candidate cards. For Codex, use **Codex run options**. Mark exactly one choice as
    recommended; distinguish different purposes from ways to run the same accepted contract.
 3. Saved paths, assumptions/gaps, and truthful status: **contract generated; continuation/schedule

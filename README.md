@@ -66,6 +66,18 @@ conditional explanations without runnable blocks. This replaces the former launc
 an existing goal, reset a cursor or authorize concurrent writers. Existing `.loop/` files are not
 bulk-migrated; refining preserves unrelated choices and progress.
 
+## Say where to stop
+
+Use ordinary language: "pause once the changes and checks are ready, before human review" or
+"work within 30 minutes, maximum 8 iterations; leave a checkpoint if unfinished". The final brief
+summarizes **how it stops**, alongside the saved instructions. No new configuration format is needed.
+
+An optional pause preserves the original goal and mandatory review; it does not declare them
+complete. Explicit resume releases that one pause, not approvals or consumed limits. Without a
+pause request, behavior is unchanged. Caps are not automatically extended, and a quiet watcher is
+not a stalled repair. Native stopping is capability-checked; unsupported pause modes remain
+unconfigured with a bounded manual alternative. A prompt alone is not an exact-time kill switch.
+
 ## Install
 
 Claude Code:
