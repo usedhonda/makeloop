@@ -8,12 +8,12 @@ When the purpose is unclear, offer 2-3 concrete, project-grounded goals: for exa
 the current failing suite, finish the next milestone, or watch for new CI failures. Explain
 what each includes and excludes. A watcher is not a substitute for repairing today's failure.
 Do not create executable contracts or initialize state for unselected purposes. Wait for the
-purpose choice when material; minimal-interaction requests may use the stated, capped closed
-interpretation. If the request explicitly asks to compare, preserve the comparison.
+purpose choice when material; minimal-interaction requests may use the stated closed
+interpretation with internal progress checkpoints. If the request explicitly asks to compare, preserve the comparison.
 
 When the purpose is clear, keep it fixed. Offer execution alternatives for that same contract:
 one iteration, native goal continuation, or a supported scheduled watcher. Do not invent extra
-goals or expand scope to fill a menu. Normally show one recommendation and 1-2 meaningful
+goals or expand scope to fill a menu. For ready proposals only, normally show one recommendation and 1-2 meaningful
 alternatives: normally 2-3 runnable choices, fewer when capabilities or intent leave only one.
 Do not pad the menu with rewordings of the same action or unrelated kinds.
 Explicit runtime, cap, gate and safety decisions override defaults without a second confirmation.
@@ -31,16 +31,20 @@ without a runnable replacement block. Do not invent a resume control or a config
 
 Read the existing contract and state before reissuing a compact launch. Save the original goal,
 all residual requirements, requested execution/continuation mode, acceptance and stop conditions,
-consumed/remaining cumulative budget, authorization and forbidden scope, consultation/review
+consumed/remaining cumulative budget with its source and enforcement, authorization and forbidden scope, consultation/review
 requirements, and exact state/resume ownership in the contract. Omitted launch details must be
 present there, not left in old conversation or silently dropped. Compare the short launch against
 these obligations; shortening is not permission to replace completion with "one iteration".
 
-Expose insufficient remaining runway before suggesting an executable mode: 7 of 8 consumed means
-one attempt remains, not eight fresh attempts or a credible promise to finish all residual work.
-Budget consumption and runtime availability are separate facts. Do not reset/increase the budget
-or call the work configured/started to make the presentation look usable. Preserve later state:
-an historical 7/8 regression input is not permission to rewind a real run now at 8/8.
+Classify counts before judging runway. Record each value/unit, source (user/platform/agent-default),
+evidence and enforcement in the normalized saved contract and state. An explicit user cap of 8
+with 7 consumed leaves one authorized attempt; an agent-default checkpoint at 8 does not exhaust
+user authority. At that checkpoint review progress/failure signatures and replan internally,
+keeping the cumulative ledger. Do not ask for another 8 merely to extend an internal horizon.
+Unknown provenance calls for reading original instructions/state, not guessing. Actual cost/time
+and scope boundaries still apply; this is not unlimited-spend authorization.
+Budget consumption and runtime availability are separate facts. Do not reset counters or call the
+work configured/started to make it look usable. Historical 7/8 input cannot rewind live 8/8 state.
 
 ## Resolve readiness inside the invocation, before presenting a launch
 
@@ -55,7 +59,10 @@ skill invocation: state the observed budget/control/ownership facts and exactly 
 or mode change would be needed. Do not ask for facts already readable or for extra budget when
 that alone cannot resolve a known capability failure. After an answer, finish contract assembly,
 save/read-back and presentation in the same workflow; do not hand back a half-prepared launch.
-Never increase or reset limits without the user's explicit additional-budget approval.
+Bundling once does not mean assuming an unanswered choice or ignoring a newly discovered
+material gap: keep awaiting-decision status until it is resolved. User/platform limits remain
+binding; changing an actual user limit needs explicit approval and cannot bypass a native limit.
+Replanning an internal checkpoint needs no extra-budget ritual and must preserve history.
 
 Before any copy fence, distinguish: (1) an executable proposal for the requested mode, verified
 against its actual prerequisites but not yet started; (2) a proposal awaiting a specified user
@@ -64,13 +71,18 @@ decision, with no executable block yet; or (3) a capability/budget/ownership con
 intent and saved state, explain what is missing and omit all replacement launch blocks. Do not
 present a command and then retract its usability in a later caveat or follow-up turn.
 
-At 8/8 with unfinished work, blocked Goal and no resume tool, the outcome is (3), not a fresh goal
-or manual tick. No new project work is authorized; existing-result reconciliation/checkpointing
-is distinct. Re-generation itself must not reset the ledger. Re-read saved files before final
+With agent-default 8/8, working continuation controls, no owner conflict and approved scope,
+produce a ready continuation proposal after internal replanning; do not suppress it solely on count.
+With an exhausted user/platform hard limit, omit launches for new work until a legitimate change
+resolves it. With blocked Goal and no usable required resume control, outcome (3) follows from the
+technical constraint even if 8 was only internal. Neither a budget question nor a chat sentence
+repairs that control. A documented but uninspected capability is unknown, not proven absent;
+inspect available read-only controls before deciding. Existing-result reconciliation/checkpointing
+is distinct from new work. Re-generation must not reset the ledger. Re-read saved files before final
 presentation and verify that purpose, residual work, mode, limits, authority, review and ownership
 still match; a structurally short block alone cannot establish this semantic agreement.
 
-Use stable A/B/C labels in the explanations and final copy blocks. Put the single recommended
+For ready proposals only, use stable A/B/C labels in the explanations and final copy blocks. Put the single recommended
 choice first in both places; honor an explicit supported runtime. Default to the active host only,
 not a mixed CC/Codex menu. Different modes are alternatives, not steps to execute in sequence.
 State before the copy group that only one may own the saved state at a time.
@@ -111,7 +123,7 @@ package in this order:
    state path/section and contents (changes, proof, remaining work, next action). Explain that
    execution will maintain it at checkpoints and completion/interruption, regardless of day or night;
    generation has not produced a completed run or scheduled a message.
-2. Explained candidate cards. For Codex, use **Codex run options**. Mark exactly one choice as
+2. For ready proposals only, explained candidate cards. For Codex, use **Codex run options**. Mark exactly one choice as
    recommended; distinguish different purposes from ways to run the same accepted contract.
 3. Saved paths, assumptions/gaps, and truthful status: **contract generated; continuation/schedule
    not configured; not started**. Put caveats, cost notes and all closing prose HERE, not after commands.

@@ -116,7 +116,7 @@ State the kind, target, criteria/trigger, reaction boundary, gate, state and cap
 Ask once only when a genuinely ambiguous, high-impact choice needs resolution. Use the host's
 question UI if exposed, otherwise normal chat. Already supplied scope/runtime/cap/gate decisions
 are not questions. For minimal interaction, state conservative assumptions; ambiguous CI intent
-defaults to a capped closed loop unless the user explicitly wants a comparison first.
+defaults to a closed loop with internal progress checkpoints unless the user explicitly wants a comparison first.
 
 For closed work, derive strict SUCCESS CRITERIA from the accepted request and invariants, not
 from what is easiest to pass. For greenfield work, use the user's spec (ask only missing material
@@ -191,10 +191,17 @@ Generation preserves existing state bytes; new state is marked not started, neve
   rubric in the repo (let the judge read the code/conventions before scoring, not just the
   spec) and give it an explicit **anti-cheating axis** (flag test-weakening, mass-renames,
   dependency churn) and a **blast-radius axis** (penalize edits far wider than the goal).
-- **STOP taxonomy**: at minimum success + a hard iteration cap **N** (default **8**). Add
-  labeled stop reasons per the profile (see the mapping in Step 5). Confirm N and the
-  **budget** (iteration cap / wall-clock / no-progress streak).
-  - Cap exhaustion is an incomplete checkpoint, not success or permission to shrink scope.
+- **STOP taxonomy and counter provenance**: completion, cancellation, actual safety/authority
+  boundaries and user/platform limits stop work. Do not invent a hard iteration cap (including
+  a default 8). For each existing limit or checkpoint, save its value/unit, source (user,
+  platform, or agent-default), evidence and enforcement (instruction/native hard limit versus
+  internal review threshold) in the contract and state. Unknown provenance requires reading
+  the original instruction/state, not assuming either exhaustion or unlimited permission.
+  Internal attempt/no-progress thresholds trigger progress review and replanning inside the
+  approved scope, not a new user approval ritual. Preserve history; never reset it to hide work.
+  Do not repeat a failed approach without new evidence. This does not authorize unbounded spend.
+  Ask only about a genuinely material unresolved cost/time/authority decision.
+  - User/platform cap exhaustion is an incomplete checkpoint, not success or permission to shrink scope.
     Use K consecutive successes only for a real repeat-stability criterion or explicit K request;
     different meaningful observations must justify repetition. Do not add K=3 by habit.
   - **Cost/time envelope**: when profile F has a measured gate duration, `N x gate seconds`
@@ -207,8 +214,8 @@ Generation preserves existing state bytes; new state is marked not started, neve
 an action, bind the condition to concrete evidence and include the **Pause point** block. A required
 review by itself is not a request to pause. Keep the full goal and required review in SUCCESS
 CRITERIA; a pause with unmet criteria is an incomplete handoff, not success. Do not turn a vague
-"be flexible" into a new pause, a larger cap or automatic extensions. Existing caps remain hard
-contract limits; reuse the existing time/no-progress budget rather than adding a policy language.
+"be flexible" into a new pause, a larger cap or automatic extensions. User/platform caps remain binding; an agent-default review horizon is not such a cap.
+Reuse the existing state format rather than adding a policy language.
 For a time limit, save its start/deadline at first execution and preserve it across resume. Explain
 instruction-level timing versus confirmed host enforcement; do not invent remaining usage data.
 
@@ -234,15 +241,15 @@ override the profile defaults in Step 5.
 
 Read only the current host guide: `../references/claude-code.md` or
 `../references/codex.md`. A Codex adapter changes the launch surface, not the common contract.
-Honor explicit runtime choices. Offer one recommendation and meaningful alternatives with the
+Honor explicit runtime choices. Offer a recommendation and alternatives only for ready proposals with the
 shared output guide. Separate documented, installed-help-confirmed, session-available and unknown.
 Unconfirmed features get conditional explanation, not runnable copy blocks.
 For compact/reissued launches, read the actual contract/state and retain the original goal,
-all remaining work, continuation mode, stop conditions, used/remaining budget, authority,
+all remaining work, continuation mode, stop conditions, used/remaining budget with source/enforcement, authority,
 forbidden scope, consultation/review and state/resume identity in the saved contract. Apply the
 output guide's meaning-preservation check. A blocked backend without a resume control is an
 unconfigured continuation, not a reason to select one iteration or reset budget. Surface nearly
-exhausted limits before presenting a launch as able to pursue the whole goal.
+exhausted user/platform limits before presenting a launch as able to pursue the whole goal.
 
 For risky/spec-heavy work, keep the independent completion check: a checker sees the spec + diff
 and evidence, not the maker's reasoning. Native goal evaluators do not independently run the gate.
@@ -318,7 +325,7 @@ Mandatory safety remains in force in every generated contract:
 
 Resolve execution readiness inside this invocation using the output guide before emitting any
 launch. Reconcile actual request/contract/state, remaining budget, run ownership and exposed
-start/resume/stop capability. Resolve concrete high-impact user decisions once before saving
+start/resume/stop capability. Bundle concrete high-impact user decisions; do not assume unanswered choices before saving
 and presenting; never use a normal "continue" message as evidence that continuation is configured.
 If readiness cannot be established, preserve the requested outcome, report that no executable
 launch for that mode was generated, and omit runnable blocks. No command-first/caveat-later output.

@@ -39,7 +39,10 @@ STATE FILE: .loop/state.md   (or existing state file from the project)
 - Read it before starting. This is a resume, not a restart.
 - Keep a compact current summary: goal/version, criteria/evidence, cumulative attempts, running
   work, recent failure signatures/approaches, progress delta, next decision and owner/stop status.
+  For each limit/checkpoint retain value/unit, source/evidence and enforcement; distinguish
+  user/platform limits from agent-default review thresholds. Investigate unknown provenance.
   Append terse attempt records; keep full logs behind evidence pointers, outside the loaded summary.
+- An attempt is one meaningful plan/action/evidence/decision cycle, not every tool call.
 - Before each attempt's first action, reserve its ID and increment cumulative consumption; mark
   it running, then settle with the result. Include baseline checks and bootstrap. Interrupted
   attempts remain counted. Persist updates atomically when possible; never reset on resume.
@@ -48,7 +51,7 @@ EACH ITERATION:
 1. READ the loop contract (GOAL + SUCCESS CRITERIA + RULES) and state. Reconcile goal version,
    repo/worktree, exact session/run handle, cancellation and surviving work; one writer per state.
    Settle any interrupted attempt against actual artifacts/receipts before new work. Check remaining
-   limits before reserving the next attempt. Cancellation or exhausted budget prevents new project
+   user/platform limits before reserving the next attempt. Cancellation or their exhaustion prevents new project
    work; result reconciliation, checkpoint/reporting and exact native stopping remain necessary.
 2. OBSERVE the current target. Acquire baseline evidence on first run; later reuse valid unaffected
    results for the same target/input/environment. Obtain missing proof and replace invalid or
@@ -67,11 +70,13 @@ EACH ITERATION:
    - Every criterion and mandatory RULE/review proved -> print "<completion token>" and stop.
    - Evidence supports a next step -> record it; print "ITERATING" within the selected run mode.
    - Failure persists -> narrow the failing unit or change the hypothesis/check; do not replay a
-     failed approach without new evidence. Apply the configured no-progress/oscillation limits.
+     failed approach without new evidence. Internal no-progress/oscillation thresholds trigger
+     diagnosis/replanning, not count-only abandonment. Respect explicit user stop policies.
    - External wait or blocker -> record the reason, wakeup/resume condition and remaining work;
      continue independent authorized work if possible. Never turn uncertainty into completion.
 
-STOP WHEN: VERIFY passes every criterion, OR <N> iterations are reached.
+STOP WHEN: VERIFY passes every criterion, OR cancellation, a safety/authority boundary, or an
+applicable user/platform limit is reached. Internal checkpoint counts alone do not end the goal.
 ON STOP: summarize actual changes, proved criteria, unmet requirements and evidence. Cap/budget
 exhaustion is an incomplete checkpoint, never success or a smaller replacement goal. Preserve the
 original scope and cumulative counters. Apply the selected host stop procedure and record its
@@ -214,10 +219,13 @@ PAUSE WHEN: <user-requested milestone or before-action boundary, with its eviden
   does not grant pending review/approval, relax scope, or reset cumulative limits/deadlines.
 
 ## [autonomous loop] Budget — under STATE FILE
-BUDGET (write into state): iteration cap <N> / wall-clock <T> / no-progress streak <P> /
-token+cost cap <C> when measurable (notify at 85%, stop at 100%).
-Keep cumulative counters across resume, distinguish prompt/native limits, and mark unmeasured
-spend unknown. Budget exhaustion is incomplete; never claim task success or shrink the objective.
+LIMITS / CHECKPOINTS (write into state): actual user/platform iteration, wall-clock or token/cost
+limits, and internal progress-review thresholds if useful. For each: value/unit, source/evidence,
+enforcement and response. Render only applicable entries; do not invent a hard default cap.
+Keep cumulative counters across resume and mark unmeasured spend unknown. Internal thresholds
+trigger evidence review/replanning inside scope, not stopping solely on count or requesting an
+extension. Explicit user/platform exhaustion is incomplete; never shrink the goal or claim success.
+This does not authorize unlimited spend or overriding a host-enforced limit.
 
 ## [autonomous loop] No-progress circuit breaker — into EACH ITERATION
 - Keep a short window of criterion, target, failure signature, tested hypothesis and observed
@@ -225,9 +233,11 @@ spend unknown. Budget exhaustion is incomplete; never claim task success or shri
   eliminates a cause and changes the plan, or confirmed delivery. Each must cite new evidence.
 - Same command against improved inputs/results is valid work. Different commands, edits or
   paraphrased plans with no new evidence do not reset the no-progress streak. After two attempts
-  at the same failure without evidenced progress, change approach or narrow the unit. At <P>
-  evaluated attempts with no progress, checkpoint with stop_reason=no-progress. Default P=3
-  unless the request sets it.
+  at the same failure without evidenced progress, change approach or narrow the unit. A useful
+  internal review threshold (for example three evaluated no-progress attempts) triggers a saved
+  diagnosis and replan, not automatic goal termination. Only an explicit user stop policy makes
+  that count a terminal no-progress condition. If no safe productive action exists, record the
+  concrete blocker; do not keep replaying failed work or call a count-only halt success.
 - Count infrastructure retries/backoff separately; they neither prove progress nor reset the
   overall budget. Track oscillation by recurring failure and fix state, not plan wording.
 
@@ -269,7 +279,7 @@ names; do not rename state or infer a morning deadline from the former "Morning 
 - Include this delivery proof even when the project was already green or no changes were needed;
   reuse valid tests rather than rerunning them. A quiet escalation rule does not suppress this
   local summary. Reuse it for an escalation with required error/attempt context, not duplicate state.
-- At a reached cap/pause, only bounded checkpoint/read-back/native-stop handling remains; do not
+- At a reached user/platform cap or requested pause, only bounded checkpoint/read-back/native-stop handling remains; do not
   restart tests, reviews or project work to improve the summary. Reserve room for this handling
   within existing limits; saving failure must not extend them or cause an endless report retry.
   Report failed/unknown delivery and the last confirmed saved checkpoint; never emit FINAL while
@@ -327,10 +337,10 @@ ITERATION 0 — bootstrap the gate (run once, before the normal loop):
 STOP WHEN (label each halt with stop_reason in the log):
 - success              : all original criteria proved; K repeats only if explicitly requested
                          or required by a meaningful stability criterion
-- no-progress          : <P> evaluated attempts with no evidenced progress (circuit breaker)
-- oscillation          : same problem-fix pair repeated 3x
+- no-progress          : explicit user stop policy reached, or no productive safe path after diagnosis; internal threshold alone means replan
+- oscillation          : explicit user stop policy or diagnosed lack of a safe productive path; internal repeat threshold means change approach
 - failure              : non-retryable error or failure-class retry allowance exhausted
-- budget               : iteration / wall-clock / token+cost cap reached
+- budget               : applicable user/platform iteration / wall-clock / token+cost limit reached
 - escalate             : dead-end handed off to a human with full context  [unattended only]
 - regression           : post-gate dropped a previously-passing check   [two-stage only]
 - poisoned-baseline    : invalid harness/unexplained baseline failure                            [two-stage only]

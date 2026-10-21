@@ -7,7 +7,8 @@ Confirm optional ralph-loop through the actual exposed Skill/command list, not j
 portable first-run alternative. Honor the requested runtime when available.
 If it is unavailable, preserve the requested continuation as unconfigured. A short single-pass
 example is not equivalent to completing all residual work; do not choose it merely to shorten
-the launch. Read the saved contract/state and disclose remaining budget and required review.
+the launch. Read saved contract/state; distinguish user/platform limits from internal review
+thresholds and disclose actual remaining budget and required review.
 
 | Need | Candidate | Behavior and limits |
 | --- | --- | --- |
@@ -24,7 +25,7 @@ active goal before offering a launch that would replace it. Explain replacement,
 ## Final copy choices
 
 Use the shared output guide: save/check first, then explanations, the saved contract path (full
-body only on explicit request), and one final launch group with A/B/C labels. Every chat block is `text`, pasted into **Claude Code input**,
+body only on explicit request), and, for ready proposals only, one final launch group with A/B/C labels. Every chat block is `text`, pasted into **Claude Code input**,
 not the operating-system terminal. Offer manual iteration plus `/goal` for closed work when both
 fit and are confirmed; for an open watcher, offer one tick plus `/loop <interval>` when confirmed.
 An installed Ralph option is an extra only when it is relevant, never an install recipe in the
@@ -39,8 +40,8 @@ Fill real values in the user's language; examples here are scaffolds, not execut
 - Manual: “Follow .loop/repair.md for exactly one iteration.” Keep the bound state, criteria,
   reporting and limits in that saved contract rather than duplicating them in the launch.
 - Closed continuation: `/goal Follow .loop/repair.md. End this run when (1) all acceptance
-  criteria are proved, or (2) a saved incomplete checkpoint evidences the cumulative 8-iteration
-  budget being exhausted or the contract's unrecoverable-blocker condition being met. Preserve
+  criteria are proved, or (2) a saved incomplete checkpoint evidences an actual user/platform
+  limit being reached or the contract's unrecoverable-blocker condition being met. Preserve
   .loop/repair-state.md and report the evidence, cumulative counters and unmet criteria.
   Report FINAL only for acceptance success.`
 - Watcher: `/loop 5m Follow .loop/deploy-watch.md for one tick; update
@@ -51,7 +52,7 @@ Fill real values in the user's language; examples here are scaffolds, not execut
 
 The saved contract carries the host-specific stop instructions below, not merely the launch line.
 For `/goal`, expand the contract's actual cumulative limits and terminal blocker conditions into
-the emitted condition; the 8-iteration example is not a new default or an override of user choices.
+the emitted condition. An agent-default checkpoint is not a terminal limit. Do not invent a cap.
 When a pause point is requested, include its evidenced checkpoint as another non-success exit in
 that condition. Surface the remaining criteria, not a project-completion claim. On explicit resume,
 release only that reached pause in the saved state and retain the original scope and limits.

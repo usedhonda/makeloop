@@ -6,6 +6,8 @@ Unconfirmed/unavailable features belong in Conditional options without runnable 
 The portable default is one iteration or watcher tick only when no explicit continuation intent
 was supplied. A blocked goal backend with no exposed resume/active operation remains unavailable;
 never invent that operation, reset its state/budget or silently replace it with a manual tick.
+Classify limits by source/enforcement as in the output guide; an internal count is not exhausted
+user authority and replanning it cannot restore a missing native control.
 
 | Need | Candidate | Explanation |
 | --- | --- | --- |
@@ -23,7 +25,7 @@ candidate using the shared output guide. No fake `/loop`, `/ralph-loop` or `code
 ## Final copy choices
 
 Use the shared output guide: save/check first, then explanations, the saved contract path (full
-body only on explicit request), and one final launch group with A/B/C labels. Name the actual paste surface: **Codex CLI input**, the
+body only on explicit request), and, for ready proposals only, one final launch group with A/B/C labels. Name the actual paste surface: **Codex CLI input**, the
 **Codex desktop chat**, or the **IDE chat** for `text`; the **OS terminal** for `sh`.
 For closed work, offer one iteration plus `/goal` only when continuation and the contract's stop
 behavior are confirmed on that surface. An open watcher gets one tick plus a supported schedule

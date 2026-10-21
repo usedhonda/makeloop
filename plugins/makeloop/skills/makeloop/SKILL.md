@@ -44,18 +44,21 @@ launch blocks at the very end. The saved contract is authoritative; show its ful
 explicitly requested. Prefer short new slugs and project-relative paths; never insert a newline
 inside a filename/path. Follow output-guide.md for copy-safe launches and existing long names.
 Nothing follows the last launch fence.
-On Codex use **Codex run options** for explained alternatives; use host-native choice labels on CC. Mark exactly one recommendation. Manual tick
+On Codex use **Codex run options** for explained alternatives; use host-native choice labels on CC. Mark exactly one recommendation among ready proposals only. Manual tick
 is a default only when no continuation choice was supplied. Shortening must preserve the original
-goal, all residual work, continuation/stop mode, consumed/remaining budget, authority, required
+goal, all residual work, continuation/stop mode, consumed/remaining budget with source/enforcement, authority, required
 consultation/review and state/resume in the saved contract. An unavailable requested continuation
 stays requested/unconfigured; do not silently turn it into one iteration or offer near-exhausted
 budget as a fresh completion opportunity. Each executable
 choice has its own fully resolved block, labeled with the paste destination. Keep unavailable or
 unconfirmed capabilities in separate Conditional options without executable fences.
 Complete the output guide's readiness check during this invocation, before presenting any launch.
-Resolve necessary user decisions once; if actual state/budget/ownership or host capability prevents
+Bundle necessary user decisions without assuming unanswered choices; if actual state/budget/ownership or host capability prevents
 the requested execution, report no executable launch generated instead of a command plus a later
 disclaimer. A normal "continue" message is not native continuation setup.
+Do not invent a hard default cap. Internal counters trigger progress review/replanning with history
+preserved, not count-only termination or extra-budget approval. User/platform limits and real
+cost/safety boundaries still bind; read original records when a limit's provenance is unknown.
 
 Explain outcome, actual actions, effects/scope, suitability, check/trigger, stop/cap/expiry, state
 and resume for each candidate. Keep detailed criteria in the saved contract instead of repeating

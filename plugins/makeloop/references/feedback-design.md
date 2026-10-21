@@ -49,8 +49,11 @@ restating it cannot keep resetting the streak.
 
 **Make adaptation bounded.** Track a short window of criterion + failure signature + attempted
 approach + observed delta. After two attempts at the same failure without evidenced progress,
-narrow the failing unit or change the hypothesis/check. At the no-progress limit (default three evaluated
-attempts for autonomous closed work), checkpoint as incomplete. Record retryable infrastructure
+narrow the failing unit or change the hypothesis/check. An internal review threshold (for example,
+three evaluated no-progress attempts) triggers a saved diagnosis and replan, not count-only
+termination. An explicit user stop policy remains binding. If no productive safe action exists,
+record the concrete blocker and resume condition rather than repeating failed work.
+Record retryable infrastructure
 errors and wait/backoff separately; neither creates progress nor resets the cumulative budget.
 Count a recurring failure after a reverted fix as oscillation even when the wording changes.
 
@@ -65,15 +68,21 @@ belong in a separate proposal; they do not extend this loop's goal or budget.
 
 Use the existing state format; do not install a database or migrate files merely for these fields.
 Keep a compact current summary (goal/version, criteria/evidence, cumulative attempts, pending work,
-recent failed approaches, selected next step, owner and stop status). Append terse attempt records
+recent failed approaches, selected next step, owner and stop status). For each limit/checkpoint,
+retain value/unit, source (user/platform/agent-default), evidence and enforcement. Investigate
+unknown provenance from original instructions/state; do not silently discard a real limit. Append terse attempt records
 with evidence pointers; keep full tool logs outside the repeatedly loaded summary.
 
+An attempt is one meaningful plan/action/evidence/decision cycle, not each command.
 Reserve the attempt ID and increment cumulative consumption **before** its first action, including
 a baseline check or bootstrap. Mark it running, then settle its outcome. An interrupted attempt
 stays consumed. On resume, reconcile actual work and any uncertain effects before taking another
-slot; do not repeat the action merely because its completion record is absent. At the limit, stop
+slot; do not repeat the action merely because its completion record is absent. At an applicable
+user/platform limit, stop
 new project work while still reconciling existing results, reporting and stopping the exact native
-run. Persist each state update atomically when possible. Prose budgets are not hard host limits.
+run. Agent-default review counts instead trigger internal replanning with history intact; do not
+request another batch merely to extend that horizon. This is not unlimited-spend permission.
+Persist each state update atomically when possible. Prose budgets are not hard host limits.
 
 Define distinct decisions: continue (evidence supports the next action), change approach (stalled),
 wait (known external condition), complete (all original requirements proved), and incomplete stop

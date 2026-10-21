@@ -66,7 +66,9 @@ collect evidence directly. Tool names and allowed-tools do not authorize delegat
 **F. Operational facts**
 - Commit convention (conventional commits in the log? commitlint/husky? signing policy?
   files that must never be staged, e.g. `outputs/`, `dist/`, build artifacts).
-- Run cost/time (heavy build? long CI?) -> informs the budget.
+- Run cost/time (heavy build? long CI?) -> informs the budget. For each existing limit or
+  checkpoint, inspect value/unit, source (user/platform/agent-default), evidence and enforcement.
+  Internal counters inform replanning; they are not user-selected stopping limits.
 - Crash/flake surfaces.
 
 Then **summarize the profile** for the user and state explicitly:
@@ -78,7 +80,7 @@ Then **summarize the profile** for the user and state explicitly:
   on/triage incoming/監視/通知/見張る"); (2) the **decisive test** (also your confirm line to
   the user): *"Can you write a SUCCESS CRITERION that becomes permanently true and ENDS the
   loop? Yes → closed. If the only 'criterion' is a condition you REACT to that RECURS →
-  open."* On silence/conflict, **default to closed** (capped, stops) and state the assumption
+  open."* On silence/conflict, **default to closed** (ends on verified completion or actual stop boundaries) and state the assumption
   — misclassifying closed→open runs forever, the costlier error.
 - **Maturity** (judge from the files, not a flag): where does it sit on the spectrum —
   *greenfield* (empty / only bootstrap files / no manifest / little-to-no git history) →

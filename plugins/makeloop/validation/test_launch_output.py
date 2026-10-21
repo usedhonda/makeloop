@@ -38,16 +38,16 @@ class CopyLayoutTests(unittest.TestCase):
                     'VERIFY: retain all original checks; FINAL only with all proof.\n'
                     'If already satisfied, report honestly.\n'
                     'REQUESTED MODE: continuous completion; Goal blocked, resume unavailable.\n'
-                    'BUDGET: 7/8 consumed, 1 remaining; no reset or increase.\n'
+                    'CHECKPOINT: 7/8 recorded; source=agent-default; enforcement=internal review.\n'
                     'AUTHORITY: src/ui edits approved; no other changes or external effects.\n'
                     'STATE FILE: .loop/example-state.md; reconcile same owner before resume.')
-        state = 'Attempts used: 7\nCap: 8\nRemaining: 1\nGoal: blocked\n'
+        state = 'Attempts used: 7\nCheckpoint: 8\nSource: agent-default\nEnforcement: internal review\nGoal: blocked\n'
         out['files'][PROMPT], out['files'][STATE] = contract, state
         case.update(execution_unconfigured=True, preserve={PROMPT: contract, STATE: state})
         case.pop('show_body', None)
         out['chat'] = ('Loop brief: Finish every original UI criterion, consultation and review.\n'
                        'Codex run options: requested continuation is unconfigured; Goal cannot resume.\n'
-                       '7/8 consumed, only one attempt remains; completion is not promised.\n'
+                       '7 attempts recorded; 8 is an internal checkpoint, not a user cap.\n'
                        'A single pass is a different unselected mode, not continuous completion.\n'
                        'Saved contract: .loop/example.md; state and authority preserved.')
         return case, out
@@ -69,18 +69,18 @@ class CopyLayoutTests(unittest.TestCase):
             out['files'][path] = replacement
             self.assertIn('existing state overwritten: ' + path, check(case, out))
 
-    def test_exhausted_continuation_never_emits_command_then_unusable_caveat(self):
+    def test_blocked_runtime_at_internal_checkpoint_never_emits_command_then_caveat(self):
         case, out = self.blocked_continuation()
         for path in (PROMPT, STATE):
-            text = out['files'][path].replace('7/8 consumed, 1 remaining', '8/8 consumed, 0 remaining')
+            text = out['files'][path].replace('7/8 recorded', '8/8 recorded')
             text = text.replace('Attempts used: 7', 'Attempts used: 8').replace('Remaining: 1', 'Remaining: 0')
             out['files'][path] = text
             case['preserve'][path] = text
         out['chat'] = ('Loop brief: Keep every UI residual requirement, consultation and review.\n'
                        'Codex run options: requested continuous completion is unconfigured.\n'
-                       '8/8 consumed, 0 remaining; blocked Goal has no resume operation.\n'
+                       '8/8 is an internal checkpoint, not exhausted authority; blocked Goal has no resume operation.\n'
                        'No executable launch for the requested mode has been generated.\n'
-                       'Saved contract and current state preserved; no new project work or budget reset.')
+                       'Saved contract and current state preserved; technical continuation unavailable, no counter reset.')
         self.assertEqual(check(case, out), [])
         for candidate in (f'{PROMPT} に従い完遂まで継続して。',
                           f'/goal Follow {PROMPT} until complete.',
@@ -88,8 +88,36 @@ class CopyLayoutTests(unittest.TestCase):
             with self.subTest(candidate=candidate):
                 bad = dict(out, chat=out['chat'] +
                     '\n## Launch commands\n### A — Recommended | Codex CLI input\n```text\n' +
-                    candidate + '\n```\nBut this will not run until budget and resume are fixed.')
+                    candidate + '\n```\nBut this will not run until native resume is available.')
                 self.assertIn('unconfigured execution has a runnable replacement', check(case, bad))
+
+    def test_ready_internal_checkpoint_and_user_limit_contrast(self):
+        import copy
+        import json
+        from pathlib import Path
+        cases = json.loads(Path(__file__).with_name('scenarios.json').read_text())
+        for scenario_id in ('M11', 'M12'):
+            case = next(c for c in cases if c['id'] == scenario_id)
+            files = copy.deepcopy(case['preserve'])
+            out = {'id': scenario_id, 'files': files, 'chat':
+                   'Loop brief: complete all UI criteria, consultation and review.\n'
+                   'Codex run options: continuous completion requested.\n'
+                   'Saved contract: .loop/example.md; history preserved.\n'
+                   'Proposal only; not configured, not started.'}
+            launch = ('\n## Launch commands\n'
+                      '### A — Recommended: continuous completion | Codex CLI input\n'
+                      '```text\n/goal Follow .loop/example.md until all criteria are proved.\n```')
+            if scenario_id == 'M11':
+                out['chat'] += launch
+                self.assertEqual(check(case, out), [])
+                bad = copy.deepcopy(out)
+                bad['files'][STATE] = 'Attempts used: 0\n'
+                self.assertIn('existing state overwritten: ' + STATE, check(case, bad))
+            else:
+                out['chat'] += '\nUser hard cap exhausted; awaiting explicit limit decision, no launch generated.'
+                self.assertEqual(check(case, out), [])
+                out['chat'] += launch
+                self.assertIn('unconfigured execution has a runnable replacement', check(case, out))
 
     def compact(self, host='codex', kind='closed'):
         code = f'{PROMPT} に従い1回進めて。'

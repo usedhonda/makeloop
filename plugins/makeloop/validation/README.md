@@ -131,8 +131,13 @@ That permits a saved contract plus an honest explanation without a runnable laun
 manual or invented goal launch is rejected for that unresolved request. This does not approve
 changing the requested mode or prove the explanation is semantically complete. Preserve actual
 contract/state bytes with `preserve` and independently inspect purpose, residual work, used and
-remaining budget, authority, review and resume requirements. M9/F16 encode the 7/8-consumed report; M10/F17 encode the exhausted
-8/8, blocked-backend/no-resume re-generation with command-first/caveat-later rejection; that historical fixture never rewinds a live state now at 8/8.
+remaining budget and its source/enforcement, authority, review and resume requirements.
+M9/F16 and M10/F17 encode the 7/8 and 8/8 agent-default counter reports: missing native
+resume is the technical constraint, not exhausted user authority. M11/F18 is the usable native
+continuation positive contrast; M12/F19 differs by an explicit exhausted user limit. F20 contrasts
+internal no-progress replanning with the user-selected no-progress stop in F2. Historical
+fixtures never rewind live state. Checker metadata supplies expected readiness; its acceptance
+does not independently derive feasibility or classify the semantic provenance of a limit.
 
 These authored fixtures and checker regressions do not prove that a model completes the whole
 generation workflow in one invocation. Read actual generated decisions against the original
