@@ -260,7 +260,7 @@ user's language, not text to copy verbatim.
 | Hard invariants / off-limits boundaries (profile D) | Encode them in SUCCESS CRITERIA + RULES; stop reason `scope-boundary` |
 | Existing loop infra (profile E) | Point STATE at the existing files + runbook; reuse scenario format |
 | Repeats weekly / will run again (profile = recurring) | **Cross-run learnings** file so the loop gets smarter each run |
-| Unattended / scheduled / overnight run | **Escalation handoff** + **Scheduled-loop safety** (idempotency, external scheduler, tiered auto-approve, intent deny-list, token/cost cap) |
+| Unattended / scheduled / overnight run | **Escalation handoff** + **Scheduled-loop safety** (idempotency, external scheduler, tiered auto-approve, intent deny-list, token/cost cap); add a brief human-readable morning handoff at the top of the existing state ledger (closed runs only) |
 | Many discrete pass/fail criteria | **JSON done-ledger** instead of a markdown checklist |
 | Greenfield / early project (no gate yet) | **Bootstrap block** — iteration 0 scaffolds + writes the first failing acceptance tests, then the loop drives red → green |
 | Open loop that ACTS (not notify-only) | **Scheduled-loop safety** (idempotency / deny-list / auto-approve) — an acting watcher is an unreviewed attack surface |
@@ -290,6 +290,8 @@ Mandatory safety remains in force in every generated contract:
   prod-deploy without explicit human sign-off. Match the actual action to project-bound authority.
 - Security tax: unattended work retains the security checks, sanitized logs and explicit
   approval for irreversible actions; moving text does not relax its enforcement.
+
+**Overnight closed-run handoff (reuse state, no new system).** If the user intends to leave a closed loop unattended or receive its result the next morning, put a compact `MORNING HANDOFF` summary at the top of the existing state file, maintained by the running loop after meaningful checkpoints and at normal termination. Include actual changes/artifact links, verification with evidence and unknowns, original criteria still unmet, stop reason, next action, and the repo/worktree/revision and last-update time. Do not create a second status database, scheduler or automatic morning notification. The handoff is a required delivery artifact *only when explicitly requested as an acceptance criterion*; a good handoff cannot turn unfinished project work into success. If interrupted before a final write, report the most recent durable state and its timestamp honestly. Do not add this closed-work summary to an unrelated quiet watcher.
 
 ## Step 6 — Validate, save, explain, and provide copyable launches
 

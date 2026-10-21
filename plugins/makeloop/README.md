@@ -169,6 +169,8 @@ run options: `/goal` for closed continuation, thread/standalone Automations for 
 watchers, and `codex exec resume` for external orchestration. It describes these modes but does not
 create unattended schedulers unless the user explicitly asks.
 
+For unattended **closed** runs, the generated contract can keep a brief `MORNING HANDOFF` at the top of the existing state file: what changed, evidence/checks, what remains, why it stopped, and the next action. It is refreshed at checkpoints and normal exit, not reconstructed by a human the next morning. It does not create a new ledger, automatic message, or false project completion; a crash may leave only the last timestamped saved checkpoint.
+
 ## Why it's shaped this way (loop engineering)
 
 The generated contract closes a feedback path: **requirement → hypothesis → action → evidence →

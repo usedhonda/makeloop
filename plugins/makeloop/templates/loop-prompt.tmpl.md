@@ -243,6 +243,12 @@ LEARNINGS FILE: .loop/learnings.md  (re-read at the START of every run, before t
 - Prefer category-level prevention (a DURABLE rule folded into lint/AGENTS.md) over a single
   regression case.
 
+## [unattended/overnight · closed only] Morning handoff — use the existing state ledger
+- At each meaningful checkpoint and normal stop, refresh a concise `MORNING HANDOFF` section at the TOP of the existing STATE FILE (not a new dashboard or duplicate ledger).
+- Show: last updated timestamp and repo/worktree/revision; completed changes and artifact/diff pointers; verification results with evidence and checks not run/unknown; unmet original criteria and blockers; stop_reason and next concrete action or human decision.
+- Update the handoff from observed results; no fabricated successes, manual transcription assumption, or promise of an automatic morning message. On a crash the latest saved checkpoint may be stale; show its actual timestamp.
+- If the user explicitly requires a readable handoff as part of delivery, verify that this section exists and corresponds to the final known state before claiming overall success. If the original project remains incomplete, call that out even when the handoff itself was delivered. Do not weaken mandatory tests/reviews, change stop conditions, or auto-create a scheduler.
+
 ## [unattended/scheduled] Escalation handoff — replaces silent death on a dead-end
 ON DEAD-END (failure / budget / unrecoverable-harness): write a context-rich handoff (what
 was tried, last error, where it stopped, run_id) to <inbox: file / issue / channel>. A run
