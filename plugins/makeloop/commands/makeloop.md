@@ -87,6 +87,7 @@ Extract whatever is present (natural phrasing, not strict flags — interpret in
 | **Loop kind** | open: "watch/monitor X", "notify me when", "poll", "alert on", "監視/通知/見張る"; closed: "finish", "complete", "get green", "fix all", "完成/緑に" | Sets KIND. If unspecified, classify in Step 1. On ambiguity default to **closed**. |
 | **Iteration cap / budget** | "cap 20", "上限20", "max 20 iterations", "wall-clock 30min", "no-progress 3" | Sets N / wall-clock / no-progress; don't ask. |
 | **Pause point (closed)** | "pause before human review", "変更と検証が揃ったら一度止めて" | Add an observable pause point without changing the original goal, required reviews or limits. |
+| **Human handoff (closed)** | "leave the result for tomorrow morning", "朝に成果と残件を読めるように", "no morning handoff" | Select or explicitly omit the Morning handoff block; keep the existing state and original goal. |
 | **Success K** | "K=3 consecutive clean", "3連続で新問題ゼロ" | Sets the success streak. |
 | **Verify gate** | "gate: npm test && tsc", "verify with cargo test" | Use as the gate verbatim. |
 | **Blocks on/off** | "two-stage gate", "harness検知あり/なし", "no budget block", "with regression guard" | Force-include or exclude that optional block, overriding the profile default. |
@@ -134,6 +135,18 @@ with their checks, observation-validity conditions and evidence requirements. Sp
 observable improvement means and how a failed hypothesis changes the next step. A plan or clean
 review is not the completion criterion: reconcile uncovered requirements against the original goal.
 Keep in-scope residual work in the loop; propose unrelated work separately after completion.
+
+**Human handoff (closed only).** Select the **Morning handoff** block for unattended/overnight
+closed work or an explicit human-handoff request; honor an explicit opt-out. A narrow refine adds
+it only when that is the requested change. When selected, add a delivery criterion (e.g.
+`C-HANDOFF`) to SUCCESS CRITERIA and EVIDENCE MAP: the receiving summary is saved, read back and
+consistent with the current ledger/evidence. The user need not say "acceptance criterion" again.
+Bind its exact location in the existing state and its format; default to a named section near the
+start of Markdown state, after any frontmatter/title. Keep a separate JSON done-ledger as evidence,
+not a second summary to maintain. For structured state use only an existing supported summary
+field/view; never prepend Markdown to JSON or change its schema. If no compatible, writable, durable,
+recipient-readable location exists, explain the storage gap before offering an executable run.
+Generation preserves existing state bytes; new state is marked not started, never completed work.
 
 - **VERIFY gate**: build it from profile B. Always order checks **fastest -> slowest**
   (typecheck/lint before unit before integration before e2e) and stop at the first red — the
@@ -260,7 +273,8 @@ user's language, not text to copy verbatim.
 | Hard invariants / off-limits boundaries (profile D) | Encode them in SUCCESS CRITERIA + RULES; stop reason `scope-boundary` |
 | Existing loop infra (profile E) | Point STATE at the existing files + runbook; reuse scenario format |
 | Repeats weekly / will run again (profile = recurring) | **Cross-run learnings** file so the loop gets smarter each run |
-| Unattended / scheduled / overnight run | **Escalation handoff** + **Scheduled-loop safety** (idempotency, external scheduler, tiered auto-approve, intent deny-list, token/cost cap); add a brief human-readable morning handoff at the top of the existing state ledger (closed runs only) |
+| Unattended / scheduled / overnight run | **Escalation handoff** + **Scheduled-loop safety** (idempotency, external scheduler, tiered auto-approve, intent deny-list, token/cost cap) |
+| Unattended/overnight closed work, or explicit human-handoff request | **Morning handoff** + delivery criterion/evidence; honor opt-out and narrow-refine scope |
 | Many discrete pass/fail criteria | **JSON done-ledger** instead of a markdown checklist |
 | Greenfield / early project (no gate yet) | **Bootstrap block** — iteration 0 scaffolds + writes the first failing acceptance tests, then the loop drives red → green |
 | Open loop that ACTS (not notify-only) | **Scheduled-loop safety** (idempotency / deny-list / auto-approve) — an acting watcher is an unreviewed attack surface |
@@ -270,7 +284,7 @@ user's language, not text to copy verbatim.
 
 | Block | CLOSED | OPEN |
 | --- | --- | --- |
-| Two-stage gate · Regression-guard · No-progress circuit breaker · JSON done-ledger · Bootstrap · Independent completion check · Pause point | ✅ | ❌ (Bootstrap is **suppressed** when kind=open) |
+| Two-stage gate · Regression-guard · No-progress circuit breaker · JSON done-ledger · Bootstrap · Independent completion check · Pause point · Morning handoff | ✅ | ❌ (Bootstrap is **suppressed** when kind=open) |
 | Budget · Cross-run learnings · Escalation handoff · Scheduled-loop safety | ✅ | ✅ |
 | Observation-validity check | ✅ | ↳ folded into OPEN core's Liveness/Coverage |
 | **Dedup/cursor** | ❌ | ✅ (open-only) |
@@ -291,8 +305,6 @@ Mandatory safety remains in force in every generated contract:
 - Security tax: unattended work retains the security checks, sanitized logs and explicit
   approval for irreversible actions; moving text does not relax its enforcement.
 
-**Overnight closed-run handoff (reuse state, no new system).** If the user intends to leave a closed loop unattended or receive its result the next morning, put a compact `MORNING HANDOFF` summary at the top of the existing state file, maintained by the running loop after meaningful checkpoints and at normal termination. Include actual changes/artifact links, verification with evidence and unknowns, original criteria still unmet, stop reason, next action, and the repo/worktree/revision and last-update time. Do not create a second status database, scheduler or automatic morning notification. The handoff is a required delivery artifact *only when explicitly requested as an acceptance criterion*; a good handoff cannot turn unfinished project work into success. If interrupted before a final write, report the most recent durable state and its timestamp honestly. Do not add this closed-work summary to an unrelated quiet watcher.
-
 ## Step 6 — Validate, save, explain, and provide copyable launches
 
 Read `../references/output-guide.md` and the current host launch guide. Before writing, inspect
@@ -306,6 +318,10 @@ stalled activity. A keyword/structure check alone cannot establish these behavio
 For a requested pause, check that the brief, STOP WHEN and native launch agree, a reached pause
 prevents further project actions, and explicit resume does not reset limits or approve pending
 review/actions. Do not migrate unrelated blocks or state in a narrow refine.
+For a selected handoff, check its criterion/evidence mapping, exact location, runtime updates and
+read-back before success, including already-green and no-change runs. Exercise budget/pause and
+write-failure paths: no new project work past a boundary and no invented delivery. Match the
+receiving location in the final brief to the saved contract; do not present a seed as run evidence.
 An unavailable check is an unresolved verification gap. Do not treat it as a passing criterion.
 Fix assembly defects before saving. State any unresolved acceptance gap without claiming success.
 

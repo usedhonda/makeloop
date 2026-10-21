@@ -59,6 +59,9 @@ package in this order:
    **How it stops / 今回の止め方** sentence: verified completion (or the watcher's exit), the
    requested pause if any, the actual limits, and what is saved/how to resume. No new pause menu;
    do not imply a pause is completion or promise native stopping without confirmed support.
+   When Morning handoff is selected, add **Morning handoff / 翌朝の受け取り** with its exact
+   state path/section and contents (changes, proof, remaining work, next action). Explain that
+   execution will maintain it; generation has not produced a completed run or scheduled a message.
 2. Explained candidate cards. For Codex, use **Codex run options**. Mark exactly one choice as
    recommended; distinguish different purposes from ways to run the same accepted contract.
 3. Saved paths, assumptions/gaps, and truthful status: **contract generated; continuation/schedule

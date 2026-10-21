@@ -169,7 +169,23 @@ run options: `/goal` for closed continuation, thread/standalone Automations for 
 watchers, and `codex exec resume` for external orchestration. It describes these modes but does not
 create unattended schedulers unless the user explicitly asks.
 
-For unattended **closed** runs, the generated contract can keep a brief `MORNING HANDOFF` at the top of the existing state file: what changed, evidence/checks, what remains, why it stopped, and the next action. It is refreshed at checkpoints and normal exit, not reconstructed by a human the next morning. It does not create a new ledger, automatic message, or false project completion; a crash may leave only the last timestamped saved checkpoint.
+## Morning handoff (Claude Code and Codex)
+
+For unattended **closed** runs, or an explicit request to leave a human-readable result, makeloop
+adds a compact receiving summary to the existing state and makes its saved/read-back proof part
+of delivery. The final brief says exactly where to look. Ordinary interactive work, explicit
+opt-outs and open watchers do not acquire this block; narrow refinements preserve unrelated choices.
+
+The execution agent updates the summary with the current run, target and timestamp: **what changed,
+what was verified (and not verified), what remains/why it stopped, and the next action**. It updates
+alongside the ledger, not only at exit. Even an already-green/no-change run leaves an honest result.
+Structured state keeps its schema; an incompatible destination is a storage gap, not a reason to
+prepend Markdown to JSON or create another ledger.
+
+A readable handoff is not project completion. Missing review, budget exhaustion, a pending pause
+or failed summary storage remains explicit. Checkpoint handling cannot extend limits or resume
+project work. A crash may leave only the last durable checkpoint, and real host stopping remains
+separate. No automatic message, scheduler, commit, push or new state system is introduced.
 
 ## Why it's shaped this way (loop engineering)
 

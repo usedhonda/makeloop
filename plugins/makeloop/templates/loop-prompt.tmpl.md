@@ -243,11 +243,38 @@ LEARNINGS FILE: .loop/learnings.md  (re-read at the START of every run, before t
 - Prefer category-level prevention (a DURABLE rule folded into lint/AGENTS.md) over a single
   regression case.
 
-## [unattended/overnight · closed only] Morning handoff — use the existing state ledger
-- At each meaningful checkpoint and normal stop, refresh a concise `MORNING HANDOFF` section at the TOP of the existing STATE FILE (not a new dashboard or duplicate ledger).
-- Show: last updated timestamp and repo/worktree/revision; completed changes and artifact/diff pointers; verification results with evidence and checks not run/unknown; unmet original criteria and blockers; stop_reason and next concrete action or human decision.
-- Update the handoff from observed results; no fabricated successes, manual transcription assumption, or promise of an automatic morning message. On a crash the latest saved checkpoint may be stale; show its actual timestamp.
-- If the user explicitly requires a readable handoff as part of delivery, verify that this section exists and corresponds to the final known state before claiming overall success. If the original project remains incomplete, call that out even when the handoff itself was delivered. Do not weaken mandatory tests/reviews, change stop conditions, or auto-create a scheduler.
+## [unattended/overnight or requested · closed only] Morning handoff — fold into STATE, VERIFY and ON STOP
+HANDOFF LOCATION: <exact state path and existing summary section/field>.
+DELIVERY CRITERION: <bound handoff criterion ID in SUCCESS CRITERIA and EVIDENCE MAP>.
+- The execution agent maintains one compact receiving summary in the user's language as part of
+  existing state updates, not a separate ledger or a task for the human to transcribe. Use the
+  bound format; preserve frontmatter, history, counters, deadlines, pending effects and other fields.
+- After initial reconciliation and before new project work, identify the current run/attempt and
+  mark the summary in progress. A previous run's success is not current delivery. Refresh after
+  settled attempts/meaningful checkpoints and on every controlled exit (success, pause, budget,
+  failure or cancellation). Keep the actual checkpoint time/timezone; no invented final timestamp.
+- Include four short parts: (1) actual changes and artifact/diff pointers, explicitly no change
+  when appropriate; (2) checks/reviews with results, evidence pointers and not-run/unknown items;
+  (3) unmet original criteria, blockers and stop_reason; (4) the next concrete action or human
+  decision, including where to resume without releasing a pause or resetting limits.
+  Identify repo/worktree/branch, revision AND any uncommitted changes, run/attempt and update time
+  from the ledger; mark unavailable identities unknown/not applicable, never invent them.
+  Distinguish work verified, handoff saved, and native stop requested/confirmed/unknown.
+- Before a normal completion claim, save then read back the summary from HANDOFF LOCATION;
+  check its identity and content against current ledger/evidence and resolve the cited local
+  artifacts. Missing, stale, unreadable or mismatched proof stays missing. Writing the summary
+  alone is not proof of the project criteria, review approval, or a stopped native job.
+- Include this delivery proof even when the project was already green or no changes were needed;
+  reuse valid tests rather than rerunning them. A quiet escalation rule does not suppress this
+  local summary. Reuse it for an escalation with required error/attempt context, not duplicate state.
+- At a reached cap/pause, only bounded checkpoint/read-back/native-stop handling remains; do not
+  restart tests, reviews or project work to improve the summary. Reserve room for this handling
+  within existing limits; saving failure must not extend them or cause an endless report retry.
+  Report failed/unknown delivery and the last confirmed saved checkpoint; never emit FINAL while
+  required delivery is unproved. Preserve original unmet criteria even if the summary is ready.
+- A crash can leave only the last durable checkpoint. On resume reconcile interrupted work first;
+  do not relabel stale/in-flight evidence as final. No new database/schema, automatic notification,
+  commit/push/upload or schedule is authorized by this block. Do not put secrets in the summary.
 
 ## [unattended/scheduled] Escalation handoff — replaces silent death on a dead-end
 ON DEAD-END (failure / budget / unrecoverable-harness): write a context-rich handoff (what
