@@ -87,7 +87,7 @@ Extract whatever is present (natural phrasing, not strict flags — interpret in
 | **Loop kind** | open: "watch/monitor X", "notify me when", "poll", "alert on", "監視/通知/見張る"; closed: "finish", "complete", "get green", "fix all", "完成/緑に" | Sets KIND. If unspecified, classify in Step 1. On ambiguity default to **closed**. |
 | **Iteration cap / budget** | "cap 20", "上限20", "max 20 iterations", "wall-clock 30min", "no-progress 3" | Sets N / wall-clock / no-progress; don't ask. |
 | **Pause point (closed)** | "pause before human review", "変更と検証が揃ったら一度止めて" | Add an observable pause point without changing the original goal, required reviews or limits. |
-| **Human handoff (closed)** | "leave the result for tomorrow morning", "朝に成果と残件を読めるように", "no morning handoff" | Select or explicitly omit the Morning handoff block; keep the existing state and original goal. |
+| **Human handoff (closed)** | "leave a summary when you stop", "任せた作業の成果と残件を読めるように", "no handoff summary" | Select or explicitly omit the Handoff summary block; keep the existing state and original goal. |
 | **Success K** | "K=3 consecutive clean", "3連続で新問題ゼロ" | Sets the success streak. |
 | **Verify gate** | "gate: npm test && tsc", "verify with cargo test" | Use as the gate verbatim. |
 | **Blocks on/off** | "two-stage gate", "harness検知あり/なし", "no budget block", "with regression guard" | Force-include or exclude that optional block, overriding the profile default. |
@@ -136,14 +136,17 @@ observable improvement means and how a failed hypothesis changes the next step. 
 review is not the completion criterion: reconcile uncovered requirements against the original goal.
 Keep in-scope residual work in the loop; propose unrelated work separately after completion.
 
-**Human handoff (closed only).** Select the **Morning handoff** block for unattended/overnight
+**Human handoff (closed only).** Select the **Handoff summary** block for unattended
 closed work or an explicit human-handoff request; honor an explicit opt-out. A narrow refine adds
-it only when that is the requested change. When selected, add a delivery criterion (e.g.
+it only when that is the requested change. Daytime unattended work and overnight work use the same rule; elapsed duration alone does not select this block. There is no
+night/dawn threshold or automatic morning deadline. Continue to accept legacy "morning handoff"
+requests and opt-outs. When selected, add a delivery criterion (e.g.
 `C-HANDOFF`) to SUCCESS CRITERIA and EVIDENCE MAP: the receiving summary is saved, read back and
 consistent with the current ledger/evidence. The user need not say "acceptance criterion" again.
 Bind its exact location in the existing state and its format; default to a named section near the
-start of Markdown state, after any frontmatter/title. Keep a separate JSON done-ledger as evidence,
-not a second summary to maintain. For structured state use only an existing supported summary
+start of Markdown state, after any frontmatter/title. Reuse an existing summary section even
+if it has a legacy name; do not rename or migrate state for this wording change. Keep a separate
+JSON done-ledger as evidence, not a second summary to maintain. For structured state use only an existing supported summary
 field/view; never prepend Markdown to JSON or change its schema. If no compatible, writable, durable,
 recipient-readable location exists, explain the storage gap before offering an executable run.
 Generation preserves existing state bytes; new state is marked not started, never completed work.
@@ -274,7 +277,7 @@ user's language, not text to copy verbatim.
 | Existing loop infra (profile E) | Point STATE at the existing files + runbook; reuse scenario format |
 | Repeats weekly / will run again (profile = recurring) | **Cross-run learnings** file so the loop gets smarter each run |
 | Unattended / scheduled / overnight run | **Escalation handoff** + **Scheduled-loop safety** (idempotency, external scheduler, tiered auto-approve, intent deny-list, token/cost cap) |
-| Unattended/overnight closed work, or explicit human-handoff request | **Morning handoff** + delivery criterion/evidence; honor opt-out and narrow-refine scope |
+| Unattended closed work (day or night), or explicit human-handoff request | **Handoff summary** + delivery criterion/evidence; honor opt-out and narrow-refine scope |
 | Many discrete pass/fail criteria | **JSON done-ledger** instead of a markdown checklist |
 | Greenfield / early project (no gate yet) | **Bootstrap block** — iteration 0 scaffolds + writes the first failing acceptance tests, then the loop drives red → green |
 | Open loop that ACTS (not notify-only) | **Scheduled-loop safety** (idempotency / deny-list / auto-approve) — an acting watcher is an unreviewed attack surface |
@@ -284,7 +287,7 @@ user's language, not text to copy verbatim.
 
 | Block | CLOSED | OPEN |
 | --- | --- | --- |
-| Two-stage gate · Regression-guard · No-progress circuit breaker · JSON done-ledger · Bootstrap · Independent completion check · Pause point · Morning handoff | ✅ | ❌ (Bootstrap is **suppressed** when kind=open) |
+| Two-stage gate · Regression-guard · No-progress circuit breaker · JSON done-ledger · Bootstrap · Independent completion check · Pause point · Handoff summary | ✅ | ❌ (Bootstrap is **suppressed** when kind=open) |
 | Budget · Cross-run learnings · Escalation handoff · Scheduled-loop safety | ✅ | ✅ |
 | Observation-validity check | ✅ | ↳ folded into OPEN core's Liveness/Coverage |
 | **Dedup/cursor** | ❌ | ✅ (open-only) |

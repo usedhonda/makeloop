@@ -169,7 +169,11 @@ run options: `/goal` for closed continuation, thread/standalone Automations for 
 watchers, and `codex exec resume` for external orchestration. It describes these modes but does not
 create unattended schedulers unless the user explicitly asks.
 
-## Morning handoff (Claude Code and Codex)
+## Handoff summary (Claude Code and Codex)
+
+Leave work running and return to a readable account of its results or why it stopped, whether
+that happens during the day or at night. "Morning handoff" was the former name, not a clock-based
+mode. No hour, dawn deadline or minimum duration is implied; long duration alone is not the trigger.
 
 For unattended **closed** runs, or an explicit request to leave a human-readable result, makeloop
 adds a compact receiving summary to the existing state and makes its saved/read-back proof part

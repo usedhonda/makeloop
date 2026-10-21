@@ -5,7 +5,7 @@
     "kind": "closed",
     "lang": "ja",
     "gate": "npm test",
-    "request": "認証修正を夜間に進める指示書を作って。翌朝に成果・検証・残件・次の一手が読めるように。上限8回。",
+    "request": "昼間に認証修正を任せて、戻った時に成果・検証・残件・次の一手が読める指示書を作って。上限8回。",
     "profile": "Codex normal messages available; /goal unknown. State absent; use .loop/repair-state.md. Mature auth project. Changes limited to src/auth. Gate npm test collects the intended suite. Final independent human review is required. No live project work during generation. Existing runtime capabilities must be respected; no new schedules or notifications.",
     "review": "Include the closed handoff block, concrete location, delivery criterion and evidence mapping without requiring the user to repeat acceptance-criterion jargon. Seed not started. Brief describes where to receive; launch stays last. No new runner/notification."
   },
@@ -34,7 +34,7 @@
     "gate": "npm test",
     "request": "Generate the overnight auth repair loop, cap 8; no morning handoff needed.",
     "profile": "Codex normal messages available. State absent. Mature auth project. Changes limited to src/auth. Gate npm test collects the intended suite. Final independent human review is required. No live project work during generation. Existing runtime capabilities must be respected; no new schedules or notifications.",
-    "review": "Honor opt-out: no Morning handoff block/criterion; retain ordinary ledger, stopping and escalation. No empty optional section."
+    "review": "Honor opt-out: no Handoff summary block/criterion; retain ordinary ledger, stopping and escalation. No empty optional section."
   },
   {
     "id": "H5",
@@ -42,7 +42,7 @@
     "kind": "open",
     "request": "Watch app.log overnight every five minutes and notify only on new ERROR lines until cancelled.",
     "profile": "Claude Code /loop confirmed. Log cursor and local notifier .loop/alerts.log. Existing backlog, no replay. No schedule started.",
-    "review": "No closed Morning handoff block, delivery-completion gate or no-progress rule. Three valid quiet ticks remain healthy; preserve cursor, pending effects, expiry and native stopping."
+    "review": "No closed Handoff summary block, delivery-completion gate or no-progress rule. Three valid quiet ticks remain healthy; preserve cursor, pending effects, expiry and native stopping."
   },
   {
     "id": "H6",

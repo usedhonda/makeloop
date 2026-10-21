@@ -26,7 +26,7 @@ def section(text, start, end):
 
 CLOSED = section(TEMPLATE, '# ============ CLOSED CORE', '# ============ OPEN CORE')
 OPEN = section(TEMPLATE, '# ============ OPEN CORE', '# ============ OPTIONAL blocks')
-HANDOFF = next(b for b in TEMPLATE.split('\n## ') if '] Morning handoff' in b)
+HANDOFF = next(b for b in TEMPLATE.split('\n## ') if '] Handoff summary' in b)
 NORMAL = re.sub(r'\s+', ' ', HANDOFF)
 STATE_PATH = '.loop/repair-state.md'
 CONTRACT_PATH = '.loop/repair.md'
@@ -79,7 +79,7 @@ def rendered_output(host, *, handoff=True, existing=None, done_ledger=False):
     if done_ledger:
         files['.loop/done.json'] = '[{"criterion":"C1","status":"fail","verified_by":null}]\n'
     host_label = 'Claude Code' if host == 'claude' else 'Codex CLI'
-    receipt = ('Morning handoff: execution will maintain ' + STATE_PATH + ' section MORNING HANDOFF.\n'
+    receipt = ('Handoff summary: execution will maintain ' + STATE_PATH + ' section MORNING HANDOFF.\n'
                if handoff else '')
     brief = ('Loop brief: repair auth and preserve the required review.\n'
              'How it stops: success, pending user pause, or the cumulative 8-attempt limit; '
@@ -106,10 +106,10 @@ class HandoffWiringTests(unittest.TestCase):
         self.assertNotIn('only when explicitly requested as an acceptance criterion', COMMAND)
 
     def test_kind_selection_and_opt_out(self):
-        self.assertIn('Morning handoff | ✅ | ❌', COMMAND)
+        self.assertIn('Handoff summary | ✅ | ❌', COMMAND)
         self.assertIn('honor an explicit opt-out', COMMAND)
         self.assertIn('narrow refine adds', COMMAND)
-        self.assertNotIn('Morning handoff', OPEN)
+        self.assertNotIn('Handoff summary', OPEN)
 
     def test_location_preserves_structured_state(self):
         for phrase in ('never prepend Markdown to JSON', 'existing supported summary',
@@ -158,9 +158,9 @@ class HandoffWiringTests(unittest.TestCase):
         self.assertIn('Do not put secrets', NORMAL)
 
     def test_receiver_is_described_before_launch_group(self):
-        self.assertIn('Morning handoff / 翌朝の受け取り', GUIDE)
+        self.assertIn('Handoff summary / 引継ぎサマリー', GUIDE)
         self.assertIn('exact\n   state path/section', GUIDE)
-        self.assertLess(GUIDE.index('Morning handoff / 翌朝の受け取り'),
+        self.assertLess(GUIDE.index('Handoff summary / 引継ぎサマリー'),
                         GUIDE.index('5. **Launch commands'))
         self.assertIn('Nothing follows', COMMAND)
 

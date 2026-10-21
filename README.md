@@ -38,6 +38,11 @@ Optional planning, review cadence and context workarounds must have a current pu
 them after model/host changes through comparable examples, preserving required checks and user
 boundaries. Maintain the feedback system as well as the task it drives.
 
+For unattended closed work, a **[handoff summary](plugins/makeloop/README.md#handoff-summary-claude-code-and-codex)**
+leaves results, verification, remaining work and the next action in existing state. It applies
+during the day as well as overnight and is updated at checkpoints and completion/interruption,
+not at a fixed morning time. Ordinary interactive work does not acquire it just for being long.
+
 ## Choose by what you want to do
 
 makeloop separates **purpose** from **execution mode**. If the goal is unclear, compare concrete
