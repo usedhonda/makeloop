@@ -18,6 +18,17 @@ prefer the available `/goal` option. For a cadence watcher, prefer the available
 Do not stack goal, loop, Stop-hook runner and external cron for the same contract. Check for an
 active goal before offering a launch that would replace it. Explain replacement, never do it here.
 
+## Final copy choices
+
+Use the shared output guide: save/check first, then explanations, the chosen Loop body, and one
+final launch group with A/B/C labels. Every chat block is `text`, pasted into **Claude Code input**,
+not the operating-system terminal. Offer manual iteration plus `/goal` for closed work when both
+fit and are confirmed; for an open watcher, offer one tick plus `/loop <interval>` when confirmed.
+An installed Ralph option is an extra only when it is relevant, never an install recipe in the
+launch group. Put the recommended choice first. `/loop` polling is not a zero-delay substitute
+for closed goal continuation. Keep every alternative on the same accepted goal, state and limits;
+its execution unit must be explicit. Emit slash launches as one physical line.
+
 ## Launch forms
 
 Fill real values in the user's language; examples here are scaffolds, not executable output.
@@ -38,6 +49,9 @@ Fill real values in the user's language; examples here are scaffolds, not execut
 The saved contract carries the host-specific stop instructions below, not merely the launch line.
 For `/goal`, expand the contract's actual cumulative limits and terminal blocker conditions into
 the emitted condition; the 8-iteration example is not a new default or an override of user choices.
+When a pause point is requested, include its evidenced checkpoint as another non-success exit in
+that condition. Surface the remaining criteria, not a project-completion claim. On explicit resume,
+release only that reached pause in the saved state and retain the original scope and limits.
 
 ## Stop, evaluate, resume
 
