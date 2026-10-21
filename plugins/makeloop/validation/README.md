@@ -50,6 +50,8 @@ protected golden properties and the following acceptance criteria:
 
 - alternatives differ meaningfully in purpose or execution mode and preserve the accepted scope;
 - each explains suitability, effects, boundaries, checks, stopping and resume;
+- a concrete Loop brief covers the original purpose/actions, scope, criteria and actual stop/resume
+  behavior. Grade its substance, not the presence of a literal English/Japanese title;
 - explanations and the short saved-contract path appear in the final package; the full saved body
   appears only when explicitly requested (`show_body: true` in checker metadata). Resolved launch
   blocks are its last section, with nothing following the last fence;
@@ -142,3 +144,9 @@ does not independently derive feasibility or classify the semantic provenance of
 These authored fixtures and checker regressions do not prove that a model completes the whole
 generation workflow in one invocation. Read actual generated decisions against the original
 request and state; a valid-looking compact command cannot replace readiness evidence.
+
+Clear plain launch headings and A/B/C labels are valid as well as Markdown headings. The checker
+still requires the final group to contain only its heading, ordered host/destination labels and
+copy blocks, and rejects extra prose or trailing caveats. A known nonready request needs no
+runnable-choice section. These structural allowances do not grade the brief's substance or
+convert an unavailable requested mode into an executable one.

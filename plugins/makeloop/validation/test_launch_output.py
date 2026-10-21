@@ -119,6 +119,25 @@ class CopyLayoutTests(unittest.TestCase):
                 out['chat'] += launch
                 self.assertIn('unconfigured execution has a runnable replacement', check(case, out))
 
+    def test_plain_japanese_labels_and_nonready_brief_do_not_require_magic_titles(self):
+        case, out = self.compact()
+        out['chat'] = out['chat'].replace('Loop brief:', '今回の目的:')
+        out['chat'] = out['chat'].replace('## Launch commands', '起動コマンド').replace('### A', 'A')
+        self.assertEqual(check(case, out), [])
+        # Accepting plain labels must not hide extra prose, missing destinations or B-first order.
+        for old, new, error in (
+            ('起動コマンド\n', '起動コマンド\nExtra prose.\n',
+             'launch group must contain only heading, labels and blocks'),
+            ('Codex CLI input', 'Unknown surface', 'launch label missing or mismatching host'),
+            ('A —', 'B —', 'launch labels must follow A/B/C order'),
+        ):
+            bad = dict(out, chat=out['chat'].replace(old, new))
+            self.assertIn(error, check(case, bad))
+        case, out = self.blocked_continuation()
+        out['chat'] = out['chat'].replace('Loop brief:', '今回の目的:').replace(
+            'Codex run options:', '希望方式:')
+        self.assertEqual(check(case, out), [])
+
     def compact(self, host='codex', kind='closed'):
         code = f'{PROMPT} に従い1回進めて。'
         target = 'Claude Code' if host == 'claude' else 'Codex CLI'

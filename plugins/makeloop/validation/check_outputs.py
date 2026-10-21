@@ -137,15 +137,17 @@ def copy_presentation_errors(case, chat, contract, blocks, launches):
     require(not has_launch_text(outside), 'launch outside the final copy blocks')
     require(len({f['body'].strip() for f in launches}) == len(launches), 'duplicate launch block')
     labels = []
-    headings = list(re.finditer(r'(?m)^## [^\n]+', chat[:launches[0].start()])) if launches else []
+    # Accept clear plain headings/labels without requiring Markdown heading syntax.
+    headings = list(re.finditer(r'(?m)^(?:## [^\n]+|Launch commands|起動コマンド)[ \t]*$',
+                                chat[:launches[0].start()])) if launches else []
     previous_end = headings[-1].start() if headings else 0
     for i, f in enumerate(launches):
         between = [line.strip() for line in chat[previous_end:f.start()].splitlines() if line.strip()]
         label = between[-1] if between else ''
         labels.append(label)
         require(len(between) == (2 if i == 0 else 1)
-                and (i != 0 or between[0].startswith('## '))
-                and bool(re.match(r'^### [A-Z]\s+[—|\-]', label)),
+                and (i != 0 or bool(re.fullmatch(r'(?:## .+|Launch commands|起動コマンド)', between[0])))
+                and bool(re.match(r'^(?:### )?[A-Z]\s+[—|\-]', label)),
                 'launch group must contain only heading, labels and blocks')
         expected_host = 'Claude Code' if case['host'] == 'claude' else 'Codex'
         other_host = 'Codex' if case['host'] == 'claude' else 'Claude Code'
@@ -154,7 +156,8 @@ def copy_presentation_errors(case, chat, contract, blocks, launches):
         destination = (r'input|chat|composer|入力欄|チャット' if f['lang'].strip() == 'text'
                        else r'terminal|shell|ターミナル|シェル')
         require(bool(re.search(destination, label, re.I)), 'launch label missing paste destination')
-        require(label.startswith('### ' + chr(ord('A') + i) + ' '), 'launch labels must follow A/B/C order')
+        normalized_label = re.sub(r'^### ', '', label)
+        require(normalized_label.startswith(chr(ord('A') + i) + ' '), 'launch labels must follow A/B/C order')
         previous_end = f.end()
     recommendations = [bool(re.search(r'\bRecommended\b|おすすめ|推奨', label, re.I)) for label in labels]
     if launches or not case.get('execution_unconfigured'):
@@ -284,8 +287,8 @@ def check(case, out, presentation=True):
         else:
             require(not re.search(r'\bcodex\s+(?:exec|resume)\b|codex-loop', code),
                     'Codex launch on Claude Code')
-    require(bool(re.search(r'Loop brief|ループ概要', chat)), 'missing concrete Loop brief')
-    if case['host'] == 'codex':
+    # A brief's substance is independently graded; a literal title cannot prove it.
+    if case['host'] == 'codex' and not case.get('execution_unconfigured'):
         require('Codex run options' in chat, 'missing Codex choices section')
     if case.get('lang') == 'ja':
         require(len(re.findall(r'[ぁ-んァ-ン一-龥]', body)) > 60, 'Japanese output not rendered')
