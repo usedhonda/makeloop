@@ -1,0 +1,73 @@
+[
+  {
+    "id": "H1",
+    "host": "codex",
+    "kind": "closed",
+    "lang": "ja",
+    "gate": "npm test",
+    "request": "認証修正を夜間に進める指示書を作って。翌朝に成果・検証・残件・次の一手が読めるように。上限8回。",
+    "profile": "Codex normal messages available; /goal unknown. State absent; use .loop/repair-state.md. Mature auth project. Changes limited to src/auth. Gate npm test collects the intended suite. Final independent human review is required. No live project work during generation. Existing runtime capabilities must be respected; no new schedules or notifications.",
+    "review": "Include the closed handoff block, concrete location, delivery criterion and evidence mapping without requiring the user to repeat acceptance-criterion jargon. Seed not started. Brief describes where to receive; launch stays last. No new runner/notification."
+  },
+  {
+    "id": "H2",
+    "host": "claude",
+    "kind": "closed",
+    "gate": "npm test",
+    "request": "Generate an overnight auth repair loop; pause before final human review when changes and tests are ready. cap 8. Leave the result in the state file.",
+    "profile": "Claude Code /goal and normal messages confirmed, no active run. State absent. Mature auth project. Changes limited to src/auth. Gate npm test collects the intended suite. Final independent human review is required. No live project work during generation. Existing runtime capabilities must be respected; no new schedules or notifications.",
+    "review": "At the reached pause, save/read back a bounded incomplete handoff from existing proof, keep review unmet, do not start reviews/checks or independent work. Native stop and project acceptance remain separate; no automatic release."
+  },
+  {
+    "id": "H3",
+    "host": "codex",
+    "kind": "closed",
+    "gate": "npm test",
+    "request": "Refine the existing overnight loop only to add a receiving summary; keep all original state, goal, limits and pending pause.",
+    "profile": "Codex normal messages available. Existing Markdown state contains 7 used attempts, a fixed deadline, a pending pause, unknown external effect and history. Existing loop uses that same state. Mature auth project. Changes limited to src/auth. Gate npm test collects the intended suite. Final independent human review is required. No live project work during generation. Existing runtime capabilities must be respected; no new schedules or notifications.",
+    "review": "Read the actual existing contract/state before refine; this profile is not byte-preservation evidence. Preserve their bytes during generation except requested contract change; do not migrate state. Runtime preserves the pause/deadline/counters, reconciles unknown effects and never presents the prior run as current."
+  },
+  {
+    "id": "H4",
+    "host": "codex",
+    "kind": "closed",
+    "gate": "npm test",
+    "request": "Generate the overnight auth repair loop, cap 8; no morning handoff needed.",
+    "profile": "Codex normal messages available. State absent. Mature auth project. Changes limited to src/auth. Gate npm test collects the intended suite. Final independent human review is required. No live project work during generation. Existing runtime capabilities must be respected; no new schedules or notifications.",
+    "review": "Honor opt-out: no Morning handoff block/criterion; retain ordinary ledger, stopping and escalation. No empty optional section."
+  },
+  {
+    "id": "H5",
+    "host": "claude",
+    "kind": "open",
+    "request": "Watch app.log overnight every five minutes and notify only on new ERROR lines until cancelled.",
+    "profile": "Claude Code /loop confirmed. Log cursor and local notifier .loop/alerts.log. Existing backlog, no replay. No schedule started.",
+    "review": "No closed Morning handoff block, delivery-completion gate or no-progress rule. Three valid quiet ticks remain healthy; preserve cursor, pending effects, expiry and native stopping."
+  },
+  {
+    "id": "H6",
+    "host": "codex",
+    "kind": "closed",
+    "gate": "npm test",
+    "request": "Generate one ordinary manual auth repair iteration; cap 8.",
+    "profile": "Codex normal messages available. State absent. Mature auth project. Changes limited to src/auth. Gate npm test collects the intended suite. Final independent human review is required. No live project work during generation. Existing runtime capabilities must be respected; no new schedules or notifications.",
+    "review": "No unsolicited handoff block or delivery criterion for ordinary interactive work."
+  },
+  {
+    "id": "H7",
+    "host": "claude",
+    "kind": "closed",
+    "gate": "npm test",
+    "request": "Generate the overnight auth repair loop using the existing Markdown state and JSON done-ledger.",
+    "profile": "Claude Code normal messages available. .loop/repair-state.md is readable/writable and .loop/done.json stores criterion evidence. Preserve both during generation. Mature auth project. Changes limited to src/auth. Gate npm test collects the intended suite. Final independent human review is required. No live project work during generation. Existing runtime capabilities must be respected; no new schedules or notifications.",
+    "review": "Bind the handoff to the Markdown summary, reference the JSON evidence without prepending text or duplicating its authority. Original criteria remain necessary; no state reset."
+  },
+  {
+    "id": "H8",
+    "host": "codex",
+    "kind": "choice",
+    "request": "Generate an overnight loop with a readable receiving summary, using only our existing state file; do not change its schema or create another ledger.",
+    "profile": "The only state is .loop/state.json with a strict schema containing attempts and criteria, no summary field or readable report view. No other compatible receiving destination is available. Codex normal messages available.",
+    "review": "Explain the unresolved storage destination, preserve JSON and do not invent a summary field, secondary ledger, supported view or executable configured handoff. No scope change to claim success."
+  }
+]
