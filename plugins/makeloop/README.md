@@ -27,10 +27,14 @@ repair. Choices are derived from the project, not fixed presets or a menu padded
 
 **Final-only output:** no launch commands or full Loop body during progress or questions. Once
 files and checks are complete, one final response contains the explanations and candidate choices,
-then the chosen Loop body, then **all launch blocks at the very end**. Nothing follows the last
+then the short saved-contract path (full body only on explicit request), then **all launch blocks
+at the very end**. Nothing follows the last
 launch block. Each block is independent and labeled by host and paste destination; explanations
 and shell prompts stay outside, necessary shell quotes stay inside. Unknown features remain
 conditional explanations without runnable blocks. This replaces the former launch-first ordering.
+Use short, meaningful new filenames and project-relative paths. Put state, limits and authority
+in the saved contract instead of repeating them in each launch. Existing paths/state are preserved.
+Neither one physical line nor a code fence guarantees that selection-copy preserves line breaks.
 
 **Generated is not started.** Displaying goal/schedule alternatives does not create them, replace
 an existing goal, reset a cursor or authorize concurrent writers. Existing `.loop/` files are not

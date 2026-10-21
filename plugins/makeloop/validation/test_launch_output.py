@@ -31,6 +31,55 @@ def package(host='codex', kind='closed', options=None):
 
 
 class CopyLayoutTests(unittest.TestCase):
+    def compact(self, host='codex', kind='closed'):
+        code = f'{PROMPT} に従い1回進めて。'
+        target = 'Claude Code' if host == 'claude' else 'Codex CLI'
+        case, out = package(host, kind, [('text', code,
+                                       f'A — Recommended: one tick | {target} input')])
+        case.pop('show_body', None)  # Default: no full body requested.
+        original = out['files'][PROMPT]
+        state = STATE if kind == 'closed' else '.loop/example.cursor.json'
+        field = 'STATE FILE' if kind == 'closed' else 'CURSOR FILE'
+        out['files'][PROMPT] = original + f'\n{field}: {state}'
+        out['chat'] = out['chat'].replace('```markdown\n' + original + '\n```',
+                                        f'Saved contract: {PROMPT}')
+        return case, out
+
+    def test_compact_default_uses_saved_state_on_both_hosts_and_kinds(self):
+        for host in ('claude', 'codex'):
+            for kind in ('closed', 'open'):
+                with self.subTest(host=host, kind=kind):
+                    self.assertEqual(check(*self.compact(host, kind)), [])
+
+    def test_compact_requires_state_binding_not_a_guessed_path(self):
+        case, out = self.compact()
+        out['files'][PROMPT] = out['files'][PROMPT].split('\nSTATE FILE:')[0]
+        self.assertIn('launch missing exact state', check(case, out))
+        case, out = self.compact()
+        out['chat'] = out['chat'].replace('1回進めて。', '1回進めて。.loop/other-state.md')
+        self.assertIn('launch missing exact state', check(case, out))
+
+    def test_compact_full_body_needs_explicit_request(self):
+        case, out = package()
+        case.pop('show_body', None)
+        self.assertIn('unrequested full Loop body', check(case, out))
+
+    def test_compact_path_internal_newline_is_rejected(self):
+        case, out = self.compact()
+        out['chat'] = out['chat'].replace(PROMPT + ' に従い', '.loop/exam\nple.md に従い')
+        self.assertIn('newline inside saved path', check(case, out))
+
+    def test_compact_launch_is_not_allowed_in_progress(self):
+        case, out = self.compact()
+        out['progress'] = [PROMPT + ' に従い1回進めて。']
+        self.assertIn('launch or full contract leaked into progress', check(case, out))
+
+    def test_compact_shell_quoted_argument_cannot_contain_newline(self):
+        case, out = package(options=[('sh',
+            f'cd "/tmp/long\npath" && codex exec resume session-42 "Follow {PROMPT}; update {STATE}."',
+            'A — Recommended: CI resume | Codex OS terminal')])
+        self.assertIn('newline inside quoted argument or identifier', check(case, out))
+
     def test_two_host_specific_choices(self):
         for host in ('claude', 'codex'):
             with self.subTest(host=host):

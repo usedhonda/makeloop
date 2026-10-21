@@ -14,7 +14,7 @@ CHECKER = Path(__file__).with_name('check_outputs.py')
 
 
 def sample(kind='closed', host='codex'):
-    case = {'id': 'example', 'kind': kind, 'host': host}
+    case = {'id': 'example', 'kind': kind, 'host': host, 'show_body': True}
     prompt_path = '.loop/example.md'
     if kind == 'closed':
         contract = ('GOAL: repair the parser\nSUCCESS CRITERIA: accepted examples pass\n'

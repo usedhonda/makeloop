@@ -92,7 +92,8 @@ def rendered_output(host, *, handoff=True, existing=None, done_ledger=False):
             'Follow ' + CONTRACT_PATH + ' for exactly one iteration. Read and preserve ' +
             STATE_PATH + '; keep all saved limits and pending pauses; return after one iteration.\n```')
     out = {'id': 'handoff-' + host, 'files': files, 'chat': chat, 'progress': []}
-    case = {'id': out['id'], 'kind': 'closed', 'host': host, 'gate': 'npm test'}
+    case = {'id': out['id'], 'kind': 'closed', 'host': host, 'gate': 'npm test',
+            'show_body': True}
     if existing is not None:
         case['preserve'] = {STATE_PATH: existing}
     return case, out

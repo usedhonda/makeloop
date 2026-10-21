@@ -20,8 +20,8 @@ candidate using the shared output guide. No fake `/loop`, `/ralph-loop` or `code
 
 ## Final copy choices
 
-Use the shared output guide: save/check first, then explanations, the chosen Loop body, and one
-final launch group with A/B/C labels. Name the actual paste surface: **Codex CLI input**, the
+Use the shared output guide: save/check first, then explanations, the saved contract path (full
+body only on explicit request), and one final launch group with A/B/C labels. Name the actual paste surface: **Codex CLI input**, the
 **Codex desktop chat**, or the **IDE chat** for `text`; the **OS terminal** for `sh`.
 For closed work, offer one iteration plus `/goal` only when continuation and the contract's stop
 behavior are confirmed on that surface. An open watcher gets one tick plus a supported schedule
@@ -35,10 +35,10 @@ complete with the exact contract/state and execution unit. Emit slash launches a
 
 Render with actual paths and values in the user's language; these are illustrative scaffolds.
 
-- Closed manual message: “Follow .loop/repair.md for exactly one iteration. Read and update
-  .loop/repair-state.md. If all criteria are proved, report FINAL; otherwise ITERATING.”
-- Open manual message: “Follow .loop/deploy-watch.md for one watcher tick. Preserve and update
-  .loop/deploy-watch.cursor.json; react once per new event under the saved permissions.”
+- Closed manual message: “Follow .loop/repair.md for exactly one iteration.” Bind state,
+  criteria, reporting and limits in that saved contract, not a long launch message.
+- Open manual message: “Follow .loop/deploy-watch.md for one watcher tick.” Bind the cursor,
+  trigger, permissions and stopping in the saved contract.
 - Goal: `/goal Follow .loop/repair.md to prove every original criterion. Preserve scope, evidence,
   consumed attempts and remaining work in .loop/repair-state.md. Honor its limits and stop
   instructions; a pause or budget checkpoint is not achievement of this objective.` Bind actual

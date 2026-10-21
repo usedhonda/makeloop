@@ -24,7 +24,7 @@ def case_errors(case):
         errors.append('unsupported scenario host')
     if 'gate' in case and not isinstance(case['gate'], str):
         errors.append('gate must be a string')
-    for flag in ('compare', 'bootstrap', 'stop_event', 'acts'):
+    for flag in ('compare', 'bootstrap', 'stop_event', 'acts', 'show_body'):
         if flag in case and not isinstance(case[flag], bool):
             errors.append(flag + ' must be a boolean')
     if 'preserve' in case and not text_files(case['preserve']):
@@ -107,7 +107,8 @@ def has_launch_text(text):
     # Feature names alone are allowed; concrete saved-file launches are not.
     return bool(re.search(
         r'(?m)(?:^|`)[ \t]*(?:/(?:goal|loop|ralph-loop)\b|codex\s+exec\b|Follow\b)'
-        r'[^\n`]*\.loop/', text))
+        r'[^\n`]*\.loop/', text) or re.search(
+        r'(?m)(?:^|`)[ \t]*\.loop/[^\s`]+\.md[^\n`]*(?:に従|進め|実行)', text))
 
 
 def copy_presentation_errors(case, chat, contract, blocks, launches):
@@ -118,13 +119,16 @@ def copy_presentation_errors(case, chat, contract, blocks, launches):
             errors.append(why)
     bodies = [b for b in blocks if b['lang'].strip() == 'markdown'
               and b['body'].rstrip('\n') == contract.rstrip('\n')]
-    require(len(bodies) == 1 and bool(contract.strip()) and chat.count(contract.strip()) == 1,
-            'show the saved contract once in a markdown fence')
+    if case.get('show_body'):
+        require(len(bodies) == 1 and bool(contract.strip()) and chat.count(contract.strip()) == 1,
+                'show the saved contract once in a markdown fence')
+    else:
+        require(not bodies and contract.strip() not in chat, 'unrequested full Loop body')
     if bodies:
         require(all(f.start() > bodies[0].end() for f in launches),
                 'launch appears before the complete final Loop body')
-    require(len(blocks) == len(launches) + 1,
-            'only the contract and final launch fences belong in the package')
+    require(len(blocks) == len(launches) + int(bool(case.get('show_body'))),
+            'only the requested contract and final launch fences belong in the package')
     outside = chat
     for b in reversed(blocks):
         outside = outside[:b.start()] + '\n' + outside[b.end():]
@@ -132,7 +136,8 @@ def copy_presentation_errors(case, chat, contract, blocks, launches):
     require(not has_launch_text(outside), 'launch outside the final copy blocks')
     require(len({f['body'].strip() for f in launches}) == len(launches), 'duplicate launch block')
     labels = []
-    previous_end = bodies[0].end() if len(bodies) == 1 else 0
+    headings = list(re.finditer(r'(?m)^## [^\n]+', chat[:launches[0].start()])) if launches else []
+    previous_end = headings[-1].start() if headings else 0
     for i, f in enumerate(launches):
         between = [line.strip() for line in chat[previous_end:f.start()].splitlines() if line.strip()]
         label = between[-1] if between else ''
@@ -236,11 +241,8 @@ def check(case, out, presentation=True):
     fences = launches
     require(bool(fences), 'no runnable copy block')
     if fences:
-        require(prompt_path in fences[0]['body'] and state_path in fences[0]['body'], 'first launch file/state mismatch')
+        require(prompt_path in fences[0]['body'], 'first launch file/state mismatch')
         if presentation:
-            body_start = chat.find(contract)
-            require(body_start >= 0 and all(f.start() > body_start + len(contract) for f in fences),
-                    'launch appears before the complete final Loop body')
             require(not chat[fences[-1].end():].strip(), 'prose follows the last launch block')
     if presentation:
         errors.extend(copy_presentation_errors(case, chat, contract, blocks, fences))
@@ -256,13 +258,20 @@ def check(case, out, presentation=True):
         else:
             require(not re.search(r'^/(?:goal|loop|ralph-loop)\b', code), 'chat command in terminal block')
             try:
-                shlex.split(code)
+                words = shlex.split(code)
+                require(not any('\n' in word or '\r' in word for word in words),
+                        'newline inside quoted argument or identifier')
             except ValueError:
                 errors.append('invalid shell quoting')
         require(not re.search(r'^\s*(?:\$ |[-*] |\d+\. |# )', code, re.M), 'copy block contains prompt/list/comment')
         require(not re.search(r'<[^\n>]+>', code), 'placeholder in launch')
+        for path in (prompt_path, state_path):
+            require(not (path not in code and path in code.replace('\n', '').replace('\r', '')),
+                    'newline inside saved path')
         require(prompt_path in code, 'launch missing saved contract')
-        require(state_path in code, 'launch missing exact state')
+        mentioned_states = re.findall(r'\.loop/[^\s\'"`;]+(?:-state\.md|\.cursor\.json)', code)
+        require((state_path in code or state_path in contract) and
+                all(path == state_path for path in mentioned_states), 'launch missing exact state')
         if case['host'] == 'codex':
             require(not re.search(r'(?<![\w/])/(?:loop|ralph-loop)\b|codex-loop', code), 'Claude launch on Codex')
             require('--last' not in code, 'ambiguous unattended resume')
