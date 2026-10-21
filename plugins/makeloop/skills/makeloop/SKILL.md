@@ -39,14 +39,18 @@ its question UI is absent. Do not require ritual confirmation for decisions alre
 
 Save `.loop/<slug>.md`, seed closed `-state.md` or open `.cursor.json` only if absent, and maintain
 `.loop/INDEX.md`. Hold launch commands and the full Loop body until saving/checks are complete.
-In ONE final response: explanation/Loop brief and choices, paths/status/gaps, complete chosen Loop
-body once, then the copyable launch blocks at the very end. Nothing follows the last launch fence.
+In ONE final response: explanation/Loop brief and choices, paths/status/gaps, then short copyable
+launch blocks at the very end. The saved contract is authoritative; show its full body only when
+explicitly requested. Prefer short new slugs and project-relative paths; never insert a newline
+inside a filename/path. Follow output-guide.md for copy-safe launches and existing long names.
+Nothing follows the last launch fence.
 On Codex use **Codex run options** for explained alternatives; use host-native choice labels on CC. Mark exactly one recommendation. Manual tick
 is the safe-first-run default; honor explicit goal/cadence/CI intent when supported. Each executable
 choice has its own fully resolved block, labeled with the paste destination. Keep unavailable or
 unconfirmed capabilities in separate Conditional options without executable fences.
 
 Explain outcome, actual actions, effects/scope, suitability, check/trigger, stop/cap/expiry, state
-and resume for each candidate. Keep detailed criteria in the saved contract and show its complete body only once in the final package. State **generated / not configured / not started** truthfully.
+and resume for each candidate. Keep detailed criteria in the saved contract instead of repeating
+them in the launch. State **generated / not configured / not started** truthfully.
 Displaying choices does not start a goal, configure scheduling, select an unchosen runtime, reset
 state, or authorize simultaneous writers. Do not create a runner or schedule here.

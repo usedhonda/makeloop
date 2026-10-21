@@ -20,7 +20,8 @@ active goal before offering a launch that would replace it. Explain replacement,
 
 ## Final copy choices
 
-Use the shared output guide: save/check first, then explanations, the chosen Loop body, and one
+Use the shared output guide: save/check first, then explanations, the saved contract path (full
+body only on explicit request), and one
 final launch group with A/B/C labels. Every chat block is `text`, pasted into **Claude Code input**,
 not the operating-system terminal. Offer manual iteration plus `/goal` for closed work when both
 fit and are confirmed; for an open watcher, offer one tick plus `/loop <interval>` when confirmed.
@@ -98,7 +99,8 @@ of local `.loop/` files. Describe it only if requested; keep this generator free
 ## Final text turn
 
 Finish all Write/Bash operations, INDEX updates, saved-file checks and other tools in earlier
-turns. The final package must be a tool-free final text turn: explanations, chosen Loop body,
+turns. The final package must be a tool-free final text turn: explanations, saved contract path
+(full body only on explicit request),
 then launch blocks last. Do not mix a launch with a tool call or run a saving/checking tool
 after it. Text between tools is visible to the user and is not the final deliverable.
 `allowed-tools` pre-approves the listed tools for the invoking turn; it does not restrict the

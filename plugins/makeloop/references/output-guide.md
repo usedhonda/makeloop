@@ -67,10 +67,10 @@ package in this order:
    recommended; distinguish different purposes from ways to run the same accepted contract.
 3. Saved paths, assumptions/gaps, and truthful status: **contract generated; continuation/schedule
    not configured; not started**. Put caveats, cost notes and all closing prose HERE, not after commands.
-4. **Loop contract / Loop本文**: show the complete chosen saved contract once in a `markdown` fence,
-   so the user can inspect or copy the body. Use the saved content checked before the final response,
-   not a newly reconstructed variant. Do not print unchosen-purpose executable contracts. If the
-   saved body contains fences, use a longer outer fence so nested commands stay inside the body.
+4. **Loop contract / Loop本文**: the saved file is authoritative. By default give its short
+   project-relative path, not the full body in chat. Show the complete checked saved body once
+   only if explicitly requested; use a longer outer fence if it contains fences. Do not reconstruct
+   a different version or print unchosen-purpose executable contracts.
 5. **Launch commands / 起動コマンド**, at the very end: one fully resolved independent block per
    confirmed runnable choice. Immediately above each block, use one label with A/B/C, the purpose,
    host and paste destination; mark only the first as recommended. For example:
@@ -81,8 +81,8 @@ package in this order:
 
 After the last launch fence, output nothing: no summary, warning, file links, cost note, question,
 metrics or repeated assumptions. Do not repeat a launch under its earlier candidate explanation.
-Long criteria/source inventories remain in the saved contract; showing that contract once in the
-final package does not authorize executing it or creating schedules.
+Long criteria/source inventories remain in the saved contract. Displaying a path or an explicitly
+requested body does not authorize executing it or creating schedules.
 
 ## Copy contract
 
@@ -91,13 +91,26 @@ final package does not authorize executing it or creating schedules.
 - Inside: only what to paste. No bullets, shell `$` prompt, wrapping display quotes, explanatory
   comments, other candidates or mixed shell/chat commands. Preserve syntactically required quotes,
   including around shell paths with spaces. Use the user's language, not smart-quote shell syntax.
-- Make each block self-contained: exact saved contract and state/cursor paths, execution unit
-  (one iteration/tick, goal continuation, schedule setup or exact-session execution), and preserved
-  limits/pause rules. Never rely on “same as above” or a previous block. A manual alternative must
+- Make each block self-contained through its exact saved contract path and execution unit
+  (one iteration/tick, goal continuation, schedule setup or exact-session execution). Bind the
+  state/cursor, limits, pause rules and authority in that file; do not repeat them all in the
+  launch. Never rely on “same as above” or a previous chat block. A manual alternative must
   return after its one unit even when the saved contract supports continuous execution; it must
   not clear a user pause or override an active continuation owner.
-- Keep slash-command launches on one physical line; use saved-file references instead of copying
-  the full contract into a goal. Let the client wrap visually. Normal messages may be multiline.
+- Keep launches short, normally one physical line referencing the saved contract. A single long
+  line is not a copy-safety fix: selection can turn visual wrapping into real newlines. Never
+  insert a newline inside a filename, path, quoted argument or identifier, and do not claim that
+  a code fence prevents copy corruption. Put explanations outside the copy block.
+- For new files prefer short, meaningful slugs such as `ui`, `auth` or `ci`; use project-relative
+  paths such as `.loop/ui.md`, not absolute paths or descriptive sentence-length filenames.
+  Preserve existing names and state during refine. If an existing path makes the launch too long,
+  offer a scope-limited rename with all references updated and state preserved; do not silently
+  rename it, reset its state, or create a second contract/runner merely for a short alias.
+- With scope and limits bound in `.loop/ui.md`, a compact manual message can be
+  `.loop/ui.md に従い1回進めて。`. This is an example, not a fixed filename or a guarantee of
+  fitting every pane. Use the actual saved path and host-native syntax. Check that the launch
+  resolves to that file and contains no path-internal newline; visual clipboard fidelity remains
+  unverified unless actually observed on the target surface.
 - Resolve actual slug, paths, interval and session ID. Do not emit runnable placeholders.
 - A capability documented but unconfirmed/unavailable in this session belongs in a separate
   **Conditional options** explanation, not an executable copy fence. Offer a verified alternative.

@@ -333,7 +333,10 @@ prompt. If the user explicitly authorized a lightweight baseline check, run it o
 existing evidence, and distinguish expected repair RED from a harness error. Do not run destructive,
 network or heavy gates just for a smoke test.
 
-Save the chosen contract as `.loop/<slug>.md`, using a distinct slug for a different purpose.
+Save the chosen contract as `.loop/<slug>.md`, using a short, meaningful slug (for example `ui`
+or `auth`) and a distinct slug for a different purpose. Long filenames amplify copy/wrap failures;
+follow output-guide.md rather than treating one physical line as sufficient. Preserve existing
+paths on refine unless a rename is explicitly in scope; preserve state and update references if renamed.
 Refine a matching existing contract instead of creating a duplicate; preserve its kind/state and
 all unrelated blocks. Seed `.loop/<slug>-state.md` (closed) or `.loop/<slug>.cursor.json` (open)
 only if absent. Never reinitialize existing progress, evidence, cancellation, or cursor history.
@@ -349,8 +352,9 @@ unselected), saved paths and launch message. Showing alternatives does not selec
 runtime or start anything. Keep one writer and reconcile real run/session ownership before resume.
 
 Only in the final response, after saving and checking: explanations/Loop brief, explained candidate
-cards (Codex run options on Codex), paths/status/gaps, complete chosen Loop body once, then the
-resolved launch blocks at the very end. Do not output launch commands or full Loop bodies during
+cards (Codex run options on Codex), paths/status/gaps, then short resolved launch blocks at the
+very end. The saved file is authoritative; show its complete body only on explicit request.
+Do not output launch commands or full Loop bodies during
 progress or proposals. Nothing follows the final launch fence; see the output guide.
 For unresolved purpose comparisons, explain choices and ask before writing executable loop files.
 

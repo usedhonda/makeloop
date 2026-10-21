@@ -20,7 +20,8 @@ candidate using the shared output guide. No fake `/loop`, `/ralph-loop` or `code
 
 ## Final copy choices
 
-Use the shared output guide: save/check first, then explanations, the chosen Loop body, and one
+Use the shared output guide: save/check first, then explanations, the saved contract path (full
+body only on explicit request), and one
 final launch group with A/B/C labels. Name the actual paste surface: **Codex CLI input**, the
 **Codex desktop chat**, or the **IDE chat** for `text`; the **OS terminal** for `sh`.
 For closed work, offer one iteration plus `/goal` only when continuation and the contract's stop
