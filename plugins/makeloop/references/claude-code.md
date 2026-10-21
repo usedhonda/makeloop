@@ -21,8 +21,7 @@ active goal before offering a launch that would replace it. Explain replacement,
 ## Final copy choices
 
 Use the shared output guide: save/check first, then explanations, the saved contract path (full
-body only on explicit request), and one
-final launch group with A/B/C labels. Every chat block is `text`, pasted into **Claude Code input**,
+body only on explicit request), and one final launch group with A/B/C labels. Every chat block is `text`, pasted into **Claude Code input**,
 not the operating-system terminal. Offer manual iteration plus `/goal` for closed work when both
 fit and are confirmed; for an open watcher, offer one tick plus `/loop <interval>` when confirmed.
 An installed Ralph option is an extra only when it is relevant, never an install recipe in the
@@ -34,8 +33,8 @@ its execution unit must be explicit. Emit slash launches as one physical line.
 
 Fill real values in the user's language; examples here are scaffolds, not executable output.
 
-- Manual: “Follow .loop/repair.md for exactly one iteration; update .loop/repair-state.md;
-  report FINAL only when every criterion is proved, otherwise ITERATING.”
+- Manual: “Follow .loop/repair.md for exactly one iteration.” Keep the bound state, criteria,
+  reporting and limits in that saved contract rather than duplicating them in the launch.
 - Closed continuation: `/goal Follow .loop/repair.md. End this run when (1) all acceptance
   criteria are proved, or (2) a saved incomplete checkpoint evidences the cumulative 8-iteration
   budget being exhausted or the contract's unrecoverable-blocker condition being met. Preserve
@@ -100,8 +99,7 @@ of local `.loop/` files. Describe it only if requested; keep this generator free
 
 Finish all Write/Bash operations, INDEX updates, saved-file checks and other tools in earlier
 turns. The final package must be a tool-free final text turn: explanations, saved contract path
-(full body only on explicit request),
-then launch blocks last. Do not mix a launch with a tool call or run a saving/checking tool
+(full body only on explicit request), then launch blocks last. Do not mix a launch with a tool call or run a saving/checking tool
 after it. Text between tools is visible to the user and is not the final deliverable.
 `allowed-tools` pre-approves the listed tools for the invoking turn; it does not restrict the
 available tool pool, and the grant clears on the next user message. A bare `Bash` entry grants

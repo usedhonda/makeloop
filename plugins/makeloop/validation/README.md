@@ -50,9 +50,13 @@ protected golden properties and the following acceptance criteria:
 
 - alternatives differ meaningfully in purpose or execution mode and preserve the accepted scope;
 - each explains suitability, effects, boundaries, checks, stopping and resume;
-- explanation and the complete chosen Loop body appear only in the final package; resolved launch
+- explanations and the short saved-contract path appear in the final package; the full saved body
+  appears only when explicitly requested (`show_body: true` in checker metadata). Resolved launch
   blocks are its last section, with nothing following the last fence;
 - recommendation and every copy block agree on purpose, host, paste destination and exact state;
+  compact launches may bind state in the saved contract rather than repeating its path. An explicit
+  different state or a path-internal newline must still fail. Short text/fences do not prove GUI
+  clipboard fidelity; that requires actual target-surface observation;
 - unselected purposes do not create files or start work; existing progress/cancellation survives;
 - unknown features are not runnable fences; exact-session shell examples quote spaced paths;
 - expected repair RED proceeds, regression RED stops, missing/invalid proof is still acquired;
@@ -70,7 +74,9 @@ live scheduled run, desktop paste test, or proof of production host availability
 
 The user explicitly replaced launch-first presentation with final-only, launch-last ordering.
 The protected eval's old launch-first assertions are superseded **only** for presentation order;
-all file/kind/safety/t=0/launch-content requirements remain enforced. Do not edit the protected
+file/kind/safety/t=0 requirements remain enforced. The later copy-improvement instruction also
+supersedes mandatory full-body printing and mandatory state-path repetition in every launch;
+state still must be bound to the saved contract and conflicting explicit paths remain invalid. Do not edit the protected
 eval to hide that difference. Existing valid contract artifacts can be reused while separately
 re-rendering changed presentation; do not repeat unchanged contract generation merely for layout.
 
