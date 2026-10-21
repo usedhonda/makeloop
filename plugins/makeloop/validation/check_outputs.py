@@ -24,7 +24,8 @@ def case_errors(case):
         errors.append('unsupported scenario host')
     if 'gate' in case and not isinstance(case['gate'], str):
         errors.append('gate must be a string')
-    for flag in ('compare', 'bootstrap', 'stop_event', 'acts', 'show_body'):
+    for flag in ('compare', 'bootstrap', 'stop_event', 'acts', 'show_body',
+                 'execution_unconfigured'):
         if flag in case and not isinstance(case[flag], bool):
             errors.append(flag + ' must be a boolean')
     if 'preserve' in case and not text_files(case['preserve']):
@@ -156,8 +157,9 @@ def copy_presentation_errors(case, chat, contract, blocks, launches):
         require(label.startswith('### ' + chr(ord('A') + i) + ' '), 'launch labels must follow A/B/C order')
         previous_end = f.end()
     recommendations = [bool(re.search(r'\bRecommended\b|おすすめ|推奨', label, re.I)) for label in labels]
-    require(bool(recommendations) and recommendations[0] and sum(recommendations) == 1,
-            'recommend exactly one launch, first')
+    if launches or not case.get('execution_unconfigured'):
+        require(bool(recommendations) and recommendations[0] and sum(recommendations) == 1,
+                'recommend exactly one launch, first')
     return errors
 
 
@@ -239,7 +241,11 @@ def check(case, out, presentation=True):
         require(bool(re.search(r'COLD START|cold.start|初回', contract, re.I)), 'missing cold-start policy section')
         require(bool(re.search(r'backlog|pre.existing|existing|lines before.*cursor|historical|既存|過去', contract, re.I)), 'missing backlog policy')
     fences = launches
-    require(bool(fences), 'no runnable copy block')
+    if case.get('execution_unconfigured'):
+        require(not fences and not has_launch_text(chat),
+                'unconfigured execution has a runnable replacement')
+    else:
+        require(bool(fences), 'no runnable copy block')
     if fences:
         require(prompt_path in fences[0]['body'], 'first launch file/state mismatch')
         if presentation:

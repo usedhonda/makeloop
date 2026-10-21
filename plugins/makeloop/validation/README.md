@@ -123,3 +123,13 @@ Compare optional scaffolding changes with acceptance and authority fixed; retain
 and distinguish generator, checker and runtime defects. Synthetic results do not substitute for
 target-host tests. Investigate observed run-to-run variability with focused repeats when needed;
 never repeat until one passing sample can hide the failures.
+
+## Continuation intent under unavailable runtimes
+
+A known unavailable requested execution can set checker metadata `execution_unconfigured: true`.
+That permits a saved contract plus an honest explanation without a runnable launch group; a
+manual or invented goal launch is rejected for that unresolved request. This does not approve
+changing the requested mode or prove the explanation is semantically complete. Preserve actual
+contract/state bytes with `preserve` and independently inspect purpose, residual work, used and
+remaining budget, authority, review and resume requirements. M9/F16 encode the 7/8-consumed,
+blocked-backend/no-resume report; that historical fixture never rewinds a live state now at 8/8.

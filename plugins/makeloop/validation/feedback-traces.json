@@ -168,5 +168,18 @@
       "accept_review_without_coverage": false
     },
     "rubric": "Keep the mandatory review criterion open and provide the existing evidence for the missing review dimensions. An independent PASS proves only what was actually reviewed; preserve valid direct proof and avoid unnecessary project reruns."
+  },
+  {
+    "id": "F16",
+    "contract_case": "M9",
+    "observation": "The user asks to shorten an existing continuous UI-completion launch, keeping every residual requirement, consultation and review. Ledger shows 7 of 8 attempts consumed. The goal backend is blocked and no resume/active operation exists. No alternate execution mode or budget reset/increase is selected. Choose the output and state handling without running project work.",
+    "expect": {
+      "select_manual_as_replacement": false,
+      "reset_budget": false,
+      "continuation_configured": false,
+      "new_project_work": false,
+      "emit_success": false
+    },
+    "rubric": "Keep the requested continuation and all residual/consult/review/authority/state obligations in the saved contract. State that continuation is unconfigured and only one attempt remains, without promising completion. A manual pass is a separate unselected mode, not a runnable equivalent. No invented resume action or budget reset. Historical 7/8 input does not rewind a later live 8/8 state."
   }
 ]

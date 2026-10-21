@@ -3,7 +3,9 @@
 Read for Step 4/6 on Codex only. Use native capabilities actually exposed in this session.
 Official documentation or an installed CLI version alone does not establish session availability.
 Unconfirmed/unavailable features belong in Conditional options without runnable copy fences.
-The portable default is a normal Codex message for one iteration or watcher tick.
+The portable default is one iteration or watcher tick only when no explicit continuation intent
+was supplied. A blocked goal backend with no exposed resume/active operation remains unavailable;
+never invent that operation, reset its state/budget or silently replace it with a manual tick.
 
 | Need | Candidate | Explanation |
 | --- | --- | --- |
@@ -13,7 +15,7 @@ The portable default is a normal Codex message for one iteration or watcher tick
 | Independent background observations | Project/standalone scheduled task if available | Explain local directory versus isolated worktree and state visibility |
 | CI/external scheduler | `codex exec resume` | Bind the exact session and working directory; no runner is created |
 
-Recommend one iteration for a safe first run. Preserve an explicit goal/cadence/CI choice rather
+Recommend one iteration for a first run only when no continuation choice was supplied. Preserve an explicit goal/cadence/CI choice rather
 than forcing manual mode. A confirmed explicit CI/external-resume choice remains selected and
 recommended in the contract, INDEX and final launch group; manual is only an optional alternative. Describe the purpose, behavior, effects, check, stop and resume for each
 candidate using the shared output guide. No fake `/loop`, `/ralph-loop` or `codex-loop` commands.
@@ -52,7 +54,8 @@ and the exact existing session ID and working directory are known. Verify instal
 selecting flags. Use `codex exec resume SESSION_ID PROMPT` with real resolved arguments, proper
 shell quoting, and explicit working-directory binding. Do not use `--last` for an unattended loop:
 the most recent conversation can belong to another purpose. If the ID is unknown, explain what
-is missing; provide a manual message instead of a runnable guessed ID. JSONL/output-schema options
+is missing. A manual message is a separate optional mode, not an equivalent replacement for
+requested continuation; keep it unselected unless the user chooses it. JSONL/output-schema options
 are optional integration aids, not a new runner or proof of task success.
 
 ## Continuation and scheduling boundaries
@@ -64,7 +67,8 @@ are optional integration aids, not a new runner or proof of task success.
   bind the request/condition, call it only at that boundary and report the returned status; never
   use `complete` or invent `blocked` to make an unfinished goal stop. A later explicit resume
   releases that reached pause, not the remaining review/approval or cumulative limits.
-  Otherwise keep the requested mode unconfigured and offer a bounded manual message instead;
+  Otherwise keep the requested mode unconfigured and explain a bounded manual pass as a separate
+  optional mode, not a selected replacement; no runnable substitute before that choice.
   explain the user's `/goal pause` control without claiming to have invoked it. Do not promise
   unattended stopping from a prompt alone or create another runner to compensate.
 - Keep one continuation owner. Do not combine native goal, a chat timer and an external cron for

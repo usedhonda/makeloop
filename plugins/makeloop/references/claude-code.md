@@ -5,6 +5,9 @@ Use observed host capabilities, not a version number alone. Keep unavailable or 
 commands in Conditional options without runnable fences.
 Confirm optional ralph-loop through the actual exposed Skill/command list, not just a package name. A normal one-iteration message is the
 portable first-run alternative. Honor the requested runtime when available.
+If it is unavailable, preserve the requested continuation as unconfigured. A short single-pass
+example is not equivalent to completing all residual work; do not choose it merely to shorten
+the launch. Read the saved contract/state and disclose remaining budget and required review.
 
 | Need | Candidate | Behavior and limits |
 | --- | --- | --- |
@@ -13,7 +16,7 @@ portable first-run alternative. Honor the requested runtime when available.
 | Wait/poll during this session | `/loop` with dynamic or fixed cadence | Wakes between turns, not a zero-delay while-loop |
 | Existing ralph-loop workflow | `/ralph-loop` when installed | Uses installed plugin's cap/promise syntax |
 
-For a safe first run, recommend one iteration. When the user explicitly wants closed completion,
+When no continuation choice was supplied, recommend one iteration for a first run. When the user explicitly wants closed completion,
 prefer the available `/goal` option. For a cadence watcher, prefer the available `/loop <interval>`.
 Do not stack goal, loop, Stop-hook runner and external cron for the same contract. Check for an
 active goal before offering a launch that would replace it. Explain replacement, never do it here.

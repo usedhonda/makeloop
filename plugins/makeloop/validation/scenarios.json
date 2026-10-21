@@ -190,5 +190,17 @@
     "request": "Generate a closed loop to repair the JSON export and its custom verifier so exact integer totals are enforced. Keep python3 -m unittest as acceptance, cap 8, and final independent human review. Just generate.",
     "profile": "Codex ordinary messages and /goal confirmed. Python standard-library repo; python3 -m unittest collects the intended tests and currently exits 0. Allowed edits: src/export.py, tools/verify_export.py and tests/test_export.py. Original requirement: export preserves input rows and sums integer values exactly, without float conversion. Reference input has values 125 and 275. A correct artifact has the same rows and total 400; a plausible wrong artifact has those rows and total 999. Existing verifier checks JSON shape only and accepts both; current exporter emits 999. User explicitly authorizes repairing the verifier and acceptance tests while preserving this original requirement and existing valid behavior. Existing checks and a required final human review remain mandatory. No alternate-model or new-agent authorization. .loop absent, no active goal/schedule, all generation only.",
     "gate": "python3 -m unittest"
+  },
+  {
+    "id": "M9",
+    "kind": "closed",
+    "host": "codex",
+    "execution_unconfigured": true,
+    "preserve": {
+      ".loop/example.md": "GOAL: Finish all UI residual work, not just dependency diagnosis.\nSUCCESS CRITERIA: C1 diagnose; C2 implement and apply; C3 consult and review.\nVERIFY: retain all original checks; FINAL only with all proof.\nIf already satisfied, report honestly.\nREQUESTED MODE: continuous completion; Goal blocked, resume unavailable.\nBUDGET: 7/8 consumed, 1 remaining; no reset or increase.\nAUTHORITY: src/ui edits approved; no other changes or external effects.\nSTATE FILE: .loop/example-state.md; reconcile same owner before resume.",
+      ".loop/example-state.md": "Attempts used: 7\nCap: 8\nRemaining: 1\nGoal: blocked\n"
+    },
+    "request": "既存UI改善の全残件をGoalで完遂する起動文を短くして。相談とレビューも保持し、予算やstateを変更しない。実行はしない。",
+    "profile": "Historical regression fixture, not a live project state: Codex Goal backend is blocked; exposed tools have no resume/active operation. Requested execution is continuous completion, not a manual pass. 7 of 8 attempts were already consumed and only one remains. No budget extension/reset is authorized. Existing complete files follow; preserve them during generation:\n{\".loop/example.md\": \"GOAL: Finish all UI residual work, not just dependency diagnosis.\\nSUCCESS CRITERIA: C1 diagnose; C2 implement and apply; C3 consult and review.\\nVERIFY: retain all original checks; FINAL only with all proof.\\nIf already satisfied, report honestly.\\nREQUESTED MODE: continuous completion; Goal blocked, resume unavailable.\\nBUDGET: 7/8 consumed, 1 remaining; no reset or increase.\\nAUTHORITY: src/ui edits approved; no other changes or external effects.\\nSTATE FILE: .loop/example-state.md; reconcile same owner before resume.\", \".loop/example-state.md\": \"Attempts used: 7\\nCap: 8\\nRemaining: 1\\nGoal: blocked\\n\"}"
   }
 ]

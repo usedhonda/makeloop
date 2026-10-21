@@ -21,6 +21,26 @@ When a requested runtime is confirmed available, it is the selected/recommended 
 an alternative. In particular, a CI/external-resume request must not silently become manual-first;
 manual can be an optional inspection card, not a replacement recommendation. If the requested mode
 is unavailable, keep it recorded as requested/unconfigured and explain the usable alternative.
+An unavailable continuation is not consent to downgrade to a single iteration. Keep the user's
+completion intent even when the goal backend is blocked or exposes no resume/active control.
+Describe a single pass only as a different, optional mode; do not select or launch it on the
+user's behalf. If no confirmed mode implements the requested continuation, explain that gap
+without a runnable replacement block. Do not invent a resume control or a configured runner.
+
+## Preserve meaning before shortening
+
+Read the existing contract and state before reissuing a compact launch. Save the original goal,
+all residual requirements, requested execution/continuation mode, acceptance and stop conditions,
+consumed/remaining cumulative budget, authorization and forbidden scope, consultation/review
+requirements, and exact state/resume ownership in the contract. Omitted launch details must be
+present there, not left in old conversation or silently dropped. Compare the short launch against
+these obligations; shortening is not permission to replace completion with "one iteration".
+
+Expose insufficient remaining runway before suggesting an executable mode: 7 of 8 consumed means
+one attempt remains, not eight fresh attempts or a credible promise to finish all residual work.
+Budget consumption and runtime availability are separate facts. Do not reset/increase the budget
+or call the work configured/started to make the presentation look usable. Preserve later state:
+an historical 7/8 regression input is not permission to rewind a real run now at 8/8.
 
 Use stable A/B/C labels in the explanations and final copy blocks. Put the single recommended
 choice first in both places; honor an explicit supported runtime. Default to the active host only,
@@ -79,6 +99,9 @@ package in this order:
    Keep detailed explanations and unconfirmed options above the Loop body. The final copy group
    contains only its heading, these short labels and copy blocks; no commands in tables or lists.
 
+If no confirmed execution mode matches the explicit request, omit the launch group and report
+the requested mode as unconfigured; do not manufacture a recommended single pass.
+
 After the last launch fence, output nothing: no summary, warning, file links, cost note, question,
 metrics or repeated assumptions. Do not repeat a launch under its earlier candidate explanation.
 Long criteria/source inventories remain in the saved contract. Displaying a path or an explicitly
@@ -106,8 +129,10 @@ requested body does not authorize executing it or creating schedules.
   Preserve existing names and state during refine. If an existing path makes the launch too long,
   offer a scope-limited rename with all references updated and state preserved; do not silently
   rename it, reset its state, or create a second contract/runner merely for a short alias.
-- With scope and limits bound in `.loop/ui.md`, a compact manual message can be
-  `.loop/ui.md に従い1回進めて。`. This is an example, not a fixed filename or a guarantee of
+- Only for a user-selected single pass, with scope and limits bound in `.loop/ui.md`, a compact
+  manual message can be `.loop/ui.md に従い1回進めて。`. Never reuse that example to shorten an
+  existing continuation request. For a confirmed continuous mode, reference the contract with
+  that mode's native launch and preserve its stop semantics. This is not a fixed filename or a guarantee of
   fitting every pane. Use the actual saved path and host-native syntax. Check that the launch
   resolves to that file and contains no path-internal newline; visual clipboard fidelity remains
   unverified unless actually observed on the target surface.

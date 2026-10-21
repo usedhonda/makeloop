@@ -237,6 +237,12 @@ Read only the current host guide: `../references/claude-code.md` or
 Honor explicit runtime choices. Offer one recommendation and meaningful alternatives with the
 shared output guide. Separate documented, installed-help-confirmed, session-available and unknown.
 Unconfirmed features get conditional explanation, not runnable copy blocks.
+For compact/reissued launches, read the actual contract/state and retain the original goal,
+all remaining work, continuation mode, stop conditions, used/remaining budget, authority,
+forbidden scope, consultation/review and state/resume identity in the saved contract. Apply the
+output guide's meaning-preservation check. A blocked backend without a resume control is an
+unconfigured continuation, not a reason to select one iteration or reset budget. Surface nearly
+exhausted limits before presenting a launch as able to pursue the whole goal.
 
 For risky/spec-heavy work, keep the independent completion check: a checker sees the spec + diff
 and evidence, not the maker's reasoning. Native goal evaluators do not independently run the gate.

@@ -35,6 +35,9 @@ conditional explanations without runnable blocks. This replaces the former launc
 Use short, meaningful new filenames and project-relative paths. Put state, limits and authority
 in the saved contract instead of repeating them in each launch. Existing paths/state are preserved.
 Neither one physical line nor a code fence guarantees that selection-copy preserves line breaks.
+Shortening must preserve the requested continuation, residual work, review and cumulative budget
+in the saved contract. An unavailable goal stays unconfigured; a single pass is not an equivalent
+replacement, and a nearly exhausted budget is not a fresh completion allowance.
 
 **Generated is not started.** Displaying goal/schedule alternatives does not create them, replace
 an existing goal, reset a cursor or authorize concurrent writers. Existing `.loop/` files are not

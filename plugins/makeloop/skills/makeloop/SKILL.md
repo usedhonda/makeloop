@@ -45,7 +45,11 @@ explicitly requested. Prefer short new slugs and project-relative paths; never i
 inside a filename/path. Follow output-guide.md for copy-safe launches and existing long names.
 Nothing follows the last launch fence.
 On Codex use **Codex run options** for explained alternatives; use host-native choice labels on CC. Mark exactly one recommendation. Manual tick
-is the safe-first-run default; honor explicit goal/cadence/CI intent when supported. Each executable
+is a default only when no continuation choice was supplied. Shortening must preserve the original
+goal, all residual work, continuation/stop mode, consumed/remaining budget, authority, required
+consultation/review and state/resume in the saved contract. An unavailable requested continuation
+stays requested/unconfigured; do not silently turn it into one iteration or offer near-exhausted
+budget as a fresh completion opportunity. Each executable
 choice has its own fully resolved block, labeled with the paste destination. Keep unavailable or
 unconfirmed capabilities in separate Conditional options without executable fences.
 

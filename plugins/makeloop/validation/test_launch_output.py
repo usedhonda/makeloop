@@ -31,6 +31,44 @@ def package(host='codex', kind='closed', options=None):
 
 
 class CopyLayoutTests(unittest.TestCase):
+    def blocked_continuation(self):
+        case, out = package()
+        contract = ('GOAL: Finish all UI residual work, not just dependency diagnosis.\n'
+                    'SUCCESS CRITERIA: C1 diagnose; C2 implement and apply; C3 consult and review.\n'
+                    'VERIFY: retain all original checks; FINAL only with all proof.\n'
+                    'If already satisfied, report honestly.\n'
+                    'REQUESTED MODE: continuous completion; Goal blocked, resume unavailable.\n'
+                    'BUDGET: 7/8 consumed, 1 remaining; no reset or increase.\n'
+                    'AUTHORITY: src/ui edits approved; no other changes or external effects.\n'
+                    'STATE FILE: .loop/example-state.md; reconcile same owner before resume.')
+        state = 'Attempts used: 7\nCap: 8\nRemaining: 1\nGoal: blocked\n'
+        out['files'][PROMPT], out['files'][STATE] = contract, state
+        case.update(execution_unconfigured=True, preserve={PROMPT: contract, STATE: state})
+        case.pop('show_body', None)
+        out['chat'] = ('Loop brief: Finish every original UI criterion, consultation and review.\n'
+                       'Codex run options: requested continuation is unconfigured; Goal cannot resume.\n'
+                       '7/8 consumed, only one attempt remains; completion is not promised.\n'
+                       'A single pass is a different unselected mode, not continuous completion.\n'
+                       'Saved contract: .loop/example.md; state and authority preserved.')
+        return case, out
+
+    def test_blocked_continuation_preserves_contract_and_seven_of_eight(self):
+        self.assertEqual(check(*self.blocked_continuation()), [])
+
+    def test_blocked_continuation_cannot_be_replaced_by_a_runnable_tick(self):
+        for launch in (f'{PROMPT} に従い1回進めて。', f'/goal Follow {PROMPT}.'):
+            case, out = self.blocked_continuation()
+            out['chat'] += ('\n## Launch commands\n### A — Recommended | Codex CLI input\n'
+                            '```text\n' + launch + '\n```')
+            self.assertIn('unconfigured execution has a runnable replacement', check(case, out))
+
+    def test_blocked_continuation_cannot_reset_budget_or_drop_residual_work(self):
+        for path, replacement in ((STATE, 'Attempts used: 0\nCap: 8\nRemaining: 8'),
+                                   (PROMPT, 'GOAL: Only diagnose C1 for one iteration.')):
+            case, out = self.blocked_continuation()
+            out['files'][path] = replacement
+            self.assertIn('existing state overwritten: ' + path, check(case, out))
+
     def compact(self, host='codex', kind='closed'):
         code = f'{PROMPT} に従い1回進めて。'
         target = 'Claude Code' if host == 'claude' else 'Codex CLI'
