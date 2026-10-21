@@ -243,9 +243,11 @@ LEARNINGS FILE: .loop/learnings.md  (re-read at the START of every run, before t
 - Prefer category-level prevention (a DURABLE rule folded into lint/AGENTS.md) over a single
   regression case.
 
-## [unattended/overnight or requested · closed only] Morning handoff — fold into STATE, VERIFY and ON STOP
+## [unattended or requested · closed only] Handoff summary — fold into STATE, VERIFY and ON STOP
 HANDOFF LOCATION: <exact state path and existing summary section/field>.
 DELIVERY CRITERION: <bound handoff criterion ID in SUCCESS CRITERIA and EVIDENCE MAP>.
+This summary is time-of-day independent. Reuse the bound existing section/field, including legacy
+names; do not rename state or infer a morning deadline from the former "Morning handoff" label.
 - The execution agent maintains one compact receiving summary in the user's language as part of
   existing state updates, not a separate ledger or a task for the human to transcribe. Use the
   bound format; preserve frontmatter, history, counters, deadlines, pending effects and other fields.
