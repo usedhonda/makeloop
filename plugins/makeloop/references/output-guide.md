@@ -23,9 +23,9 @@ successive useful steps now; it is not automatically one iteration or configured
 continuation. Reserve a one-pass limit for an explicitly selected bounded pass. Do not add a manual
 single pass or a watcher just to fill a menu or silently shrink the requested completion.
 Explicit runtime, cap, gate and safety decisions override defaults without a second confirmation.
-For a closed completion request on Codex, include the available Goal-equipped version in the
-initial proposal; recommend it for requested looping/cross-turn continuation. Apply the Codex
-guide's fresh-Goal lifecycle binding before judging readiness. Explicit no-Goal/bounded choices
+For a closed completion request on either host, include the available Goal-equipped version in the
+initial proposal; recommend it for requested looping/cross-turn continuation. Apply the current
+host guide's lifecycle binding before judging readiness. Explicit no-Goal/bounded choices
 and actual capability/ownership/limit constraints still override this default.
 When a requested runtime is confirmed available, it is the selected/recommended mode, not merely
 an alternative. In particular, a CI/external-resume request must not silently become manual-first;
@@ -64,7 +64,7 @@ remaining budget, live run ownership, and the exposed host's start/resume/stop c
 chat sentence saying "continue until complete" does not configure native cross-turn continuation.
 Do not use that sentence to disguise a blocked backend or a missing resume operation.
 Readiness concerns the launch's prerequisites, not whether it has already been launched.
-A fresh Goal with usable create/read/update controls is not a blocked existing Goal. Resolve
+A fresh Goal with confirmed target start/lifecycle controls is not a blocked existing Goal. Resolve
 its completion, actual blocker handling and any explicitly requested pause in the saved contract
 during generation. "Stop conditions still need connecting" is unfinished assembly, not a reason
 to omit the Goal launch. Do not introduce a pause requirement the user never supplied.

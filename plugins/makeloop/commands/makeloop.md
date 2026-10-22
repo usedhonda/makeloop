@@ -255,10 +255,10 @@ Read only the current host guide: `../references/claude-code.md` or
 Honor explicit runtime choices. Offer a recommendation and alternatives only for ready proposals with the
 shared output guide. Separate documented, installed-help-confirmed, session-available and unknown.
 Unconfirmed features get conditional explanation, not runnable copy blocks.
-On Codex, closed completion proposals include an available Goal-equipped version from the start;
+On both hosts, closed completion proposals include an available Goal-equipped version from the start;
 recommend native Goal for a request to keep looping until completion. Honor explicit no-Goal or
 bounded execution instead when supplied. Bind fresh-Goal creation, continuation, evidenced
-completion and actual non-success transitions using the Codex guide before classifying readiness.
+completion and actual non-success transitions using the current host guide before classifying readiness.
 Not configured/not started does not mean not runnable. Missing lifecycle wording is assembly work
 to finish here, not a generic "stop conditions need connecting" excuse to suppress the proposal.
 For compact/reissued launches, read the actual contract/state and retain the original goal,

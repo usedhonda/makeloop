@@ -77,13 +77,20 @@ are optional integration aids, not a new runner or proof of task success.
 ### Bind a fresh Goal during generation
 
 Not configured/not started is the normal status of a ready proposal, not a capability failure.
-Inspect exposed Goal tools and read current Goal state when available; do not create a Goal as
-a probe. With no unfinished Goal and working create/read/update controls, bind the lifecycle
-below in the saved contract now. Do not defer this assembly as "stop conditions need connecting"
+Assess the intended execution surface separately from the generator's tool list. A confirmed
+target CLI `/goal` surface and its lifecycle controls, recorded in a host-bound capability profile
+or direct target observation, suffice even when the generator cannot invoke create/read/update
+itself. Do not infer target capability from a version or generic documentation alone. Inspect
+current target Goal state using available read-only evidence; do not create a Goal as a probe.
+With no unfinished Goal and confirmed target start/lifecycle controls, bind the lifecycle
+below in the saved contract now. Name the target and evidence, and require the executor to recheck
+current state/ownership before starting. Do not defer this assembly as "stop conditions need connecting"
 or put an otherwise ready Goal in Conditional options merely because it has not been started.
 On a CLI with a confirmed `/goal` input surface, render the native slash launch. On other hosts
 with exposed Goal tools but no confirmed slash surface, render a normal setup prompt explicitly
-instructing the executor to create the saved objective with `create_goal`, then execute it;
+instructing the executor to create the saved objective with `create_goal`, then execute it
+(for example, `Use create_goal for the objective in .loop/repair.md, then execute it.`
+or the language-neutral prefix `create_goal: .loop/repair.md` followed by the setup instruction);
 that is a Goal setup proposal, not an ordinary "continue" sentence. Generation itself does neither.
 
 - Start: the chosen launch activates the original objective once. Preserve the existing state;

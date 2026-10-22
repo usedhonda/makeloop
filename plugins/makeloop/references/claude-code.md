@@ -3,6 +3,11 @@
 Read for Step 4/6 on Claude Code only. Contract generation is not execution or permission setup.
 Use observed host capabilities, not a version number alone. Keep unavailable or unconfirmed
 commands in Conditional options without runnable fences.
+Confirm the intended target surface, not just tools visible to the generator: the target's
+observed command menu/help, an explicit user report that `/goal` works there, or a supplied
+host-bound capability profile can establish availability. Merely asking for Goal, a version
+number, or generic documentation cannot. A slash command need not appear as a model tool.
+Record the evidence in the contract; distinguish a fresh unstarted Goal from an unavailable one.
 Confirm optional ralph-loop through the actual exposed Skill/command list, not just a package name.
 Ordinary no-Goal execution can pursue successive necessary steps in the current execution; it is
 not a one-iteration default or proof of cross-turn persistence. Honor the requested runtime when available.
@@ -19,8 +24,11 @@ thresholds and disclose actual remaining budget and required review.
 | Wait/poll during this session | `/loop` with dynamic or fixed cadence | Wakes between turns, not a zero-delay while-loop |
 | Existing ralph-loop workflow | `/ralph-loop` when installed | Uses installed plugin's cap/promise syntax |
 
-Choose the simplest available way to carry through the requested job, even if the user did not
-name a runtime. Prefer confirmed native Goal when cross-turn pursuit is needed. A bounded single
+For closed completion work, include an available Goal-equipped launch in the initial proposal,
+even if the user did not name a runtime; recommend it for requested looping/cross-turn pursuit.
+Bind the existing Stop, evaluate, resume rules below during generation, including actual limits
+and evidenced incomplete exits; unfinished assembly is not a reason to defer Goal as conditional.
+Honor explicit no-Goal, bounded-pass or other supported runtime choices instead. A bounded single
 pass is an explicit choice, not the default for completion or ordinary no-Goal execution. For a cadence watcher, prefer the available `/loop <interval>`.
 Do not stack goal, loop, Stop-hook runner and external cron for the same contract. Check for an
 active goal before offering a launch that would replace it. Explain replacement, never do it here.
@@ -29,8 +37,11 @@ active goal before offering a launch that would replace it. Explain replacement,
 
 Use the shared output guide: save/check first, then explanations, the saved contract path (full
 body only on explicit request), and, for ready proposals only, one final launch group with A/B/C labels. Every chat block is `text`, pasted into **Claude Code input**,
-not the operating-system terminal. Offer ordinary execution and/or Goal for closed work only
-when each fits and is confirmed; do not force both into every answer; for an open watcher, offer one tick plus `/loop <interval>` when confirmed.
+not the operating-system terminal. For closed completion, include the confirmed Goal option from
+the first proposal; ordinary execution is an optional alternative when useful, not a replacement
+for requested continuation. Explicit different runtime choices still win. If Goal really cannot
+be confirmed, explain the specific missing evidence/control without a runnable Goal block;
+do not silently omit a requested Goal. For an open watcher, offer one tick plus `/loop <interval>` when confirmed.
 An installed Ralph option is an extra only when it is relevant, never an install recipe in the
 launch group. Put the recommended choice first. `/loop` polling is not a zero-delay substitute
 for closed goal continuation. Keep every alternative on the same accepted goal, state and limits;

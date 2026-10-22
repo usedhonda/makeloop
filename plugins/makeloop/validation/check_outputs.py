@@ -247,7 +247,10 @@ def check(case, out, presentation=True):
     if case.get('goal_launch_required'):
         require(any(f['lang'].strip() == 'text' and
                     (re.match(r'^/goal\s+', f['body'].strip()) or
-                     re.search(r'\bcreate_goal\b', f['body'])) for f in fences),
+                     (case['host'] == 'codex' and re.match(
+                         r'^(?:Use create_goal for the objective in\s+|create_goal:\s*)'
+                         + re.escape(prompt_path) + r'(?=\s|[,.;。]|$)',
+                         f['body'].strip()))) for f in fences),
                 'ready closed completion proposal missing initial Goal launch')
     if case.get('execution_unconfigured'):
         require(not fences and not has_launch_text(chat),

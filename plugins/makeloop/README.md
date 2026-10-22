@@ -28,7 +28,7 @@ Each choice explains when it fits **and when it does not**, its actual effects a
 its saved state and its stopping condition. A watcher is not an alternative implementation of a
 repair. Choices are derived from the project, not fixed presets or a menu padded with irrelevant tools.
 
-For Codex closed completion work, the initial proposal includes a Goal-equipped launch when
+For closed completion work on either host, the initial proposal includes a Goal-equipped launch when
 available, recommended for requests to keep looping until completion. Explicit no-Goal or
 bounded-pass choices still win. The generator binds the Goal lifecycle before presenting it;
 not configured/not started is not the same as unavailable. Actual blocked-resume, ownership

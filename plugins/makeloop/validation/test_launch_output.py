@@ -33,7 +33,8 @@ def package(host='codex', kind='closed', options=None):
 class CopyLayoutTests(unittest.TestCase):
     def test_initial_ready_goal_cannot_be_replaced_by_conditional_or_plain_continue(self):
         for launch in (f'/goal Follow {PROMPT} until every original requirement is verified.',
-                       f'Use create_goal for the objective in {PROMPT}, then execute it.'):
+                       f'Use create_goal for the objective in {PROMPT}, then execute it.',
+                       f'create_goal: {PROMPT} の目標を作成して完了まで実行する。'):
             launch += f' Preserve {STATE}.'
             case, out = package(options=[('text', launch,
                 'A — Recommended: finish the repair | Codex CLI input')])
@@ -42,7 +43,9 @@ class CopyLayoutTests(unittest.TestCase):
                 'Goal is ready, not configured and not started; one owner only.')
             self.assertEqual(check(case, out), [])
             for replacement in (f'Follow {PROMPT} until complete.',
-                                f'Follow {PROMPT} for one iteration.'):
+                                f'Follow {PROMPT} for one iteration.',
+                                f'Do not use create_goal; follow {PROMPT} until complete.',
+                                f'{PROMPT} に従う。create_goal は使わない。'):
                 bad = dict(out, chat=out['chat'].replace(launch, replacement))
                 self.assertIn('ready closed completion proposal missing initial Goal launch',
                               check(case, bad))
@@ -50,6 +53,17 @@ class CopyLayoutTests(unittest.TestCase):
                        'Conditional: Goal needs stop conditions connected; not configured.')
             self.assertIn('ready closed completion proposal missing initial Goal launch',
                           check(case, bad))
+
+    def test_claude_initial_goal_uses_its_own_slash_surface(self):
+        launch = f'/goal Follow {PROMPT} until verified; preserve {STATE}.'
+        case, out = package(host='claude', options=[('text', launch,
+            'A — Recommended: finish the repair | Claude Code input')])
+        case['goal_launch_required'] = True
+        self.assertEqual(check(case, out), [])
+        for replacement in (f'Follow {PROMPT} for one iteration; preserve {STATE}.',
+                            f'Use create_goal for the objective in {PROMPT}; preserve {STATE}.'):
+            self.assertIn('ready closed completion proposal missing initial Goal launch',
+                          check(case, dict(out, chat=out['chat'].replace(launch, replacement))))
 
     def blocked_continuation(self):
         case, out = package()

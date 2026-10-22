@@ -65,6 +65,14 @@ protected golden properties and the following acceptance criteria:
 - valid unaffected green is reused; fresh signals remain fresh; native completion is not proof;
 - no check weakening, invented success, source citations or operational secrets in output.
 
+`goal_launch_required` marks a confirmed ready closed-completion scenario (including O1/O2 and
+G1/G2). The structural check requires a `/goal` launch, or on a tool-capable Codex target an
+affirmative setup beginning `Use create_goal for the objective in PATH` or `create_goal: PATH`.
+It rejects mere mentions/negations and uses the existing exact contract/state checks for paths.
+It does not prove arbitrary natural-language intent, runtime availability or actual Goal creation;
+those still require the host evidence and semantic review above. G2 distinguishes a target CLI's
+confirmed slash surface from the generator's tool list; it is a synthetic fixture, not a live run.
+
 The deterministic provenance check recognizes URLs in explicit source/reference/citation labels
 or sections. Operational gate/target URLs and evidence links are valid contract content, not
 automatically source citations. Unlabelled or differently formatted provenance still requires
