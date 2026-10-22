@@ -74,7 +74,9 @@ already exists — `$ARGUMENTS` names or points at a `.loop/<slug>.md`, or says 
 update the X loop". If so, this is a **refine**, not a fresh build: READ that loop file (plus its
 state/cursor), apply ONLY the single requested delta (change the cap, swap the runtime, add or
 remove one OPTIONAL block, tighten a criterion), and re-save under the **same slug** — preserve
-its state file, its kind, and every block you weren't asked to change. Skip DISCOVER and the
+its state file, its kind, and every block you weren't asked to change. A copy/path-only refine does not rediscover the
+project. If the request instead refreshes the whole remaining-work goal, reconcile its current
+outcome and residual work from existing evidence without changing its accepted scope. Skip DISCOVER and the
 interactive questions, run the Step 6 pre-save self-check, then output. If the named loop doesn't
 exist, fall through to a normal build.
 
@@ -110,7 +112,11 @@ For refine, keep the fast path from Step 0; do not restart discovery or reset st
 Read `../references/output-guide.md`. Reconcile the request with the profile; do not replace it.
 If the purpose is unclear, offer concrete project-specific candidates, distinguishing closed
 repair/milestone work from open observation. Do not write executable contracts for unselected
-purposes. When the purpose is clear, compare ways to run that same contract instead of adding goals.
+purposes. When the purpose is clear, derive the concrete usable/delivered outcome and its
+necessary remaining work first, then recommend the simplest available way to carry that same
+contract through completion. Compare execution modes only when their practical difference matters
+to this work or the user asks. Absence of native Goal does not impose a one-iteration limit;
+do not claim persistence that has not been configured.
 
 State the kind, target, criteria/trigger, reaction boundary, gate, state and cap/run mode together.
 Ask once only when a genuinely ambiguous, high-impact choice needs resolution. Use the host's
@@ -135,6 +141,11 @@ with their checks, observation-validity conditions and evidence requirements. Sp
 observable improvement means and how a failed hypothesis changes the next step. A plan or clean
 review is not the completion criterion: reconcile uncovered requirements against the original goal.
 Keep in-scope residual work in the loop; propose unrelated work separately after completion.
+Bind the actual use/delivery path and target to the criteria and evidence. Seed provisional
+pending work from the current gaps, not just the user's first task list or existing tests. A
+necessary new task must explain which requested outcome remains unmet without it. Derive missing
+objective checks within approved scope; never invent a command or silently change the goal,
+acceptance standard or authority. Ask only when that material decision cannot be derived.
 
 **Human handoff (closed only).** Select the **Handoff summary** block for unattended
 closed work or an explicit human-handoff request; honor an explicit opt-out. A narrow refine adds
@@ -337,7 +348,12 @@ agree; copy blocks have the right destination and contain no explanation or othe
 Walk the applicable short traces in `../references/feedback-design.md`: does the observed outcome
 change the next decision, does interruption preserve consumed attempts and pending effects, and
 does a declared stop actually end the chosen native execution? Check both useful repetition and
-stalled activity. A keyword/structure check alone cannot establish these behavioral properties.
+stalled activity. For closed work, explicitly test both a green subset with original-purpose gaps
+(continue needed work) and an already-delivered result with all current proof (skip PLAN/EXECUTE,
+report no-change success). Keep this positive branch in every generated closed contract, not only
+in an already-green example. Check each final native launch against the current host's success
+and non-success stop rules; a saved incomplete checkpoint must not become Codex native success.
+A keyword/structure check alone cannot establish these behavioral properties.
 For a requested pause, check that the brief, STOP WHEN and native launch agree, a reached pause
 prevents further project actions, and explicit resume does not reset limits or approve pending
 review/actions. Do not migrate unrelated blocks or state in a narrow refine.

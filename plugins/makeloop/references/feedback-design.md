@@ -35,6 +35,13 @@ For judgment-based review, bind a concrete rubric to inspected evidence; unobser
 remain unknown. A different checker or model family alone does not establish grading quality.
 Diagnose disputed grades against the original requirement without relaxing its acceptance rule.
 
+Keep acceptance stable and the task list provisional. At first observation and each decision,
+compare the requested usable/delivered outcome with current evidence along its actual path.
+Reuse pending work in existing state; retain each item's outcome relation, necessity evidence,
+actual status and next action. A green suite may cover only one part of the result. Derive necessary
+in-scope tasks/checks even if absent from the initial list, without changing the accepted outcome
+or approval boundaries. Only a material change to those decisions needs a user choice.
+
 Plan one useful step ahead. Choose a small change when the cause is known; choose a discriminating
 experiment when it is not. Before acting, state the expected observable result. Afterwards,
 compare it with the actual result and use the difference to select the next step. A disproved
@@ -59,9 +66,16 @@ Count a recurring failure after a reverted fix as oscillation even when the word
 
 **Reconcile the whole goal after each useful result.** A cleared plan or a review with no findings
 is evidence about that plan/review. Before completion, inspect all original criteria, required
-delivery and uncovered behavior. Admit a next task only when it addresses an unmet criterion,
-repairs a caused regression, or obtains missing proof. Prioritize by impact and dependencies.
-Once all original criteria and required reviews have current proof, finish. Unrelated improvements
+delivery and uncovered aspects of the requested outcome, not just the initial task list. Admit
+a next task only when it is necessary for that outcome, repairs a caused regression or obtains
+required proof. Prioritize by impact and dependencies.
+Before first-VERIFY or later success, return to the original use/delivery path: all criteria,
+required review/delivery and any newly uncovered original-purpose work must have current proof.
+If so, finish without manufacturing work. A work unit is not a mandatory return boundary unless
+the user selected a bounded pass. Continue productive safe work in the current execution; ordinary
+execution alone does not configure cross-turn persistence. If only actual blockers/approval or
+other-owner waits remain, checkpoint as incomplete with their conditions, not success.
+Unrelated improvements
 belong in a separate proposal; they do not extend this loop's goal or budget.
 
 ## Keep state useful through interruption

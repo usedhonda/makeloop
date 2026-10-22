@@ -39,6 +39,9 @@ STATE FILE: .loop/state.md   (or existing state file from the project)
 - Read it before starting. This is a resume, not a restart.
 - Keep a compact current summary: goal/version, criteria/evidence, cumulative attempts, running
   work, recent failure signatures/approaches, progress delta, next decision and owner/stop status.
+  Reuse existing pending work: each unresolved item keeps its relation to the original outcome,
+  evidence of necessity, actual status (including approval/other-owner waits) and next action.
+  The task list is provisional; completed-item history and original acceptance remain intact.
   For each limit/checkpoint retain value/unit, source/evidence and enforcement; distinguish
   user/platform limits from agent-default review thresholds. Investigate unknown provenance.
   Append terse attempt records; keep full logs behind evidence pointers, outside the loaded summary.
@@ -53,30 +56,44 @@ EACH ITERATION:
    Settle any interrupted attempt against actual artifacts/receipts before new work. Check remaining
    user/platform limits before reserving the next attempt. Cancellation or their exhaustion prevents new project
    work; result reconciliation, checkpoint/reporting and exact native stopping remain necessary.
-2. OBSERVE the current target. Acquire baseline evidence on first run; later reuse valid unaffected
-   results for the same target/input/environment. Obtain missing proof and replace invalid or
-   mismatched proof. Validate the observation, including required test collection/source access.
-3. PLAN one highest-impact step serving an unmet criterion or missing proof. Record the hypothesis
-   and expected observable result. When the cause is uncertain, choose a small discriminating
-   experiment. If every criterion already has valid proof, proceed directly to the success decision.
+2. OBSERVE the requested outcome through its actual use or delivery path. Compare current evidence
+   with the original goal and criteria, not only the existing task list or suite. Update pending
+   work with newly discovered necessary tasks and the requested outcome they serve. Acquire baseline
+   evidence on first run; later reuse valid unaffected proof for the same target/input/environment.
+   Replace missing/invalid proof; validate required collection/source access. Do not invent commands.
+3. PLAN a meaningful step by dependency and impact: remove a blocker, implement/integrate, verify
+   the use path, or perform required authorized delivery/review. Explain why the outcome needs it,
+   record the hypothesis and expected result, and choose a discriminating experiment if uncertain.
+   Derive missing objective checks within scope without weakening acceptance. Only proceed to the
+   success decision when the original outcome has no unresolved work or missing evidence.
 4. EXECUTE the smallest change or experiment that advances that step.
 5. VERIFY the changed surface and unmet criteria; refresh affected/time-dependent evidence.
    Run required final acceptance checks once at the checkpoint. Record target, input/environment,
    result and evidence pointer in state. Do not repeat unaffected green checks.
 6. DECIDE from expected vs actual result. Retain useful changes; repair a caused regression before
    unrelated work. Record the observed delta and next decision, not just a new wording of the plan.
-   Reconcile ALL original criteria, required reviews and delivery. An exhausted plan or a review
-   with no findings does not close uncovered requirements. Admit next work only for those gaps.
-   - Every criterion and mandatory RULE/review proved -> print "<completion token>" and stop.
+   Reconcile the original usable/delivered outcome, ALL criteria, required reviews and delivery.
+   A finished task list or clean review does not close uncovered aspects of the original request.
+   Add work only if it serves that outcome, repairs a caused regression or obtains required proof;
+   propose unrelated improvements separately. Preserve purpose, acceptance and authority boundaries.
+   - Original outcome, every criterion and mandatory RULE/review proved; no unmet or unverified
+     work remains -> print "<completion token>" and stop.
    - Evidence supports a next step -> record it; print "ITERATING" within the selected run mode.
+     A work unit or this marker is not a return boundary. Unless an explicit bounded pass was
+     selected, continue useful authorized work in the current execution. Cross-turn continuation
+     requires the selected native mechanism; do not pretend an ordinary message configured it.
    - Failure persists -> narrow the failing unit or change the hypothesis/check; do not replay a
      failed approach without new evidence. Internal no-progress/oscillation thresholds trigger
      diagnosis/replanning, not count-only abandonment. Respect explicit user stop policies.
    - External wait or blocker -> record the reason, wakeup/resume condition and remaining work;
-     continue independent authorized work if possible. Never turn uncertainty into completion.
+     continue independent authorized work if possible. If only approval/other-owner waits or
+     actual blockers remain, save an incomplete checkpoint with the waiting party/condition.
+     Do not spin, clear the residuals or pretend project/native success. Follow actual host stop
+     controls separately. Never turn uncertainty into completion.
 
-STOP WHEN: VERIFY passes every criterion, OR cancellation, a safety/authority boundary, or an
-applicable user/platform limit is reached. Internal checkpoint counts alone do not end the goal.
+STOP WHEN: The original outcome and every criterion are proved with no unmet/unverified work,
+OR only actual blockers/waits remain with no independent safe work, OR cancellation,
+a safety/authority boundary, or an applicable user/platform limit is reached. Internal checkpoint counts alone do not end the goal.
 ON STOP: summarize actual changes, proved criteria, unmet requirements and evidence. Cap/budget
 exhaustion is an incomplete checkpoint, never success or a smaller replacement goal. Preserve the
 original scope and cumulative counters. Apply the selected host stop procedure and record its
@@ -84,7 +101,10 @@ actual result separately from the report marker. Reconcile uncertain external ef
 
 RULES:
 - Never call it done until the gate actually passes. No self-grading.
-- First VERIFY counts: if VERIFY already passes every SUCCESS CRITERION before any change, that is a real success -> report FINAL honestly ("already satisfied, no loop work needed"); never fabricate or imply work that didn't happen.
+- First VERIFY counts only after reconciling the original requested use/delivery outcome: if every
+  SUCCESS CRITERION has valid proof and no original-purpose work or evidence gap remains before
+  any change, report FINAL honestly ("already satisfied, no loop work needed"). A green subset or
+  a completed initial task list is insufficient; never fabricate or imply work that didn't happen.
 - maker != checker: preserve independent checking for risky/spec-heavy changes; objective checks
   are real evidence, native evaluators are not tool-running checkers. Spawn only when explicitly
   authorized; otherwise record a required independent review as unmet, never self-approve it.

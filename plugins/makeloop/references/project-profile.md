@@ -8,7 +8,11 @@ with the project state below — the **conversation tells you the intent, git/fi
 reality**; when they disagree, surface it. If there's no relevant history (fresh session, or
 it was compacted away), say so and fall back to the project state.
 
-Then investigate the working directory thoroughly and fill in the **Project Profile** below.
+Trace the requested outcome through its actual use or delivery path. Read the project evidence
+needed to distinguish what already works, what is missing, and what must change for that outcome
+to work. Record these gaps as provisional pending work linked to the requested outcome; neither
+the initial task list nor the existing suite is exhaustive. Capture the intended recipient/target,
+current proof and existing records to revisit, then fill in the **Project Profile** below.
 Use read-only commands only. Read only what changes the goal, gate or boundary decision. Use an `Explore`/`Agent`
 subagent only when delegation is explicitly authorized and the tool is exposed; otherwise
 collect evidence directly. Tool names and allowed-tools do not authorize delegation.

@@ -85,7 +85,9 @@ Codex surfaces, with the saved loop file as the durable contract:
 
 Recommendation mapping:
 
-- Closed + safe first run, expensive gate, or user wants inspection -> manual tick.
+- Closed completion -> derive necessary work first; choose ordinary execution or confirmed native
+  continuation to suit that job. An expensive gate alone does not impose a one-iteration run.
+- User explicitly wants one bounded inspection -> manual tick.
 - Closed + same-thread continuation until success -> `/goal`.
 - Closed + CI/cron/wrapper/non-interactive intent -> `codex exec resume`.
 - Open + first proof tick -> manual watcher tick.

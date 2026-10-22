@@ -288,7 +288,7 @@ def check(case, out, presentation=True):
             require(not re.search(r'\bcodex\s+(?:exec|resume)\b|codex-loop', code),
                     'Codex launch on Claude Code')
     # A brief's substance is independently graded; a literal title cannot prove it.
-    if case['host'] == 'codex' and not case.get('execution_unconfigured'):
+    if case['host'] == 'codex' and len(launches) > 1:
         require('Codex run options' in chat, 'missing Codex choices section')
     if case.get('lang') == 'ja':
         require(len(re.findall(r'[ぁ-んァ-ン一-龥]', body)) > 60, 'Japanese output not rendered')

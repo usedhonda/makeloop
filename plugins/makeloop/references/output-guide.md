@@ -4,18 +4,24 @@ Use this guide in Steps 2 and 6. Generate contracts; do not start project work.
 
 ## Choose the purpose before the mechanism
 
-When the purpose is unclear, offer 2-3 concrete, project-grounded goals: for example, repair
+When the purpose is unclear, offer only meaningful concrete, project-grounded goals: for example, repair
 the current failing suite, finish the next milestone, or watch for new CI failures. Explain
 what each includes and excludes. A watcher is not a substitute for repairing today's failure.
 Do not create executable contracts or initialize state for unselected purposes. Wait for the
 purpose choice when material; minimal-interaction requests may use the stated closed
 interpretation with internal progress checkpoints. If the request explicitly asks to compare, preserve the comparison.
 
-When the purpose is clear, keep it fixed. Offer execution alternatives for that same contract:
-one iteration, native goal continuation, or a supported scheduled watcher. Do not invent extra
-goals or expand scope to fill a menu. For ready proposals only, normally show one recommendation and 1-2 meaningful
-alternatives: normally 2-3 runnable choices, fewer when capabilities or intent leave only one.
-Do not pad the menu with rewordings of the same action or unrelated kinds.
+When the purpose is clear, derive the requested usable/delivered result and its necessary work
+before choosing the mechanism. Explain what currently works, which evidenced gaps remain, how the
+actor will discover further necessary in-scope work, and what proves the delivered result. The
+initial task list and suite are not exhaustive. Do not invent work merely to fill the contract.
+Recommend the simplest available way to carry that same job through. Offer one or several ready
+choices only when their practical differences matter or the user asks to compare; there is no
+candidate-count target. Each explains its suitability, actual work, stopping and resume. Goal/no-Goal
+changes continuation machinery, not the required result or quality. Ordinary execution can pursue
+successive useful steps now; it is not automatically one iteration or configured cross-turn
+continuation. Reserve a one-pass limit for an explicitly selected bounded pass. Do not add a manual
+single pass or a watcher just to fill a menu or silently shrink the requested completion.
 Explicit runtime, cap, gate and safety decisions override defaults without a second confirmation.
 When a requested runtime is confirmed available, it is the selected/recommended mode, not merely
 an alternative. In particular, a CI/external-resume request must not silently become manual-first;
@@ -115,7 +121,9 @@ After resolving material questions, saving files and completing assembly checks,
 package in this order:
 
 1. Explanations and a concrete **Loop brief**: purpose, closed/open reason, actual actions,
-   scope/effects, check/trigger, stop/cap/expiry, state and next/resume behavior. Add a short
+   scope/effects, check/trigger, stop/cap/expiry, state and next/resume behavior. Lead with the
+   particular outcome, evidenced remaining work, actual use/delivery target and how further
+   necessary tasks will be found; do not lead with a tool menu. Add a short
    **How it stops / 今回の止め方** sentence: verified completion (or the watcher's exit), the
    requested pause if any, the actual limits, and what is saved/how to resume. No new pause menu;
    do not imply a pause is completion or promise native stopping without confirmed support.
@@ -123,7 +131,8 @@ package in this order:
    state path/section and contents (changes, proof, remaining work, next action). Explain that
    execution will maintain it at checkpoints and completion/interruption, regardless of day or night;
    generation has not produced a completed run or scheduled a message.
-2. For ready proposals only, explained candidate cards. For Codex, use **Codex run options**. Mark exactly one choice as
+2. For ready proposals only, explained candidate cards. Label Codex comparisons **Codex run options**;
+   a single explained choice needs no comparison heading. Mark exactly one choice as
    recommended; distinguish different purposes from ways to run the same accepted contract.
 3. Saved paths, assumptions/gaps, and truthful status: **contract generated; continuation/schedule
    not configured; not started**. Put caveats, cost notes and all closing prose HERE, not after commands.
@@ -134,8 +143,8 @@ package in this order:
 5. **Launch commands / 起動コマンド**, at the very end: one fully resolved independent block per
    confirmed runnable choice. Immediately above each block, use one label with A/B/C, the purpose,
    host and paste destination; mark only the first as recommended. For example:
-   `### A — Recommended: one iteration | Claude Code input` or
-   `### A — おすすめ：まず1回 | Codex CLI 入力欄`.
+   `### A — Recommended: finish the repair | Claude Code input` or
+   `### A — おすすめ：全残件を完遂 | Codex CLI 入力欄`.
    Keep detailed explanations and unconfirmed options above the Loop body. The final copy group
    contains only its heading, these short labels and copy blocks; no commands in tables or lists.
 
@@ -157,9 +166,9 @@ requested body does not authorize executing it or creating schedules.
 - Make each block self-contained through its exact saved contract path and execution unit
   (one iteration/tick, goal continuation, schedule setup or exact-session execution). Bind the
   state/cursor, limits, pause rules and authority in that file; do not repeat them all in the
-  launch. Never rely on “same as above” or a previous chat block. A manual alternative must
-  return after its one unit even when the saved contract supports continuous execution; it must
-  not clear a user pause or override an active continuation owner.
+  launch. Never rely on “same as above” or a previous chat block. An explicitly selected bounded
+  pass returns after its unit; ordinary no-Goal execution need not. Neither may clear a user pause
+  or override an active continuation owner.
 - Keep launches short, normally one physical line referencing the saved contract. A single long
   line is not a copy-safety fix: selection can turn visual wrapping into real newlines. Never
   insert a newline inside a filename, path, quoted argument or identifier, and do not claim that

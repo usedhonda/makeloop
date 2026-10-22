@@ -3,22 +3,25 @@
 Read for Step 4/6 on Codex only. Use native capabilities actually exposed in this session.
 Official documentation or an installed CLI version alone does not establish session availability.
 Unconfirmed/unavailable features belong in Conditional options without runnable copy fences.
-The portable default is one iteration or watcher tick only when no explicit continuation intent
-was supplied. A blocked goal backend with no exposed resume/active operation remains unavailable;
+Choose from the requested work, not whether the user named a runtime. A completion request
+keeps completion intent; ordinary no-Goal execution can pursue successive necessary steps now
+without promising cross-turn persistence. Only an explicitly selected bounded pass stops after one unit. A blocked goal backend with no exposed resume/active operation remains unavailable;
 never invent that operation, reset its state/budget or silently replace it with a manual tick.
 Classify limits by source/enforcement as in the output guide; an internal count is not exhausted
 user authority and replanning it cannot restore a missing native control.
 
 | Need | Candidate | Explanation |
 | --- | --- | --- |
-| Try one bounded iteration | Manual tick | First inspect the changes and evidence; returns control after one iteration |
+| Finish scoped work in the current execution | Ordinary no-Goal message | Follows successive necessary steps; no native cross-turn setup |
+| Explicitly try one bounded iteration | Manual tick | First inspect the changes and evidence; returns control after one iteration |
 | Pursue a closed goal across turns | `/goal` if available | Same contract/state and objective; no permission expansion |
 | Revisit a watcher in the same chat | Chat scheduled task if available | Uses this chat's context; setup is distinct from one tick |
 | Independent background observations | Project/standalone scheduled task if available | Explain local directory versus isolated worktree and state visibility |
 | CI/external scheduler | `codex exec resume` | Bind the exact session and working directory; no runner is created |
 
-Recommend one iteration for a first run only when no continuation choice was supplied. Preserve an explicit goal/cadence/CI choice rather
-than forcing manual mode. A confirmed explicit CI/external-resume choice remains selected and
+Recommend the simplest available execution suited to the whole requested job; use confirmed
+native continuation when cross-turn pursuit is needed. No-Goal is not synonymous with one iteration.
+Preserve an explicit goal/cadence/CI choice rather than forcing manual mode. A confirmed explicit CI/external-resume choice remains selected and
 recommended in the contract, INDEX and final launch group; manual is only an optional alternative. Describe the purpose, behavior, effects, check, stop and resume for each
 candidate using the shared output guide. No fake `/loop`, `/ralph-loop` or `codex-loop` commands.
 
@@ -27,8 +30,8 @@ candidate using the shared output guide. No fake `/loop`, `/ralph-loop` or `code
 Use the shared output guide: save/check first, then explanations, the saved contract path (full
 body only on explicit request), and, for ready proposals only, one final launch group with A/B/C labels. Name the actual paste surface: **Codex CLI input**, the
 **Codex desktop chat**, or the **IDE chat** for `text`; the **OS terminal** for `sh`.
-For closed work, offer one iteration plus `/goal` only when continuation and the contract's stop
-behavior are confirmed on that surface. An open watcher gets one tick plus a supported schedule
+For closed work, offer ordinary execution and/or native Goal only when each fits this job and
+its prerequisites/stop behavior are confirmed; do not force both into every answer. An open watcher gets one tick plus a supported schedule
 setup only when appropriate; label setup as creating a schedule, not as one observation.
 Offer `codex exec resume` only for the explicit CI/external intent below; it is a terminal command,
 not a slash command. Do not infer desktop/IDE capabilities from CLI help or offer a fake `/loop`.
@@ -39,14 +42,20 @@ complete with the exact contract/state and execution unit. Emit slash launches a
 
 Render with actual paths and values in the user's language; these are illustrative scaffolds.
 
-- Closed manual message: “Follow .loop/repair.md for exactly one iteration.” Bind state,
+- Ordinary closed message: “Follow .loop/repair.md through its required work and verification.”
+  Bind outcome, provisional pending work, delivery/review and actual stop conditions in the contract.
+- Explicit bounded-pass message: “Follow .loop/repair.md for exactly one iteration.” Bind state,
   criteria, reporting and limits in that saved contract, not a long launch message.
 - Open manual message: “Follow .loop/deploy-watch.md for one watcher tick.” Bind the cursor,
   trigger, permissions and stopping in the saved contract.
-- Goal: `/goal Follow .loop/repair.md to prove every original criterion. Preserve scope, evidence,
+- Goal: `/goal Follow .loop/repair.md to prove the original outcome and every criterion, leaving
+  no unmet or unverified original-purpose work. Preserve scope, evidence,
   consumed attempts and remaining work in .loop/repair-state.md. Honor its limits and stop
   instructions; a pause or budget checkpoint is not achievement of this objective.` Bind actual
   limits and any requested pause in the launch; do not put non-success exits in its success rule.
+  If only blockers/approval or other-owner waits remain, save an incomplete checkpoint with the
+  waiting condition and use only actually available host stop/pause controls. Do not mark the
+  native goal complete merely because a wait checkpoint was saved.
 - Chat schedule setup message: “Create a scheduled task in this chat, every five minutes,
   running one tick of .loop/deploy-watch.md with .loop/deploy-watch.cursor.json; observe only
   new events and stop under the contract's conditions.” Label it **schedule setup**, not a tick.

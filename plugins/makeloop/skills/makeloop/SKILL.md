@@ -33,7 +33,9 @@ skill. Do not invent a Codex `/loop`, `/ralph-loop`, `codex-loop` runner, or a t
 use the actually discovered alias, never remove or duplicate user-level aliases here.
 
 When purpose is ambiguous, explain concrete project-specific choices before writing executable
-contracts for an unselected purpose. When purpose is clear, compare ways to run the same contract.
+contracts for an unselected purpose. When clear, derive the usable/delivered result and evidenced
+remaining work first. Keep tasks provisional and linked to that result in existing state. Select
+the simplest usable execution; compare modes only when useful or requested, with no fixed count.
 Preserve supplied choices. Ask only for material ambiguity; use a concise normal chat question if
 its question UI is absent. Do not require ritual confirmation for decisions already supplied.
 
@@ -44,8 +46,10 @@ launch blocks at the very end. The saved contract is authoritative; show its ful
 explicitly requested. Prefer short new slugs and project-relative paths; never insert a newline
 inside a filename/path. Follow output-guide.md for copy-safe launches and existing long names.
 Nothing follows the last launch fence.
-On Codex use **Codex run options** for explained alternatives; use host-native choice labels on CC. Mark exactly one recommendation among ready proposals only. Manual tick
-is a default only when no continuation choice was supplied. Shortening must preserve the original
+On Codex use **Codex run options** for comparisons (no comparison heading is needed for one choice); use host-native choice labels on CC. Mark exactly one recommendation among ready proposals only.
+Do not default completion requests to one iteration: no-Goal can pursue successive useful steps
+in the current execution, without promising unconfigured cross-turn persistence. A single pass
+is bounded only when explicitly selected. Shortening must preserve the original
 goal, all residual work, continuation/stop mode, consumed/remaining budget with source/enforcement, authority, required
 consultation/review and state/resume in the saved contract. An unavailable requested continuation
 stays requested/unconfigured; do not silently turn it into one iteration or offer near-exhausted

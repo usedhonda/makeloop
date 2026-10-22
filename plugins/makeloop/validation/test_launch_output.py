@@ -205,8 +205,11 @@ class CopyLayoutTests(unittest.TestCase):
             'A — おすすめ：まず1回 | Codex CLI 入力欄')
         self.assertEqual(check(case, out), [])
 
-    def test_useful_single_option_is_valid(self):
-        self.assertEqual(check(*package()), [])
+    def test_useful_single_option_is_valid_without_a_comparison_menu(self):
+        case, out = package()
+        out['chat'] = out['chat'].replace(
+            'Codex run options: A is recommended; other modes are conditional.\n', '')
+        self.assertEqual(check(case, out), [])
 
     def test_duplicate_choices_are_rejected(self):
         case, out = package()

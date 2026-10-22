@@ -150,3 +150,25 @@ still requires the final group to contain only its heading, ordered host/destina
 copy blocks, and rejects extra prose or trailing caveats. A known nonready request needs no
 runnable-choice section. These structural allowances do not grade the brief's substance or
 convert an unavailable requested mode into an executable one.
+
+## Outcome-first task discovery
+
+O1/O2 supply the same complete CSV use-path request on Codex/Claude Code: existing parser proof is
+green, but app integration and saving are missing. O3 is the genuinely already-delivered contrast;
+O4 explicitly chooses a single work unit without shrinking the overall result. F21-F26 check
+missing-task discovery, original-purpose versus unrelated work, ordinary execution versus selected
+single-pass boundaries, already-satisfied honesty and unresolved review waits. Existing M10-M12
+retain runtime/limit contrasts. Grade whether generated work follows the actual original use or
+delivery path, not just familiar headings. Keep outcome/acceptance/authority stable; derive necessary
+checks within scope without inventing commands. These synthetic cases are not live host proof.
+
+The outcome-first user instruction supersedes the protected eval's historical safe-first manual
+recommendation for completion requests. Explicit one-pass requests remain bounded; watcher tick
+semantics and all safety/state/acceptance properties remain unchanged. Do not edit protected eval
+files to make this override disappear.
+
+A single explained Codex choice needs no comparison-menu heading. Multiple choices still carry
+Codex run options and must pass host/destination/order/final-only checks. First-VERIFY honesty
+requires a real initial no-change success branch, not only a warning against partial green.
+Independently check that Codex native success excludes incomplete checkpoints; reporting them
+honestly does not authorize marking the native goal complete.

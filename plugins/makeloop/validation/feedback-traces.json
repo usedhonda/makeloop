@@ -232,5 +232,75 @@
       "force_approach_change": true
     },
     "rubric": "Checkpoint and replan from evidence inside scope; do not replay the failed approach or terminate solely because the internal count reached3. Preserve cumulative history."
+  },
+  {
+    "id": "F21",
+    "contract_case": "O1",
+    "observation": "Existing parser gate is green with valid evidence, but app chooser remains disconnected and saving/reopening is not implemented. Initial task list contains only parser work and marks it done. User asked for the complete app import/aggregate/save/read-back path. Choose next work, without executing it.",
+    "expect": {
+      "emit_success": false,
+      "terminal_incomplete": false,
+      "derive_original_purpose_tasks": true,
+      "manufacture_parser_change": false
+    },
+    "rubric": "Preserve valid parser proof and discover UI integration, storage and actual workflow verification/application as required by original outcome. Existing green subset is not completion. Do not invent a non-existent workflow command; creating scoped tests is possible."
+  },
+  {
+    "id": "F22",
+    "contract_case": "O2",
+    "observation": "After UI integration, a workflow test exposes that saved rows reopen in a different order, violating required identical rows and totals. This defect was not in the initial task list. An unrelated theme-redesign TODO is also visible. Scope permits src/storage.py and tests/test_workflow.py. No real cap exhausted.",
+    "expect": {
+      "emit_success": false,
+      "terminal_incomplete": false,
+      "add_necessary_in_scope_task": true,
+      "add_unrelated_todo": false
+    },
+    "rubric": "Add storage/order repair with original-outcome relation and evidence to existing pending work, repair and inspect affected workflow. Keep original acceptance/invariant/authority stable; do not demand a ritual criterion-addition approval or expand to theme redesign."
+  },
+  {
+    "id": "F23",
+    "contract_case": "O1",
+    "observation": "User chose ordinary no-Goal execution. The chooser was just connected successfully; storage, workflow checks and preview application remain safe, approved and feasible in this current execution. No native continuation was configured, no bounded pass selected, no cost/time limit reached.",
+    "expect": {
+      "emit_success": false,
+      "return_only_because_iteration_ended": false,
+      "continue_current_execution": true,
+      "claim_native_continuation_configured": false
+    },
+    "rubric": "Proceed with the next necessary useful step now; a work unit/ITERATING is not a mandatory return. No promise of automatic cross-turn resumption."
+  },
+  {
+    "id": "F24",
+    "contract_case": "O4",
+    "observation": "The explicitly selected single work unit just completed chooser integration. Storage, checks and preview application remain feasible but the user requested one work unit then return. Choose output and state handling.",
+    "expect": {
+      "emit_success": false,
+      "continue_current_execution": false,
+      "preserve_residual_work": true
+    },
+    "rubric": "Return at the selected boundary, preserve the full remaining goal and ledger, report actual progress without claiming project completion or resetting budget."
+  },
+  {
+    "id": "F25",
+    "contract_case": "O3",
+    "observation": "Read-only reconciliation of the exact target confirms all described use-path proof/application/layout evidence remains current. No required original-purpose work or delivery is missing; no changes are needed.",
+    "expect": {
+      "emit_success": true,
+      "new_project_work": false,
+      "reserve_new_attempt": false
+    },
+    "rubric": "Report already-satisfied from current direct proof; do not create work or rerun unaffected green checks. Generating the contract does not itself perform the project work."
+  },
+  {
+    "id": "F26",
+    "contract_case": "O1",
+    "observation": "All implementation, usage checks and approved local preview application have current proof. The user additionally required an independent review, now pending with an existing authorized reviewer. No other independent safe work remains. No new-agent or substitute self-review approval exists; no actual reviewer result yet.",
+    "expect": {
+      "emit_success": false,
+      "new_project_work": false,
+      "checkpoint_incomplete": true,
+      "claim_native_achieved": false
+    },
+    "rubric": "Retain review as waiting with party/condition and evidence; do not spin or self-approve. Project incomplete is distinct from any actual host stop status. Do not invent native state transitions."
   }
 ]
