@@ -31,6 +31,26 @@ def package(host='codex', kind='closed', options=None):
 
 
 class CopyLayoutTests(unittest.TestCase):
+    def test_initial_ready_goal_cannot_be_replaced_by_conditional_or_plain_continue(self):
+        for launch in (f'/goal Follow {PROMPT} until every original requirement is verified.',
+                       f'Use create_goal for the objective in {PROMPT}, then execute it.'):
+            launch += f' Preserve {STATE}.'
+            case, out = package(options=[('text', launch,
+                'A — Recommended: finish the repair | Codex CLI input')])
+            case['goal_launch_required'] = True
+            out['chat'] = out['chat'].replace('other modes are conditional.',
+                'Goal is ready, not configured and not started; one owner only.')
+            self.assertEqual(check(case, out), [])
+            for replacement in (f'Follow {PROMPT} until complete.',
+                                f'Follow {PROMPT} for one iteration.'):
+                bad = dict(out, chat=out['chat'].replace(launch, replacement))
+                self.assertIn('ready closed completion proposal missing initial Goal launch',
+                              check(case, bad))
+            bad = dict(out, chat=out['chat'].split('## Launch commands')[0] +
+                       'Conditional: Goal needs stop conditions connected; not configured.')
+            self.assertIn('ready closed completion proposal missing initial Goal launch',
+                          check(case, bad))
+
     def blocked_continuation(self):
         case, out = package()
         contract = ('GOAL: Finish all UI residual work, not just dependency diagnosis.\n'

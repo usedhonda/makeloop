@@ -244,6 +244,11 @@ def check(case, out, presentation=True):
         require(bool(re.search(r'COLD START|cold.start|初回', contract, re.I)), 'missing cold-start policy section')
         require(bool(re.search(r'backlog|pre.existing|existing|lines before.*cursor|historical|既存|過去', contract, re.I)), 'missing backlog policy')
     fences = launches
+    if case.get('goal_launch_required'):
+        require(any(f['lang'].strip() == 'text' and
+                    (re.match(r'^/goal\s+', f['body'].strip()) or
+                     re.search(r'\bcreate_goal\b', f['body'])) for f in fences),
+                'ready closed completion proposal missing initial Goal launch')
     if case.get('execution_unconfigured'):
         require(not fences and not has_launch_text(chat),
                 'unconfigured execution has a runnable replacement')

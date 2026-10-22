@@ -19,8 +19,10 @@ user authority and replanning it cannot restore a missing native control.
 | Independent background observations | Project/standalone scheduled task if available | Explain local directory versus isolated worktree and state visibility |
 | CI/external scheduler | `codex exec resume` | Bind the exact session and working directory; no runner is created |
 
-Recommend the simplest available execution suited to the whole requested job; use confirmed
-native continuation when cross-turn pursuit is needed. No-Goal is not synonymous with one iteration.
+For closed completion work, include a ready Goal-equipped launch in the initial proposal when
+native Goal is available; do not wait for the user to ask a second time. Recommend it when the
+request is to keep looping/continue until completion. Ordinary execution can be an alternative,
+but is not an equivalent cross-turn loop. No-Goal is not synonymous with one iteration.
 Preserve an explicit goal/cadence/CI choice rather than forcing manual mode. A confirmed explicit CI/external-resume choice remains selected and
 recommended in the contract, INDEX and final launch group; manual is only an optional alternative. Describe the purpose, behavior, effects, check, stop and resume for each
 candidate using the shared output guide. No fake `/loop`, `/ralph-loop` or `codex-loop` commands.
@@ -30,8 +32,9 @@ candidate using the shared output guide. No fake `/loop`, `/ralph-loop` or `code
 Use the shared output guide: save/check first, then explanations, the saved contract path (full
 body only on explicit request), and, for ready proposals only, one final launch group with A/B/C labels. Name the actual paste surface: **Codex CLI input**, the
 **Codex desktop chat**, or the **IDE chat** for `text`; the **OS terminal** for `sh`.
-For closed work, offer ordinary execution and/or native Goal only when each fits this job and
-its prerequisites/stop behavior are confirmed; do not force both into every answer. An open watcher gets one tick plus a supported schedule
+For closed completion work, include native Goal from the first proposal after the binding below.
+Offer ordinary execution as well only when useful; an explicit no-Goal or bounded-pass request
+still wins. An open watcher gets one tick plus a supported schedule
 setup only when appropriate; label setup as creating a schedule, not as one observation.
 Offer `codex exec resume` only for the explicit CI/external intent below; it is a terminal command,
 not a slash command. Do not infer desktop/IDE capabilities from CLI help or offer a fake `/loop`.
@@ -70,6 +73,39 @@ requested continuation; keep it unselected unless the user chooses it. JSONL/out
 are optional integration aids, not a new runner or proof of task success.
 
 ## Continuation and scheduling boundaries
+
+### Bind a fresh Goal during generation
+
+Not configured/not started is the normal status of a ready proposal, not a capability failure.
+Inspect exposed Goal tools and read current Goal state when available; do not create a Goal as
+a probe. With no unfinished Goal and working create/read/update controls, bind the lifecycle
+below in the saved contract now. Do not defer this assembly as "stop conditions need connecting"
+or put an otherwise ready Goal in Conditional options merely because it has not been started.
+On a CLI with a confirmed `/goal` input surface, render the native slash launch. On other hosts
+with exposed Goal tools but no confirmed slash surface, render a normal setup prompt explicitly
+instructing the executor to create the saved objective with `create_goal`, then execute it;
+that is a Goal setup proposal, not an ordinary "continue" sentence. Generation itself does neither.
+
+- Start: the chosen launch activates the original objective once. Preserve the existing state;
+  do not replace an unrelated unfinished Goal. Inspect an existing matching Goal before reuse;
+  a blocked/paused Goal needs its actual supported resume control, not fresh creation/reset.
+- Continue: pursue successive necessary in-scope actions and real verification. A checkpoint,
+  one green subset, one completed step or a final chat message is not completion of the Goal.
+- Complete: call `update_goal(status="complete")` only after all original requirements and
+  required delivery/review have current evidence; report the returned status.
+- Pause: only an explicit user pause request/condition authorizes `paused`. Bind such a supplied
+  condition to `update_goal(status="paused")`; do not invent a review pause for an ordinary loop.
+- Block: record a real blocker immediately, pursue independent safe work, and use `blocked`
+  only under the exposed tool's actual recurrence/impasse rule. If it requires three consecutive
+  goal turns, let genuine native continuations establish those turns; never fabricate them.
+  A blocked checkpoint remains incomplete. Do not require immediate pause permission for
+  every hypothetical future blocker before offering a fresh Goal.
+- Limits: preserve actual user/platform limits and let native budget enforcement apply. Supply
+  a token budget only when explicitly requested; internal progress checkpoints do not terminate.
+
+Keep concrete unsupported user-requested pause behavior, exhausted hard budgets and actual owner
+conflicts conditional. Missing lifecycle wording in a draft is repairable generation work, not
+evidence that the native runtime is unavailable. Show ready / not configured / not started together.
 
 - Generated contract, configured goal/schedule, started run and finished run are different states.
   FINAL/ITERATING are contract reports, not proof of native achieved/cancelled/exited state.

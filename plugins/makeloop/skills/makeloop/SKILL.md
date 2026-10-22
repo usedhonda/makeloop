@@ -47,6 +47,10 @@ explicitly requested. Prefer short new slugs and project-relative paths; never i
 inside a filename/path. Follow output-guide.md for copy-safe launches and existing long names.
 Nothing follows the last launch fence.
 On Codex use **Codex run options** for comparisons (no comparison heading is needed for one choice); use host-native choice labels on CC. Mark exactly one recommendation among ready proposals only.
+For Codex closed completion requests, include the available Goal-equipped launch from the first
+proposal; recommend it for requested looping/cross-turn continuation, unless an explicit different
+mode wins. Bind the fresh Goal lifecycle from codex.md during generation. Not configured/not
+started is not unavailable; finish stop/lifecycle assembly instead of deferring it as a condition.
 Do not default completion requests to one iteration: no-Goal can pursue successive useful steps
 in the current execution, without promising unconfigured cross-turn persistence. A single pass
 is bounded only when explicitly selected. Shortening must preserve the original

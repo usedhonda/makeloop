@@ -255,6 +255,12 @@ Read only the current host guide: `../references/claude-code.md` or
 Honor explicit runtime choices. Offer a recommendation and alternatives only for ready proposals with the
 shared output guide. Separate documented, installed-help-confirmed, session-available and unknown.
 Unconfirmed features get conditional explanation, not runnable copy blocks.
+On Codex, closed completion proposals include an available Goal-equipped version from the start;
+recommend native Goal for a request to keep looping until completion. Honor explicit no-Goal or
+bounded execution instead when supplied. Bind fresh-Goal creation, continuation, evidenced
+completion and actual non-success transitions using the Codex guide before classifying readiness.
+Not configured/not started does not mean not runnable. Missing lifecycle wording is assembly work
+to finish here, not a generic "stop conditions need connecting" excuse to suppress the proposal.
 For compact/reissued launches, read the actual contract/state and retain the original goal,
 all remaining work, continuation mode, stop conditions, used/remaining budget with source/enforcement, authority,
 forbidden scope, consultation/review and state/resume identity in the saved contract. Apply the
@@ -353,6 +359,9 @@ stalled activity. For closed work, explicitly test both a green subset with orig
 report no-change success). Keep this positive branch in every generated closed contract, not only
 in an already-green example. Check each final native launch against the current host's success
 and non-success stop rules; a saved incomplete checkpoint must not become Codex native success.
+For a fresh supported Goal with no owner conflict, verify the initial package includes the Goal
+launch with its bound lifecycle even though nothing has been configured or started. Contrast an
+actually blocked existing Goal without resume support: preserve it and report that specific gap.
 A keyword/structure check alone cannot establish these behavioral properties.
 For a requested pause, check that the brief, STOP WHEN and native launch agree, a reached pause
 prevents further project actions, and explicit resume does not reset limits or approve pending

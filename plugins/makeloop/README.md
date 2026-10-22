@@ -28,6 +28,12 @@ Each choice explains when it fits **and when it does not**, its actual effects a
 its saved state and its stopping condition. A watcher is not an alternative implementation of a
 repair. Choices are derived from the project, not fixed presets or a menu padded with irrelevant tools.
 
+For Codex closed completion work, the initial proposal includes a Goal-equipped launch when
+available, recommended for requests to keep looping until completion. Explicit no-Goal or
+bounded-pass choices still win. The generator binds the Goal lifecycle before presenting it;
+not configured/not started is not the same as unavailable. Actual blocked-resume, ownership
+and hard-limit constraints remain explicit.
+
 No-Goal does not mean one iteration: ordinary execution may pursue successive useful steps in
 the current execution, but does not configure cross-turn persistence. An explicitly requested
 single pass remains bounded. Green parser tests alone do not finish an app's CSV import/save
