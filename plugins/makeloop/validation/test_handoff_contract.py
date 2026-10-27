@@ -48,6 +48,10 @@ def rendered_output(host, *, handoff=True, existing=None, done_ledger=False):
             'C2: human review receipt on that target; C3: inspected diff. Relevant changes invalidate proof.',
         '<project-specific observable improvement or evidence that rules out a suspected cause>':
             'A failing auth case is fixed or a tested cause is eliminated, with current evidence.',
+        '<necessary allowed repairs and their existing authorization sources;\nproject-specific forbidden actions and genuine approval or physical-operation boundaries>':
+            'Existing fixture authorization permits src/auth repairs and restoring locked '
+            'dependencies with npm ci. Human review remains required; no global installs, '
+            'new agents, permission changes or external writes are authorized.',
         '<verify command 1, e.g. npm run typecheck>': 'npm test',
         '<verify command 2, e.g. npm test>': 'git diff --check',
         '<exact pass condition, e.g. all tests green, 0 type errors, exit 0>':

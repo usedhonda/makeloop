@@ -285,5 +285,27 @@
     "profile": "Claude Code target input surface: /goal availability is confirmed by its observed command menu and supplied host-bound profile, not an exposed model tool. No active goal or owner. The generator has no Codex create_goal/get_goal/update_goal tools; do not require or invent them. Existing Claude native evaluator and checkpoint/clear semantics apply. No user hard budget or pause requested. Python CSV CLI repair, scope src/csv2json.py and tests; gate python3 -m unittest. Preserve loop state. Generate only, do not start a run.",
     "gate": "python3 -m unittest",
     "goal_launch_required": true
+  },
+  {
+    "id": "R1-Codex",
+    "host": "codex",
+    "kind": "closed",
+    "request": "Generate a completion loop for the auth repair. Include a recommended Goal-equipped launch alongside ordinary current-execution completion. Handle repairable impediments without asking me to request recovery again. Do not run anything.",
+    "profile": "Synthetic target codex CLI with native /goal start/lifecycle confirmed; no active owner/goal. Generator only. Existing src/auth regression and independent human review define success. Gate npm test. package.json and checked-in lockfile declare required test dependencies; node_modules is absent. Project runbook explicitly authorizes npm ci and in-scope src/auth repairs, not global installs, permission changes, external writes or new agents. An existing usable Node/npm path is documented. User/platform limits are not exhausted. No user pause or fixed retry-stop count. Diagnose before assuming a tool is missing. Preserve any existing state and original acceptance. Both Goal and ordinary messages are ready. A later real MFA requirement cannot be satisfied by this agent.",
+    "gate": "npm test",
+    "goal_launch_required": true,
+    "completion_pair_required": true,
+    "remediation_required": true
+  },
+  {
+    "id": "R1-Claude",
+    "host": "claude",
+    "kind": "closed",
+    "request": "Generate a completion loop for the auth repair. Include a recommended Goal-equipped launch alongside ordinary current-execution completion. Handle repairable impediments without asking me to request recovery again. Do not run anything.",
+    "profile": "Synthetic target claude CLI with native /goal start/lifecycle confirmed; no active owner/goal. Generator only. Existing src/auth regression and independent human review define success. Gate npm test. package.json and checked-in lockfile declare required test dependencies; node_modules is absent. Project runbook explicitly authorizes npm ci and in-scope src/auth repairs, not global installs, permission changes, external writes or new agents. An existing usable Node/npm path is documented. User/platform limits are not exhausted. No user pause or fixed retry-stop count. Diagnose before assuming a tool is missing. Preserve any existing state and original acceptance. Both Goal and ordinary messages are ready. A later real MFA requirement cannot be satisfied by this agent.",
+    "gate": "npm test",
+    "goal_launch_required": true,
+    "completion_pair_required": true,
+    "remediation_required": true
   }
 ]

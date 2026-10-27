@@ -35,6 +35,8 @@ tokens:
   loop re-verify with fresh eyes (or a sub-agent) on risky changes.
 - **The order that survives**: get ONE manual run reliable -> wrap it in a loop with a gate
   + stop condition -> only then schedule it.
+  For a selected closed Goal, establish that reliable first work unit inside the Goal; this
+  principle is not a requirement to select a manual-only launch before offering native Goal.
 - **The metric that matters**: measured time/cost per *accepted outcome*, including failed
   attempts and review. Acceptance rate alone has no universal break-even threshold.
 - **Re-anchor, don't drift**: a long run loses its "do not touch" boundaries as context
@@ -146,6 +148,17 @@ pending work from the current gaps, not just the user's first task list or exist
 necessary new task must explain which requested outcome remains unmet without it. Derive missing
 objective checks within approved scope; never invent a command or silently change the goal,
 acceptance standard or authority. Ask only when that material decision cannot be derived.
+
+For closed work, bind a project-specific REMEDIATION SCOPE from existing user authorization,
+project instructions, manifest/lockfile, runbook and existing scripts. Include only necessary
+repairs/legitimate alternatives, their authorization source and real boundaries. Examples may
+include restoring declared dependencies, using a verified tool path, fixing an in-scope script
+or regenerating local artifacts; never presume all examples are allowed. Necessary authorized
+recovery is part of this goal, not a separate request after a stop. Do not turn unavailable tools
+or external-looking symptoms into terminal blockers before this assessment. Existing permission
+for external/global work carries forward; absent permission is not created by contract generation.
+Resolve only material unknown high-impact choices, not a ritual repair-approval questionnaire.
+During a narrow refine, change recovery scope only if requested; preserve existing state bytes.
 
 **Human handoff (closed only).** Select the **Handoff summary** block for unattended
 closed work or an explicit human-handoff request; honor an explicit opt-out. A narrow refine adds
@@ -261,6 +274,10 @@ bounded execution instead when supplied. Bind fresh-Goal creation, continuation,
 completion and actual non-success transitions using the current host guide before classifying readiness.
 Not configured/not started does not mean not runnable. Missing lifecycle wording is assembly work
 to finish here, not a generic "stop conditions need connecting" excuse to suppress the proposal.
+When no different runtime was explicitly selected and both modes are ready, present Goal-equipped
+completion first (recommended) and ordinary current-execution completion second. Both reference
+the same outcome, state and REMEDIATION SCOPE; they are alternatives, never simultaneous writers.
+Ordinary completion is not a single bounded tick. Do not add a watcher to pad these choices.
 For compact/reissued launches, read the actual contract/state and retain the original goal,
 all remaining work, continuation mode, stop conditions, used/remaining budget with source/enforcement, authority,
 forbidden scope, consultation/review and state/resume identity in the saved contract. Apply the
@@ -363,6 +380,11 @@ For a fresh supported Goal with no owner conflict, verify the initial package in
 launch with its bound lifecycle even though nothing has been configured or started. Contrast an
 actually blocked existing Goal without resume support: preserve it and report that specific gap.
 A keyword/structure check alone cannot establish these behavioral properties.
+For recovery, walk a repairable missing prerequisite, an actual authentication/authority boundary,
+two unchanged failures needing a new approach, and resume after repair. The next decision must
+repair/continue when possible, not demand a fresh repair request or stop solely on a count.
+For CC, a bare "only blockers remain" exit is insufficient: surface the remediation assessment
+and why no productive authorized path remains in conversation before treating that exit as met.
 For a requested pause, check that the brief, STOP WHEN and native launch agree, a reached pause
 prevents further project actions, and explicit resume does not reset limits or approve pending
 review/actions. Do not migrate unrelated blocks or state in a narrow refine.

@@ -33,8 +33,10 @@ Use the shared output guide: save/check first, then explanations, the saved cont
 body only on explicit request), and, for ready proposals only, one final launch group with A/B/C labels. Name the actual paste surface: **Codex CLI input**, the
 **Codex desktop chat**, or the **IDE chat** for `text`; the **OS terminal** for `sh`.
 For closed completion work, include native Goal from the first proposal after the binding below.
-Offer ordinary execution as well only when useful; an explicit no-Goal or bounded-pass request
-still wins. An open watcher gets one tick plus a supported schedule
+When no other runtime is explicitly selected and both modes are ready, pair recommended Goal
+completion with ordinary current-execution completion, using the same contract/state and
+REMEDIATION SCOPE. An explicit no-Goal or bounded-pass request still wins.
+An open watcher gets one tick plus a supported schedule
 setup only when appropriate; label setup as creating a schedule, not as one observation.
 Offer `codex exec resume` only for the explicit CI/external intent below; it is a terminal command,
 not a slash command. Do not infer desktop/IDE capabilities from CLI help or offer a fake `/loop`.
@@ -51,12 +53,14 @@ Render with actual paths and values in the user's language; these are illustrati
   criteria, reporting and limits in that saved contract, not a long launch message.
 - Open manual message: “Follow .loop/deploy-watch.md for one watcher tick.” Bind the cursor,
   trigger, permissions and stopping in the saved contract.
-- Goal: `/goal Follow .loop/repair.md to prove the original outcome and every criterion, leaving
+- Goal: `/goal Follow .loop/repair.md, including necessary authorized prerequisite repair under its REMEDIATION SCOPE, to prove the original outcome and every criterion, leaving
   no unmet or unverified original-purpose work. Preserve scope, evidence,
   consumed attempts and remaining work in .loop/repair-state.md. Honor its limits and stop
   instructions; a pause or budget checkpoint is not achievement of this objective.` Bind actual
   limits and any requested pause in the launch; do not put non-success exits in its success rule.
-  If only blockers/approval or other-owner waits remain, save an incomplete checkpoint with the
+  Before a blocked decision, diagnose the impediment, repair it or use an authorized productive
+  alternative when possible, and return to original work. If that remediation assessment proves
+  no productive authorized repair/alternative or independent work remains, save an incomplete checkpoint with the
   waiting condition and use only actually available host stop/pause controls. Do not mark the
   native goal complete merely because a wait checkpoint was saved.
 - Chat schedule setup message: “Create a scheduled task in this chat, every five minutes,
@@ -98,12 +102,18 @@ that is a Goal setup proposal, not an ordinary "continue" sentence. Generation i
   a blocked/paused Goal needs its actual supported resume control, not fresh creation/reset.
 - Continue: pursue successive necessary in-scope actions and real verification. A checkpoint,
   one green subset, one completed step or a final chat message is not completion of the Goal.
+- Recover: classify the first failure, perform necessary authorized repairs under REMEDIATION
+  SCOPE and verify their effects before returning to original work in the same Goal. Repair is
+  goal work, not merely independent work; do not require the user to request it a second time.
 - Complete: call `update_goal(status="complete")` only after all original requirements and
   required delivery/review have current evidence; report the returned status.
 - Pause: only an explicit user pause request/condition authorizes `paused`. Bind such a supplied
   condition to `update_goal(status="paused")`; do not invent a review pause for an ordinary loop.
-- Block: record a real blocker immediately, pursue independent safe work, and use `blocked`
-  only under the exposed tool's actual recurrence/impasse rule. If it requires three consecutive
+- Block: record the impediment promptly, not an automatic status change. A terminal blocker
+  requires evidence that necessary authorized repair/alternatives and independent safe work
+  cannot make progress. Keep diagnosis, attempted repairs or concrete boundary reasons, remaining
+  work and the unblock condition in existing state. Do not require unsafe trial actions.
+  Use `blocked` only under the exposed tool's actual recurrence/impasse rule. If it requires three consecutive
   goal turns, let genuine native continuations establish those turns; never fabricate them.
   A blocked checkpoint remains incomplete. Do not require immediate pause permission for
   every hypothetical future blocker before offering a fresh Goal.
@@ -139,5 +149,6 @@ evidence that the native runtime is unavailable. Show ready / not configured / n
   invent a mandatory second request, but do not expand this generator into a runner.
 - Budget exhaustion is an incomplete checkpoint, not success. Keep required native status
   transitions separate from observed blockers; do not manufacture turns to satisfy thresholds.
-  Record a blocker immediately, continue independent authorized work, and report unsupported
+  Record impediments immediately, attempt necessary authorized recovery, continue independent
+  authorized work, and report unsupported
   capabilities honestly. Native completion/evaluation never substitutes for criterion evidence.

@@ -51,6 +51,10 @@ For either host's closed completion requests, include the available Goal-equippe
 proposal; recommend it for requested looping/cross-turn continuation, unless an explicit different
 mode wins. Bind the fresh Goal lifecycle from the current host guide during generation. Not configured/not
 started is not unavailable; finish stop/lifecycle assembly instead of deferring it as a condition.
+If both modes are ready and no other runtime was explicitly selected, pair recommended Goal
+completion with ordinary current-execution completion. They share the same contract/state and
+project-derived REMEDIATION SCOPE. Diagnose impediments, perform necessary authorized repairs
+and return to original work before considering a terminal blocker; preserve genuine boundaries.
 Do not default completion requests to one iteration: no-Goal can pursue successive useful steps
 in the current execution, without promising unconfigured cross-turn persistence. A single pass
 is bounded only when explicitly selected. Shortening must preserve the original

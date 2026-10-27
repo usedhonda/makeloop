@@ -34,6 +34,14 @@ bounded-pass choices still win. The generator binds the Goal lifecycle before pr
 not configured/not started is not the same as unavailable. Actual blocked-resume, ownership
 and hard-limit constraints remain explicit.
 
+When both modes are ready and no other runtime was selected, the initial package pairs
+recommended Goal completion with ordinary current-execution completion. Both use the same
+contract/state and project-derived REMEDIATION SCOPE: diagnose an impediment, perform necessary
+authorized repairs, verify them and return to original work without a fresh repair request.
+Only an evidenced lack of productive authorized recovery/independent work supports a blocker
+stop. Real authority, authentication and native runtime boundaries remain; no auto-resume runner
+or counter reset is introduced.
+
 No-Goal does not mean one iteration: ordinary execution may pursue successive useful steps in
 the current execution, but does not configure cross-turn persistence. An explicitly requested
 single pass remains bounded. Green parser tests alone do not finish an app's CSV import/save

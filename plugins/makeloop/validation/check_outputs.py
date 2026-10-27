@@ -25,7 +25,8 @@ def case_errors(case):
     if 'gate' in case and not isinstance(case['gate'], str):
         errors.append('gate must be a string')
     for flag in ('compare', 'bootstrap', 'stop_event', 'acts', 'show_body',
-                 'execution_unconfigured'):
+                 'execution_unconfigured', 'goal_launch_required',
+                 'completion_pair_required', 'remediation_required'):
         if flag in case and not isinstance(case[flag], bool):
             errors.append(flag + ' must be a boolean')
     if 'preserve' in case and not text_files(case['preserve']):
@@ -244,14 +245,33 @@ def check(case, out, presentation=True):
         require(bool(re.search(r'COLD START|cold.start|初回', contract, re.I)), 'missing cold-start policy section')
         require(bool(re.search(r'backlog|pre.existing|existing|lines before.*cursor|historical|既存|過去', contract, re.I)), 'missing backlog policy')
     fences = launches
-    if case.get('goal_launch_required'):
-        require(any(f['lang'].strip() == 'text' and
+    goal_launches = [f for f in fences if f['lang'].strip() == 'text' and
                     (re.match(r'^/goal\s+', f['body'].strip()) or
                      (case['host'] == 'codex' and re.match(
                          r'^(?:Use create_goal for the objective in\s+|create_goal:\s*)'
                          + re.escape(prompt_path) + r'(?=\s|[,.;。]|$)',
-                         f['body'].strip()))) for f in fences),
+                         f['body'].strip())))]
+    if case.get('goal_launch_required'):
+        require(bool(goal_launches),
                 'ready closed completion proposal missing initial Goal launch')
+    if case.get('completion_pair_required'):
+        require(len(fences) >= 2 and fences[0] in goal_launches,
+                'completion pair must start with Goal and include an ordinary alternative')
+        ordinary = [f['body'].strip() for f in fences
+                    if f['lang'].strip() == 'text' and
+                    not re.match(r'^(?:/|Use create_goal\b|create_goal:)', f['body'].strip())]
+        require(any(not re.search(r'for (?:exactly )?one (?:iteration|tick)|1回だけ|一回だけ',
+                                  code, re.I) for code in ordinary),
+                'ordinary completion alternative missing or bounded to one tick')
+    if case.get('remediation_required'):
+        require('REMEDIATION SCOPE:' in contract, 'missing project-bound remediation scope')
+        if case['host'] == 'claude':
+            require(not any(re.search(
+                        r'only (?:actual )?blockers(?:/approval)?(?: or waits)? remain|'
+                        r'阻害要因だけ(?:が)?残ったら(?:終了|停止)', sentence, re.I) and
+                        not re.search(r'remediation assessment|復旧判定', sentence, re.I)
+                        for f in fences for sentence in re.split(r'[.!?。\n]', f['body'])),
+                    'unqualified blocker exit in Claude Goal launch')
     if case.get('execution_unconfigured'):
         require(not fences and not has_launch_text(chat),
                 'unconfigured execution has a runnable replacement')

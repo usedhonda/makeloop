@@ -73,6 +73,14 @@ It does not prove arbitrary natural-language intent, runtime availability or act
 those still require the host evidence and semantic review above. G2 distinguishes a target CLI's
 confirmed slash surface from the generator's tool list; it is a synthetic fixture, not a live run.
 
+Recovery scenarios R1-Codex/R1-Claude require `completion_pair_required` and
+`remediation_required`: a Goal-first pair, an ordinary non-tick alternative and a project-bound
+REMEDIATION SCOPE section. The checker also rejects representative unqualified English/Japanese blocker exits
+on CC. These are structural checks, not a general natural-language safety proof. Grade the
+actual repair/stop decision, authorization sources and scoped alternatives independently.
+F27-F34 cover repairable prerequisites, genuine authentication boundaries, changed hypotheses,
+resume with cumulative state, uncertain external effects, required review waits and host enforcement. No fixture starts a native Goal.
+
 The deterministic provenance check recognizes URLs in explicit source/reference/citation labels
 or sections. Operational gate/target URLs and evidence links are valid contract content, not
 automatically source citations. Unlabelled or differently formatted provenance still requires

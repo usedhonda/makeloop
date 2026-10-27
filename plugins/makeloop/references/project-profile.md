@@ -54,6 +54,12 @@ collect evidence directly. Tool names and allowed-tools do not authorize delegat
   `contract`, `do not modify`, `layout`, `idempotent`.
 - Which properties must **never** break? What is off-limits to edit (vendored code, a
   read-only integration, UI layout, generated files)?
+- For closed work, find existing authorization for necessary prerequisite repairs: declared
+  dependencies, verified tool paths, project-local config/scripts and supported regeneration.
+  Record concrete sources and real boundaries for REMEDIATION SCOPE. External-looking symptoms
+  alone do not prove a dependency outside the agent's control. Do not assume all environment
+  changes are allowed, or ask again for explicitly approved operations. Inspect prerequisites
+  tied to the requested use path, not a speculative whole-machine readiness checklist.
 
 **E. Existing loop infrastructure — reuse, don't reinvent**
 - Look for `.loop/`, `.loop-state.json`, `*state*.json`, `*FINDINGS*.md`, `*runbook*.md`,

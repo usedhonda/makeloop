@@ -27,6 +27,12 @@ For a closed completion request on either host, include the available Goal-equip
 initial proposal; recommend it for requested looping/cross-turn continuation. Apply the current
 host guide's lifecycle binding before judging readiness. Explicit no-Goal/bounded choices
 and actual capability/ownership/limit constraints still override this default.
+When both modes are ready and no different runtime was explicitly selected, show Goal-equipped
+completion first (recommended) and ordinary current-execution completion second. Both bind the
+same outcome/state and REMEDIATION SCOPE, not two different projects or a mandatory single pass.
+Explain that necessary authorized blocker repair is included in both; a repaired prerequisite
+returns to the original work without a fresh user request. Genuine native/runtime boundaries
+remain, and this contract is not an automatic resume service. Do not add irrelevant menu choices.
 When a requested runtime is confirmed available, it is the selected/recommended mode, not merely
 an alternative. In particular, a CI/external-resume request must not silently become manual-first;
 manual can be an optional inspection card, not a replacement recommendation. If the requested mode

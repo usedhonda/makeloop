@@ -78,6 +78,32 @@ other-owner waits remain, checkpoint as incomplete with their conditions, not su
 Unrelated improvements
 belong in a separate proposal; they do not extend this loop's goal or budget.
 
+## Recover an impediment before declaring a terminal blocker
+
+Bind REMEDIATION SCOPE to existing project/user authority: necessary permitted repair actions,
+their source and real boundaries. A missing command, dependency, local config or failing tool
+can be a repair task inside the original outcome, not an external wait. Diagnose the first
+failure and use evidence to choose a safe repair or verified legitimate alternative; after the
+same failure twice without progress, narrow the unit or change approach. Repeat-safe bounded
+infrastructure backoff remains valid inside actual limits; it is not a progress-counter reset.
+Verify the repair, then return to the original task in the same execution. Merely attempting a
+repair or restating a diagnosis is not progress. Keep this trace in existing state, not a new store.
+
+A terminal blocker needs an assessment that no productive authorized repair/alternative and
+no independent safe work remains. Record diagnosis, actions/results or concrete reasons actions
+cannot be tried, unresolved original requirements and what would unblock them. Do not try a
+prohibited action just to produce failure evidence. Existing external/global authorizations carry;
+do not invent new permission, ask again for existing approval, or turn every failure into a stop.
+Surface the assessment in conversation for host evaluators that cannot read files themselves.
+After a legitimate resume, recheck the unblock condition first and retain cumulative state.
+Native impasse rules and stop/resume controls remain binding; no counter spoofing, Goal recreation
+or automatic resume runner is supplied by this prompt.
+User approval does not remove host sandbox/approval enforcement. A denied authorized repair is
+a runtime boundary: use an available legitimate native approval path, not a repeated denied
+operation or permission-setting bypass; otherwise record the minimum necessary user unblock
+action and continue independent authorized work. A review/other-owner wait needs its party and
+condition surfaced, not a repair attempt on another party's decision.
+
 ## Keep state useful through interruption
 
 Use the existing state format; do not install a database or migrate files merely for these fields.

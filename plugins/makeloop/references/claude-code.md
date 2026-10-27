@@ -38,8 +38,10 @@ active goal before offering a launch that would replace it. Explain replacement,
 Use the shared output guide: save/check first, then explanations, the saved contract path (full
 body only on explicit request), and, for ready proposals only, one final launch group with A/B/C labels. Every chat block is `text`, pasted into **Claude Code input**,
 not the operating-system terminal. For closed completion, include the confirmed Goal option from
-the first proposal; ordinary execution is an optional alternative when useful, not a replacement
-for requested continuation. Explicit different runtime choices still win. If Goal really cannot
+the first proposal. When no other runtime is explicitly selected and both modes are ready,
+pair recommended Goal completion with ordinary current-execution completion; both reference
+the same contract/state and REMEDIATION SCOPE, never simultaneous writers. Ordinary execution
+is not a replacement for requested cross-turn continuation. Explicit different runtime choices still win. If Goal really cannot
 be confirmed, explain the specific missing evidence/control without a runnable Goal block;
 do not silently omit a requested Goal. For an open watcher, offer one tick plus `/loop <interval>` when confirmed.
 An installed Ralph option is an extra only when it is relevant, never an install recipe in the
@@ -55,10 +57,12 @@ Fill real values in the user's language; examples here are scaffolds, not execut
   provisional pending work, delivery/review and actual stop conditions in the saved contract.
 - Explicit bounded pass: “Follow .loop/repair.md for exactly one iteration.” Keep the bound state, criteria,
   reporting and limits in that saved contract rather than duplicating them in the launch.
-- Closed continuation: `/goal Follow .loop/repair.md. End this run when (1) all acceptance
+- Closed continuation: `/goal Follow .loop/repair.md, including necessary authorized prerequisite repair under its REMEDIATION SCOPE. End this run when (1) all acceptance
   criteria and the original outcome are proved with no unmet/unverified work, or (2) a saved
-  incomplete checkpoint evidences an actual user/platform limit, or only blockers/approval or
-  other-owner waits remain with no independent safe work. Preserve
+  incomplete checkpoint evidences an actual user/platform limit, or a surfaced remediation
+  assessment proves no productive authorized repair/alternative or independent work remains,
+  including only approval/other-owner waits such as required human review with the waiting party
+  and condition surfaced after independent authorized work is exhausted. Preserve
   .loop/repair-state.md and report the evidence, cumulative counters and unmet criteria.
   Report FINAL only for acceptance success.`
 - Watcher: `/loop 5m Follow .loop/deploy-watch.md for one tick; update
@@ -83,7 +87,13 @@ release only that reached pause in the saved state and retain the original scope
   review, not replaces them. It can clear a goal as impossible or after an unrecoverable error;
   neither is success. A new agent/checker still needs explicit delegation authorization.
 - Include both acceptance success and evidenced non-success terminal checkpoints in the native
-  goal condition, including approval/other-owner waits only when no independent safe work remains.
+  goal condition. A bare "only blockers remain" does not establish that exit: before stopping,
+  surface the symptom, diagnosis, permitted repairs/alternatives tried or concrete reasons they
+  cannot be attempted, remaining work, and the unblock condition in the conversation. The
+  assessment must establish no productive authorized recovery or independent safe work remains.
+  Necessary authorized repair is part of the original Goal; verify it, then return to the pending
+  work without a fresh repair request. A prohibited repair need not be attempted. Approval or
+  other-owner waits are terminal only after independent authorized work is exhausted.
   A budget/dead-end stop must not leave the evaluator instructed to continue
   until acceptance passes. Surface the check results, target, cumulative counters, stop reason,
   remaining work and checkpoint path in the conversation; a pointer to an unread file is not
