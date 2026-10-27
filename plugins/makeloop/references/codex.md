@@ -29,6 +29,10 @@ candidate using the shared output guide. No fake `/loop`, `/ralph-loop` or `code
 
 ## Final copy choices
 
+Use a short explanation, then end with **貼り付けるプロンプトはこれです** (localized to the user).
+Label each complete code block with its mode and actual input destination. Saved design paths
+are references, not the paste text; a bare resume control does not replace the task-bound prompt.
+
 Use the shared output guide: save/check first, then explanations, the saved contract path (full
 body only on explicit request), and, for ready proposals only, one final launch group with A/B/C labels. Name the actual paste surface: **Codex CLI input**, the
 **Codex desktop chat**, or the **IDE chat** for `text`; the **OS terminal** for `sh`.

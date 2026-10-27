@@ -151,17 +151,26 @@ package in this order:
    recommended; distinguish different purposes from ways to run the same accepted contract.
 3. Saved paths, assumptions/gaps, and truthful status: **contract generated; continuation/schedule
    not configured; not started**. Put caveats, cost notes and all closing prose HERE, not after commands.
-4. **Loop contract / Loop本文**: the saved file is authoritative. By default give its short
-   project-relative path, not the full body in chat. Show the complete checked saved body once
+4. **Saved design / 保存した設計書（コピー不要）**: the saved file is authoritative. By default give its short
+   project-relative path, not the full body in chat. Do not label a path alone "the prompt" or
+   "Loop本文": it is a saved design reference, not the text the user should paste.
+   Show the complete checked saved body once
    only if explicitly requested; use a longer outer fence if it contains fences. Do not reconstruct
    a different version or print unchosen-purpose executable contracts.
-5. **Launch commands / 起動コマンド**, at the very end: one fully resolved independent block per
+5. **Paste-ready prompts / 貼り付けるプロンプトはこれです**, at the very end: one fully resolved independent block per
    confirmed runnable choice. Immediately above each block, use one label with A/B/C, the purpose,
    host and paste destination; mark only the first as recommended. For example:
-   `### A — Recommended: finish the repair | Claude Code input` or
-   `### A — おすすめ：全残件を完遂 | Codex CLI 入力欄`.
+   `### A — Goal付き（おすすめ） | Claude Code 入力欄に貼る` or
+   `### B — 通常完遂 | Codex CLI 入力欄に貼る`.
    Keep detailed explanations and unconfirmed options above the Loop body. The final copy group
    contains only its heading, these short labels and copy blocks; no commands in tables or lists.
+
+Keep the explanation short and separate from what to paste. Immediately before this final group,
+say in the user's language: **Copy the whole code block below into the named input. Choose only
+one of A/B; the explanation and saved paths above are not part of the prompt.** For one choice,
+omit the A/B selection sentence. Each code block is the complete paste unit; do not make the user
+assemble it from surrounding bullets, file links or multiple messages. Preserve necessary context
+and readiness rules; this is a presentation change, not permission to omit the accepted contract.
 
 If no confirmed execution mode matches the explicit request, omit the launch group and report
 the requested mode as unconfigured; do not manufacture a recommended single pass.
@@ -175,6 +184,11 @@ requested body does not authorize executing it or creating schedules.
 
 - One independently usable launch per fenced `text` block (conversation input) or `sh` block
   (terminal). Label the host, destination and execution unit immediately outside the fence.
+- A bare lifecycle control such as `/goal resume` is not a task-bound execution prompt. Put such
+  controls in the earlier lifecycle explanation, not as the sole final answer to a request for a
+  Loop prompt. A runnable resume proposal must bind the correct existing task/contract and target
+  worktree/session, preserving state and using only supported controls. A missing resume capability
+  remains a real readiness gap; a longer normal message cannot manufacture it.
 - Inside: only what to paste. No bullets, shell `$` prompt, wrapping display quotes, explanatory
   comments, other candidates or mixed shell/chat commands. Preserve syntactically required quotes,
   including around shell paths with spaces. Use the user's language, not smart-quote shell syntax.
@@ -206,7 +220,8 @@ requested body does not authorize executing it or creating schedules.
 - A conversation block is not a shell command: do not wrap it in `claude -p` or `codex exec`.
   A terminal block contains only shell syntax with real quoting (including apostrophes in paths
   or prompts). Do not add permission-bypass flags for convenience. Never combine launch and
-  pause/clear/resume controls in one block. Keep lifecycle guidance in the earlier explanation.
+  separate pause/clear/resume command strings in one block. Keep lifecycle guidance in the earlier
+  explanation; a task-bound resume instruction is not a bundle of unrelated lifecycle commands.
 - For schedule setup, label **creates a schedule**, not “starts one tick”. Generating its setup
   message does not create it. Do not create a runner or schedule without explicit authorization.
 - Two launch alternatives can reference the same contract/state, but only one may write it at a

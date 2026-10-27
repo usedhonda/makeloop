@@ -42,6 +42,11 @@ Only an evidenced lack of productive authorized recovery/independent work suppor
 stop. Real authority, authentication and native runtime boundaries remain; no auto-resume runner
 or counter reset is introduced.
 
+The final response keeps explanation separate from the paste text: a short explanation,
+then **Paste-ready prompts / 貼り付けるプロンプトはこれです** with mode/destination labels and
+one complete code block per choice. Saved design paths are marked as references (copy not needed),
+not called the prompt. A bare resume control does not replace the task-bound execution prompt.
+
 No-Goal does not mean one iteration: ordinary execution may pursue successive useful steps in
 the current execution, but does not configure cross-turn persistence. An explicitly requested
 single pass remains bounded. Green parser tests alone do not finish an app's CSV import/save

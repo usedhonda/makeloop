@@ -45,6 +45,9 @@ In ONE final response: explanation/Loop brief and choices, paths/status/gaps, th
 launch blocks at the very end. The saved contract is authoritative; show its full body only when
 explicitly requested. Prefer short new slugs and project-relative paths; never insert a newline
 inside a filename/path. Follow output-guide.md for copy-safe launches and existing long names.
+Label saved paths as design references (not the paste prompt). End with **貼り付けるプロンプトはこれです**
+(or the user's language), a brief copy-only-the-code-block instruction before that group, and
+clearly labeled paste blocks. A bare resume control is not a substitute for the task-bound prompt.
 Nothing follows the last launch fence.
 On Codex use **Codex run options** for comparisons (no comparison heading is needed for one choice); use host-native choice labels on CC. Mark exactly one recommendation among ready proposals only.
 For either host's closed completion requests, include the available Goal-equipped launch from the first

@@ -35,6 +35,10 @@ active goal before offering a launch that would replace it. Explain replacement,
 
 ## Final copy choices
 
+Use a short explanation, then end with **貼り付けるプロンプトはこれです** (localized to the user).
+Label each complete code block with its mode and actual input destination. Saved design paths
+are references, not the paste text; lifecycle controls alone do not replace the execution prompt.
+
 Use the shared output guide: save/check first, then explanations, the saved contract path (full
 body only on explicit request), and, for ready proposals only, one final launch group with A/B/C labels. Every chat block is `text`, pasted into **Claude Code input**,
 not the operating-system terminal. For closed completion, include the confirmed Goal option from

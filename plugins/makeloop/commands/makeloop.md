@@ -421,6 +421,10 @@ runtime or start anything. Keep one writer and reconcile real run/session owners
 Only in the final response, after saving and checking: explanations/Loop brief, explained candidate
 cards (Codex run options on Codex), paths/status/gaps, then short resolved launch blocks at the
 very end. The saved file is authoritative; show its complete body only on explicit request.
+Use a direct final heading such as **貼り付けるプロンプトはこれです**. Before that group, say to copy
+one whole code block to its labeled input; explanations and saved design paths are not to paste.
+Do not call a saved path alone "the prompt" or replace the execution prompt with a bare resume
+control. Keep the selected task, correct target and saved-contract binding inside the paste unit.
 Do not output launch commands or full Loop bodies during
 progress or proposals. Nothing follows the final launch fence; see the output guide.
 For unresolved purpose comparisons, explain choices and ask before writing executable loop files.
