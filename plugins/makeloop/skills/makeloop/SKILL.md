@@ -46,6 +46,9 @@ then short copyable launch blocks at the end. Put detailed execution, recovery, 
 stop/resume and budget rules in the saved Markdown, not repeated chat cards or long paste text.
 Outcome-first adaptive recovery and minimum sufficient verification are default closed-loop policy;
 the user need not repeat instructions to avoid siloed work, premature blocker stops or test churn.
+Default to lean test stewardship too: avoid unnecessary new tests and incrementally consolidate or
+remove evidenced redundant/obsolete existing tests in the affected area without a separate request.
+Carry the template's preservation, diagnosis and scope rules; never weaken required checks to pass.
 The saved contract is authoritative; show its full body only when
 explicitly requested. Prefer short new slugs and project-relative paths; never insert a newline
 inside a filename/path. Follow output-guide.md for copy-safe launches and existing long names.

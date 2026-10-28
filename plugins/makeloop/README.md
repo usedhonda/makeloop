@@ -52,6 +52,10 @@ live in the saved Loop Markdown by default; users need not repeat a long invocat
 them. Chat stays a compact outcome/path/status wrapper plus paste-ready blocks. Choose productive
 authorized alternatives when blocked, return to original delivery, and stop redundant testing
 when current evidence is sufficient; mandatory gates and real boundaries remain binding.
+Lean test stewardship is also default: avoid unnecessary new tests and actively consolidate or
+remove existing redundant, obsolete or meaningless tests encountered in the affected area, without
+another cleanup request. Record why coverage is no longer needed or where it survives; preserve
+required behavior/gates and never delete checks to hide a failure. No cleanup audit or deletion quota.
 
 No-Goal does not mean one iteration: ordinary execution may pursue successive useful steps in
 the current execution, but does not configure cross-turn persistence. An explicitly requested

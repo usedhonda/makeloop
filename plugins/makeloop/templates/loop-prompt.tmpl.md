@@ -49,6 +49,20 @@ DELIVERY POLICY:
   audits without a new decision. A full gate runs once per relevant checkpoint; repeat only for
   a relevant change, concrete counterevidence or an explicit acceptance/release requirement.
   A verification-only cycle needs an actual missing proof or discriminating diagnosis, not habit.
+- Maintain a lean test suite as ordinary work, without a separate cleanup request. Do not add
+  tests for test-count growth, reversible low-impact edits, or assertions that merely mirror the
+  implementation. Reuse existing coverage; add a regression only for a concrete uncovered failure,
+  observable behavior or protected contract after the implementation stabilizes.
+- While working in the affected area, actively consolidate or remove existing redundant,
+  implementation-mirroring, obsolete or no-longer-meaningful tests, fixtures and test-only helpers.
+  Establish the reason first: name the retired behavior or map each still-required assertion to
+  surviving coverage. Preserve distinct edge cases, security/acceptance checks and required gates;
+  age, slowness, a failure or an assertion count alone is not grounds for deletion. Never prune to
+  turn red green or conceal a regression. If a test is failing, diagnose the failure before pruning;
+  if its value is uncertain, retain it and proceed with the original outcome.
+  Keep pruning local and incremental, record the removed obligation or surviving coverage and use
+  only the smallest affected check needed. No repository-wide audit, deletion quota, replacement
+  test per deletion, extra review gate or repeated full-suite cleanup cycle; delivery stays primary.
 - Keep execution/stop/resume procedures, criterion evidence, recovery authority, remaining work
   and cumulative limits in this contract/state. Surface the evidence needed by the actual native
   evaluator in conversation; a file pointer alone is not evidence of completion or a terminal wait.

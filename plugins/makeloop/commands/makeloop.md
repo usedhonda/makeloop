@@ -165,6 +165,11 @@ are defaults, not optional wording the user must repeat. Materialize the templat
 against the actual use/delivery path. Do not optimize a local component or test count while the
 requested result remains missing. Save these policies, native lifecycle procedures and necessary
 details in the Loop Markdown; do not require a long ritual invocation to get this behavior.
+Default test stewardship includes both avoiding unnecessary new tests and actively pruning existing
+excess in the area being worked on, without another user request. Materialize the DELIVERY POLICY's
+pruning rules in the saved contract: evidence-backed consolidation/removal, preserved distinct
+behavior and mandatory gates, local incremental scope and no deletion quotas or cleanup detour.
+This is not permission to delete failing checks to manufacture success or to edit unrelated areas.
 When completing a supplied plan, bind its authoritative reference and intended deliverable in
 that Markdown. Carry original constraints and unmet outcomes, not just the plan's easiest tasks.
 
