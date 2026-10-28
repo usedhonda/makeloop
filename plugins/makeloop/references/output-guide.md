@@ -137,6 +137,7 @@ final package on either host:
    **実行方法** in Japanese; English **Codex run options** remains valid. No tool-menu essay.
 2. **Saved design and actual status**: one short line with the exact saved Markdown path (copy not
    needed) and truthful generated/configured/started status, plus any material unresolved gap.
+   If the user requested a pause point, briefly name it on this status line; do not invent one.
    Put detailed stopping, recovery, evidence, budgets, state/resume and handoff instructions in
    that file, not repeated chat sections. If handoff is selected, retain its exact state location
    in the saved contract; mention the recipient-facing location only when needed for delivery.

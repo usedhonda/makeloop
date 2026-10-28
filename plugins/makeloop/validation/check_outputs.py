@@ -317,7 +317,7 @@ def check(case, out, presentation=True):
                     'Codex launch on Claude Code')
     # A brief's substance is independently graded; a literal title cannot prove it.
     if case['host'] == 'codex' and len(launches) > 1:
-        require(bool(re.search(r'Codex run options|実行方法', chat)), 'missing Codex choices section')
+        require(bool(re.search(r'^\s*(?:#{1,6}\s+)?(?:Codex run options|実行方法)(?:[:：]|\s*$)', chat, re.M)), 'missing Codex choices section')
     if case.get('lang') == 'ja':
         require(len(re.findall(r'[ぁ-んァ-ン一-龥]', body)) > 60, 'Japanese output not rendered')
     if case.get('bootstrap'):

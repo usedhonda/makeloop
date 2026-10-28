@@ -245,6 +245,10 @@ class CopyLayoutTests(unittest.TestCase):
         case, out = package(options=options)
         out['chat'] = out['chat'].replace('Codex run options:', '実行方法:')
         self.assertEqual(check(case, out), [])
+        bad = dict(out, chat=out['chat'].replace('実行方法:', '本文中で実行方法は保存済みです。'))
+        self.assertIn('missing Codex choices section', check(case, bad))
+        heading = dict(out, chat=out['chat'].replace('実行方法: A is recommended; other modes are conditional.', '## 実行方法'))
+        self.assertEqual(check(case, heading), [])
 
     def test_useful_single_option_is_valid_without_a_comparison_menu(self):
         case, out = package()

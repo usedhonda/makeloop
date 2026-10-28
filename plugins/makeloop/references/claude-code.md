@@ -61,7 +61,7 @@ Fill real values in the user's language; examples here are scaffolds, not execut
   provisional pending work, delivery/review and actual stop conditions in the saved contract.
 - Explicit bounded pass: “Follow .loop/repair.md for exactly one iteration.” Keep the bound state, criteria,
   reporting and limits in that saved contract rather than duplicating them in the launch.
-- Closed continuation: `/goal Follow .loop/repair.md. End on its verified success or an evidenced terminal checkpoint, including required review/approval waits after all productive authorized work is exhausted; surface the evidence and unmet criteria.`
+- Closed continuation: `/goal Follow .loop/repair.md; surface its criteria and exit rules when starting work. End on evidence for every criterion, an actual user/platform limit, or diagnosed approval/review/dead-end wait after authorized recovery and independent work are exhausted; report unmet criteria, never success for those exits.`
   Save the full recovery, limits, state/resume and evaluator-assessment procedures in the contract;
   keep this essential success/non-success distinction in the native condition. A terminal checkpoint
   is not project success; FINAL remains acceptance-only. Do not repeat the complete contract here.
@@ -85,6 +85,10 @@ release only that reached pause in the saved state and retain the original scope
 
 - FINAL is a report marker, not a native scheduler stop token. Separate contract success,
   native goal achieved, cancelled job, and exited process in state and reports.
+- At the first working turn after reading the contract, surface every acceptance criterion ID,
+  its pass/fail rule, and the exact success/non-success exit definitions in the conversation.
+  Combine this with actual work; do not create an idle acknowledgement turn. At exit, report
+  criterion-by-criterion evidence and unmet requirements, not merely a global "verified" claim.
 - `/goal`'s evaluator reads surfaced conversation; it does not independently inspect files or
   run checks. Native evaluation supplements objective evidence and any required independent
   review, not replaces them. It can clear a goal as impossible or after an unrecoverable error;
