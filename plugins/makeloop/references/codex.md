@@ -57,11 +57,10 @@ Render with actual paths and values in the user's language; these are illustrati
   criteria, reporting and limits in that saved contract, not a long launch message.
 - Open manual message: “Follow .loop/deploy-watch.md for one watcher tick.” Bind the cursor,
   trigger, permissions and stopping in the saved contract.
-- Goal: `/goal Follow .loop/repair.md, including necessary authorized prerequisite repair under its REMEDIATION SCOPE, to prove the original outcome and every criterion, leaving
-  no unmet or unverified original-purpose work. Preserve scope, evidence,
-  consumed attempts and remaining work in .loop/repair-state.md. Honor its limits and stop
-  instructions; a pause or budget checkpoint is not achievement of this objective.` Bind actual
-  limits and any requested pause in the launch; do not put non-success exits in its success rule.
+- Goal: `/goal Complete the original outcome in .loop/repair.md under its saved execution and verification rules.`
+  Save detailed scope, recovery, limits, requested pause and state/resume handling in that contract.
+  Retain native budget/setup arguments when actually required by the host; do not put non-success
+  exits in its success rule or omit a genuine native prerequisite merely to shorten the text.
   Before a blocked decision, diagnose the impediment, repair it or use an authorized productive
   alternative when possible, and return to original work. If that remediation assessment proves
   no productive authorized repair/alternative or independent work remains, save an incomplete checkpoint with the

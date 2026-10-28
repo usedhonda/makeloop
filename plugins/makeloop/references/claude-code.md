@@ -61,14 +61,10 @@ Fill real values in the user's language; examples here are scaffolds, not execut
   provisional pending work, delivery/review and actual stop conditions in the saved contract.
 - Explicit bounded pass: “Follow .loop/repair.md for exactly one iteration.” Keep the bound state, criteria,
   reporting and limits in that saved contract rather than duplicating them in the launch.
-- Closed continuation: `/goal Follow .loop/repair.md, including necessary authorized prerequisite repair under its REMEDIATION SCOPE. End this run when (1) all acceptance
-  criteria and the original outcome are proved with no unmet/unverified work, or (2) a saved
-  incomplete checkpoint evidences an actual user/platform limit, or a surfaced remediation
-  assessment proves no productive authorized repair/alternative or independent work remains,
-  including only approval/other-owner waits such as required human review with the waiting party
-  and condition surfaced after independent authorized work is exhausted. Preserve
-  .loop/repair-state.md and report the evidence, cumulative counters and unmet criteria.
-  Report FINAL only for acceptance success.`
+- Closed continuation: `/goal Follow .loop/repair.md. End on its verified success or an evidenced terminal checkpoint, including required review/approval waits after all productive authorized work is exhausted; surface the evidence and unmet criteria.`
+  Save the full recovery, limits, state/resume and evaluator-assessment procedures in the contract;
+  keep this essential success/non-success distinction in the native condition. A terminal checkpoint
+  is not project success; FINAL remains acceptance-only. Do not repeat the complete contract here.
 - Watcher: `/loop 5m Follow .loop/deploy-watch.md for one tick; update
   .loop/deploy-watch.cursor.json; react only to new events under the saved permissions.`
 - Ralph: use the installed plugin's verified invocation, with `--max-iterations N` and
@@ -76,8 +72,11 @@ Fill real values in the user's language; examples here are scaffolds, not execut
   text; the completion output is `<promise>DONE</promise>`. Do not put the tags in the flag value.
 
 The saved contract carries the host-specific stop instructions below, not merely the launch line.
-For `/goal`, expand the contract's actual cumulative limits and terminal blocker conditions into
-the emitted condition. An agent-default checkpoint is not a terminal limit. Do not invent a cap.
+Materialize them there during generation so the short paste prompt does not lose native semantics.
+For `/goal`, bind actual cumulative limits and terminal blocker conditions in the saved contract
+and point the emitted condition to those rules. Retain native parameters and any condition the
+actual evaluator requires directly, not the complete recovery/state inventory. An agent-default
+checkpoint is not a terminal limit. Do not invent a cap.
 When a pause point is requested, include its evidenced checkpoint as another non-success exit in
 that condition. Surface the remaining criteria, not a project-completion claim. On explicit resume,
 release only that reached pause in the saved state and retain the original scope and limits.

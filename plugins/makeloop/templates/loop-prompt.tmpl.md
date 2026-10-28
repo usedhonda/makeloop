@@ -34,6 +34,25 @@ project-specific forbidden actions and genuine approval or physical-operation bo
 Repair only prerequisites necessary for the original outcome. This records existing authority;
 it grants no new access or permission and does not turn unrelated cleanup into required work.
 
+DELIVERY POLICY:
+- Optimize for the original usable/delivered result, not one component, a closed task list or
+  test counts. Trace the actual use path across relevant implementation, integration and delivery;
+  a locally green fragment does not replace the original outcome. Do not invent unrelated work.
+- When an approach stalls, compare necessary authorized repair, alternative tools/paths and
+  changes of hypothesis or work unit instead of remaining trapped in the same local subproblem.
+  Verify the useful alternative, then return to the original result. Real boundaries still bind.
+- Before each check, name the unmet criterion, concrete wrong-result scenario or next decision it
+  can change. Prefer the smallest discriminating check; stop checking once sufficient current
+  evidence exists and advance implementation, integration or delivery. Preserve mandatory gates
+  and independent reviews; never weaken them to save time or make progress appear successful.
+- No unchanged-green reruns, equivalent rechecks by another command, per-patch full suites or
+  audits without a new decision. A full gate runs once per relevant checkpoint; repeat only for
+  a relevant change, concrete counterevidence or an explicit acceptance/release requirement.
+  A verification-only cycle needs an actual missing proof or discriminating diagnosis, not habit.
+- Keep execution/stop/resume procedures, criterion evidence, recovery authority, remaining work
+  and cumulative limits in this contract/state. Surface the evidence needed by the actual native
+  evaluator in conversation; a file pointer alone is not evidence of completion or a terminal wait.
+
 VERIFY — the gate (run these; never self-grade):
 - <verify command 1, e.g. npm run typecheck>   # fastest first
 - <verify command 2, e.g. npm test>            # slower last

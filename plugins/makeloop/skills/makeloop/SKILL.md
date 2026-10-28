@@ -41,15 +41,20 @@ its question UI is absent. Do not require ritual confirmation for decisions alre
 
 Save `.loop/<slug>.md`, seed closed `-state.md` or open `.cursor.json` only if absent, and maintain
 `.loop/INDEX.md`. Hold launch commands and the full Loop body until saving/checks are complete.
-In ONE final response: explanation/Loop brief and choices, paths/status/gaps, then short copyable
-launch blocks at the very end. The saved contract is authoritative; show its full body only when
+In ONE final response: a short outcome sentence, saved path/readiness and concise choice distinction,
+then short copyable launch blocks at the end. Put detailed execution, recovery, verification,
+stop/resume and budget rules in the saved Markdown, not repeated chat cards or long paste text.
+Outcome-first adaptive recovery and minimum sufficient verification are default closed-loop policy;
+the user need not repeat instructions to avoid siloed work, premature blocker stops or test churn.
+The saved contract is authoritative; show its full body only when
 explicitly requested. Prefer short new slugs and project-relative paths; never insert a newline
 inside a filename/path. Follow output-guide.md for copy-safe launches and existing long names.
 Label saved paths as design references (not the paste prompt). End with **貼り付けるプロンプトはこれです**
 (or the user's language), a brief copy-only-the-code-block instruction before that group, and
 clearly labeled paste blocks. A bare resume control is not a substitute for the task-bound prompt.
 Nothing follows the last launch fence.
-On Codex use **Codex run options** for comparisons (no comparison heading is needed for one choice); use host-native choice labels on CC. Mark exactly one recommendation among ready proposals only.
+Use localized **実行方法** for Japanese comparisons; **Codex run options** is also valid on Codex.
+No comparison heading is needed for one choice. Mark exactly one recommendation among ready proposals only.
 For either host's closed completion requests, include the available Goal-equipped launch from the first
 proposal; recommend it for requested looping/cross-turn continuation, unless an explicit different
 mode wins. Bind the fresh Goal lifecycle from the current host guide during generation. Not configured/not

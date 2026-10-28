@@ -108,21 +108,17 @@ choice first in both places; honor an explicit supported runtime. Default to the
 not a mixed CC/Codex menu. Different modes are alternatives, not steps to execute in sequence.
 State before the copy group that only one may own the saved state at a time.
 
-## Explain every candidate
+## Explain choices briefly; keep operating details in Markdown
 
-Use purpose-led titles such as “Finish the repair”, “Try one iteration”, “Watch new failures”,
-not just tool names. Each card must explain, concretely for this project:
-
-- outcome and when to choose it;
-- what happens per iteration/tick, whether it edits or only observes/notifies, and its scope;
-- when another choice fits better;
-- exact verification or trigger, stop/cap/expiry, and what an incomplete checkpoint means;
-- saved contract and state/cursor, how to continue, and whether it shares state with another card;
-- permission, host/session, local/worktree and unattended constraints that affect the choice;
-- known cost/runtime only when measured; otherwise say unmeasured.
-
-Give enough explanation to make the choice, usually a short paragraph plus concrete bullets.
-Do not compress differences into generic “safe / advanced” labels or bury them in a tool menu.
+Save the full purpose, scope/effects, use/delivery path, criterion/evidence map, recovery authority,
+verification budget, actual limits, host lifecycle and resume procedures in the Loop Markdown.
+Retain meaningful mode differences there too. Chat is a compact delivery wrapper, not a second
+contract: normally one outcome sentence, one saved-path/readiness line, and one choice-distinction
+line when there are alternatives. Explain only the differences the user needs to select a mode.
+Do not repeat per-iteration rules, inventories or the same stop/budget/state details for every card.
+Keep real unresolved high-impact choices, unusual effects and material capability gaps visible;
+brevity must not hide something needed to choose or run the proposed action.
+This replaces the earlier long candidate-card checklist in chat, not its saved-contract content.
 
 ## Final-only output: explanation, contract, launches last
 
@@ -132,45 +128,33 @@ hold executable text until the final deliverable. Inline feature names are fine;
 launches with the saved paths are not, even without a code fence. The user must not have to hunt through the
 conversation to find the latest launch. Earlier copy-first guidance is superseded by this rule.
 
-After resolving material questions, saving files and completing assembly checks, send ONE final
-package in this order:
+After resolving material questions, saving files and completing assembly checks, use this compact
+final package on either host:
 
-1. Explanations and a concrete **Loop brief**: purpose, closed/open reason, actual actions,
-   scope/effects, check/trigger, stop/cap/expiry, state and next/resume behavior. Lead with the
-   particular outcome, evidenced remaining work, actual use/delivery target and how further
-   necessary tasks will be found; do not lead with a tool menu. Add a short
-   **How it stops / 今回の止め方** sentence: verified completion (or the watcher's exit), the
-   requested pause if any, the actual limits, and what is saved/how to resume. No new pause menu;
-   do not imply a pause is completion or promise native stopping without confirmed support.
-   When Handoff summary is selected, add **Handoff summary / 引継ぎサマリー** with its exact
-   state path/section and contents (changes, proof, remaining work, next action). Explain that
-   execution will maintain it at checkpoints and completion/interruption, regardless of day or night;
-   generation has not produced a completed run or scheduled a message.
-2. For ready proposals only, explained candidate cards. Label Codex comparisons **Codex run options**;
-   a single explained choice needs no comparison heading. Mark exactly one choice as
-   recommended; distinguish different purposes from ways to run the same accepted contract.
-3. Saved paths, assumptions/gaps, and truthful status: **contract generated; continuation/schedule
-   not configured; not started**. Put caveats, cost notes and all closing prose HERE, not after commands.
-4. **Saved design / 保存した設計書（コピー不要）**: the saved file is authoritative. By default give its short
-   project-relative path, not the full body in chat. Do not label a path alone "the prompt" or
-   "Loop本文": it is a saved design reference, not the text the user should paste.
-   Show the complete checked saved body once
-   only if explicitly requested; use a longer outer fence if it contains fences. Do not reconstruct
-   a different version or print unchosen-purpose executable contracts.
-5. **Paste-ready prompts / 貼り付けるプロンプトはこれです**, at the very end: one fully resolved independent block per
-   confirmed runnable choice. Immediately above each block, use one label with A/B/C, the purpose,
-   host and paste destination; mark only the first as recommended. For example:
-   `### A — Goal付き（おすすめ） | Claude Code 入力欄に貼る` or
-   `### B — 通常完遂 | Codex CLI 入力欄に貼る`.
-   Keep detailed explanations and unconfirmed options above the Loop body. The final copy group
-   contains only its heading, these short labels and copy blocks; no commands in tables or lists.
+1. **Short explanation**: normally one sentence naming the requested usable outcome. If choices
+   differ, add one short distinction (for example Goal across turns versus ordinary completion in
+   the current execution), with exactly one recommendation among ready proposals. Use localized
+   **実行方法** in Japanese; English **Codex run options** remains valid. No tool-menu essay.
+2. **Saved design and actual status**: one short line with the exact saved Markdown path (copy not
+   needed) and truthful generated/configured/started status, plus any material unresolved gap.
+   Put detailed stopping, recovery, evidence, budgets, state/resume and handoff instructions in
+   that file, not repeated chat sections. If handoff is selected, retain its exact state location
+   in the saved contract; mention the recipient-facing location only when needed for delivery.
+   Do not label a path alone "the prompt" or "Loop本文". Show the complete checked saved body
+   only on explicit request, before the final paste group, using a longer outer fence if needed.
+   Never reconstruct another version or print an unchosen-purpose executable contract.
+3. **Paste-ready prompts / 貼り付けるプロンプトはこれです**, last: one fully resolved code block
+   per ready choice. Put its mode, host and actual paste destination immediately above it,
+   with A/B labels when needed and only the first marked recommended. Keep the final group
+   limited to its heading, short labels and paste blocks.
 
-Keep the explanation short and separate from what to paste. Immediately before this final group,
-say in the user's language: **Copy the whole code block below into the named input. Choose only
-one of A/B; the explanation and saved paths above are not part of the prompt.** For one choice,
-omit the A/B selection sentence. Each code block is the complete paste unit; do not make the user
-assemble it from surrounding bullets, file links or multiple messages. Preserve necessary context
-and readiness rules; this is a presentation change, not permission to omit the accepted contract.
+Before the final group, use one short instruction: **Copy one whole code block to the named input;
+the explanation and saved path are not to paste.** With alternatives, say to choose only one and
+not run concurrent writers. Do not repeat long operating rules inside the launch: point to the
+exact saved contract, keep the selected mode, and retain only context or native syntax/stop criteria
+the actual host needs outside that file. A short launch must preserve the full outcome and actual
+limits/authority in the referenced contract. Neither hidden detail nor a normal message invents
+native continuation or a missing resume control.
 
 If no confirmed execution mode matches the explicit request, omit the launch group and report
 the requested mode as unconfigured; do not manufacture a recommended single pass.

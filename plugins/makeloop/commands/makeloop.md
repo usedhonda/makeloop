@@ -160,6 +160,14 @@ for external/global work carries forward; absent permission is not created by co
 Resolve only material unknown high-impact choices, not a ritual repair-approval questionnaire.
 During a narrow refine, change recovery scope only if requested; preserve existing state bytes.
 
+For closed completion requests, outcome-first adaptive recovery and evidence-budgeted verification
+are defaults, not optional wording the user must repeat. Materialize the template's DELIVERY POLICY
+against the actual use/delivery path. Do not optimize a local component or test count while the
+requested result remains missing. Save these policies, native lifecycle procedures and necessary
+details in the Loop Markdown; do not require a long ritual invocation to get this behavior.
+When completing a supplied plan, bind its authoritative reference and intended deliverable in
+that Markdown. Carry original constraints and unmet outcomes, not just the plan's easiest tasks.
+
 **Human handoff (closed only).** Select the **Handoff summary** block for unattended
 closed work or an explicit human-handoff request; honor an explicit opt-out. A narrow refine adds
 it only when that is the requested change. Daytime unattended work and overnight work use the same rule; elapsed duration alone does not select this block. There is no
@@ -418,9 +426,13 @@ Update `.loop/INDEX.md`: slug, purpose, kind, gate/trigger, cap/run mode, chosen
 unselected), saved paths and launch message. Showing alternatives does not select an unchosen
 runtime or start anything. Keep one writer and reconcile real run/session ownership before resume.
 
-Only in the final response, after saving and checking: explanations/Loop brief, explained candidate
-cards (Codex run options on Codex), paths/status/gaps, then short resolved launch blocks at the
-very end. The saved file is authoritative; show its complete body only on explicit request.
+Only in the final response, after saving and checking: a short outcome sentence, saved path and
+truthful readiness, a brief mode distinction if needed, then resolved paste blocks at the end.
+The saved Markdown carries detailed scope, recovery, evidence, limits and native lifecycle rules;
+do not reproduce them in long chat cards or launch messages. Keep visible any real unresolved
+high-impact choice, capability gap or unusual effect needed to choose/run safely. Use localized
+"実行方法" for Japanese mode comparisons (English "Codex run options" remains valid).
+The saved file is authoritative; show its complete body only on explicit request.
 Use a direct final heading such as **貼り付けるプロンプトはこれです**. Before that group, say to copy
 one whole code block to its labeled input; explanations and saved design paths are not to paste.
 Do not call a saved path alone "the prompt" or replace the execution prompt with a bare resume

@@ -238,6 +238,13 @@ class CopyLayoutTests(unittest.TestCase):
             'A — Recommended: one iteration | Codex CLI input',
             'A — おすすめ：まず1回 | Codex CLI 入力欄')
         self.assertEqual(check(case, out), [])
+        options = [('text', f'/goal Follow {PROMPT}; preserve {STATE}.',
+                    'A — おすすめ：Goal付き | Codex CLI 入力欄'),
+                   ('text', f'Follow {PROMPT} through completion; preserve {STATE}.',
+                    'B — 通常完遂 | Codex CLI 入力欄')]
+        case, out = package(options=options)
+        out['chat'] = out['chat'].replace('Codex run options:', '実行方法:')
+        self.assertEqual(check(case, out), [])
 
     def test_useful_single_option_is_valid_without_a_comparison_menu(self):
         case, out = package()

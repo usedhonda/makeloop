@@ -24,8 +24,8 @@ requested, without a fixed menu size. Goal/no-Goal changes continuation, not req
 | Watch for new events | Open watcher tick or supported cadence | Signal, new-event dedup, notification/action scope, cursor, expiry and cancellation |
 | Continue from CI or a wrapper | Exact-session resume, when requested | Working directory, state ownership and uncertain-effect reconciliation |
 
-Each choice explains when it fits **and when it does not**, its actual effects and permissions,
-its saved state and its stopping condition. A watcher is not an alternative implementation of a
+Each choice records suitability, effects/permissions, saved state and stopping conditions in the
+saved Markdown; chat shows only the meaningful differences needed to choose. A watcher is not an alternative implementation of a
 repair. Choices are derived from the project, not fixed presets or a menu padded with irrelevant tools.
 
 For closed completion work on either host, the initial proposal includes a Goal-equipped launch when
@@ -47,14 +47,20 @@ then **Paste-ready prompts / 貼り付けるプロンプトはこれです** wit
 one complete code block per choice. Saved design paths are marked as references (copy not needed),
 not called the prompt. A bare resume control does not replace the task-bound execution prompt.
 
+Detailed recovery, outcome alignment, minimum sufficient verification and host lifecycle rules
+live in the saved Loop Markdown by default; users need not repeat a long invocation to request
+them. Chat stays a compact outcome/path/status wrapper plus paste-ready blocks. Choose productive
+authorized alternatives when blocked, return to original delivery, and stop redundant testing
+when current evidence is sufficient; mandatory gates and real boundaries remain binding.
+
 No-Goal does not mean one iteration: ordinary execution may pursue successive useful steps in
 the current execution, but does not configure cross-turn persistence. An explicitly requested
 single pass remains bounded. Green parser tests alone do not finish an app's CSV import/save
 workflow; the contract traces input, display, save and read-back as required by the actual goal.
 
 **Final-only output:** no launch commands or full Loop body during progress or questions. Once
-files and checks are complete, one final response contains the explanations and candidate choices,
-then the short saved-contract path (full body only on explicit request), then **all launch blocks
+files and checks are complete, one compact final response gives outcome, saved path/readiness
+and brief mode differences (full body only on explicit request), then **all launch blocks
 at the very end**. Nothing follows the last
 launch block. Each block is independent and labeled by host and paste destination; explanations
 and shell prompts stay outside, necessary shell quotes stay inside. Unknown features remain
