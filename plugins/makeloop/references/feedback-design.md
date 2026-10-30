@@ -83,11 +83,19 @@ belong in a separate proposal; they do not extend this loop's goal or budget.
 Bind REMEDIATION SCOPE to existing project/user authority: necessary permitted repair actions,
 their source and real boundaries. A missing command, dependency, local config or failing tool
 can be a repair task inside the original outcome, not an external wait. Diagnose the first
-failure and use evidence to choose a safe repair or verified legitimate alternative; after the
-same failure twice without progress, narrow the unit or change approach. Repeat-safe bounded
-infrastructure backoff remains valid inside actual limits; it is not a progress-counter reset.
-Verify the repair, then return to the original task in the same execution. Merely attempting a
-repair or restating a diagnosis is not progress. Keep this trace in existing state, not a new store.
+failure and identify which assumption made the current route unproductive. Do not wait for a
+failure quota to change strategy. Compare plausible authorized routes (prerequisite repair,
+different implementation/tool/observation path, a smaller or reordered unit, isolation of the
+failing part), select the cheapest useful discriminating action and execute it. Keep criterion,
+failed assumption, changed approach, expected observation and actual delta in existing state.
+No fixed alternative count, speculative search tree or extra test/review gate is required.
+After two unchanged failures, the same route needs new evidence before reuse; changing command
+wording or discussing alternatives alone is not adaptation. Repeat-safe infrastructure backoff
+is allowed inside actual limits, but it is not outcome progress or a counter reset.
+If consultation was authorized, ask for concrete alternative routes with evidence, triage the
+reply and execute the useful next action; consultation receipt is not a terminal checkpoint.
+Verify the repair/alternative's relevant effect, then return to the original pending criterion.
+Narrowing or reordering work must not narrow the accepted outcome or weaken its evidence.
 
 A terminal blocker needs an assessment that no productive authorized repair/alternative and
 no independent safe work remains. Record diagnosis, actions/results or concrete reasons actions

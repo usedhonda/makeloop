@@ -5,8 +5,12 @@ Official documentation or an installed CLI version alone does not establish sess
 Unconfirmed/unavailable features belong in Conditional options without runnable copy fences.
 Choose from the requested work, not whether the user named a runtime. A completion request
 keeps completion intent; ordinary no-Goal execution can pursue successive necessary steps now
-without promising cross-turn persistence. Only an explicitly selected bounded pass stops after one unit. A blocked goal backend with no exposed resume/active operation remains unavailable;
-never invent that operation, reset its state/budget or silently replace it with a manual tick.
+without promising cross-turn persistence. Only an explicitly selected bounded pass stops after one unit.
+A blocked native Goal with no exposed resume operation makes native continuation unavailable,
+not every authorized task action. On a user-requested continuation, reconcile the exact Goal and
+checkpoint; continue safe productive work possible in the current conversation without claiming
+native resumption. Keep the requested native mode and actual status explicit; never invent a
+resume operation, reset state/budget, replace the Goal or silently downgrade it to a manual tick.
 Classify limits by source/enforcement as in the output guide; an internal count is not exhausted
 user authority and replanning it cannot restore a missing native control.
 
@@ -110,6 +114,12 @@ bound below in the saved contract. The entrypoint Final output contract governs 
 - Recover: classify the first failure, perform necessary authorized repairs under REMEDIATION
   SCOPE and verify their effects before returning to original work in the same Goal. Repair is
   goal work, not merely independent work; do not require the user to request it a second time.
+  Bind the template's strategy-switch trace, not just "try alternatives". Distinguish an actual
+  project impasse from provider/transport interruption or instruction-only turn termination:
+  compare native status/time, the last error and the last productive action before attribution.
+  A stale blocked label or unanswered consultation is not evidence all task routes are exhausted.
+  Contract refreshes and status replies retain the next action; do not end with only an ACK when
+  active authorized work can advance. Runtime-imposed stops cannot be removed by prompt wording.
 - Complete: call `update_goal(status="complete")` only after all original requirements and
   required delivery/review have current evidence; report the returned status.
 - Pause: only an explicit user pause request/condition authorizes `paused`. Bind such a supplied

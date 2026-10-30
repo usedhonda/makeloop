@@ -161,6 +161,11 @@ recovery is part of this goal, not a separate request after a stop. Do not turn 
 or external-looking symptoms into terminal blockers before this assessment. Existing permission
 for external/global work carries forward; absent permission is not created by contract generation.
 Resolve only material unknown high-impact choices, not a ritual repair-approval questionnaire.
+Materialize the template's strategy-switch trace against likely project impediments: name the
+failed assumption, select a genuinely different authorized route, execute its next useful action,
+and return to the original criterion. Repeating a command, listing options or receiving advice
+is not recovery. Separate native interruption from project impasse; retain actionable work across
+instruction refreshes and status replies without requiring another "continue" request.
 During a narrow refine, change recovery scope only if requested; preserve existing state bytes.
 
 For closed completion requests, outcome-first adaptive recovery and evidence-budgeted verification
