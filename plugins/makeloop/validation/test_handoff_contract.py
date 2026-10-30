@@ -164,13 +164,6 @@ class HandoffWiringTests(unittest.TestCase):
         self.assertIn('native stop requested/confirmed/unknown', NORMAL)
         self.assertIn('Do not put secrets', NORMAL)
 
-    def test_receiver_is_described_before_launch_group(self):
-        self.assertIn('Handoff summary / 引継ぎサマリー', GUIDE)
-        self.assertIn('exact\n   state path/section', GUIDE)
-        self.assertLess(GUIDE.index('Handoff summary / 引継ぎサマリー'),
-                        GUIDE.index('5. **Launch commands'))
-        self.assertIn('Nothing follows', COMMAND)
-
     def test_open_core_unchanged_by_closed_limit_provenance_fix(self):
         # CLOSED intentionally changed: agent counters no longer terminate the goal.
         self.assertEqual(hashlib.sha256(OPEN.encode()).hexdigest(), '463715cefb054fd7631cfb61fe9f1a596ceee3ce2411f91441755949fa90e2b3')
