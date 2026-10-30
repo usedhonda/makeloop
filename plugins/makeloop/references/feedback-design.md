@@ -35,6 +35,13 @@ For judgment-based review, bind a concrete rubric to inspected evidence; unobser
 remain unknown. A different checker or model family alone does not establish grading quality.
 Diagnose disputed grades against the original requirement without relaxing its acceptance rule.
 
+Keep acceptance stable and the task list provisional. At first observation and each decision,
+compare the requested usable/delivered outcome with current evidence along its actual path.
+Reuse pending work in existing state; retain each item's outcome relation, necessity evidence,
+actual status and next action. A green suite may cover only one part of the result. Derive necessary
+in-scope tasks/checks even if absent from the initial list, without changing the accepted outcome
+or approval boundaries. Only a material change to those decisions needs a user choice.
+
 Plan one useful step ahead. Choose a small change when the cause is known; choose a discriminating
 experiment when it is not. Before acting, state the expected observable result. Afterwards,
 compare it with the actual result and use the difference to select the next step. A disproved
@@ -49,31 +56,81 @@ restating it cannot keep resetting the streak.
 
 **Make adaptation bounded.** Track a short window of criterion + failure signature + attempted
 approach + observed delta. After two attempts at the same failure without evidenced progress,
-narrow the failing unit or change the hypothesis/check. At the no-progress limit (default three evaluated
-attempts for autonomous closed work), checkpoint as incomplete. Record retryable infrastructure
+narrow the failing unit or change the hypothesis/check. An internal review threshold (for example,
+three evaluated no-progress attempts) triggers a saved diagnosis and replan, not count-only
+termination. An explicit user stop policy remains binding. If no productive safe action exists,
+record the concrete blocker and resume condition rather than repeating failed work.
+Record retryable infrastructure
 errors and wait/backoff separately; neither creates progress nor resets the cumulative budget.
 Count a recurring failure after a reverted fix as oscillation even when the wording changes.
 
 **Reconcile the whole goal after each useful result.** A cleared plan or a review with no findings
 is evidence about that plan/review. Before completion, inspect all original criteria, required
-delivery and uncovered behavior. Admit a next task only when it addresses an unmet criterion,
-repairs a caused regression, or obtains missing proof. Prioritize by impact and dependencies.
-Once all original criteria and required reviews have current proof, finish. Unrelated improvements
+delivery and uncovered aspects of the requested outcome, not just the initial task list. Admit
+a next task only when it is necessary for that outcome, repairs a caused regression or obtains
+required proof. Prioritize by impact and dependencies.
+Before first-VERIFY or later success, return to the original use/delivery path: all criteria,
+required review/delivery and any newly uncovered original-purpose work must have current proof.
+If so, finish without manufacturing work. A work unit is not a mandatory return boundary unless
+the user selected a bounded pass. Continue productive safe work in the current execution; ordinary
+execution alone does not configure cross-turn persistence. If only actual blockers/approval or
+other-owner waits remain, checkpoint as incomplete with their conditions, not success.
+Unrelated improvements
 belong in a separate proposal; they do not extend this loop's goal or budget.
+
+## Recover an impediment before declaring a terminal blocker
+
+Bind REMEDIATION SCOPE to existing project/user authority: necessary permitted repair actions,
+their source and real boundaries. A missing command, dependency, local config or failing tool
+can be a repair task inside the original outcome, not an external wait. Diagnose the first
+failure and identify which assumption made the current route unproductive. Do not wait for a
+failure quota to change strategy. Compare plausible authorized routes (prerequisite repair,
+different implementation/tool/observation path, a smaller or reordered unit, isolation of the
+failing part), select the cheapest useful discriminating action and execute it. Keep criterion,
+failed assumption, changed approach, expected observation and actual delta in existing state.
+No fixed alternative count, speculative search tree or extra test/review gate is required.
+After two unchanged failures, the same route needs new evidence before reuse; changing command
+wording or discussing alternatives alone is not adaptation. Repeat-safe infrastructure backoff
+is allowed inside actual limits, but it is not outcome progress or a counter reset.
+If consultation was authorized, ask for concrete alternative routes with evidence, triage the
+reply and execute the useful next action; consultation receipt is not a terminal checkpoint.
+Verify the repair/alternative's relevant effect, then return to the original pending criterion.
+Narrowing or reordering work must not narrow the accepted outcome or weaken its evidence.
+
+A terminal blocker needs an assessment that no productive authorized repair/alternative and
+no independent safe work remains. Record diagnosis, actions/results or concrete reasons actions
+cannot be tried, unresolved original requirements and what would unblock them. Do not try a
+prohibited action just to produce failure evidence. Existing external/global authorizations carry;
+do not invent new permission, ask again for existing approval, or turn every failure into a stop.
+Surface the assessment in conversation for host evaluators that cannot read files themselves.
+After a legitimate resume, recheck the unblock condition first and retain cumulative state.
+Native impasse rules and stop/resume controls remain binding; no counter spoofing, Goal recreation
+or automatic resume runner is supplied by this prompt.
+User approval does not remove host sandbox/approval enforcement. A denied authorized repair is
+a runtime boundary: use an available legitimate native approval path, not a repeated denied
+operation or permission-setting bypass; otherwise record the minimum necessary user unblock
+action and continue independent authorized work. A review/other-owner wait needs its party and
+condition surfaced, not a repair attempt on another party's decision.
 
 ## Keep state useful through interruption
 
 Use the existing state format; do not install a database or migrate files merely for these fields.
 Keep a compact current summary (goal/version, criteria/evidence, cumulative attempts, pending work,
-recent failed approaches, selected next step, owner and stop status). Append terse attempt records
+recent failed approaches, selected next step, owner and stop status). For each limit/checkpoint,
+retain value/unit, source (user/platform/agent-default), evidence and enforcement. Investigate
+unknown provenance from original instructions/state; do not silently discard a real limit. Append terse attempt records
 with evidence pointers; keep full tool logs outside the repeatedly loaded summary.
 
+An attempt is one meaningful plan/action/evidence/decision cycle, not each command.
 Reserve the attempt ID and increment cumulative consumption **before** its first action, including
 a baseline check or bootstrap. Mark it running, then settle its outcome. An interrupted attempt
 stays consumed. On resume, reconcile actual work and any uncertain effects before taking another
-slot; do not repeat the action merely because its completion record is absent. At the limit, stop
+slot; do not repeat the action merely because its completion record is absent. At an applicable
+user/platform limit, stop
 new project work while still reconciling existing results, reporting and stopping the exact native
-run. Persist each state update atomically when possible. Prose budgets are not hard host limits.
+run. Agent-default review counts instead trigger internal replanning with history intact; do not
+request another batch merely to extend that horizon. This is not unlimited-spend permission.
+Persist each state update atomically when possible. Prose budgets are not hard host limits.
 
 Define distinct decisions: continue (evidence supports the next action), change approach (stalled),
 wait (known external condition), complete (all original requirements proved), and incomplete stop

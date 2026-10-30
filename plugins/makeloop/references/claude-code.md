@@ -3,27 +3,51 @@
 Read for Step 4/6 on Claude Code only. Contract generation is not execution or permission setup.
 Use observed host capabilities, not a version number alone. Keep unavailable or unconfirmed
 commands in Conditional options without runnable fences.
-Confirm optional ralph-loop through the actual exposed Skill/command list, not just a package name. A normal one-iteration message is the
-portable first-run alternative. Honor the requested runtime when available.
+Confirm the intended target surface, not just tools visible to the generator: the target's
+observed command menu/help, an explicit user report that `/goal` works there, or a supplied
+host-bound capability profile can establish availability. Merely asking for Goal, a version
+number, or generic documentation cannot. A slash command need not appear as a model tool.
+Record the evidence in the contract; distinguish a fresh unstarted Goal from an unavailable one.
+Confirm optional ralph-loop through the actual exposed Skill/command list, not just a package name.
+Ordinary no-Goal execution can pursue successive necessary steps in the current execution; it is
+not a one-iteration default or proof of cross-turn persistence. Honor the requested runtime when available.
+If it is unavailable, preserve the requested continuation as unconfigured. A short single-pass
+example is not equivalent to completing all residual work; do not choose it merely to shorten
+the launch. Read saved contract/state; distinguish user/platform limits from internal review
+thresholds and disclose actual remaining budget and required review.
 
 | Need | Candidate | Behavior and limits |
 | --- | --- | --- |
-| Inspect one iteration | Normal message referencing saved prompt + state | Returns after one iteration; no scheduler/goal created |
+| Finish scoped work in the current execution | Normal message referencing saved contract | Pursues successive necessary steps; no native cross-turn setup |
+| Explicitly inspect one iteration | Normal message referencing saved prompt + state | Returns after one iteration; no scheduler/goal created |
 | Complete a measurable closed goal | `/goal` | Cross-turn pursuit, fresh evaluator; goal does not change permissions |
 | Wait/poll during this session | `/loop` with dynamic or fixed cadence | Wakes between turns, not a zero-delay while-loop |
 | Existing ralph-loop workflow | `/ralph-loop` when installed | Uses installed plugin's cap/promise syntax |
 
-For a safe first run, recommend one iteration. When the user explicitly wants closed completion,
-prefer the available `/goal` option. For a cadence watcher, prefer the available `/loop <interval>`.
+For closed completion work, include an available Goal-equipped launch in the initial proposal,
+even if the user did not name a runtime; recommend it for requested looping/cross-turn pursuit.
+Bind the existing Stop, evaluate, resume rules below during generation, including actual limits
+and evidenced incomplete exits; unfinished assembly is not a reason to defer Goal as conditional.
+Honor explicit no-Goal, bounded-pass or other supported runtime choices instead. A bounded single
+pass is an explicit choice, not the default for completion or ordinary no-Goal execution. For a cadence watcher, prefer the available `/loop <interval>`.
 Do not stack goal, loop, Stop-hook runner and external cron for the same contract. Check for an
 active goal before offering a launch that would replace it. Explain replacement, never do it here.
 
 ## Final copy choices
 
+Use a short explanation, then end with **貼り付けるプロンプトはこれです** (localized to the user).
+Label each complete code block with its mode and actual input destination. Saved design paths
+are references, not the paste text; lifecycle controls alone do not replace the execution prompt.
+
 Use the shared output guide: save/check first, then explanations, the saved contract path (full
-body only on explicit request), and one final launch group with A/B/C labels. Every chat block is `text`, pasted into **Claude Code input**,
-not the operating-system terminal. Offer manual iteration plus `/goal` for closed work when both
-fit and are confirmed; for an open watcher, offer one tick plus `/loop <interval>` when confirmed.
+body only on explicit request), and, for ready proposals only, one final launch group with A/B/C labels. Every chat block is `text`, pasted into **Claude Code input**,
+not the operating-system terminal. For closed completion, include the confirmed Goal option from
+the first proposal. When no other runtime is explicitly selected and both modes are ready,
+pair recommended Goal completion with ordinary current-execution completion; both reference
+the same contract/state and REMEDIATION SCOPE, never simultaneous writers. Ordinary execution
+is not a replacement for requested cross-turn continuation. Explicit different runtime choices still win. If Goal really cannot
+be confirmed, explain the specific missing evidence/control without a runnable Goal block;
+do not silently omit a requested Goal. For an open watcher, offer one tick plus `/loop <interval>` when confirmed.
 An installed Ralph option is an extra only when it is relevant, never an install recipe in the
 launch group. Put the recommended choice first. `/loop` polling is not a zero-delay substitute
 for closed goal continuation. Keep every alternative on the same accepted goal, state and limits;
@@ -33,13 +57,14 @@ its execution unit must be explicit. Emit slash launches as one physical line.
 
 Fill real values in the user's language; examples here are scaffolds, not executable output.
 
-- Manual: “Follow .loop/repair.md for exactly one iteration.” Keep the bound state, criteria,
+- Ordinary execution: “Follow .loop/repair.md through its required work and verification.” Bind
+  provisional pending work, delivery/review and actual stop conditions in the saved contract.
+- Explicit bounded pass: “Follow .loop/repair.md for exactly one iteration.” Keep the bound state, criteria,
   reporting and limits in that saved contract rather than duplicating them in the launch.
-- Closed continuation: `/goal Follow .loop/repair.md. End this run when (1) all acceptance
-  criteria are proved, or (2) a saved incomplete checkpoint evidences the cumulative 8-iteration
-  budget being exhausted or the contract's unrecoverable-blocker condition being met. Preserve
-  .loop/repair-state.md and report the evidence, cumulative counters and unmet criteria.
-  Report FINAL only for acceptance success.`
+- Closed continuation: `/goal Follow .loop/repair.md; surface its criteria and exit rules when starting work. End on evidence for every criterion, an actual user/platform limit, or diagnosed approval/review/dead-end wait after authorized recovery and independent work are exhausted; report unmet criteria, never success for those exits.`
+  Save the full recovery, limits, state/resume and evaluator-assessment procedures in the contract;
+  keep this essential success/non-success distinction in the native condition. A terminal checkpoint
+  is not project success; FINAL remains acceptance-only. Do not repeat the complete contract here.
 - Watcher: `/loop 5m Follow .loop/deploy-watch.md for one tick; update
   .loop/deploy-watch.cursor.json; react only to new events under the saved permissions.`
 - Ralph: use the installed plugin's verified invocation, with `--max-iterations N` and
@@ -47,8 +72,11 @@ Fill real values in the user's language; examples here are scaffolds, not execut
   text; the completion output is `<promise>DONE</promise>`. Do not put the tags in the flag value.
 
 The saved contract carries the host-specific stop instructions below, not merely the launch line.
-For `/goal`, expand the contract's actual cumulative limits and terminal blocker conditions into
-the emitted condition; the 8-iteration example is not a new default or an override of user choices.
+Materialize them there during generation so the short paste prompt does not lose native semantics.
+For `/goal`, bind actual cumulative limits and terminal blocker conditions in the saved contract
+and point the emitted condition to those rules. Retain native parameters and any condition the
+actual evaluator requires directly, not the complete recovery/state inventory. An agent-default
+checkpoint is not a terminal limit. Do not invent a cap.
 When a pause point is requested, include its evidenced checkpoint as another non-success exit in
 that condition. Surface the remaining criteria, not a project-completion claim. On explicit resume,
 release only that reached pause in the saved state and retain the original scope and limits.
@@ -57,12 +85,23 @@ release only that reached pause in the saved state and retain the original scope
 
 - FINAL is a report marker, not a native scheduler stop token. Separate contract success,
   native goal achieved, cancelled job, and exited process in state and reports.
+- At the first working turn after reading the contract, surface every acceptance criterion ID,
+  its pass/fail rule, and the exact success/non-success exit definitions in the conversation.
+  Combine this with actual work; do not create an idle acknowledgement turn. At exit, report
+  criterion-by-criterion evidence and unmet requirements, not merely a global "verified" claim.
 - `/goal`'s evaluator reads surfaced conversation; it does not independently inspect files or
   run checks. Native evaluation supplements objective evidence and any required independent
   review, not replaces them. It can clear a goal as impossible or after an unrecoverable error;
   neither is success. A new agent/checker still needs explicit delegation authorization.
 - Include both acceptance success and evidenced non-success terminal checkpoints in the native
-  goal condition. A budget/dead-end stop must not leave the evaluator instructed to continue
+  goal condition. A bare "only blockers remain" does not establish that exit: before stopping,
+  surface the symptom, diagnosis, permitted repairs/alternatives tried or concrete reasons they
+  cannot be attempted, remaining work, and the unblock condition in the conversation. The
+  assessment must establish no productive authorized recovery or independent safe work remains.
+  Necessary authorized repair is part of the original Goal; verify it, then return to the pending
+  work without a fresh repair request. A prohibited repair need not be attempted. Approval or
+  other-owner waits are terminal only after independent authorized work is exhausted.
+  A budget/dead-end stop must not leave the evaluator instructed to continue
   until acceptance passes. Surface the check results, target, cumulative counters, stop reason,
   remaining work and checkpoint path in the conversation; a pointer to an unread file is not
   evidence for that evaluator. Native condition satisfaction can mean the run ended incompletely;

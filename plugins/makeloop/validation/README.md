@@ -50,6 +50,8 @@ protected golden properties and the following acceptance criteria:
 
 - alternatives differ meaningfully in purpose or execution mode and preserve the accepted scope;
 - each explains suitability, effects, boundaries, checks, stopping and resume;
+- a concrete Loop brief covers the original purpose/actions, scope, criteria and actual stop/resume
+  behavior. Grade its substance, not the presence of a literal English/Japanese title;
 - explanations and the short saved-contract path appear in the final package; the full saved body
   appears only when explicitly requested (`show_body: true` in checker metadata). Resolved launch
   blocks are its last section, with nothing following the last fence;
@@ -62,6 +64,22 @@ protected golden properties and the following acceptance criteria:
 - expected repair RED proceeds, regression RED stops, missing/invalid proof is still acquired;
 - valid unaffected green is reused; fresh signals remain fresh; native completion is not proof;
 - no check weakening, invented success, source citations or operational secrets in output.
+
+`goal_launch_required` marks a confirmed ready closed-completion scenario (including O1/O2 and
+G1/G2). The structural check requires a `/goal` launch, or on a tool-capable Codex target an
+affirmative setup beginning `Use create_goal for the objective in PATH` or `create_goal: PATH`.
+It rejects mere mentions/negations and uses the existing exact contract/state checks for paths.
+It does not prove arbitrary natural-language intent, runtime availability or actual Goal creation;
+those still require the host evidence and semantic review above. G2 distinguishes a target CLI's
+confirmed slash surface from the generator's tool list; it is a synthetic fixture, not a live run.
+
+Recovery scenarios R1-Codex/R1-Claude require `completion_pair_required` and
+`remediation_required`: a Goal-first pair, an ordinary non-tick alternative and a project-bound
+REMEDIATION SCOPE section. The checker also rejects representative unqualified English/Japanese blocker exits
+on CC. These are structural checks, not a general natural-language safety proof. Grade the
+actual repair/stop decision, authorization sources and scoped alternatives independently.
+F27-F34 cover repairable prerequisites, genuine authentication boundaries, changed hypotheses,
+resume with cumulative state, uncertain external effects, required review waits and host enforcement. No fixture starts a native Goal.
 
 The deterministic provenance check recognizes URLs in explicit source/reference/citation labels
 or sections. Operational gate/target URLs and evidence links are valid contract content, not
@@ -123,3 +141,50 @@ Compare optional scaffolding changes with acceptance and authority fixed; retain
 and distinguish generator, checker and runtime defects. Synthetic results do not substitute for
 target-host tests. Investigate observed run-to-run variability with focused repeats when needed;
 never repeat until one passing sample can hide the failures.
+
+## Continuation intent under unavailable runtimes
+
+A known unavailable requested execution can set checker metadata `execution_unconfigured: true`.
+That permits a saved contract plus an honest explanation without a runnable launch group; a
+manual or invented goal launch is rejected for that unresolved request. This does not approve
+changing the requested mode or prove the explanation is semantically complete. Preserve actual
+contract/state bytes with `preserve` and independently inspect purpose, residual work, used and
+remaining budget and its source/enforcement, authority, review and resume requirements.
+M9/F16 and M10/F17 encode the 7/8 and 8/8 agent-default counter reports: missing native
+resume is the technical constraint, not exhausted user authority. M11/F18 is the usable native
+continuation positive contrast; M12/F19 differs by an explicit exhausted user limit. F20 contrasts
+internal no-progress replanning with the user-selected no-progress stop in F2. Historical
+fixtures never rewind live state. Checker metadata supplies expected readiness; its acceptance
+does not independently derive feasibility or classify the semantic provenance of a limit.
+
+These authored fixtures and checker regressions do not prove that a model completes the whole
+generation workflow in one invocation. Read actual generated decisions against the original
+request and state; a valid-looking compact command cannot replace readiness evidence.
+
+Clear plain launch headings and A/B/C labels are valid as well as Markdown headings. The checker
+still requires the final group to contain only its heading, ordered host/destination labels and
+copy blocks, and rejects extra prose or trailing caveats. A known nonready request needs no
+runnable-choice section. These structural allowances do not grade the brief's substance or
+convert an unavailable requested mode into an executable one.
+
+## Outcome-first task discovery
+
+O1/O2 supply the same complete CSV use-path request on Codex/Claude Code: existing parser proof is
+green, but app integration and saving are missing. O3 is the genuinely already-delivered contrast;
+O4 explicitly chooses a single work unit without shrinking the overall result. F21-F26 check
+missing-task discovery, original-purpose versus unrelated work, ordinary execution versus selected
+single-pass boundaries, already-satisfied honesty and unresolved review waits. Existing M10-M12
+retain runtime/limit contrasts. Grade whether generated work follows the actual original use or
+delivery path, not just familiar headings. Keep outcome/acceptance/authority stable; derive necessary
+checks within scope without inventing commands. These synthetic cases are not live host proof.
+
+The outcome-first user instruction supersedes the protected eval's historical safe-first manual
+recommendation for completion requests. Explicit one-pass requests remain bounded; watcher tick
+semantics and all safety/state/acceptance properties remain unchanged. Do not edit protected eval
+files to make this override disappear.
+
+A single explained Codex choice needs no comparison-menu heading. Multiple choices still carry
+Codex run options and must pass host/destination/order/final-only checks. First-VERIFY honesty
+requires a real initial no-change success branch, not only a warning against partial green.
+Independently check that Codex native success excludes incomplete checkpoints; reporting them
+honestly does not authorize marking the native goal complete.

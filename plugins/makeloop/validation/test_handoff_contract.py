@@ -48,17 +48,23 @@ def rendered_output(host, *, handoff=True, existing=None, done_ledger=False):
             'C2: human review receipt on that target; C3: inspected diff. Relevant changes invalidate proof.',
         '<project-specific observable improvement or evidence that rules out a suspected cause>':
             'A failing auth case is fixed or a tested cause is eliminated, with current evidence.',
+        '<necessary allowed repairs and their existing authorization sources;\nproject-specific forbidden actions and genuine approval or physical-operation boundaries>':
+            'Existing fixture authorization permits src/auth repairs and restoring locked '
+            'dependencies with npm ci. Human review remains required; no global installs, '
+            'new agents, permission changes or external writes are authorized.',
         '<verify command 1, e.g. npm run typecheck>': 'npm test',
         '<verify command 2, e.g. npm test>': 'git diff --check',
         '<exact pass condition, e.g. all tests green, 0 type errors, exit 0>':
             'All original criteria including the independent human review have current proof',
         '<completion token>': 'FINAL',
+        # This fixture uses a user-selected cap, never an agent default.
         '<N>': '8',
         '<off-limits from profile D>': 'Do not edit files outside src/auth except bound loop state.',
     }
     for key, value in values.items():
         contract = contract.replace(key, value)
     contract = contract.replace('.loop/state.md', STATE_PATH)
+    contract += '\nLIMIT: 8 attempts; source=user; enforcement=instruction hard cap.\n'
     if handoff:
         # This assembly models the Step 3 delivery mapping; source tests separately guard that rule.
         contract = contract.replace('EVIDENCE MAP:',
@@ -158,15 +164,8 @@ class HandoffWiringTests(unittest.TestCase):
         self.assertIn('native stop requested/confirmed/unknown', NORMAL)
         self.assertIn('Do not put secrets', NORMAL)
 
-    def test_receiver_is_described_before_launch_group(self):
-        self.assertIn('Handoff summary / 引継ぎサマリー', GUIDE)
-        self.assertIn('exact\n   state path/section', GUIDE)
-        self.assertLess(GUIDE.index('Handoff summary / 引継ぎサマリー'),
-                        GUIDE.index('5. **Launch commands'))
-        self.assertIn('Nothing follows', COMMAND)
-
-    def test_existing_cores_are_unchanged(self):
-        self.assertEqual(hashlib.sha256(CLOSED.encode()).hexdigest(), 'a5122a1423cbe7c853d3917fc9b7331ad55d2211b5b3a30e84a964cc0bea5766')
+    def test_open_core_unchanged_by_closed_limit_provenance_fix(self):
+        # CLOSED intentionally changed: agent counters no longer terminate the goal.
         self.assertEqual(hashlib.sha256(OPEN.encode()).hexdigest(), '463715cefb054fd7631cfb61fe9f1a596ceee3ce2411f91441755949fa90e2b3')
 
 

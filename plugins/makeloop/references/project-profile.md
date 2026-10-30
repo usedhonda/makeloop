@@ -8,7 +8,11 @@ with the project state below — the **conversation tells you the intent, git/fi
 reality**; when they disagree, surface it. If there's no relevant history (fresh session, or
 it was compacted away), say so and fall back to the project state.
 
-Then investigate the working directory thoroughly and fill in the **Project Profile** below.
+Trace the requested outcome through its actual use or delivery path. Read the project evidence
+needed to distinguish what already works, what is missing, and what must change for that outcome
+to work. Record these gaps as provisional pending work linked to the requested outcome; neither
+the initial task list nor the existing suite is exhaustive. Capture the intended recipient/target,
+current proof and existing records to revisit, then fill in the **Project Profile** below.
 Use read-only commands only. Read only what changes the goal, gate or boundary decision. Use an `Explore`/`Agent`
 subagent only when delegation is explicitly authorized and the tool is exposed; otherwise
 collect evidence directly. Tool names and allowed-tools do not authorize delegation.
@@ -50,6 +54,12 @@ collect evidence directly. Tool names and allowed-tools do not authorize delegat
   `contract`, `do not modify`, `layout`, `idempotent`.
 - Which properties must **never** break? What is off-limits to edit (vendored code, a
   read-only integration, UI layout, generated files)?
+- For closed work, find existing authorization for necessary prerequisite repairs: declared
+  dependencies, verified tool paths, project-local config/scripts and supported regeneration.
+  Record concrete sources and real boundaries for REMEDIATION SCOPE. External-looking symptoms
+  alone do not prove a dependency outside the agent's control. Do not assume all environment
+  changes are allowed, or ask again for explicitly approved operations. Inspect prerequisites
+  tied to the requested use path, not a speculative whole-machine readiness checklist.
 
 **E. Existing loop infrastructure — reuse, don't reinvent**
 - Look for `.loop/`, `.loop-state.json`, `*state*.json`, `*FINDINGS*.md`, `*runbook*.md`,
@@ -66,7 +76,9 @@ collect evidence directly. Tool names and allowed-tools do not authorize delegat
 **F. Operational facts**
 - Commit convention (conventional commits in the log? commitlint/husky? signing policy?
   files that must never be staged, e.g. `outputs/`, `dist/`, build artifacts).
-- Run cost/time (heavy build? long CI?) -> informs the budget.
+- Run cost/time (heavy build? long CI?) -> informs the budget. For each existing limit or
+  checkpoint, inspect value/unit, source (user/platform/agent-default), evidence and enforcement.
+  Internal counters inform replanning; they are not user-selected stopping limits.
 - Crash/flake surfaces.
 
 Then **summarize the profile** for the user and state explicitly:
@@ -78,7 +90,7 @@ Then **summarize the profile** for the user and state explicitly:
   on/triage incoming/監視/通知/見張る"); (2) the **decisive test** (also your confirm line to
   the user): *"Can you write a SUCCESS CRITERION that becomes permanently true and ENDS the
   loop? Yes → closed. If the only 'criterion' is a condition you REACT to that RECURS →
-  open."* On silence/conflict, **default to closed** (capped, stops) and state the assumption
+  open."* On silence/conflict, **default to closed** (ends on verified completion or actual stop boundaries) and state the assumption
   — misclassifying closed→open runs forever, the costlier error.
 - **Maturity** (judge from the files, not a flag): where does it sit on the spectrum —
   *greenfield* (empty / only bootstrap files / no manifest / little-to-no git history) →

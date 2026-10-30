@@ -6,6 +6,9 @@ allowed-tools: ["Read", "Glob", "Grep", "Bash", "AskUserQuestion", "Write", "Age
 
 # /makeloop — build a loop prompt for this project
 
+Read `../skills/makeloop/SKILL.md` section **Final output contract** first, including on
+the direct Claude command path. It is the single presentation contract for this command.
+
 You are about to **build a host-native loop contract**, not run one. Your single deliverable is a
 file-backed loop contract with explained choices and complete, copyable launch instructions.
 Do **not** start doing the project work itself — your job ends when the loop prompt is
@@ -35,6 +38,8 @@ tokens:
   loop re-verify with fresh eyes (or a sub-agent) on risky changes.
 - **The order that survives**: get ONE manual run reliable -> wrap it in a loop with a gate
   + stop condition -> only then schedule it.
+  For a selected closed Goal, establish that reliable first work unit inside the Goal; this
+  principle is not a requirement to select a manual-only launch before offering native Goal.
 - **The metric that matters**: measured time/cost per *accepted outcome*, including failed
   attempts and review. Acceptance rate alone has no universal break-even threshold.
 - **Re-anchor, don't drift**: a long run loses its "do not touch" boundaries as context
@@ -74,7 +79,9 @@ already exists — `$ARGUMENTS` names or points at a `.loop/<slug>.md`, or says 
 update the X loop". If so, this is a **refine**, not a fresh build: READ that loop file (plus its
 state/cursor), apply ONLY the single requested delta (change the cap, swap the runtime, add or
 remove one OPTIONAL block, tighten a criterion), and re-save under the **same slug** — preserve
-its state file, its kind, and every block you weren't asked to change. Skip DISCOVER and the
+its state file, its kind, and every block you weren't asked to change. A copy/path-only refine does not rediscover the
+project. If the request instead refreshes the whole remaining-work goal, reconcile its current
+outcome and residual work from existing evidence without changing its accepted scope. Skip DISCOVER and the
 interactive questions, run the Step 6 pre-save self-check, then output. If the named loop doesn't
 exist, fall through to a normal build.
 
@@ -110,13 +117,17 @@ For refine, keep the fast path from Step 0; do not restart discovery or reset st
 Read `../references/output-guide.md`. Reconcile the request with the profile; do not replace it.
 If the purpose is unclear, offer concrete project-specific candidates, distinguishing closed
 repair/milestone work from open observation. Do not write executable contracts for unselected
-purposes. When the purpose is clear, compare ways to run that same contract instead of adding goals.
+purposes. When the purpose is clear, derive the concrete usable/delivered outcome and its
+necessary remaining work first, then recommend the simplest available way to carry that same
+contract through completion. Compare execution modes only when their practical difference matters
+to this work or the user asks. Absence of native Goal does not impose a one-iteration limit;
+do not claim persistence that has not been configured.
 
 State the kind, target, criteria/trigger, reaction boundary, gate, state and cap/run mode together.
 Ask once only when a genuinely ambiguous, high-impact choice needs resolution. Use the host's
 question UI if exposed, otherwise normal chat. Already supplied scope/runtime/cap/gate decisions
 are not questions. For minimal interaction, state conservative assumptions; ambiguous CI intent
-defaults to a capped closed loop unless the user explicitly wants a comparison first.
+defaults to a closed loop with internal progress checkpoints unless the user explicitly wants a comparison first.
 
 For closed work, derive strict SUCCESS CRITERIA from the accepted request and invariants, not
 from what is easiest to pass. For greenfield work, use the user's spec (ask only missing material
@@ -135,6 +146,40 @@ with their checks, observation-validity conditions and evidence requirements. Sp
 observable improvement means and how a failed hypothesis changes the next step. A plan or clean
 review is not the completion criterion: reconcile uncovered requirements against the original goal.
 Keep in-scope residual work in the loop; propose unrelated work separately after completion.
+Bind the actual use/delivery path and target to the criteria and evidence. Seed provisional
+pending work from the current gaps, not just the user's first task list or existing tests. A
+necessary new task must explain which requested outcome remains unmet without it. Derive missing
+objective checks within approved scope; never invent a command or silently change the goal,
+acceptance standard or authority. Ask only when that material decision cannot be derived.
+
+For closed work, bind a project-specific REMEDIATION SCOPE from existing user authorization,
+project instructions, manifest/lockfile, runbook and existing scripts. Include only necessary
+repairs/legitimate alternatives, their authorization source and real boundaries. Examples may
+include restoring declared dependencies, using a verified tool path, fixing an in-scope script
+or regenerating local artifacts; never presume all examples are allowed. Necessary authorized
+recovery is part of this goal, not a separate request after a stop. Do not turn unavailable tools
+or external-looking symptoms into terminal blockers before this assessment. Existing permission
+for external/global work carries forward; absent permission is not created by contract generation.
+Resolve only material unknown high-impact choices, not a ritual repair-approval questionnaire.
+Materialize the template's strategy-switch trace against likely project impediments: name the
+failed assumption, select a genuinely different authorized route, execute its next useful action,
+and return to the original criterion. Repeating a command, listing options or receiving advice
+is not recovery. Separate native interruption from project impasse; retain actionable work across
+instruction refreshes and status replies without requiring another "continue" request.
+During a narrow refine, change recovery scope only if requested; preserve existing state bytes.
+
+For closed completion requests, outcome-first adaptive recovery and evidence-budgeted verification
+are defaults, not optional wording the user must repeat. Materialize the template's DELIVERY POLICY
+against the actual use/delivery path. Do not optimize a local component or test count while the
+requested result remains missing. Save these policies, native lifecycle procedures and necessary
+details in the Loop Markdown; do not require a long ritual invocation to get this behavior.
+Default test stewardship includes both avoiding unnecessary new tests and actively pruning existing
+excess in the area being worked on, without another user request. Materialize the DELIVERY POLICY's
+pruning rules in the saved contract: evidence-backed consolidation/removal, preserved distinct
+behavior and mandatory gates, local incremental scope and no deletion quotas or cleanup detour.
+This is not permission to delete failing checks to manufacture success or to edit unrelated areas.
+When completing a supplied plan, bind its authoritative reference and intended deliverable in
+that Markdown. Carry original constraints and unmet outcomes, not just the plan's easiest tasks.
 
 **Human handoff (closed only).** Select the **Handoff summary** block for unattended
 closed work or an explicit human-handoff request; honor an explicit opt-out. A narrow refine adds
@@ -191,10 +236,17 @@ Generation preserves existing state bytes; new state is marked not started, neve
   rubric in the repo (let the judge read the code/conventions before scoring, not just the
   spec) and give it an explicit **anti-cheating axis** (flag test-weakening, mass-renames,
   dependency churn) and a **blast-radius axis** (penalize edits far wider than the goal).
-- **STOP taxonomy**: at minimum success + a hard iteration cap **N** (default **8**). Add
-  labeled stop reasons per the profile (see the mapping in Step 5). Confirm N and the
-  **budget** (iteration cap / wall-clock / no-progress streak).
-  - Cap exhaustion is an incomplete checkpoint, not success or permission to shrink scope.
+- **STOP taxonomy and counter provenance**: completion, cancellation, actual safety/authority
+  boundaries and user/platform limits stop work. Do not invent a hard iteration cap (including
+  a default 8). For each existing limit or checkpoint, save its value/unit, source (user,
+  platform, or agent-default), evidence and enforcement (instruction/native hard limit versus
+  internal review threshold) in the contract and state. Unknown provenance requires reading
+  the original instruction/state, not assuming either exhaustion or unlimited permission.
+  Internal attempt/no-progress thresholds trigger progress review and replanning inside the
+  approved scope, not a new user approval ritual. Preserve history; never reset it to hide work.
+  Do not repeat a failed approach without new evidence. This does not authorize unbounded spend.
+  Ask only about a genuinely material unresolved cost/time/authority decision.
+  - User/platform cap exhaustion is an incomplete checkpoint, not success or permission to shrink scope.
     Use K consecutive successes only for a real repeat-stability criterion or explicit K request;
     different meaningful observations must justify repetition. Do not add K=3 by habit.
   - **Cost/time envelope**: when profile F has a measured gate duration, `N x gate seconds`
@@ -207,8 +259,8 @@ Generation preserves existing state bytes; new state is marked not started, neve
 an action, bind the condition to concrete evidence and include the **Pause point** block. A required
 review by itself is not a request to pause. Keep the full goal and required review in SUCCESS
 CRITERIA; a pause with unmet criteria is an incomplete handoff, not success. Do not turn a vague
-"be flexible" into a new pause, a larger cap or automatic extensions. Existing caps remain hard
-contract limits; reuse the existing time/no-progress budget rather than adding a policy language.
+"be flexible" into a new pause, a larger cap or automatic extensions. User/platform caps remain binding; an agent-default review horizon is not such a cap.
+Reuse the existing state format rather than adding a policy language.
 For a time limit, save its start/deadline at first execution and preserve it across resume. Explain
 instruction-level timing versus confirmed host enforcement; do not invent remaining usage data.
 
@@ -234,9 +286,26 @@ override the profile defaults in Step 5.
 
 Read only the current host guide: `../references/claude-code.md` or
 `../references/codex.md`. A Codex adapter changes the launch surface, not the common contract.
-Honor explicit runtime choices. Offer one recommendation and meaningful alternatives with the
+Honor explicit runtime choices. Offer a recommendation and alternatives only for ready proposals with the
 shared output guide. Separate documented, installed-help-confirmed, session-available and unknown.
 Unconfirmed features get conditional explanation, not runnable copy blocks.
+On both hosts, closed completion proposals include an available Goal-equipped version from the start;
+recommend native Goal for a request to keep looping until completion. Honor explicit no-Goal or
+bounded execution instead when supplied. Bind fresh-Goal creation, continuation, evidenced
+completion and actual non-success transitions using the current host guide before classifying readiness.
+Not configured/not started does not mean not runnable. Missing lifecycle wording is assembly work
+to finish here, not a generic "stop conditions need connecting" excuse to suppress the proposal.
+Use the entrypoint SKILL.md Final output contract for mode selection: when both modes are ready,
+default to Goal first and ordinary completion second unless an explicit exclusive choice applies.
+A request to use Goal selects the recommendation; it does not by itself mean "Goal only". Both reference
+the same outcome, state and REMEDIATION SCOPE; they are alternatives, never simultaneous writers.
+Ordinary completion is not a single bounded tick. Do not add a watcher to pad these choices.
+For compact/reissued launches, read the actual contract/state and retain the original goal,
+all remaining work, continuation mode, stop conditions, used/remaining budget with source/enforcement, authority,
+forbidden scope, consultation/review and state/resume identity in the saved contract. Apply the
+output guide's meaning-preservation check. A blocked backend without a resume control is an
+unconfigured continuation, not a reason to select one iteration or reset budget. Surface nearly
+exhausted user/platform limits before presenting a launch as able to pursue the whole goal.
 
 For risky/spec-heavy work, keep the independent completion check: a checker sees the spec + diff
 and evidence, not the maker's reasoning. Native goal evaluators do not independently run the gate.
@@ -310,6 +379,17 @@ Mandatory safety remains in force in every generated contract:
 
 ## Step 6 — Validate, save, explain, and provide copyable launches
 
+Final presentation follows the entrypoint SKILL.md Final output contract. Fill host launch
+templates, then check the actual final text for mode count, host/destination labels, no lifecycle
+repetition and no text after the last fence. File checks alone do not validate this presentation.
+
+Resolve execution readiness inside this invocation using the output guide before emitting any
+launch. Reconcile actual request/contract/state, remaining budget, run ownership and exposed
+start/resume/stop capability. Bundle concrete high-impact user decisions; do not assume unanswered choices before saving
+and presenting; never use a normal "continue" message as evidence that continuation is configured.
+If readiness cannot be established, preserve the requested outcome, report that no executable
+launch for that mode was generated, and omit runnable blocks. No command-first/caveat-later output.
+
 Read `../references/output-guide.md` and the current host launch guide. Before writing, inspect
 assembled output: exactly one core; correct kind-only blocks; no unbound scaffold placeholders;
 all forced directives honored; every criterion mapped to real evidence; launch path and state
@@ -317,7 +397,20 @@ agree; copy blocks have the right destination and contain no explanation or othe
 Walk the applicable short traces in `../references/feedback-design.md`: does the observed outcome
 change the next decision, does interruption preserve consumed attempts and pending effects, and
 does a declared stop actually end the chosen native execution? Check both useful repetition and
-stalled activity. A keyword/structure check alone cannot establish these behavioral properties.
+stalled activity. For closed work, explicitly test both a green subset with original-purpose gaps
+(continue needed work) and an already-delivered result with all current proof (skip PLAN/EXECUTE,
+report no-change success). Keep this positive branch in every generated closed contract, not only
+in an already-green example. Check each final native launch against the current host's success
+and non-success stop rules; a saved incomplete checkpoint must not become Codex native success.
+For a fresh supported Goal with no owner conflict, verify the initial package includes the Goal
+launch with its bound lifecycle even though nothing has been configured or started. Contrast an
+actually blocked existing Goal without resume support: preserve it and report that specific gap.
+A keyword/structure check alone cannot establish these behavioral properties.
+For recovery, walk a repairable missing prerequisite, an actual authentication/authority boundary,
+two unchanged failures needing a new approach, and resume after repair. The next decision must
+repair/continue when possible, not demand a fresh repair request or stop solely on a count.
+For CC, a bare "only blockers remain" exit is insufficient: surface the remediation assessment
+and why no productive authorized path remains in conversation before treating that exit as met.
 For a requested pause, check that the brief, STOP WHEN and native launch agree, a reached pause
 prevents further project actions, and explicit resume does not reset limits or approve pending
 review/actions. Do not migrate unrelated blocks or state in a narrow refine.
@@ -351,9 +444,17 @@ Update `.loop/INDEX.md`: slug, purpose, kind, gate/trigger, cap/run mode, chosen
 unselected), saved paths and launch message. Showing alternatives does not select an unchosen
 runtime or start anything. Keep one writer and reconcile real run/session ownership before resume.
 
-Only in the final response, after saving and checking: explanations/Loop brief, explained candidate
-cards (Codex run options on Codex), paths/status/gaps, then short resolved launch blocks at the
-very end. The saved file is authoritative; show its complete body only on explicit request.
+Only in the final response, after saving and checking: a short outcome sentence, saved path and
+truthful readiness, a brief mode distinction if needed, then resolved paste blocks at the end.
+The saved Markdown carries detailed scope, recovery, evidence, limits and native lifecycle rules;
+do not reproduce them in long chat cards or launch messages. Keep visible any real unresolved
+high-impact choice, capability gap or unusual effect needed to choose/run safely. Use localized
+"実行方法" for Japanese mode comparisons (English "Codex run options" remains valid).
+The saved file is authoritative; show its complete body only on explicit request.
+Use a direct final heading such as **貼り付けるプロンプトはこれです**. Before that group, say to copy
+one whole code block to its labeled input; explanations and saved design paths are not to paste.
+Do not call a saved path alone "the prompt" or replace the execution prompt with a bare resume
+control. Keep the selected task, correct target and saved-contract binding inside the paste unit.
 Do not output launch commands or full Loop bodies during
 progress or proposals. Nothing follows the final launch fence; see the output guide.
 For unresolved purpose comparisons, explain choices and ask before writing executable loop files.

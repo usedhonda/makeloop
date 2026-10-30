@@ -31,6 +31,147 @@ def package(host='codex', kind='closed', options=None):
 
 
 class CopyLayoutTests(unittest.TestCase):
+    def test_initial_ready_goal_cannot_be_replaced_by_conditional_or_plain_continue(self):
+        for launch in (f'/goal Follow {PROMPT} until every original requirement is verified.',
+                       f'Use create_goal for the objective in {PROMPT}, then execute it.',
+                       f'create_goal: {PROMPT} の目標を作成して完了まで実行する。'):
+            launch += f' Preserve {STATE}.'
+            case, out = package(options=[('text', launch,
+                'A — Recommended: finish the repair | Codex CLI input')])
+            case['goal_launch_required'] = True
+            out['chat'] = out['chat'].replace('other modes are conditional.',
+                'Goal is ready, not configured and not started; one owner only.')
+            self.assertEqual(check(case, out), [])
+            for replacement in (f'Follow {PROMPT} until complete.',
+                                f'Follow {PROMPT} for one iteration.',
+                                f'Do not use create_goal; follow {PROMPT} until complete.',
+                                f'{PROMPT} に従う。create_goal は使わない。'):
+                bad = dict(out, chat=out['chat'].replace(launch, replacement))
+                self.assertIn('ready closed completion proposal missing initial Goal launch',
+                              check(case, bad))
+            bad = dict(out, chat=out['chat'].split('## Launch commands')[0] +
+                       'Conditional: Goal needs stop conditions connected; not configured.')
+            self.assertIn('ready closed completion proposal missing initial Goal launch',
+                          check(case, bad))
+
+    def test_claude_initial_goal_uses_its_own_slash_surface(self):
+        launch = f'/goal Follow {PROMPT} until verified; preserve {STATE}.'
+        case, out = package(host='claude', options=[('text', launch,
+            'A — Recommended: finish the repair | Claude Code input')])
+        case['goal_launch_required'] = True
+        self.assertEqual(check(case, out), [])
+        for replacement in (f'Follow {PROMPT} for one iteration; preserve {STATE}.',
+                            f'Use create_goal for the objective in {PROMPT}; preserve {STATE}.'):
+            self.assertIn('ready closed completion proposal missing initial Goal launch',
+                          check(case, dict(out, chat=out['chat'].replace(launch, replacement))))
+
+    def blocked_continuation(self):
+        case, out = package()
+        contract = ('GOAL: Finish all UI residual work, not just dependency diagnosis.\n'
+                    'SUCCESS CRITERIA: C1 diagnose; C2 implement and apply; C3 consult and review.\n'
+                    'VERIFY: retain all original checks; FINAL only with all proof.\n'
+                    'If already satisfied, report honestly.\n'
+                    'REQUESTED MODE: continuous completion; Goal blocked, resume unavailable.\n'
+                    'CHECKPOINT: 7/8 recorded; source=agent-default; enforcement=internal review.\n'
+                    'AUTHORITY: src/ui edits approved; no other changes or external effects.\n'
+                    'STATE FILE: .loop/example-state.md; reconcile same owner before resume.')
+        state = 'Attempts used: 7\nCheckpoint: 8\nSource: agent-default\nEnforcement: internal review\nGoal: blocked\n'
+        out['files'][PROMPT], out['files'][STATE] = contract, state
+        case.update(execution_unconfigured=True, preserve={PROMPT: contract, STATE: state})
+        case.pop('show_body', None)
+        out['chat'] = ('Loop brief: Finish every original UI criterion, consultation and review.\n'
+                       'Codex run options: requested continuation is unconfigured; Goal cannot resume.\n'
+                       '7 attempts recorded; 8 is an internal checkpoint, not a user cap.\n'
+                       'A single pass is a different unselected mode, not continuous completion.\n'
+                       'Saved contract: .loop/example.md; state and authority preserved.')
+        return case, out
+
+    def test_blocked_continuation_preserves_contract_and_seven_of_eight(self):
+        self.assertEqual(check(*self.blocked_continuation()), [])
+
+    def test_blocked_continuation_cannot_be_replaced_by_a_runnable_tick(self):
+        for launch in (f'{PROMPT} に従い1回進めて。', f'/goal Follow {PROMPT}.'):
+            case, out = self.blocked_continuation()
+            out['chat'] += ('\n## Launch commands\n### A — Recommended | Codex CLI input\n'
+                            '```text\n' + launch + '\n```')
+            self.assertIn('unconfigured execution has a runnable replacement', check(case, out))
+
+    def test_blocked_continuation_cannot_reset_budget_or_drop_residual_work(self):
+        for path, replacement in ((STATE, 'Attempts used: 0\nCap: 8\nRemaining: 8'),
+                                   (PROMPT, 'GOAL: Only diagnose C1 for one iteration.')):
+            case, out = self.blocked_continuation()
+            out['files'][path] = replacement
+            self.assertIn('existing state overwritten: ' + path, check(case, out))
+
+    def test_blocked_runtime_at_internal_checkpoint_never_emits_command_then_caveat(self):
+        case, out = self.blocked_continuation()
+        for path in (PROMPT, STATE):
+            text = out['files'][path].replace('7/8 recorded', '8/8 recorded')
+            text = text.replace('Attempts used: 7', 'Attempts used: 8').replace('Remaining: 1', 'Remaining: 0')
+            out['files'][path] = text
+            case['preserve'][path] = text
+        out['chat'] = ('Loop brief: Keep every UI residual requirement, consultation and review.\n'
+                       'Codex run options: requested continuous completion is unconfigured.\n'
+                       '8/8 is an internal checkpoint, not exhausted authority; blocked Goal has no resume operation.\n'
+                       'No executable launch for the requested mode has been generated.\n'
+                       'Saved contract and current state preserved; technical continuation unavailable, no counter reset.')
+        self.assertEqual(check(case, out), [])
+        for candidate in (f'{PROMPT} に従い完遂まで継続して。',
+                          f'/goal Follow {PROMPT} until complete.',
+                          f'{PROMPT} に従い1回進めて。'):
+            with self.subTest(candidate=candidate):
+                bad = dict(out, chat=out['chat'] +
+                    '\n## Launch commands\n### A — Recommended | Codex CLI input\n```text\n' +
+                    candidate + '\n```\nBut this will not run until native resume is available.')
+                self.assertIn('unconfigured execution has a runnable replacement', check(case, bad))
+
+    def test_ready_internal_checkpoint_and_user_limit_contrast(self):
+        import copy
+        import json
+        from pathlib import Path
+        cases = json.loads(Path(__file__).with_name('scenarios.json').read_text())
+        for scenario_id in ('M11', 'M12'):
+            case = next(c for c in cases if c['id'] == scenario_id)
+            files = copy.deepcopy(case['preserve'])
+            out = {'id': scenario_id, 'files': files, 'chat':
+                   'Loop brief: complete all UI criteria, consultation and review.\n'
+                   'Codex run options: continuous completion requested.\n'
+                   'Saved contract: .loop/example.md; history preserved.\n'
+                   'Proposal only; not configured, not started.'}
+            launch = ('\n## Launch commands\n'
+                      '### A — Recommended: continuous completion | Codex CLI input\n'
+                      '```text\n/goal Follow .loop/example.md until all criteria are proved.\n```')
+            if scenario_id == 'M11':
+                out['chat'] += launch
+                self.assertEqual(check(case, out), [])
+                bad = copy.deepcopy(out)
+                bad['files'][STATE] = 'Attempts used: 0\n'
+                self.assertIn('existing state overwritten: ' + STATE, check(case, bad))
+            else:
+                out['chat'] += '\nUser hard cap exhausted; awaiting explicit limit decision, no launch generated.'
+                self.assertEqual(check(case, out), [])
+                out['chat'] += launch
+                self.assertIn('unconfigured execution has a runnable replacement', check(case, out))
+
+    def test_plain_japanese_labels_and_nonready_brief_do_not_require_magic_titles(self):
+        case, out = self.compact()
+        out['chat'] = out['chat'].replace('Loop brief:', '今回の目的:')
+        out['chat'] = out['chat'].replace('## Launch commands', '起動コマンド').replace('### A', 'A')
+        self.assertEqual(check(case, out), [])
+        # Accepting plain labels must not hide extra prose, missing destinations or B-first order.
+        for old, new, error in (
+            ('起動コマンド\n', '起動コマンド\nExtra prose.\n',
+             'launch group must contain only heading, labels and blocks'),
+            ('Codex CLI input', 'Unknown surface', 'launch label missing or mismatching host'),
+            ('A —', 'B —', 'launch labels must follow A/B/C order'),
+        ):
+            bad = dict(out, chat=out['chat'].replace(old, new))
+            self.assertIn(error, check(case, bad))
+        case, out = self.blocked_continuation()
+        out['chat'] = out['chat'].replace('Loop brief:', '今回の目的:').replace(
+            'Codex run options:', '希望方式:')
+        self.assertEqual(check(case, out), [])
+
     def compact(self, host='codex', kind='closed'):
         code = f'{PROMPT} に従い1回進めて。'
         target = 'Claude Code' if host == 'claude' else 'Codex CLI'
@@ -97,9 +238,23 @@ class CopyLayoutTests(unittest.TestCase):
             'A — Recommended: one iteration | Codex CLI input',
             'A — おすすめ：まず1回 | Codex CLI 入力欄')
         self.assertEqual(check(case, out), [])
+        options = [('text', f'/goal Follow {PROMPT}; preserve {STATE}.',
+                    'A — おすすめ：Goal付き | Codex CLI 入力欄'),
+                   ('text', f'Follow {PROMPT} through completion; preserve {STATE}.',
+                    'B — 通常完遂 | Codex CLI 入力欄')]
+        case, out = package(options=options)
+        out['chat'] = out['chat'].replace('Codex run options:', '実行方法:')
+        self.assertEqual(check(case, out), [])
+        bad = dict(out, chat=out['chat'].replace('実行方法:', '本文中で実行方法は保存済みです。'))
+        self.assertIn('missing Codex choices section', check(case, bad))
+        heading = dict(out, chat=out['chat'].replace('実行方法: A is recommended; other modes are conditional.', '## 実行方法'))
+        self.assertEqual(check(case, heading), [])
 
-    def test_useful_single_option_is_valid(self):
-        self.assertEqual(check(*package()), [])
+    def test_useful_single_option_is_valid_without_a_comparison_menu(self):
+        case, out = package()
+        out['chat'] = out['chat'].replace(
+            'Codex run options: A is recommended; other modes are conditional.\n', '')
+        self.assertEqual(check(case, out), [])
 
     def test_duplicate_choices_are_rejected(self):
         case, out = package()

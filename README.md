@@ -22,7 +22,7 @@ Once the goal is proved, the loop finishes; unrelated improvements do not extend
 | Situation | Generated behavior |
 | --- | --- |
 | Same test command, improving results | Continue from the evidenced progress |
-| Different commands, unchanged failure and no new evidence | Change the hypothesis or narrow the action; stop incomplete at the configured limit |
+| Different commands, unchanged failure and no new evidence | Change the hypothesis or narrow the action; respect actual user/platform stop boundaries |
 | Green gate, uncovered requirement or missing mandatory suite | Obtain the missing proof; no completion claim |
 | Independent approval without evidence for a required dimension | Keep that dimension unproved; calibrate a new/custom verifier |
 | Interrupted attempt | Keep its pre-reserved budget slot and reconcile existing work |
@@ -46,23 +46,60 @@ not at a fixed morning time. Ordinary interactive work does not acquire it just 
 ## Choose by what you want to do
 
 makeloop separates **purpose** from **execution mode**. If the goal is unclear, compare concrete
-project-specific purposes before creating a contract. If it is clear, compare ways to run the
-same contract. Usually you get one recommendation plus one or two useful alternatives:
+project-specific purposes before creating a contract. When clear, trace the usable/delivered
+result and derive necessary remaining work first. The task list is provisional: as evidence
+changes, the actor discovers further tasks needed for that same result, not unrelated improvements.
+Recommend the simplest available execution; offer one or several choices only when useful or
+requested, without a fixed menu size. Goal/no-Goal changes continuation, not required work/quality:
 
 | Want to… | Choice | What the explanation covers |
 | --- | --- | --- |
-| Finish the accepted repair or milestone | Native goal continuation, when available | Edits, acceptance evidence, budget, stop and resume |
+| Finish the accepted repair or milestone | Ordinary execution, or native Goal when cross-turn pursuit is needed and available | Necessary tasks, use-path evidence, authorized delivery/review, real limits and resume |
 | Inspect one bounded step first | One manual iteration | What may change, what is checked, remaining work and how to continue |
 | Watch for new events | Open watcher tick or supported cadence | Signal, new-event dedup, notification/action scope, cursor, expiry and cancellation |
 | Continue from CI or a wrapper | Exact-session resume, when requested | Working directory, state ownership and uncertain-effect reconciliation |
 
-Each choice explains when it fits **and when it does not**, its actual effects and permissions,
-its saved state and its stopping condition. A watcher is not an alternative implementation of a
+Each choice records suitability, effects/permissions, saved state and stopping conditions in the
+saved Markdown; chat shows only the meaningful differences needed to choose. A watcher is not an alternative implementation of a
 repair. Choices are derived from the project, not fixed presets or a menu padded with irrelevant tools.
 
+For closed completion work on either host, the initial proposal includes a Goal-equipped launch when
+available, recommended for requests to keep looping until completion. Explicit no-Goal or
+bounded-pass choices still win. The generator binds the Goal lifecycle before presenting it;
+not configured/not started is not the same as unavailable. Actual blocked-resume, ownership
+and hard-limit constraints remain explicit.
+
+When both modes are ready and no other runtime was selected, the initial package pairs
+recommended Goal completion with ordinary current-execution completion. Both use the same
+contract/state and project-derived REMEDIATION SCOPE: diagnose an impediment, perform necessary
+authorized repairs, verify them and return to original work without a fresh repair request.
+Only an evidenced lack of productive authorized recovery/independent work supports a blocker
+stop. Real authority, authentication and native runtime boundaries remain; no auto-resume runner
+or counter reset is introduced.
+
+The final response keeps explanation separate from the paste text: a short explanation,
+then **Paste-ready prompts / 貼り付けるプロンプトはこれです** with mode/destination labels and
+one complete code block per choice. Saved design paths are marked as references (copy not needed),
+not called the prompt. A bare resume control does not replace the task-bound execution prompt.
+
+Detailed recovery, outcome alignment, minimum sufficient verification and host lifecycle rules
+live in the saved Loop Markdown by default; users need not repeat a long invocation to request
+them. Chat stays a compact outcome/path/status wrapper plus paste-ready blocks. Choose productive
+authorized alternatives when blocked, return to original delivery, and stop redundant testing
+when current evidence is sufficient; mandatory gates and real boundaries remain binding.
+Lean test stewardship is also default: avoid unnecessary new tests and actively consolidate or
+remove existing redundant, obsolete or meaningless tests encountered in the affected area, without
+another cleanup request. Record why coverage is no longer needed or where it survives; preserve
+required behavior/gates and never delete checks to hide a failure. No cleanup audit or deletion quota.
+
+No-Goal does not mean one iteration: ordinary execution may pursue successive useful steps in
+the current execution, but does not configure cross-turn persistence. An explicitly requested
+single pass remains bounded. Green parser tests alone do not finish an app's CSV import/save
+workflow; the contract traces input, display, save and read-back as required by the actual goal.
+
 **Final-only output:** no launch commands or full Loop body during progress or questions. Once
-files and checks are complete, one final response contains the explanations and candidate choices,
-then the short saved-contract path (full body only on explicit request), then **all launch blocks
+files and checks are complete, one compact final response gives outcome, saved path/readiness
+and brief mode differences (full body only on explicit request), then **all launch blocks
 at the very end**. Nothing follows the last
 launch block. Each block is independent and labeled by host and paste destination; explanations
 and shell prompts stay outside, necessary shell quotes stay inside. Unknown features remain
@@ -70,6 +107,13 @@ conditional explanations without runnable blocks. This replaces the former launc
 Use short, meaningful new filenames and project-relative paths. Put state, limits and authority
 in the saved contract instead of repeating them in each launch. Existing paths/state are preserved.
 Neither one physical line nor a code fence guarantees that selection-copy preserves line breaks.
+Shortening must preserve the requested continuation, residual work, review and cumulative budget
+in the saved contract. An unavailable goal stays unconfigured; a single pass is not an equivalent
+replacement. User/platform budget exhaustion is not a fresh completion allowance.
+Internal iteration counts instead trigger evidence review and replanning, not stopping at an
+agent-invented 8 or asking permission for another batch. Preserve history and actual limits.
+Launch readiness is resolved before copy blocks; an unusable requested mode yields no launch
+block, not a convincing command followed by an unusable caveat.
 
 **Generated is not started.** Displaying goal/schedule alternatives does not create them, replace
 an existing goal, reset a cursor or authorize concurrent writers. Existing `.loop/` files are not
@@ -153,7 +197,8 @@ suppressed; on ambiguity it defaults to closed.
 
 The full contract is saved to `.loop/<slug>.md`, with progress/cursor and `.loop/INDEX.md`.
 Chat presents explanations and the chosen Loop body only in the final package, with all
-resolved launch blocks last and nothing after them. Manual ticks are the safe-first-run default; explicit completion/cadence/CI intent
+resolved launch blocks last and nothing after them. Select execution from the whole requested job,
+not a default single iteration; explicit completion/cadence/CI intent
 selects a supported native mode. Unsupported features are conditional explanations, not runnable
 copy blocks. Generation does not start a loop, configure scheduling or overwrite existing state.
 `makeloop` will also tell you when a loop is the wrong tool (no automated check -> a single good

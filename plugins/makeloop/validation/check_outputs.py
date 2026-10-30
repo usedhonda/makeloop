@@ -24,7 +24,9 @@ def case_errors(case):
         errors.append('unsupported scenario host')
     if 'gate' in case and not isinstance(case['gate'], str):
         errors.append('gate must be a string')
-    for flag in ('compare', 'bootstrap', 'stop_event', 'acts', 'show_body'):
+    for flag in ('compare', 'bootstrap', 'stop_event', 'acts', 'show_body',
+                 'execution_unconfigured', 'goal_launch_required',
+                 'completion_pair_required', 'remediation_required'):
         if flag in case and not isinstance(case[flag], bool):
             errors.append(flag + ' must be a boolean')
     if 'preserve' in case and not text_files(case['preserve']):
@@ -136,15 +138,17 @@ def copy_presentation_errors(case, chat, contract, blocks, launches):
     require(not has_launch_text(outside), 'launch outside the final copy blocks')
     require(len({f['body'].strip() for f in launches}) == len(launches), 'duplicate launch block')
     labels = []
-    headings = list(re.finditer(r'(?m)^## [^\n]+', chat[:launches[0].start()])) if launches else []
+    # Accept clear plain headings/labels without requiring Markdown heading syntax.
+    headings = list(re.finditer(r'(?m)^(?:## [^\n]+|Launch commands|起動コマンド)[ \t]*$',
+                                chat[:launches[0].start()])) if launches else []
     previous_end = headings[-1].start() if headings else 0
     for i, f in enumerate(launches):
         between = [line.strip() for line in chat[previous_end:f.start()].splitlines() if line.strip()]
         label = between[-1] if between else ''
         labels.append(label)
         require(len(between) == (2 if i == 0 else 1)
-                and (i != 0 or between[0].startswith('## '))
-                and bool(re.match(r'^### [A-Z]\s+[—|\-]', label)),
+                and (i != 0 or bool(re.fullmatch(r'(?:## .+|Launch commands|起動コマンド)', between[0])))
+                and bool(re.match(r'^(?:### )?[A-Z]\s+[—|\-]', label)),
                 'launch group must contain only heading, labels and blocks')
         expected_host = 'Claude Code' if case['host'] == 'claude' else 'Codex'
         other_host = 'Codex' if case['host'] == 'claude' else 'Claude Code'
@@ -153,11 +157,13 @@ def copy_presentation_errors(case, chat, contract, blocks, launches):
         destination = (r'input|chat|composer|入力欄|チャット' if f['lang'].strip() == 'text'
                        else r'terminal|shell|ターミナル|シェル')
         require(bool(re.search(destination, label, re.I)), 'launch label missing paste destination')
-        require(label.startswith('### ' + chr(ord('A') + i) + ' '), 'launch labels must follow A/B/C order')
+        normalized_label = re.sub(r'^### ', '', label)
+        require(normalized_label.startswith(chr(ord('A') + i) + ' '), 'launch labels must follow A/B/C order')
         previous_end = f.end()
     recommendations = [bool(re.search(r'\bRecommended\b|おすすめ|推奨', label, re.I)) for label in labels]
-    require(bool(recommendations) and recommendations[0] and sum(recommendations) == 1,
-            'recommend exactly one launch, first')
+    if launches or not case.get('execution_unconfigured'):
+        require(bool(recommendations) and recommendations[0] and sum(recommendations) == 1,
+                'recommend exactly one launch, first')
     return errors
 
 
@@ -239,7 +245,38 @@ def check(case, out, presentation=True):
         require(bool(re.search(r'COLD START|cold.start|初回', contract, re.I)), 'missing cold-start policy section')
         require(bool(re.search(r'backlog|pre.existing|existing|lines before.*cursor|historical|既存|過去', contract, re.I)), 'missing backlog policy')
     fences = launches
-    require(bool(fences), 'no runnable copy block')
+    goal_launches = [f for f in fences if f['lang'].strip() == 'text' and
+                    (re.match(r'^/goal\s+', f['body'].strip()) or
+                     (case['host'] == 'codex' and re.match(
+                         r'^(?:Use create_goal for the objective in\s+|create_goal:\s*)'
+                         + re.escape(prompt_path) + r'(?=\s|[,.;。]|$)',
+                         f['body'].strip())))]
+    if case.get('goal_launch_required'):
+        require(bool(goal_launches),
+                'ready closed completion proposal missing initial Goal launch')
+    if case.get('completion_pair_required'):
+        require(len(fences) >= 2 and fences[0] in goal_launches,
+                'completion pair must start with Goal and include an ordinary alternative')
+        ordinary = [f['body'].strip() for f in fences
+                    if f['lang'].strip() == 'text' and
+                    not re.match(r'^(?:/|Use create_goal\b|create_goal:)', f['body'].strip())]
+        require(any(not re.search(r'for (?:exactly )?one (?:iteration|tick)|1回だけ|一回だけ',
+                                  code, re.I) for code in ordinary),
+                'ordinary completion alternative missing or bounded to one tick')
+    if case.get('remediation_required'):
+        require('REMEDIATION SCOPE:' in contract, 'missing project-bound remediation scope')
+        if case['host'] == 'claude':
+            require(not any(re.search(
+                        r'only (?:actual )?blockers(?:/approval)?(?: or waits)? remain|'
+                        r'阻害要因だけ(?:が)?残ったら(?:終了|停止)', sentence, re.I) and
+                        not re.search(r'remediation assessment|復旧判定', sentence, re.I)
+                        for f in fences for sentence in re.split(r'[.!?。\n]', f['body'])),
+                    'unqualified blocker exit in Claude Goal launch')
+    if case.get('execution_unconfigured'):
+        require(not fences and not has_launch_text(chat),
+                'unconfigured execution has a runnable replacement')
+    else:
+        require(bool(fences), 'no runnable copy block')
     if fences:
         require(prompt_path in fences[0]['body'], 'first launch file/state mismatch')
         if presentation:
@@ -278,9 +315,9 @@ def check(case, out, presentation=True):
         else:
             require(not re.search(r'\bcodex\s+(?:exec|resume)\b|codex-loop', code),
                     'Codex launch on Claude Code')
-    require(bool(re.search(r'Loop brief|ループ概要', chat)), 'missing concrete Loop brief')
-    if case['host'] == 'codex':
-        require('Codex run options' in chat, 'missing Codex choices section')
+    # A brief's substance is independently graded; a literal title cannot prove it.
+    if case['host'] == 'codex' and len(launches) > 1:
+        require(bool(re.search(r'^\s*(?:#{1,6}\s+)?(?:Codex run options|実行方法)(?:[:：]|\s*$)', chat, re.M)), 'missing Codex choices section')
     if case.get('lang') == 'ja':
         require(len(re.findall(r'[ぁ-んァ-ン一-龥]', body)) > 60, 'Japanese output not rendered')
     if case.get('bootstrap'):

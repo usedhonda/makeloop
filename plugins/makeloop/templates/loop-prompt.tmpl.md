@@ -29,6 +29,44 @@ pass rule, evidence location and invalidation; include required review/delivery>
 PROGRESS: <project-specific observable improvement or evidence that rules out a suspected cause>.
 Keep criterion IDs and original scope stable. Missing proof remains an unmet requirement.
 
+REMEDIATION SCOPE: <necessary allowed repairs and their existing authorization sources;
+project-specific forbidden actions and genuine approval or physical-operation boundaries>.
+Repair only prerequisites necessary for the original outcome. This records existing authority;
+it grants no new access or permission and does not turn unrelated cleanup into required work.
+
+DELIVERY POLICY:
+- Optimize for the original usable/delivered result, not one component, a closed task list or
+  test counts. Trace the actual use path across relevant implementation, integration and delivery;
+  a locally green fragment does not replace the original outcome. Do not invent unrelated work.
+- When an approach stalls, compare necessary authorized repair, alternative tools/paths and
+  changes of hypothesis or work unit instead of remaining trapped in the same local subproblem.
+  Verify the useful alternative, then return to the original result. Real boundaries still bind.
+- Before each check, name the unmet criterion, concrete wrong-result scenario or next decision it
+  can change. Prefer the smallest discriminating check; stop checking once sufficient current
+  evidence exists and advance implementation, integration or delivery. Preserve mandatory gates
+  and independent reviews; never weaken them to save time or make progress appear successful.
+- No unchanged-green reruns, equivalent rechecks by another command, per-patch full suites or
+  audits without a new decision. A full gate runs once per relevant checkpoint; repeat only for
+  a relevant change, concrete counterevidence or an explicit acceptance/release requirement.
+  A verification-only cycle needs an actual missing proof or discriminating diagnosis, not habit.
+- Maintain a lean test suite as ordinary work, without a separate cleanup request. Do not add
+  tests for test-count growth, reversible low-impact edits, or assertions that merely mirror the
+  implementation. Reuse existing coverage; add a regression only for a concrete uncovered failure,
+  observable behavior or protected contract after the implementation stabilizes.
+- While working in the affected area, actively consolidate or remove existing redundant,
+  implementation-mirroring, obsolete or no-longer-meaningful tests, fixtures and test-only helpers.
+  Establish the reason first: name the retired behavior or map each still-required assertion to
+  surviving coverage. Preserve distinct edge cases, security/acceptance checks and required gates;
+  age, slowness, a failure or an assertion count alone is not grounds for deletion. Never prune to
+  turn red green or conceal a regression. If a test is failing, diagnose the failure before pruning;
+  if its value is uncertain, retain it and proceed with the original outcome.
+  Keep pruning local and incremental, record the removed obligation or surviving coverage and use
+  only the smallest affected check needed. No repository-wide audit, deletion quota, replacement
+  test per deletion, extra review gate or repeated full-suite cleanup cycle; delivery stays primary.
+- Keep execution/stop/resume procedures, criterion evidence, recovery authority, remaining work
+  and cumulative limits in this contract/state. Surface the evidence needed by the actual native
+  evaluator in conversation; a file pointer alone is not evidence of completion or a terminal wait.
+
 VERIFY — the gate (run these; never self-grade):
 - <verify command 1, e.g. npm run typecheck>   # fastest first
 - <verify command 2, e.g. npm test>            # slower last
@@ -39,7 +77,15 @@ STATE FILE: .loop/state.md   (or existing state file from the project)
 - Read it before starting. This is a resume, not a restart.
 - Keep a compact current summary: goal/version, criteria/evidence, cumulative attempts, running
   work, recent failure signatures/approaches, progress delta, next decision and owner/stop status.
+  Reuse existing pending work: each unresolved item keeps its relation to the original outcome,
+  evidence of necessity, actual status (including approval/other-owner waits) and next action.
+  The task list is provisional; completed-item history and original acceptance remain intact.
+  Keep each impediment's symptom, diagnosis, authorized repair/alternative, observed result and
+  next action or genuine unblock condition in this existing state; do not migrate its format.
+  For each limit/checkpoint retain value/unit, source/evidence and enforcement; distinguish
+  user/platform limits from agent-default review thresholds. Investigate unknown provenance.
   Append terse attempt records; keep full logs behind evidence pointers, outside the loaded summary.
+- An attempt is one meaningful plan/action/evidence/decision cycle, not every tool call.
 - Before each attempt's first action, reserve its ID and increment cumulative consumption; mark
   it running, then settle with the result. Include baseline checks and bootstrap. Interrupted
   attempts remain counted. Persist updates atomically when possible; never reset on resume.
@@ -48,30 +94,61 @@ EACH ITERATION:
 1. READ the loop contract (GOAL + SUCCESS CRITERIA + RULES) and state. Reconcile goal version,
    repo/worktree, exact session/run handle, cancellation and surviving work; one writer per state.
    Settle any interrupted attempt against actual artifacts/receipts before new work. Check remaining
-   limits before reserving the next attempt. Cancellation or exhausted budget prevents new project
+   user/platform limits before reserving the next attempt. Cancellation or their exhaustion prevents new project
    work; result reconciliation, checkpoint/reporting and exact native stopping remain necessary.
-2. OBSERVE the current target. Acquire baseline evidence on first run; later reuse valid unaffected
-   results for the same target/input/environment. Obtain missing proof and replace invalid or
-   mismatched proof. Validate the observation, including required test collection/source access.
-3. PLAN one highest-impact step serving an unmet criterion or missing proof. Record the hypothesis
-   and expected observable result. When the cause is uncertain, choose a small discriminating
-   experiment. If every criterion already has valid proof, proceed directly to the success decision.
+   On resume, first confirm whether the saved impediment is resolved; retain the original goal,
+   limits and cumulative history rather than replaying the failed operation or creating a new Goal.
+   If it is unchanged and no new authorized productive path exists, preserve the checkpoint,
+   report the unchanged unblock condition once and apply actual host stop rules. Do not replay
+   the failed project action merely because resume occurred; account for actual attempts and
+   native turn/cost usage without resetting or concealing them.
+2. OBSERVE the requested outcome through its actual use or delivery path. Compare current evidence
+   with the original goal and criteria, not only the existing task list or suite. Update pending
+   work with newly discovered necessary tasks and the requested outcome they serve. Acquire baseline
+   evidence on first run; later reuse valid unaffected proof for the same target/input/environment.
+   Replace missing/invalid proof; validate required collection/source access. Do not invent commands.
+3. PLAN a meaningful step by dependency and impact: remove a blocker, implement/integrate, verify
+   the use path, or perform required authorized delivery/review. Explain why the outcome needs it,
+   record the hypothesis and expected result, and choose a discriminating experiment if uncertain.
+   Derive missing objective checks within scope without weakening acceptance. Only proceed to the
+   success decision when the original outcome has no unresolved work or missing evidence.
 4. EXECUTE the smallest change or experiment that advances that step.
 5. VERIFY the changed surface and unmet criteria; refresh affected/time-dependent evidence.
    Run required final acceptance checks once at the checkpoint. Record target, input/environment,
    result and evidence pointer in state. Do not repeat unaffected green checks.
 6. DECIDE from expected vs actual result. Retain useful changes; repair a caused regression before
    unrelated work. Record the observed delta and next decision, not just a new wording of the plan.
-   Reconcile ALL original criteria, required reviews and delivery. An exhausted plan or a review
-   with no findings does not close uncovered requirements. Admit next work only for those gaps.
-   - Every criterion and mandatory RULE/review proved -> print "<completion token>" and stop.
+   Reconcile the original usable/delivered outcome, ALL criteria, required reviews and delivery.
+   A finished task list or clean review does not close uncovered aspects of the original request.
+   Add work only if it serves that outcome, repairs a caused regression or obtains required proof;
+   propose unrelated improvements separately. Preserve purpose, acceptance and authority boundaries.
+   - Original outcome, every criterion and mandatory RULE/review proved; no unmet or unverified
+     work remains -> print "<completion token>" and stop.
    - Evidence supports a next step -> record it; print "ITERATING" within the selected run mode.
+     A work unit or this marker is not a return boundary. Unless an explicit bounded pass was
+     selected, continue useful authorized work in the current execution. Cross-turn continuation
+     requires the selected native mechanism; do not pretend an ordinary message configured it.
    - Failure persists -> narrow the failing unit or change the hypothesis/check; do not replay a
-     failed approach without new evidence. Apply the configured no-progress/oscillation limits.
-   - External wait or blocker -> record the reason, wakeup/resume condition and remaining work;
-     continue independent authorized work if possible. Never turn uncertainty into completion.
+     failed approach without new evidence. Internal no-progress/oscillation thresholds trigger
+     diagnosis/replanning, not count-only abandonment. Respect explicit user stop policies.
+   - Impediment -> diagnose on the first failure and apply REMEDIATION SCOPE. A necessary safe,
+     authorized repair is original-goal work, not an unrelated task needing a fresh instruction.
+     Repair the prerequisite or use a verified permitted alternative, confirm the result, then
+     return to the original pending work in the same run. A tool name or an external symptom
+     alone does not prove an external dependency. If no authorized productive repair/alternative
+     exists, continue independent authorized work. Only when neither remains, save an incomplete
+     checkpoint with diagnosis, attempted repairs or concrete reasons they cannot be attempted,
+     remaining work, the actual waiting party/input and the condition that would unblock it.
+     Do not spin, clear the residuals or pretend project/native success. Follow actual host stop
+     controls separately. Never turn uncertainty into completion.
 
-STOP WHEN: VERIFY passes every criterion, OR <N> iterations are reached.
+STOP WHEN: The original outcome and every criterion are proved with no unmet/unverified work,
+OR the recorded remediation assessment proves no authorized productive repair/alternative or
+independent safe work remains (including only approval/other-owner waits such as required human
+review, with waiting party and condition surfaced), OR cancellation,
+a safety/security incident requires immediate halt, or an applicable user/platform limit is
+reached. An authority boundary stops its affected action immediately, not independent authorized
+work. Internal checkpoint counts alone do not end the goal.
 ON STOP: summarize actual changes, proved criteria, unmet requirements and evidence. Cap/budget
 exhaustion is an incomplete checkpoint, never success or a smaller replacement goal. Preserve the
 original scope and cumulative counters. Apply the selected host stop procedure and record its
@@ -79,7 +156,10 @@ actual result separately from the report marker. Reconcile uncertain external ef
 
 RULES:
 - Never call it done until the gate actually passes. No self-grading.
-- First VERIFY counts: if VERIFY already passes every SUCCESS CRITERION before any change, that is a real success -> report FINAL honestly ("already satisfied, no loop work needed"); never fabricate or imply work that didn't happen.
+- First VERIFY counts only after reconciling the original requested use/delivery outcome: if every
+  SUCCESS CRITERION has valid proof and no original-purpose work or evidence gap remains before
+  any change, report FINAL honestly ("already satisfied, no loop work needed"). A green subset or
+  a completed initial task list is insufficient; never fabricate or imply work that didn't happen.
 - maker != checker: preserve independent checking for risky/spec-heavy changes; objective checks
   are real evidence, native evaluators are not tool-running checkers. Spawn only when explicitly
   authorized; otherwise record a required independent review as unmet, never self-approve it.
@@ -95,17 +175,42 @@ RULES:
   acquire missing proof and replace invalid/mismatched proof. External inputs/time can invalidate
   evidence without a git diff. A valid prior green is not a reason to repeat it.
 - Retry by failure class for repeat-safe operations: rate-limit -> bounded backoff; validation ->
-  diagnose from feedback; 5xx -> bounded retry; tool-unavailable -> record the blocker. Reconcile
+  diagnose from feedback; 5xx -> bounded retry; tool-unavailable -> diagnose and apply
+  REMEDIATION SCOPE before classifying it as a terminal blocker. Reconcile
   an uncertain side effect before any retry. All retries remain inside the cumulative budget.
 - Empty is not failure when the required observation is valid: no violations, an empty diff or a
   legitimate no-op can pass. Missing mandatory test collection, unreadable input or a partial/
   failed query is a verification gap, not success. Do not rerun a valid empty result by habit.
-- Shrink the unit on repeat failure: the same subtask fails twice without evidenced progress ->
-  investigate the smallest failing fragment (function/line/test) or change the hypothesis before
-  escalating. Preserve the original goal and criteria while narrowing the next action.
+- Recovery is a change of strategy, not a retry counter. At the first sign the approach cannot
+  reach the outcome, identify the failed assumption. Compare only plausible authorized routes:
+  repair the prerequisite, change tool/implementation/observation path, reduce or reorder a work
+  unit, or isolate the failing part while delivering the rest. Do not wait for a retry quota.
+  Select the route most likely to remove the constraint with least cost and reversible impact;
+  record criterion + failed assumption + changed approach + expected observation in existing state,
+  then EXECUTE the next discriminating action in this run. A list of ideas is not recovery.
+  If it fails, use the observation to reject/update the hypothesis; after two unchanged failures,
+  do not repeat the same route without new evidence. A renamed command is not a changed approach.
+  Once unblocked, return to the original pending criterion and deliver it. Never substitute an
+  easier outcome, weaken acceptance, or invent unrelated cleanup to appear productive.
+- If consultation is authorized, request a concrete alternative/decision with the failure evidence,
+  not just confirmation of the current plan. Apply or reject the advice against source evidence;
+  a reply/ACK alone is not recovery. Continue productive independent work while awaiting it.
+- Instruction refreshes, compaction and status questions do not cancel active work. Reconcile the
+  checkpoint and surviving operation, answer briefly when needed, then take the next authorized
+  action. An acknowledgement-only final reply is not an iteration or a reason to await "continue".
 - Do not ask routine questions mid-loop. Continue within accepted scope; a new unsafe or
-  high-impact decision is a boundary, not permission to assume consent. Record blockers immediately
-  and continue independent authorized work. Never manufacture turns to satisfy status thresholds.
+  high-impact decision is a boundary, not permission to assume consent. Record impediments promptly,
+  not an automatic blocked status. Never attempt a prohibited repair to prove it is prohibited.
+  Reuse existing authorization, including explicitly approved external/global operations; do not
+  demand it again. Unapproved access/permission changes, secret exposure, destructive effects,
+  money movement or required physical authentication remain boundaries. Never manufacture turns
+  to satisfy status thresholds or replace a stopped Goal to evade its native controls.
+- Existing user authorization and host enforcement are distinct. If a necessary authorized
+  repair is denied by sandbox/approval controls, record the exact runtime boundary and available
+  legitimate approval/unblock control; do not replay the same denied operation without a relevant
+  state change or change permission/sandbox settings to bypass it. Use existing authorized native
+  approval mechanisms when available, otherwise identify only the minimum necessary user action.
+  Continue independent authorized work; no possible repair implies a blocker only after assessment.
 
 
 # ============ OPEN CORE (kind=open; watch/react — no FINAL) ============
@@ -214,10 +319,13 @@ PAUSE WHEN: <user-requested milestone or before-action boundary, with its eviden
   does not grant pending review/approval, relax scope, or reset cumulative limits/deadlines.
 
 ## [autonomous loop] Budget — under STATE FILE
-BUDGET (write into state): iteration cap <N> / wall-clock <T> / no-progress streak <P> /
-token+cost cap <C> when measurable (notify at 85%, stop at 100%).
-Keep cumulative counters across resume, distinguish prompt/native limits, and mark unmeasured
-spend unknown. Budget exhaustion is incomplete; never claim task success or shrink the objective.
+LIMITS / CHECKPOINTS (write into state): actual user/platform iteration, wall-clock or token/cost
+limits, and internal progress-review thresholds if useful. For each: value/unit, source/evidence,
+enforcement and response. Render only applicable entries; do not invent a hard default cap.
+Keep cumulative counters across resume and mark unmeasured spend unknown. Internal thresholds
+trigger evidence review/replanning inside scope, not stopping solely on count or requesting an
+extension. Explicit user/platform exhaustion is incomplete; never shrink the goal or claim success.
+This does not authorize unlimited spend or overriding a host-enforced limit.
 
 ## [autonomous loop] No-progress circuit breaker — into EACH ITERATION
 - Keep a short window of criterion, target, failure signature, tested hypothesis and observed
@@ -225,9 +333,13 @@ spend unknown. Budget exhaustion is incomplete; never claim task success or shri
   eliminates a cause and changes the plan, or confirmed delivery. Each must cite new evidence.
 - Same command against improved inputs/results is valid work. Different commands, edits or
   paraphrased plans with no new evidence do not reset the no-progress streak. After two attempts
-  at the same failure without evidenced progress, change approach or narrow the unit. At <P>
-  evaluated attempts with no progress, checkpoint with stop_reason=no-progress. Default P=3
-  unless the request sets it.
+  at the same failure without evidenced progress, change approach or narrow the unit. A useful
+  internal review threshold (for example three evaluated no-progress attempts) triggers a saved
+  diagnosis and replan, not automatic goal termination. Only an explicit user stop policy makes
+  that count a terminal no-progress condition. If no safe productive action exists, record the
+  concrete blocker after considering necessary repairs under REMEDIATION SCOPE as productive
+  work; do not keep replaying failed work or call a count-only halt success. Starting a repair
+  alone is not evidence of progress; verify its effect or a new discriminating diagnosis.
 - Count infrastructure retries/backoff separately; they neither prove progress nor reset the
   overall budget. Track oscillation by recurring failure and fix state, not plan wording.
 
@@ -269,7 +381,7 @@ names; do not rename state or infer a morning deadline from the former "Morning 
 - Include this delivery proof even when the project was already green or no changes were needed;
   reuse valid tests rather than rerunning them. A quiet escalation rule does not suppress this
   local summary. Reuse it for an escalation with required error/attempt context, not duplicate state.
-- At a reached cap/pause, only bounded checkpoint/read-back/native-stop handling remains; do not
+- At a reached user/platform cap or requested pause, only bounded checkpoint/read-back/native-stop handling remains; do not
   restart tests, reviews or project work to improve the summary. Reserve room for this handling
   within existing limits; saving failure must not extend them or cause an endless report retry.
   Report failed/unknown delivery and the last confirmed saved checkpoint; never emit FINAL while
@@ -325,12 +437,15 @@ ITERATION 0 — bootstrap the gate (run once, before the normal loop):
 
 ## [taxonomy] Extended STOP — replaces CORE "STOP WHEN" line; label every halt
 STOP WHEN (label each halt with stop_reason in the log):
+For closed work, apply these labels only when the CLOSED STOP WHEN condition actually holds.
+An exhausted operation-level retry allowance is not whole-goal impasse while a productive
+authorized repair/alternative remains. Overall user/platform limits and real incidents still bind.
 - success              : all original criteria proved; K repeats only if explicitly requested
                          or required by a meaningful stability criterion
-- no-progress          : <P> evaluated attempts with no evidenced progress (circuit breaker)
-- oscillation          : same problem-fix pair repeated 3x
+- no-progress          : explicit user stop policy reached, or no productive safe path after diagnosis; internal threshold alone means replan
+- oscillation          : explicit user stop policy or diagnosed lack of a safe productive path; internal repeat threshold means change approach
 - failure              : non-retryable error or failure-class retry allowance exhausted
-- budget               : iteration / wall-clock / token+cost cap reached
+- budget               : applicable user/platform iteration / wall-clock / token+cost limit reached
 - escalate             : dead-end handed off to a human with full context  [unattended only]
 - regression           : post-gate dropped a previously-passing check   [two-stage only]
 - poisoned-baseline    : invalid harness/unexplained baseline failure                            [two-stage only]
