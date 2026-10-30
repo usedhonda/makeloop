@@ -51,7 +51,7 @@ complete with the exact contract/state and execution unit. Emit slash launches a
 
 Render with actual paths and values in the user's language; these are illustrative scaffolds.
 
-- Ordinary closed message: “Follow .loop/repair.md through its required work and verification.”
+- Ordinary closed message: “Follow .loop/repair.md through completion.”
   Bind outcome, provisional pending work, delivery/review and actual stop conditions in the contract.
 - Explicit bounded-pass message: “Follow .loop/repair.md for exactly one iteration.” Bind state,
   criteria, reporting and limits in that saved contract, not a long launch message.
@@ -97,8 +97,10 @@ On a CLI with a confirmed `/goal` input surface, render the native slash launch.
 with exposed Goal tools but no confirmed slash surface, render a normal setup prompt explicitly
 instructing the executor to create the saved objective with `create_goal`, then execute it
 (for example, `Use create_goal for the objective in .loop/repair.md, then execute it.`
-or the language-neutral prefix `create_goal: .loop/repair.md` followed by the setup instruction);
-that is a Goal setup proposal, not an ordinary "continue" sentence. Generation itself does neither.
+or `create_goal: .loop/repair.md の目的を設定し、契約に従って完遂してください。`);
+that is a Goal setup proposal, not an ordinary "continue" sentence. Generation itself does neither. Do not expand this
+setup sentence into get_goal/reuse/criterion/budget/consultation instructions: those are already
+bound below in the saved contract. The entrypoint Final output contract governs its presentation.
 
 - Start: the chosen launch activates the original objective once. Preserve the existing state;
   do not replace an unrelated unfinished Goal. Inspect an existing matching Goal before reuse;

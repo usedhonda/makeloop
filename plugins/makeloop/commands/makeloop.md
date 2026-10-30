@@ -6,6 +6,9 @@ allowed-tools: ["Read", "Glob", "Grep", "Bash", "AskUserQuestion", "Write", "Age
 
 # /makeloop — build a loop prompt for this project
 
+Read `../skills/makeloop/SKILL.md` section **Final output contract** first, including on
+the direct Claude command path. It is the single presentation contract for this command.
+
 You are about to **build a host-native loop contract**, not run one. Your single deliverable is a
 file-backed loop contract with explained choices and complete, copyable launch instructions.
 Do **not** start doing the project work itself — your job ends when the loop prompt is
@@ -287,8 +290,9 @@ bounded execution instead when supplied. Bind fresh-Goal creation, continuation,
 completion and actual non-success transitions using the current host guide before classifying readiness.
 Not configured/not started does not mean not runnable. Missing lifecycle wording is assembly work
 to finish here, not a generic "stop conditions need connecting" excuse to suppress the proposal.
-When no different runtime was explicitly selected and both modes are ready, present Goal-equipped
-completion first (recommended) and ordinary current-execution completion second. Both reference
+Use the entrypoint SKILL.md Final output contract for mode selection: when both modes are ready,
+default to Goal first and ordinary completion second unless an explicit exclusive choice applies.
+A request to use Goal selects the recommendation; it does not by itself mean "Goal only". Both reference
 the same outcome, state and REMEDIATION SCOPE; they are alternatives, never simultaneous writers.
 Ordinary completion is not a single bounded tick. Do not add a watcher to pad these choices.
 For compact/reissued launches, read the actual contract/state and retain the original goal,
@@ -369,6 +373,10 @@ Mandatory safety remains in force in every generated contract:
   approval for irreversible actions; moving text does not relax its enforcement.
 
 ## Step 6 — Validate, save, explain, and provide copyable launches
+
+Final presentation follows the entrypoint SKILL.md Final output contract. Fill host launch
+templates, then check the actual final text for mode count, host/destination labels, no lifecycle
+repetition and no text after the last fence. File checks alone do not validate this presentation.
 
 Resolve execution readiness inside this invocation using the output guide before emitting any
 launch. Reconcile actual request/contract/state, remaining budget, run ownership and exposed

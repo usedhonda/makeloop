@@ -1,6 +1,8 @@
 # Purpose-led choices and copyable output
 
 Use this guide in Steps 2 and 6. Generate contracts; do not start project work.
+The entrypoint SKILL.md Final output contract is the presentation source of truth; this guide
+provides purpose/readiness and copy hygiene, not exceptions to that contract.
 
 ## Choose the purpose before the mechanism
 
@@ -15,9 +17,8 @@ When the purpose is clear, derive the requested usable/delivered result and its 
 before choosing the mechanism. Explain what currently works, which evidenced gaps remain, how the
 actor will discover further necessary in-scope work, and what proves the delivered result. The
 initial task list and suite are not exhaustive. Do not invent work merely to fill the contract.
-Recommend the simplest available way to carry that same job through. Offer one or several ready
-choices only when their practical differences matter or the user asks to compare; there is no
-candidate-count target. Each explains its suitability, actual work, stopping and resume. Goal/no-Goal
+Recommend the simplest available way to carry that same job through. For closed completion,
+select modes using the entrypoint Final output contract; for other purposes show only useful ready choices. Each explains its suitability, actual work, stopping and resume. Goal/no-Goal
 changes continuation machinery, not the required result or quality. Ordinary execution can pursue
 successive useful steps now; it is not automatically one iteration or configured cross-turn
 continuation. Reserve a one-pass limit for an explicitly selected bounded pass. Do not add a manual
@@ -27,8 +28,8 @@ For a closed completion request on either host, include the available Goal-equip
 initial proposal; recommend it for requested looping/cross-turn continuation. Apply the current
 host guide's lifecycle binding before judging readiness. Explicit no-Goal/bounded choices
 and actual capability/ownership/limit constraints still override this default.
-When both modes are ready and no different runtime was explicitly selected, show Goal-equipped
-completion first (recommended) and ordinary current-execution completion second. Both bind the
+When both modes are ready, use the entrypoint default Goal/ordinary pair unless its explicit
+exclusive-mode exceptions apply. A request to use Goal alone is not a request to show Goal only. Both bind the
 same outcome/state and REMEDIATION SCOPE, not two different projects or a mandatory single pass.
 Explain that necessary authorized blocker repair is included in both; a repaired prerequisite
 returns to the original work without a fresh user request. Genuine native/runtime boundaries
@@ -128,26 +129,12 @@ hold executable text until the final deliverable. Inline feature names are fine;
 launches with the saved paths are not, even without a code fence. The user must not have to hunt through the
 conversation to find the latest launch. Earlier copy-first guidance is superseded by this rule.
 
-After resolving material questions, saving files and completing assembly checks, use this compact
-final package on either host:
-
-1. **Short explanation**: normally one sentence naming the requested usable outcome. If choices
-   differ, add one short distinction (for example Goal across turns versus ordinary completion in
-   the current execution), with exactly one recommendation among ready proposals. Use localized
-   **実行方法** in Japanese; English **Codex run options** remains valid. No tool-menu essay.
-2. **Saved design and actual status**: one short line with the exact saved Markdown path (copy not
-   needed) and truthful generated/configured/started status, plus any material unresolved gap.
-   If the user requested a pause point, briefly name it on this status line; do not invent one.
-   Put detailed stopping, recovery, evidence, budgets, state/resume and handoff instructions in
-   that file, not repeated chat sections. If handoff is selected, retain its exact state location
-   in the saved contract; mention the recipient-facing location only when needed for delivery.
-   Do not label a path alone "the prompt" or "Loop本文". Show the complete checked saved body
-   only on explicit request, before the final paste group, using a longer outer fence if needed.
-   Never reconstruct another version or print an unchosen-purpose executable contract.
-3. **Paste-ready prompts / 貼り付けるプロンプトはこれです**, last: one fully resolved code block
-   per ready choice. Put its mode, host and actual paste destination immediately above it,
-   with A/B labels when needed and only the first marked recommended. Keep the final group
-   limited to its heading, short labels and paste blocks.
+After resolving material questions, saving files and completing assembly checks, use the
+entrypoint Final output contract on either host. Briefly name any user-requested pause on the
+status line; do not invent one. For selected handoff, keep its exact state location in the saved
+contract. Show the full checked contract only on explicit request, before the paste group,
+using a longer outer fence if needed; never reconstruct another version or show an unchosen
+purpose's executable contract.
 
 Before the final group, use one short instruction: **Copy one whole code block to the named input;
 the explanation and saved path are not to paste.** With alternatives, say to choose only one and

@@ -5,6 +5,32 @@ description: Design evidence-driven loops for a project goal or watcher, with pr
 
 # makeloop — host-aware entrypoint
 
+## Final output contract — presentation source of truth
+
+This section governs final presentation; references supply execution semantics, not a second
+presentation policy. Apply explicit user format/mode choices first, then these defaults:
+
+1. Briefly state the outcome, saved design path and actual generated/configured/started status.
+   Keep material unresolved choices or capability gaps visible; do not print the full contract
+   unless requested. The saved path is a design reference, not the paste prompt.
+2. For a ready closed completion, show Goal completion first (recommended) and ordinary
+   current-execution completion second, sharing the same contract/state. Asking to use Goal
+   selects the recommendation, not "Goal only". Only an explicit exclusive choice ("Goal only",
+   "Goalだけ", no-Goal, bounded pass or another runtime), or real readiness limits overrides
+   the pair. Open watchers and unavailable Goal controls do not get fabricated alternatives.
+3. End with **貼り付けるプロンプトはこれです** (or the user's language). Before the group say
+   to copy one block and not run both. Each label names mode, host and actual paste destination.
+   Nothing follows the last fence. Use **実行方法** for Japanese comparisons.
+4. Fill the current host guide's launch templates; do not freely compose a setup paragraph.
+   Substitute the actual contract path and user's language. Keep native syntax/conditions that
+   the host actually requires, but keep Goal lookup/reuse, criterion IDs, state paths, omitted
+   budgets, consultation, remediation and history procedures in the saved contract, not repeated
+   in the paste block. Explicit required native budget arguments remain on the launch.
+5. Before release, compare the assembled final answer to 1–4. A long launch that restates the
+   saved lifecycle must be replaced with the template, not excused as "self-contained". Check
+   the selected mode count, labels and last-fence rule on the actual final text, not just the file.
+
+
 Identify the actual host from the exposed runtime/tools, not the model name. This skill may be
 visible in both Claude Code and Codex. On Claude Code, route through the shared generator and
 `../../references/claude-code.md`; do not apply Codex-only invocation or launch choices below.
@@ -35,15 +61,13 @@ use the actually discovered alias, never remove or duplicate user-level aliases 
 When purpose is ambiguous, explain concrete project-specific choices before writing executable
 contracts for an unselected purpose. When clear, derive the usable/delivered result and evidenced
 remaining work first. Keep tasks provisional and linked to that result in existing state. Select
-the simplest usable execution; compare modes only when useful or requested, with no fixed count.
+the simplest usable execution; the Final output contract above determines completion alternatives.
 Preserve supplied choices. Ask only for material ambiguity; use a concise normal chat question if
 its question UI is absent. Do not require ritual confirmation for decisions already supplied.
 
 Save `.loop/<slug>.md`, seed closed `-state.md` or open `.cursor.json` only if absent, and maintain
 `.loop/INDEX.md`. Hold launch commands and the full Loop body until saving/checks are complete.
-In ONE final response: a short outcome sentence, saved path/readiness and concise choice distinction,
-then short copyable launch blocks at the end. Put detailed execution, recovery, verification,
-stop/resume and budget rules in the saved Markdown, not repeated chat cards or long paste text.
+Follow the Final output contract above; output-guide.md supplies readiness and copy hygiene.
 Outcome-first adaptive recovery and minimum sufficient verification are default closed-loop policy;
 the user need not repeat instructions to avoid siloed work, premature blocker stops or test churn.
 Default to lean test stewardship too: avoid unnecessary new tests and incrementally consolidate or
@@ -52,18 +76,11 @@ Carry the template's preservation, diagnosis and scope rules; never weaken requi
 The saved contract is authoritative; show its full body only when
 explicitly requested. Prefer short new slugs and project-relative paths; never insert a newline
 inside a filename/path. Follow output-guide.md for copy-safe launches and existing long names.
-Label saved paths as design references (not the paste prompt). End with **貼り付けるプロンプトはこれです**
-(or the user's language), a brief copy-only-the-code-block instruction before that group, and
-clearly labeled paste blocks. A bare resume control is not a substitute for the task-bound prompt.
-Nothing follows the last launch fence.
-Use localized **実行方法** for Japanese comparisons; **Codex run options** is also valid on Codex.
-No comparison heading is needed for one choice. Mark exactly one recommendation among ready proposals only.
 For either host's closed completion requests, include the available Goal-equipped launch from the first
 proposal; recommend it for requested looping/cross-turn continuation, unless an explicit different
 mode wins. Bind the fresh Goal lifecycle from the current host guide during generation. Not configured/not
 started is not unavailable; finish stop/lifecycle assembly instead of deferring it as a condition.
-If both modes are ready and no other runtime was explicitly selected, pair recommended Goal
-completion with ordinary current-execution completion. They share the same contract/state and
+Select alternatives by the Final output contract above. They share the same contract/state and
 project-derived REMEDIATION SCOPE. Diagnose impediments, perform necessary authorized repairs
 and return to original work before considering a terminal blocker; preserve genuine boundaries.
 Do not default completion requests to one iteration: no-Goal can pursue successive useful steps
