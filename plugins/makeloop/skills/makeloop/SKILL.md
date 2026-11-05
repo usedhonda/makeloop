@@ -40,6 +40,11 @@ Build the loop contract; do not do the project work. Read
 `../../commands/makeloop.md` for the shared generator Steps 0-6. It is the canonical generation
 logic, not a Claude-only runtime prescription. Do not fork it into this skill.
 
+For normal generation/full redesign, read `../../references/local-learning.md` once: inspect a
+bounded delta of this user's real usage, diagnose at most one evidenced issue, and apply only
+relevant personal rules. Learning failure must not block generation. Skip this mode for skill
+maintenance and path/copy-only refinements; never trigger the shared-source self-improvement cron.
+
 Use progressive disclosure:
 
 - Steps 2/6: `../../references/output-guide.md` for purpose choices, explanations and copy format.
@@ -73,6 +78,16 @@ the user need not repeat instructions to avoid siloed work, premature blocker st
 Default to lean test stewardship too: avoid unnecessary new tests and incrementally consolidate or
 remove evidenced redundant/obsolete existing tests in the affected area without a separate request.
 Carry the template's preservation, diagnosis and scope rules; never weaken required checks to pass.
+Keep its inline test inventory and zoom-out decisions in every closed contract: meaningful slice
+boundaries (even green ones), before further test additions, and immediate outcome-stall signals.
+Include tests created during this run. Reuse current evidence; simplify or switch the next action
+when local activity no longer serves the outcome. Do not turn these decisions into more tests,
+a full-suite audit, a new agent or longer paste prompts. Both hosts and completion modes share them.
+Also carry the core's coordination-stall rules: prerequisite work must return to a named product
+action; distinguish user holds, technical constraints and agent precautions; use bounded discovery
+for unknown targets. Approval-provenance gaps need a legitimate route, not repeated consent quotes.
+Preserve META-LOOP BRAKE: unchanged coordination cannot justify more coordination; return to a
+useful action without spawning another monitor, audit or loop. Do not claim runtime enforcement.
 The saved contract is authoritative; show its full body only when
 explicitly requested. Prefer short new slugs and project-relative paths; never insert a newline
 inside a filename/path. Follow output-guide.md for copy-safe launches and existing long names.

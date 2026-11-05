@@ -78,6 +78,30 @@ other-owner waits remain, checkpoint as incomplete with their conditions, not su
 Unrelated improvements
 belong in a separate proposal; they do not extend this loop's goal or budget.
 
+## Routine perspective and test stewardship
+
+Materialize the CLOSED CORE's EXECUTE inventory and DECIDE zoom-out in the saved contract.
+They are brief decisions using the current diff/state, not additional verification jobs. Meaningful
+slice boundaries provide a regular occasion even when everything is green; disproportionate
+local activity triggers a decision sooner. No timer, fixed attempt quota or separate audit ledger.
+
+For a focused policy change, reason through only the applicable cases below. These are design
+examples, not instructions to create fixtures or run this matrix on every iteration:
+
+| Evidence already available | Required next decision |
+| --- | --- |
+| Existing regression exposes the exact fault | Reuse it; no automatic new test for the fix |
+| This run added overlapping checks; distinct behavior remains covered | Consolidate locally and retain the needed assertions; no replacement quota |
+| A concrete failure is not detectable by existing checks | Add/extend the smallest missing proof; test-count reduction must not suppress it |
+| A failing or slow test has unclear value | Diagnose/retain; neither red nor cost alone proves obsolescence |
+| Tests/helpers grow while the actual feature remains unwired | Reassess the dominant outcome gap and execute the needed integration/simplification; no extra audit suite |
+| A successful slice closes a real gap | Briefly select the next unmet outcome; do not invent problems or force a strategy switch |
+| All outcome and mandatory release evidence is current | Deliver/finish; no final inventory loop or new tests merely to demonstrate diligence |
+
+A zoom-out changes the next action, not the accepted outcome. Removing self-invented busywork is
+allowed; dropping requested behavior, genuine safety/release checks or missing proof is not.
+Record changed decisions tersely in existing state. Unchanged decisions do not need extra logs.
+
 ## Recover an impediment before declaring a terminal blocker
 
 Bind REMEDIATION SCOPE to existing project/user authority: necessary permitted repair actions,
@@ -111,6 +135,29 @@ a runtime boundary: use an available legitimate native approval path, not a repe
 operation or permission-setting bypass; otherwise record the minimum necessary user unblock
 action and continue independent authorized work. A review/other-owner wait needs its party and
 condition surfaced, not a repair attempt on another party's decision.
+
+### Avoid coordination-only recovery
+
+The core rules distinguish progress toward a prerequisite from delivery; both can matter, but
+rewriting the same blocker or sending another packet must not restart a no-progress assessment.
+Use these cases only when refining the corresponding policy, not as another recurring gate:
+
+| Observed condition | Next decision |
+| --- | --- |
+| Output cannot be bounded; an agent called this a hold | Preserve the technical constraint, establish a bounded authorized probe and exit evidence; do not invent a user prohibition |
+| No exact next source locator is known | Identify one useful authorized discovery question and bounded search, or its concrete restriction; do not require its answer as an entry condition |
+| Helper/provenance work expands while the product waits | Return to the named unlock condition; use the minimal sufficient path and then perform the product action |
+| User approved, recipient cannot verify origin | Preserve approval and diagnose the verification capability once; no quote replay, identity switch or repeated approval question |
+| One delegation route is unavailable | Assess an already-authorized direct/existing route without violating ownership or independence; no speculative new agents |
+| A plan, reviewer or helper is proposed only to organize another plan/review/helper for the same unresolved constraint | Apply META-LOOP BRAKE immediately: suppress the coordination branch and execute a useful product/discovery action; no new anti-loop monitor |
+| Necessary prerequisite repair yields new evidence that changes the next action | Retain that real progress; do not suppress it merely because product acceptance is still incomplete |
+| A suppressed route becomes useful after new evidence or a real boundary change | Reassess using that change, preserving history; a renamed task or document is not a reset |
+| The requested deliverable is a revised loop contract | Finish the bounded contract change and deliver it; do not recursively optimize the refinement process |
+| Every useful route is genuinely unavailable | Report the exact technical/authority gap, retain pending work and obey native stop rules; no claim that prompt text repairs the transport |
+
+Keep these distinctions in existing state, not a new registry, per-turn questionnaire or audit.
+A legitimate prerequisite repair counts when evidence changes the next action. It need not complete
+a product criterion immediately; repeated bookkeeping with the same decision does not count.
 
 ## Keep state useful through interruption
 

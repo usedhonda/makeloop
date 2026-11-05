@@ -51,8 +51,11 @@ DELIVERY POLICY:
   A verification-only cycle needs an actual missing proof or discriminating diagnosis, not habit.
 - Maintain a lean test suite as ordinary work, without a separate cleanup request. Do not add
   tests for test-count growth, reversible low-impact edits, or assertions that merely mirror the
-  implementation. Reuse existing coverage; add a regression only for a concrete uncovered failure,
-  observable behavior or protected contract after the implementation stabilizes.
+  implementation. Before adding a test, name the concrete wrong-result scenario or protected
+  behavior, why existing evidence cannot detect it, and the decision the new check changes.
+  Reuse or extend an existing check first; add only the smallest missing proof after the
+  implementation stabilizes, unless the user requires test-first work. No test per fix/criterion
+  quota; mandatory gates remain mandatory.
 - While working in the affected area, actively consolidate or remove existing redundant,
   implementation-mirroring, obsolete or no-longer-meaningful tests, fixtures and test-only helpers.
   Establish the reason first: name the retired behavior or map each still-required assertion to
@@ -112,12 +115,31 @@ EACH ITERATION:
    record the hypothesis and expected result, and choose a discriminating experiment if uncertain.
    Derive missing objective checks within scope without weakening acceptance. Only proceed to the
    success decision when the original outcome has no unresolved work or missing evidence.
-4. EXECUTE the smallest change or experiment that advances that step.
+4. EXECUTE the smallest change or experiment that advances that step. At the end of a meaningful
+   implementation slice, and before adding more tests, take a brief inventory of tests just added,
+   changed or encountered in the affected area. Using the current diff and already-read evidence,
+   classify their distinct required behavior: retain useful checks, consolidate overlapping proof,
+   remove evidenced obsolete checks under DELIVERY POLICY. Include tests created earlier in this
+   run, not only pre-existing ones. Uncertain value means retain, not launch an audit. Do not scan
+   the whole suite, demand net-zero growth or create a cleanup phase; no new evidence means no
+   repeated inventory. Record only actual pruning/addition decisions in existing state.
 5. VERIFY the changed surface and unmet criteria; refresh affected/time-dependent evidence.
    Run required final acceptance checks once at the checkpoint. Record target, input/environment,
    result and evidence pointer in state. Do not repeat unaffected green checks.
 6. DECIDE from expected vs actual result. Retain useful changes; repair a caused regression before
    unrelated work. Record the observed delta and next decision, not just a new wording of the plan.
+   ZOOM OUT briefly at each meaningful slice boundary, including successful slices, using current
+   evidence rather than rerunning checks: what remains between the user and the usable result,
+   what constraint now dominates, and is this local subproblem still the best next action?
+   Trigger this immediately when tests/helpers/defensive code grow without closing an outcome gap,
+   successive verification adds no decision-changing evidence, or the same area consumes repeated
+   attempts without narrowing a cause. Do not wait for a failure or native blocked status.
+   Compare continuing locally with simplifying the implementation, reusing existing capability,
+   changing the approach, or moving to the next unmet integration/delivery requirement. Choose
+   and execute the most useful authorized action; retaining the approach is valid when supported.
+   Drop self-invented tasks/abstractions that no longer serve the outcome, not user requirements.
+   Record outcome gap -> keep/change decision -> next action in the existing progress delta only
+   when the decision changes. No separate review agent, recurring audit, new ledger or approval gate.
    Reconcile the original usable/delivered outcome, ALL criteria, required reviews and delivery.
    A finished task list or clean review does not close uncovered aspects of the original request.
    Add work only if it serves that outcome, repairs a caused regression or obtains required proof;
@@ -192,6 +214,47 @@ RULES:
   do not repeat the same route without new evidence. A renamed command is not a changed approach.
   Once unblocked, return to the original pending criterion and deliver it. Never substitute an
   easier outcome, weaken acceptance, or invent unrelated cleanup to appear productive.
+- Do not turn recovery coordination into the product. For a necessary helper, transport repair,
+  approval lookup or handoff, name the exact pending outcome it unlocks, the smallest sufficient
+  exit evidence and the first product action after it. Reuse existing tools before building support
+  infrastructure. Stop expanding that support work when the exit evidence is sufficient and take
+  the product action; a more polished packet, new status or another acknowledgement is not progress.
+- META-LOOP BRAKE: before another plan, consultation, contract rewrite or helper for the same
+  impediment, compare the unmet criterion + actual constraint + missing evidence with recent
+  state. Different task names, recipients, versions or wording do not make a new problem. If only
+  coordination artifacts changed, or the proposed next step merely organizes more coordination,
+  suppress that branch now: do not create another loop, reviewer, checklist or monitor to fix it.
+  Select the smallest authorized product action or bounded evidence-gathering step that can change
+  the decision; execute it in this run. If none exists, retain the exact unblock condition and
+  apply native wait/stop rules, not a fresh plan or fabricated progress. The brake stops redundant
+  meta-work, not the goal, legitimate prerequisite repair or independent productive work.
+  Record only the suppression and return action in existing state; reopen that branch only for
+  new decision-changing evidence, a changed boundary or an explicit user scope change. A genuinely
+  new prerequisite may be necessary, but must show why no simpler existing route can unlock the
+  same action; do not recursively build infrastructure for hypothetical needs. No new counters,
+  per-turn audit or fixed retry quota. If loop design itself is the requested deliverable, finish
+  its scoped edit/verification/delivery, rather than recursively redesigning the design process.
+- When a blocker changes the plan, distinguish its source and affected operation in existing state:
+  explicit user hold, host/security boundary, technical precondition or agent-chosen precaution.
+  Preserve genuine holds and enforcement. Do not promote an agent's precaution into a user ban,
+  or downgrade a real safety constraint; resolve unclear provenance from its original record.
+  For a technical precondition, define and perform the smallest authorized bounded repair/probe,
+  then reassess that operation. One unavailable route is not evidence all routes are blocked.
+- An unknown next locator or missing handoff is a discovery problem, not by itself an external
+  blocker. Use an authorized bounded source/index search tied to one unmet criterion and a decision
+  it can change; retain negative findings so the same search is not repeated. A concrete question
+  can be the discovery task without a pre-known answer. If no such search is permitted or useful,
+  record that specific constraint; never invent a locator or claim all research is exhausted.
+- Before making a peer route a critical dependency, use available evidence to distinguish actual
+  execution capability and required approval-provenance support from mere tool presence/receipt.
+  Reuse established bindings; no mandatory handshake for every task. If an authorized handoff is
+  rejected as unverifiable, preserve the original approval and exact rejection, diagnose the
+  legitimate verification path once, and do not replay quoted approval or change identity to pass.
+  Prefer an already-authorized direct/existing route when the task permits it; preserve explicit
+  ownership and independent-review requirements. Missing verification support is a technical gap,
+  not new evidence the user has not approved. Repair only within scope; a broader transport change
+  needs its own authorization. If no safe route remains, expose that exact gap without claiming
+  a prompt can fix it, repeatedly requesting the same approval, or manufacturing progress/turns.
 - If consultation is authorized, request a concrete alternative/decision with the failure evidence,
   not just confirmation of the current plan. Apply or reject the advice against source evidence;
   a reply/ACK alone is not recovery. Continue productive independent work while awaiting it.
@@ -301,8 +364,10 @@ PASS = <all acceptance criteria proved + previously-green invariants show 0 regr
   -> HALT (stop_reason=unrecoverable-harness). A crash -> HALT (stop_reason=pinata).
 
 ## [baseline/golden/scenarios] Regression-guard — into EACH ITERATION after the fix
-- Add ONE minimal regression case (<scenarios path>/<name>) that asserts the violated
-  invariant, tied to the root-cause fix. One fix + one guard per commit.
+- Reuse the existing case that exposes the violated invariant. Only when the concrete failure
+  lacks coverage, extend that case or add the smallest missing regression at <scenarios path>/<name>
+  after the fix stabilizes (unless test-first is requested). One fix does not require one new test.
+  Apply DELIVERY POLICY's local inventory; preserve distinct required behavior and mandatory gates.
 
 ## [explicit pause point · closed only] Pause point — fold into STOP WHEN and action boundaries
 PAUSE WHEN: <user-requested milestone or before-action boundary, with its evidence>.
@@ -430,10 +495,14 @@ affected entries after relevant changes, including external input changes withou
 ITERATION 0 — bootstrap the gate (run once, before the normal loop):
 - Reserve and count this attempt before scaffolding; an interrupted bootstrap still consumes its
   slot. Resume existing artifacts instead of overwriting them or allocating the same attempt twice.
-- Scaffold minimally: repo, package manager / project file, the stack's test runner — only
-  what the SUCCESS CRITERIA require.
-- Encode each SUCCESS CRITERION as a FAILING acceptance test; run and confirm RED.
-- Commit scaffold + red tests. From here <test command> is the gate; the loop drives red -> green.
+- Establish only the missing objective proof needed by SUCCESS CRITERIA. Prefer existing tools
+  and direct artifact/use-path observations; an empty repo alone does not require a test framework.
+- If automated tests are required or a concrete behavior cannot be checked adequately otherwise,
+  scaffold the minimum runner and representative acceptance cases. Confirm an actual failure for
+  the missing behavior before treating the gate as evidence; do not demand one test per criterion.
+- Bind every criterion to sufficient evidence, including delivery and manual observations where
+  appropriate. Continue implementation with affected checks and required final gates; do not
+  create a separate scaffold/red-test commit ritual or grow a harness instead of the deliverable.
 
 ## [taxonomy] Extended STOP — replaces CORE "STOP WHEN" line; label every halt
 STOP WHEN (label each halt with stop_reason in the log):

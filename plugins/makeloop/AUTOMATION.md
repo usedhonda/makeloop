@@ -5,6 +5,14 @@ gate it, and auto-apply what's safe. This doc is the operator's runbook. Governa
 lives in [`SELF-IMPROVEMENT.md`](SELF-IMPROVEMENT.md); the quality gate in
 [`eval/scenarios.md`](eval/scenarios.md).
 
+## Separate user-local learning mode
+
+Normal skill generation can inspect bounded local usage deltas and maintain a private personal
+rule store; see [local-learning.md](references/local-learning.md). That on-demand mode does not
+use this external-article harvesting pipeline, run its critics, modify shared source or push.
+It never starts or repairs this cron, and this cron does not read or publish the personal store.
+The existing shared-source tiers remain separate from personal-rule adoption.
+
 ## What runs
 
 Local cron fires a wrapper every 2 days; the wrapper runs ONE self-improvement cycle as a
