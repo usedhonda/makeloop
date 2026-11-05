@@ -166,6 +166,11 @@ failed assumption, select a genuinely different authorized route, execute its ne
 and return to the original criterion. Repeating a command, listing options or receiving advice
 is not recovery. Separate native interruption from project impasse; retain actionable work across
 instruction refreshes and status replies without requiring another "continue" request.
+Include the CLOSED CORE's coordination-stall rules: support work has an outcome-linked exit and
+return action; blockers retain their actual source/affected operation; missing locators trigger
+bounded authorized discovery rather than an invented external dependency. Distinguish approved
+scope from a recipient's ability to verify it. A rejected handoff is diagnosed, not retried as
+quoted approval, and cannot be cured by stronger prompt wording or unauthorized transport changes.
 During a narrow refine, change recovery scope only if requested; preserve existing state bytes.
 
 For closed completion requests, outcome-first adaptive recovery and evidence-budgeted verification

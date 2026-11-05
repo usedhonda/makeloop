@@ -136,6 +136,25 @@ operation or permission-setting bypass; otherwise record the minimum necessary u
 action and continue independent authorized work. A review/other-owner wait needs its party and
 condition surfaced, not a repair attempt on another party's decision.
 
+### Avoid coordination-only recovery
+
+The core rules distinguish progress toward a prerequisite from delivery; both can matter, but
+rewriting the same blocker or sending another packet must not restart a no-progress assessment.
+Use these cases only when refining the corresponding policy, not as another recurring gate:
+
+| Observed condition | Next decision |
+| --- | --- |
+| Output cannot be bounded; an agent called this a hold | Preserve the technical constraint, establish a bounded authorized probe and exit evidence; do not invent a user prohibition |
+| No exact next source locator is known | Identify one useful authorized discovery question and bounded search, or its concrete restriction; do not require its answer as an entry condition |
+| Helper/provenance work expands while the product waits | Return to the named unlock condition; use the minimal sufficient path and then perform the product action |
+| User approved, recipient cannot verify origin | Preserve approval and diagnose the verification capability once; no quote replay, identity switch or repeated approval question |
+| One delegation route is unavailable | Assess an already-authorized direct/existing route without violating ownership or independence; no speculative new agents |
+| Every useful route is genuinely unavailable | Report the exact technical/authority gap, retain pending work and obey native stop rules; no claim that prompt text repairs the transport |
+
+Keep these distinctions in existing state, not a new registry, per-turn questionnaire or audit.
+A legitimate prerequisite repair counts when evidence changes the next action. It need not complete
+a product criterion immediately; repeated bookkeeping with the same decision does not count.
+
 ## Keep state useful through interruption
 
 Use the existing state format; do not install a database or migrate files merely for these fields.

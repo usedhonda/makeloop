@@ -78,6 +78,9 @@ boundaries (even green ones), before further test additions, and immediate outco
 Include tests created during this run. Reuse current evidence; simplify or switch the next action
 when local activity no longer serves the outcome. Do not turn these decisions into more tests,
 a full-suite audit, a new agent or longer paste prompts. Both hosts and completion modes share them.
+Also carry the core's coordination-stall rules: prerequisite work must return to a named product
+action; distinguish user holds, technical constraints and agent precautions; use bounded discovery
+for unknown targets. Approval-provenance gaps need a legitimate route, not repeated consent quotes.
 The saved contract is authoritative; show its full body only when
 explicitly requested. Prefer short new slugs and project-relative paths; never insert a newline
 inside a filename/path. Follow output-guide.md for copy-safe launches and existing long names.
