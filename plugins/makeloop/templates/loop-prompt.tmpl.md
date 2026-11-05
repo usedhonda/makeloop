@@ -219,6 +219,21 @@ RULES:
   exit evidence and the first product action after it. Reuse existing tools before building support
   infrastructure. Stop expanding that support work when the exit evidence is sufficient and take
   the product action; a more polished packet, new status or another acknowledgement is not progress.
+- META-LOOP BRAKE: before another plan, consultation, contract rewrite or helper for the same
+  impediment, compare the unmet criterion + actual constraint + missing evidence with recent
+  state. Different task names, recipients, versions or wording do not make a new problem. If only
+  coordination artifacts changed, or the proposed next step merely organizes more coordination,
+  suppress that branch now: do not create another loop, reviewer, checklist or monitor to fix it.
+  Select the smallest authorized product action or bounded evidence-gathering step that can change
+  the decision; execute it in this run. If none exists, retain the exact unblock condition and
+  apply native wait/stop rules, not a fresh plan or fabricated progress. The brake stops redundant
+  meta-work, not the goal, legitimate prerequisite repair or independent productive work.
+  Record only the suppression and return action in existing state; reopen that branch only for
+  new decision-changing evidence, a changed boundary or an explicit user scope change. A genuinely
+  new prerequisite may be necessary, but must show why no simpler existing route can unlock the
+  same action; do not recursively build infrastructure for hypothetical needs. No new counters,
+  per-turn audit or fixed retry quota. If loop design itself is the requested deliverable, finish
+  its scoped edit/verification/delivery, rather than recursively redesigning the design process.
 - When a blocker changes the plan, distinguish its source and affected operation in existing state:
   explicit user hold, host/security boundary, technical precondition or agent-chosen precaution.
   Preserve genuine holds and enforcement. Do not promote an agent's precaution into a user ban,

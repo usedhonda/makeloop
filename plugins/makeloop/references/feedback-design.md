@@ -149,6 +149,10 @@ Use these cases only when refining the corresponding policy, not as another recu
 | Helper/provenance work expands while the product waits | Return to the named unlock condition; use the minimal sufficient path and then perform the product action |
 | User approved, recipient cannot verify origin | Preserve approval and diagnose the verification capability once; no quote replay, identity switch or repeated approval question |
 | One delegation route is unavailable | Assess an already-authorized direct/existing route without violating ownership or independence; no speculative new agents |
+| A plan, reviewer or helper is proposed only to organize another plan/review/helper for the same unresolved constraint | Apply META-LOOP BRAKE immediately: suppress the coordination branch and execute a useful product/discovery action; no new anti-loop monitor |
+| Necessary prerequisite repair yields new evidence that changes the next action | Retain that real progress; do not suppress it merely because product acceptance is still incomplete |
+| A suppressed route becomes useful after new evidence or a real boundary change | Reassess using that change, preserving history; a renamed task or document is not a reset |
+| The requested deliverable is a revised loop contract | Finish the bounded contract change and deliver it; do not recursively optimize the refinement process |
 | Every useful route is genuinely unavailable | Report the exact technical/authority gap, retain pending work and obey native stop rules; no claim that prompt text repairs the transport |
 
 Keep these distinctions in existing state, not a new registry, per-turn questionnaire or audit.

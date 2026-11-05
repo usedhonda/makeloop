@@ -81,6 +81,8 @@ a full-suite audit, a new agent or longer paste prompts. Both hosts and completi
 Also carry the core's coordination-stall rules: prerequisite work must return to a named product
 action; distinguish user holds, technical constraints and agent precautions; use bounded discovery
 for unknown targets. Approval-provenance gaps need a legitimate route, not repeated consent quotes.
+Preserve META-LOOP BRAKE: unchanged coordination cannot justify more coordination; return to a
+useful action without spawning another monitor, audit or loop. Do not claim runtime enforcement.
 The saved contract is authoritative; show its full body only when
 explicitly requested. Prefer short new slugs and project-relative paths; never insert a newline
 inside a filename/path. Follow output-guide.md for copy-safe launches and existing long names.

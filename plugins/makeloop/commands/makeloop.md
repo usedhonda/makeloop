@@ -171,6 +171,9 @@ return action; blockers retain their actual source/affected operation; missing l
 bounded authorized discovery rather than an invented external dependency. Distinguish approved
 scope from a recipient's ability to verify it. A rejected handoff is diagnosed, not retried as
 quoted approval, and cannot be cured by stronger prompt wording or unauthorized transport changes.
+Carry META-LOOP BRAKE into the core: compare the actual constraint and missing evidence, not
+renamed tasks; suppress unchanged coordination and execute a useful return action. This is a
+prompt-level decision rule, not a new runner/watchdog or a promise to control native continuation.
 During a narrow refine, change recovery scope only if requested; preserve existing state bytes.
 
 For closed completion requests, outcome-first adaptive recovery and evidence-budgeted verification
