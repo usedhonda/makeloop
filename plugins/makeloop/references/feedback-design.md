@@ -78,6 +78,30 @@ other-owner waits remain, checkpoint as incomplete with their conditions, not su
 Unrelated improvements
 belong in a separate proposal; they do not extend this loop's goal or budget.
 
+## Routine perspective and test stewardship
+
+Materialize the CLOSED CORE's EXECUTE inventory and DECIDE zoom-out in the saved contract.
+They are brief decisions using the current diff/state, not additional verification jobs. Meaningful
+slice boundaries provide a regular occasion even when everything is green; disproportionate
+local activity triggers a decision sooner. No timer, fixed attempt quota or separate audit ledger.
+
+For a focused policy change, reason through only the applicable cases below. These are design
+examples, not instructions to create fixtures or run this matrix on every iteration:
+
+| Evidence already available | Required next decision |
+| --- | --- |
+| Existing regression exposes the exact fault | Reuse it; no automatic new test for the fix |
+| This run added overlapping checks; distinct behavior remains covered | Consolidate locally and retain the needed assertions; no replacement quota |
+| A concrete failure is not detectable by existing checks | Add/extend the smallest missing proof; test-count reduction must not suppress it |
+| A failing or slow test has unclear value | Diagnose/retain; neither red nor cost alone proves obsolescence |
+| Tests/helpers grow while the actual feature remains unwired | Reassess the dominant outcome gap and execute the needed integration/simplification; no extra audit suite |
+| A successful slice closes a real gap | Briefly select the next unmet outcome; do not invent problems or force a strategy switch |
+| All outcome and mandatory release evidence is current | Deliver/finish; no final inventory loop or new tests merely to demonstrate diligence |
+
+A zoom-out changes the next action, not the accepted outcome. Removing self-invented busywork is
+allowed; dropping requested behavior, genuine safety/release checks or missing proof is not.
+Record changed decisions tersely in existing state. Unchanged decisions do not need extra logs.
+
 ## Recover an impediment before declaring a terminal blocker
 
 Bind REMEDIATION SCOPE to existing project/user authority: necessary permitted repair actions,

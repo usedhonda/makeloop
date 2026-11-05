@@ -73,6 +73,11 @@ the user need not repeat instructions to avoid siloed work, premature blocker st
 Default to lean test stewardship too: avoid unnecessary new tests and incrementally consolidate or
 remove evidenced redundant/obsolete existing tests in the affected area without a separate request.
 Carry the template's preservation, diagnosis and scope rules; never weaken required checks to pass.
+Keep its inline test inventory and zoom-out decisions in every closed contract: meaningful slice
+boundaries (even green ones), before further test additions, and immediate outcome-stall signals.
+Include tests created during this run. Reuse current evidence; simplify or switch the next action
+when local activity no longer serves the outcome. Do not turn these decisions into more tests,
+a full-suite audit, a new agent or longer paste prompts. Both hosts and completion modes share them.
 The saved contract is authoritative; show its full body only when
 explicitly requested. Prefer short new slugs and project-relative paths; never insert a newline
 inside a filename/path. Follow output-guide.md for copy-safe launches and existing long names.

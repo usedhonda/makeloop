@@ -57,8 +57,8 @@ a project with a self-driving test harness and regression baselines deserves a r
 single `npm test`. Read first, then generate to fit.
 
 That includes the project's **maturity**. Don't assume — judge it from the files. A
-greenfield/empty repo needs a loop that *first builds its own verification* (scaffold +
-acceptance tests) before it can drive anything; a mature repo reuses the gate it already
+greenfield/empty repo needs objective evidence appropriate to its deliverable, not automatically
+an acceptance-test framework; a mature repo reuses the gate it already
 has; an in-between repo (code but no gate) may need to establish one along the way. The same
 `/makeloop` adapts across all of these — read where the project sits on that spectrum and
 generate accordingly.
@@ -178,6 +178,14 @@ excess in the area being worked on, without another user request. Materialize th
 pruning rules in the saved contract: evidence-backed consolidation/removal, preserved distinct
 behavior and mandatory gates, local incremental scope and no deletion quotas or cleanup detour.
 This is not permission to delete failing checks to manufacture success or to edit unrelated areas.
+Embed the CLOSED CORE's inventory in EXECUTE and zoom-out decision in DECIDE, not just advisory
+prose: inventory tests added/changed/encountered at meaningful slice boundaries and before further
+additions; include this run's new tests. Reuse the diff/evidence already in hand, not a full audit.
+Zoom out at those boundaries even after success, and immediately on test/helper growth without
+outcome progress or repeated low-information verification. Bind the user-visible outcome gap,
+dominant constraint and next useful action; simplify or switch approach when warranted. These are
+ordinary inline decisions for Goal and no-Goal on both hosts, not optional add-on blocks, fixed
+review quotas, extra agents or new approval gates. Preserve explicit required tests and acceptance.
 When completing a supplied plan, bind its authoritative reference and intended deliverable in
 that Markdown. Carry original constraints and unmet outcomes, not just the plan's easiest tasks.
 
@@ -220,11 +228,11 @@ Generation preserves existing state bytes; new state is marked not started, neve
   - For **UI / web** work, add a "drive-and-capture" check: actually exercise the feature and
     capture an artifact (screenshot / GIF) as proof-of-use — synthetic interaction catches
     wiring/state bugs that unit tests miss, and the artifact doubles as evidence on the PR.
-  - **Greenfield / early (no gate yet, but the goal is to build it):** don't refuse — make
-    the loop *bootstrap its own gate*. Iteration 0 scaffolds the project (repo, package
-    manager, the stack's test runner) and encodes the acceptance criteria as FAILING tests
-    (confirm red); from then on that test command is the gate and the loop drives red → green.
-    Add the **Bootstrap block** in Step 5.
+  - **Greenfield / early with missing objective proof:** use the **Bootstrap block** to
+    establish the minimum sufficient evidence. Prefer existing tools or direct artifact/use-path
+    observations. Scaffold a runner and representative acceptance tests only when required or a
+    concrete behavior has no adequate check; confirm they detect that failure. Never turn each
+    criterion into a mandatory new test or make framework construction the deliverable.
 - If **no automated check exists in a mature project**, warn clearly, help define an objective
   manual check, and ask whether to proceed anyway. If the gate must be an **LLM-as-judge**, use an
   independent checker with a concrete pass/fail/unknown rubric calibrated against reference
@@ -339,7 +347,7 @@ user's language, not text to copy verbatim.
 | --- | --- |
 | Multi-stage verify (build + audit/regression) | **Two-stage gate** (pre-gate / post-gate, FREEZE-no-commit on regression); stop reasons `poisoned-baseline`, `regression` |
 | Self-driving harness emitting artifacts | **Observation-validity check**; stop reasons `unrecoverable-harness`, and `pinata` (crash) |
-| Baseline / golden / `scenarios/` present | **Regression-guard step**: add one minimal regression case per fix, tied to root cause |
+| Baseline / golden / `scenarios/` present | **Regression-guard step**: reuse coverage; add/extend only for a concrete uncovered failure |
 | Explicit user-requested pause point (closed only) | **Pause point**; stop reason `checkpoint`; omit when not requested |
 | Any autonomous (self-paced) loop | **Budget block** + stop reasons `no-progress`, `oscillation`, `failure`; **No-progress circuit breaker** |
 | Hard invariants / off-limits boundaries (profile D) | Encode them in SUCCESS CRITERIA + RULES; stop reason `scope-boundary` |
@@ -348,7 +356,7 @@ user's language, not text to copy verbatim.
 | Unattended / scheduled / overnight run | **Escalation handoff** + **Scheduled-loop safety** (idempotency, external scheduler, tiered auto-approve, intent deny-list, token/cost cap) |
 | Unattended closed work (day or night), or explicit human-handoff request | **Handoff summary** + delivery criterion/evidence; honor opt-out and narrow-refine scope |
 | Many discrete pass/fail criteria | **JSON done-ledger** instead of a markdown checklist |
-| Greenfield / early project (no gate yet) | **Bootstrap block** — iteration 0 scaffolds + writes the first failing acceptance tests, then the loop drives red → green |
+| Greenfield / early project with missing objective proof | **Bootstrap block** — establish minimal evidence; scaffold tests only when justified |
 | Open loop that ACTS (not notify-only) | **Scheduled-loop safety** (idempotency / deny-list / auto-approve) — an acting watcher is an unreviewed attack surface |
 | Open loop, run-indefinitely | **Dedup/cursor block** + wire **Escalation handoff** on (a dying watcher must hand off, not vanish) |
 
@@ -406,6 +414,8 @@ For a fresh supported Goal with no owner conflict, verify the initial package in
 launch with its bound lifecycle even though nothing has been configured or started. Contrast an
 actually blocked existing Goal without resume support: preserve it and report that specific gap.
 A keyword/structure check alone cannot establish these behavioral properties.
+For changed test-stewardship/zoom-out policy, use the focused examples in feedback-design.md;
+inspect the assembled decisions, not a keyword count or a new repository-wide test audit.
 For recovery, walk a repairable missing prerequisite, an actual authentication/authority boundary,
 two unchanged failures needing a new approach, and resume after repair. The next decision must
 repair/continue when possible, not demand a fresh repair request or stop solely on a count.
