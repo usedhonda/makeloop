@@ -40,6 +40,11 @@ Build the loop contract; do not do the project work. Read
 `../../commands/makeloop.md` for the shared generator Steps 0-6. It is the canonical generation
 logic, not a Claude-only runtime prescription. Do not fork it into this skill.
 
+For normal generation/full redesign, read `../../references/local-learning.md` once: inspect a
+bounded delta of this user's real usage, diagnose at most one evidenced issue, and apply only
+relevant personal rules. Learning failure must not block generation. Skip this mode for skill
+maintenance and path/copy-only refinements; never trigger the shared-source self-improvement cron.
+
 Use progressive disclosure:
 
 - Steps 2/6: `../../references/output-guide.md` for purpose choices, explanations and copy format.

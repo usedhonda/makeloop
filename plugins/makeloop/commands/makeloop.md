@@ -69,6 +69,13 @@ Work through the steps below in order.
 
 ## Step 0 — Parse the request (treat $ARGUMENTS as goal + directives)
 
+For normal generation or a full redesign, follow `../references/local-learning.md` for one bounded
+personal-learning pass. CC direct command and Codex share this path; do not run it a second time
+if the entrypoint already did. Use only applicable personal rules, never change authority or
+acceptance, and continue generation if learning is unavailable. Path/copy-only refines and skill
+maintenance skip it. Record the applied-rule/source digest receipt after saving a new/full contract;
+keep evidence and personal paths out of the final paste prompts. No cron or background agent.
+
 The trailing text after `/makeloop` is free-form natural language. Read it and extract
 **both** a goal hint **and** any operational directives the user already decided. Whatever
 they specified, **honor it and skip the matching question later** — only ask about what is
