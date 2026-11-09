@@ -90,11 +90,15 @@ class CopyLayoutTests(unittest.TestCase):
         self.assertEqual(check(*self.blocked_continuation()), [])
 
     def test_blocked_continuation_cannot_be_replaced_by_a_runnable_tick(self):
-        for launch in (f'{PROMPT} に従い1回進めて。', f'/goal Follow {PROMPT}.'):
-            case, out = self.blocked_continuation()
-            out['chat'] += ('\n## Launch commands\n### A — Recommended | Codex CLI input\n'
-                            '```text\n' + launch + '\n```')
-            self.assertIn('unconfigured execution has a runnable replacement', check(case, out))
+        for launch in (f'{PROMPT} に従い1回進めて。', f'/goal Follow {PROMPT}.',
+                       f'Use create_goal for the objective in {PROMPT}, then execute it.',
+                       f'create_goal: {PROMPT} の目標を作成して完了まで実行する。'):
+            for fenced in (False, True):
+                with self.subTest(launch=launch, fenced=fenced):
+                    case, out = self.blocked_continuation()
+                    out['chat'] += ('\n## Launch commands\n### A — Recommended | Codex CLI input\n'
+                                    '```text\n' + launch + '\n```') if fenced else '\n' + launch
+                    self.assertIn('unconfigured execution has a runnable replacement', check(case, out))
 
     def test_blocked_continuation_cannot_reset_budget_or_drop_residual_work(self):
         for path, replacement in ((STATE, 'Attempts used: 0\nCap: 8\nRemaining: 8'),
@@ -193,12 +197,37 @@ class CopyLayoutTests(unittest.TestCase):
                     self.assertEqual(check(*self.compact(host, kind)), [])
 
     def test_compact_requires_state_binding_not_a_guessed_path(self):
-        case, out = self.compact()
-        out['files'][PROMPT] = out['files'][PROMPT].split('\nSTATE FILE:')[0]
-        self.assertIn('launch missing exact state', check(case, out))
-        case, out = self.compact()
-        out['chat'] = out['chat'].replace('1回進めて。', '1回進めて。.loop/other-state.md')
-        self.assertIn('launch missing exact state', check(case, out))
+        for kind in ('closed', 'open'):
+            state = STATE if kind == 'closed' else '.loop/example.cursor.json'
+            field = 'STATE FILE' if kind == 'closed' else 'CURSOR FILE'
+            case, out = self.compact(kind=kind)
+            out['files'][PROMPT] = out['files'][PROMPT].split('\n' + field + ':')[0]
+            self.assertIn('launch missing exact state', check(case, out))
+            for wrong in (state.replace('example', 'other'), state + '.backup', state + 'x'):
+                with self.subTest(kind=kind, wrong=wrong):
+                    # A correct saved binding cannot excuse a conflicting launch reference.
+                    case, out = self.compact(kind=kind)
+                    out['chat'] = out['chat'].replace('1回進めて。', f'1回進めて。 Preserve {wrong}.')
+                    self.assertIn('launch missing exact state', check(case, out))
+                    # Nor may a longer filename stand in for the saved state binding itself.
+                    case, out = self.compact(kind=kind)
+                    out['files'][PROMPT] = out['files'][PROMPT].replace(state, wrong)
+                    self.assertIn('launch missing exact state', check(case, out))
+
+    def test_launch_requires_the_complete_saved_contract_path(self):
+        for lang, label, command in (
+            ('text', 'Codex CLI input', f'Follow {{path}}; preserve {STATE}.'),
+            ('sh', 'Codex OS terminal', f'codex exec "Follow {{path}}; preserve {STATE}."'),
+        ):
+            for path in (PROMPT, f'"{PROMPT}"', f'“{PROMPT}”', f'‘{PROMPT}’', f'{PROMPT}.'):
+                with self.subTest(lang=lang, valid_path=path):
+                    self.assertEqual(check(*package(options=[(lang, command.format(path=path),
+                        'A — Recommended | ' + label)])), [])
+            for path in (PROMPT + '.backup', PROMPT + 'x', PROMPT + '/other',
+                         'archive/' + PROMPT):
+                with self.subTest(lang=lang, wrong_path=path):
+                    self.assertIn('launch missing saved contract', check(*package(options=[
+                        (lang, command.format(path=path), 'A — Recommended | ' + label)])))
 
     def test_compact_full_body_needs_explicit_request(self):
         case, out = package()
@@ -339,15 +368,21 @@ class CopyLayoutTests(unittest.TestCase):
         self.assertEqual(check(case, out), [])
 
     def test_raw_launch_in_explanation_is_rejected(self):
-        case, out = package()
-        out['chat'] = f'/goal Follow {PROMPT}; update {STATE}.\n' + out['chat']
-        self.assertIn('launch outside the final copy blocks', check(case, out))
+        for launch in (f'/goal Follow {PROMPT}; update {STATE}.',
+                       f'Use create_goal for the objective in {PROMPT}, then execute it.',
+                       f'create_goal: {PROMPT} の目標を作成して完了まで実行する。'):
+            with self.subTest(launch=launch):
+                case, out = package()
+                out['chat'] = launch + '\n' + out['chat']
+                self.assertIn('launch outside the final copy blocks', check(case, out))
 
     def test_recorded_progress_must_not_leak_launches(self):
         case, out = package()
-        out['progress'] = ['Checking the saved contract; /goal availability is not confirmed.']
+        out['progress'] = ['Checking the saved contract; /goal and create_goal availability is not confirmed.']
         self.assertEqual(check(case, out), [])
         for message in (f'/goal Follow {PROMPT}; update {STATE}.',
+                        f'Use create_goal for the objective in {PROMPT}, then execute it.',
+                        f'create_goal: {PROMPT} の目標を作成して完了まで実行する。',
                         f'```text\nFollow {PROMPT}; update {STATE}.\n```',
                         out['files'][PROMPT]):
             with self.subTest(message=message):
@@ -365,6 +400,12 @@ class CopyLayoutTests(unittest.TestCase):
                 case = {'kind': 'choice', 'host': 'codex'}
                 out = {'files': {}, 'chat': f'{marker}{lang}\n/goal {PROMPT}\n{marker}'}
                 self.assertIn('unselected purpose has runnable block', check(case, out))
+        for launch in (f'Use create_goal for the objective in {PROMPT}, then execute it.',
+                       f'create_goal: {PROMPT} の目標を作成して完了まで実行する。'):
+            with self.subTest(raw_launch=launch):
+                case = {'kind': 'choice', 'host': 'codex'}
+                self.assertIn('unselected purpose has runnable block',
+                              check(case, {'files': {}, 'chat': launch}))
 
     def test_open_watcher_uses_its_cursor_for_every_choice(self):
         options = [
