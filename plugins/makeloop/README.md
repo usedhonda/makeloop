@@ -107,6 +107,9 @@ command, and the legacy custom prompt form (`/prompts:makeloop`) is deprecated a
 in current CLI slash completion. `scripts/install-codex-prompt-shim.mjs` is retained only for older
 Codex builds that still load custom prompts.
 
+The shim installer preserves an identical existing file and refuses to overwrite a customized
+prompt or symlink. Move an existing prompt aside explicitly before replacing it.
+
 ### Inline directives
 
 The text after `/makeloop` or `$makeloop:makeloop` is parsed for both a **goal** and **operational directives** —

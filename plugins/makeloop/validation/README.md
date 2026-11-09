@@ -1,5 +1,15 @@
 # Generated-output validation
 
+The optional legacy prompt installer also has an isolated CLI regression suite:
+
+```sh
+node --test plugins/makeloop/validation/test_prompt_shim.mjs
+```
+
+It redirects only the child process's home-directory lookup to a temporary fixture and checks
+initial creation, identical repeat installation, and preservation of customized files/symlinks.
+It does not install into the user's profile or establish discovery in a legacy Codex build.
+
 The protected `../eval/scenarios.md` and `../eval/codex-scenarios.md` remain the golden gates.
 This directory supplements them with the purpose-choice, copy, capability and resume cases for
 the native launch update. It does not change their expected properties or authorize execution.
