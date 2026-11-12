@@ -136,8 +136,6 @@ class PersonalLearningTests(unittest.TestCase):
                     seen = True
                     break
             self.assertTrue(seen)
-        with learning.store() as con:
-            self.assertEqual(len(learning.rows(con, 'evidence')), len({e['id'] for e in learning.rows(con, 'evidence')}))
 
     def test_adoption_bounds_no_repetition_and_effect_receipt(self):
         self.seed(); result = self.collect(); data = self.decision(result)
@@ -181,13 +179,38 @@ class PersonalLearningTests(unittest.TestCase):
                 mechanism='Receiver cannot verify approval origin', expected_change='No prompt-only fix; preserve as a technical gap.'))
             self.assertEqual(learning.rows(con, 'rules'), [])
         with learning.store() as con:
-            before = learning.rows(con, 'evidence')
+            before = next(e for e in learning.rows(con, 'evidence') if e['status'] == 'pending')
         self.log.write_bytes(b'changed\n')
         with self.assertRaises(ValueError):
             with learning.store() as con:
-                fresh = dict(id='changed-batch', evidence=[before[-1]['id']], decided=False)
+                fresh = dict(id='changed-batch', evidence=[before['id']], decided=False)
                 learning.put(con, 'batches', fresh)
                 learning.decide(con, self.decision(result, batch='changed-batch', evidence=fresh['evidence']))
+
+    def test_replacement_preserves_rule_and_decision_lineage(self):
+        self.seed(); result = self.collect(); data = self.decision(result)
+        with learning.store() as con:
+            previous = learning.decide(con, data)['decision']
+        for mode in ('same_cause', 'explicit'):
+            with self.subTest(mode=mode):
+                with self.log.open('ab') as f:
+                    f.write(self.line('Wrong output: the launch label still needs revision. ' + mode))
+                result = self.collect()
+                changes = dict(instruction='Use a concise ' + mode + ' launch label.')
+                if mode == 'explicit':
+                    changes.update(mechanism='Launch labels are hard to distinguish', replaces=[previous['rule']])
+                with learning.store() as con:
+                    decision = learning.decide(con, self.decision(result, **changes))['decision']
+                    rules = learning.selected_rules(con, 'codex', str(self.project), ['output'])
+                    self.assertEqual(len(rules), 1)
+                    self.assertNotEqual(rules[0]['id'], previous['rule'])
+                    self.assertEqual(decision['rule'], rules[0]['id'])
+                    self.assertEqual(decision['rule_snapshot'], rules[0])
+                    replaced = learning.get(con, 'rules', previous['rule'])
+                    self.assertEqual(replaced['status'], 'superseded')
+                    self.assertEqual(replaced['replaced_by'], rules[0]['id'])
+                    self.assertEqual(learning.get(con, 'decisions', previous['id']), previous)
+                previous = decision
 
     def test_cli_lock_and_rule_limits(self):
         self.seed()

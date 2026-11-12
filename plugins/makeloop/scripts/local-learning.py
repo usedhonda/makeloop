@@ -411,8 +411,8 @@ def decide(con, data):
         # No silent overwrite of another rule or growth disguised as deduplication.
         replacements = list(set(data.get('replaces', [])) | {r['id'] for r in rows(con, 'rules')
                             if r.get('cause') == key and r['status'] == 'active'})
-        for rid in replacements:
-            if not get(con, 'rules', rid):
+        for replaced_id in replacements:
+            if not get(con, 'rules', replaced_id):
                 raise ValueError('unknown replacement rule')
         for r in rows(con, 'rules'):
             if r['status'] == 'active' and r['instruction'] == instruction and r['id'] not in replacements:
@@ -423,8 +423,8 @@ def decide(con, data):
         rid = digest(key + instruction + condition + ','.join(sorted(topics)))
         rule = dict(id=rid, cause=key, topics=topics, condition=condition, instruction=instruction, host=host, project=project,
                     status='active', evidence=evidence_ids, outcome='unverified', updated=time.time())
-        for rid in replacements:
-            r = get(con, 'rules', rid); r.update(status='superseded', replaced_by=rid); put(con, 'rules', r)
+        for replaced_id in replacements:
+            r = get(con, 'rules', replaced_id); r.update(status='superseded', replaced_by=rid); put(con, 'rules', r)
         put(con, 'rules', rule)
         decision.update(rule=rid, rule_snapshot=dict(rule))
     if action in ('disable', 'helped'):

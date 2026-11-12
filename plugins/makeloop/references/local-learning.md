@@ -65,6 +65,8 @@ For `adopt`, also provide:
 - `boundary_change: false`, only after verifying no change to safety, authority, user instructions,
   scope, mandatory acceptance or native stop/lifecycle behavior. If any of those change, **hold**.
 - `replaces`: IDs to consolidate/replace, or an empty list. Prefer replacement over accumulation.
+  The adoption decision identifies the new rule; superseded rules link to that rule while earlier
+  decision snapshots remain unchanged.
 
 The helper rejects obvious boundary-changing wording, inappropriate automatic categories,
 unknown references and repeat decisions. That screening is not a security proof: the agent must
