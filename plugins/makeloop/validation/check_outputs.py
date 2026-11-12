@@ -105,10 +105,18 @@ def fenced_blocks(text):
         r'(?P<body>.*?)^(?P=marker)[ \t]*(?:\n|$)', text, re.M | re.S))
 
 
+def saved_path_reference(path):
+    """Match a complete saved path, allowing quotes and sentence punctuation."""
+    delimiter = r"[\s'\"`;,!?。！？、:：)\]}」』”’]"
+    return re.compile(r'(?<![\w./\\-])' + re.escape(path) +
+                      r'(?=$|' + delimiter + r'|\.(?=$|' + delimiter + r'))')
+
+
 def has_launch_text(text):
     # Feature names alone are allowed; concrete saved-file launches are not.
     return bool(re.search(
-        r'(?m)(?:^|`)[ \t]*(?:/(?:goal|loop|ralph-loop)\b|codex\s+exec\b|Follow\b)'
+        r'(?m)(?:^|`)[ \t]*(?:/(?:goal|loop|ralph-loop)\b|codex\s+exec\b|Follow\b|'
+        r'Use create_goal for the objective in\s+|create_goal:\s*)'
         r'[^\n`]*\.loop/', text) or re.search(
         r'(?m)(?:^|`)[ \t]*\.loop/[^\s`]+\.md[^\n`]*(?:に従|進め|実行)', text))
 
@@ -277,8 +285,10 @@ def check(case, out, presentation=True):
                 'unconfigured execution has a runnable replacement')
     else:
         require(bool(fences), 'no runnable copy block')
+    prompt_reference = saved_path_reference(prompt_path)
+    state_reference = saved_path_reference(state_path)
     if fences:
-        require(prompt_path in fences[0]['body'], 'first launch file/state mismatch')
+        require(bool(prompt_reference.search(fences[0]['body'])), 'first launch file/state mismatch')
         if presentation:
             require(not chat[fences[-1].end():].strip(), 'prose follows the last launch block')
     if presentation:
@@ -305,10 +315,11 @@ def check(case, out, presentation=True):
         for path in (prompt_path, state_path):
             require(not (path not in code and path in code.replace('\n', '').replace('\r', '')),
                     'newline inside saved path')
-        require(prompt_path in code, 'launch missing saved contract')
-        mentioned_states = re.findall(r'\.loop/[^\s\'"`;]+(?:-state\.md|\.cursor\.json)', code)
-        require((state_path in code or state_path in contract) and
-                all(path == state_path for path in mentioned_states), 'launch missing exact state')
+        require(bool(prompt_reference.search(code)), 'launch missing saved contract')
+        mentioned_states = re.finditer(r'\.loop/[^\s\'"`;]+(?:-state\.md|\.cursor\.json)', code)
+        require((state_reference.search(code) or state_reference.search(contract)) and
+                all(path.group() == state_path and state_reference.match(code, path.start())
+                    for path in mentioned_states), 'launch missing exact state')
         if case['host'] == 'codex':
             require(not re.search(r'(?<![\w/])/(?:loop|ralph-loop)\b|codex-loop', code), 'Claude launch on Codex')
             require('--last' not in code, 'ambiguous unattended resume')

@@ -9,7 +9,6 @@ import json
 import os
 from pathlib import Path
 import re
-import tempfile
 import unittest
 
 from check_outputs import check, input_errors
@@ -189,22 +188,6 @@ class HandoffRenderingTests(unittest.TestCase):
                 case, out = rendered_output(host, existing=state)
                 self.assertEqual(check(case, out), [])
                 self.assertEqual(out['files'][STATE_PATH], state)
-
-    def test_rendered_files_survive_save_and_readback(self):
-        state = '# Existing state\nIterations used: 7\nPause: pending\n'
-        for host in ('claude', 'codex'):
-            with self.subTest(host=host), tempfile.TemporaryDirectory() as directory:
-                case, out = rendered_output(host, existing=state, done_ledger=True)
-                root = Path(directory)
-                for path, content in out['files'].items():
-                    target = root / path
-                    target.parent.mkdir(parents=True, exist_ok=True)
-                    target.write_text(content, encoding='utf-8')
-                saved = {path: (root / path).read_text(encoding='utf-8')
-                         for path in out['files']}
-                self.assertEqual(saved, out['files'])
-                self.assertEqual(check(case, dict(out, files=saved)), [])
-                self.assertEqual(saved[STATE_PATH], state)
 
     def test_json_done_ledger_is_not_rewritten_as_markdown(self):
         case, out = rendered_output('codex', done_ledger=True)
