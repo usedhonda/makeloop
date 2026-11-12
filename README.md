@@ -171,6 +171,9 @@ older Codex builds that still load custom prompts:
 node plugins/makeloop/scripts/install-codex-prompt-shim.mjs
 ```
 
+The installer leaves an identical existing shim untouched and refuses to replace a customized
+prompt or symlink. Move an existing prompt aside explicitly if you want to replace it.
+
 ## What you get
 
 A loop prompt grounded in loop-engineering practice — built around the three things that
